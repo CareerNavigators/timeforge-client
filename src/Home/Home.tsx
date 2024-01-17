@@ -1,10 +1,12 @@
+import Card from "./Card";
 import Hero from "./Hero";
 
 const Home = () => {
   return (
     <>
-      <div className="max-w-[1400px] mx-auto mt-[82px]">
+      <div className="max-w-[1400px] mx-auto ">
         <Hero></Hero>
+        <Card></Card>
     </div>
     </>
   );
