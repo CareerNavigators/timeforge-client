@@ -1,10 +1,12 @@
+import Hero from "./Hero";
+
 const Home = () => {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <h1 className="text-3xl text-center">Home/TimeForge</h1>
-      <h1>Shabbir</h1>
+    <>
+      <div className="max-w-[1400px] mx-auto mt-[82px]">
+        <Hero></Hero>
     </div>
+    </>
   );
 };
-
 export default Home;
