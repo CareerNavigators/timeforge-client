@@ -10,7 +10,8 @@ export default {
     extend: {
       fontFamily: {
         inter: ["Inter", "sans-serif"],
-        poppins:["Poppins", "sans-serif"]
+        poppins:["Poppins", "sans-serif"],
+        helvitica:['Roboto', "sans-serif"]
       },
     },
   },
