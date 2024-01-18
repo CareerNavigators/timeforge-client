@@ -6,7 +6,7 @@ import {
   MouseParallaxContainer,
   MouseParallaxChild,
 } from "react-parallax-mouse";
-import BackgroundMotion from "../Components/BackgroundMotion/backgroundMotion";
+import BackgroundMotion from "../components/BackgroundMotion/BackgroundMotion";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
