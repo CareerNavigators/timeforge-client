@@ -6,11 +6,12 @@ import {
   MouseParallaxContainer,
   MouseParallaxChild,
 } from "react-parallax-mouse";
-import BackgroundMotion from "../Components/BackgroundMotion/backgroundMotion";
+
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import BackgroundMotion from "../Components/BackgroundMotion/BackgroundMotion";
 
-function Login() {
+const Login = () => {
   interface FormEvent extends React.FormEvent<HTMLFormElement> {
     target: HTMLFormElement & {
       email: {
@@ -42,7 +43,7 @@ function Login() {
 
   return (
     <>
-      <div className="flex flex-col items-center lg:flex-row lg:h-screen">
+      <div className="flex flex-col items-center overflow-hidden lg:flex-row lg:h-screen">
         <div className="p-4 lg:w-1/2 lg:p-8 ">
           <Link to="/">
             <FiHome
@@ -138,6 +139,6 @@ function Login() {
       </div>
     </>
   );
-}
+};
 
 export default Login;
