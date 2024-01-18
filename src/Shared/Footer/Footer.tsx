@@ -37,7 +37,7 @@ const Footer = () => {
           </div>
         </div>
         <h2 className='text-gray-500 text-center md:text-start text-sm mt-2'>
-          Copyright Calendly 2024
+          Copyright TimeForge 2024
         </h2>
       </div>
     </footer>

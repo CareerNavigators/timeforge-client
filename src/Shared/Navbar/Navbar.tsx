@@ -1,7 +1,23 @@
 import { NavLink } from "react-router-dom";
 import Logo from "/logo.png";
 import { FaAlignJustify } from "react-icons/fa";
-const Navbar = () => {
+import type { DrawerProps } from "antd";
+import { Drawer } from "antd";
+import { useState } from "react";
+
+const Navbar: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  const [placement] =
+    useState<DrawerProps["placement"]>("bottom");
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
   // common links
   const links = (
     <>
@@ -20,8 +36,11 @@ const Navbar = () => {
       <li className='text-sm font-semibold'>
         <NavLink to='/resources'>Resources</NavLink>
       </li>
-      <li className='text-xs font-semibold text-white py-2 px-5 bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px]'>
-        <NavLink to='/myAccount'>My Account</NavLink>
+      <li className='text-xs font-semibold py-2 px-5 border hover:text-white hover:transition-all hover:bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px]'>
+        <NavLink to='/login'>Login</NavLink>
+      </li>
+      <li className='text-xs font-semibold text-white py-2 px-5 border bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px]'>
+        <NavLink to='/signup'>Register</NavLink>
       </li>
     </>
   );
@@ -36,14 +55,25 @@ const Navbar = () => {
 
           <div className='md:flex md:items-center md:gap-12'>
             <nav className='hidden md:block'>
-              <ul className='flex items-center gap-6 text-sm'>{links}</ul>
+              <ul className='flex items-center gap-4 text-sm'>{links}</ul>
             </nav>
 
             <div className='flex items-center gap-4'>
               <div className='block md:hidden'>
-                <button className='rounded bg-[#9181F4] p-2 text-gray-200 transition hover:text-gray-600/75'>
+                <button onClick={showDrawer} className='rounded bg-[#9181F4] p-2 text-gray-200 transition hover:text-gray-600/75'>
                   <FaAlignJustify></FaAlignJustify>
                 </button>
+                <Drawer
+                  height={115}
+                  placement={placement}
+                  closable={false}
+                  onClose={onClose}
+                  open={open}
+                  key={placement}>
+                    <ul className='flex flex-wrap items-center justify-center gap-4 text-sm'>
+                      {links}
+                    </ul>
+                </Drawer>
               </div>
             </div>
           </div>
