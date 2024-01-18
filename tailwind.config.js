@@ -7,7 +7,13 @@ export default {
     "path-to-your-node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        inter: ["Inter", "sans-serif"],
+        poppins:["Poppins", "sans-serif"],
+        helvitica:['Roboto', "sans-serif"]
+      },
+    },
   },
   plugins: [],
 };

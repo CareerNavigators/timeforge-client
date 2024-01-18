@@ -6,11 +6,9 @@ import {
   MouseParallaxContainer,
   MouseParallaxChild,
 } from "react-parallax-mouse";
-
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import BackgroundMotion from "../Components/BackgroundMotion/BackgroundMotion";
-
 const Login = () => {
   interface FormEvent extends React.FormEvent<HTMLFormElement> {
     target: HTMLFormElement & {
