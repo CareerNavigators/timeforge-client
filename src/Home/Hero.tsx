@@ -24,17 +24,17 @@ const Hero = () => {
             back-and-forth emails to find the perfect time - and so much more.
           </p>
           <div className="flex items-center gap-4 mt-5">
-            <button className="px-[10px] py-[5px] rounded-lg flex items-center gap-2 font-inter text-white text-[] bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600">
+            <button className="px-[5px] py-[5px] rounded-lg flex items-center gap-2 font-inter text-white text-[] bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out">
               <div className="bg-white p-[4px] rounded-md">
                 <FcGoogle className="w-[20px] h-[20px]" />
               </div>
-              Sign up with Google
+              <p className="pr-1">Sign up with Google</p>
             </button>
-            <button className="px-[10px] py-[5px] rounded-lg flex items-center gap-2 font-inter text-white text-[] bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600">
+            <button className="px-[5px] py-[5px] rounded-lg flex items-center gap-2 font-inter text-white text-[] bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out">
               <div className="bg-white p-[4px] rounded-md">
                 <MdEmail className="w-[20px] h-[20px] text-indigo-600" />
               </div>
-              Sign up with Email
+              <p className="pr-1">Sign up with Email</p>
             </button>
           </div>
         </div>
