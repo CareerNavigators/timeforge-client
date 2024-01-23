@@ -3,6 +3,8 @@ import Main from "../Layout/Main";
 import Home from "../Home/Home";
 import SignUp from "../AuthPage/SignUp";
 import Login from "../AuthPage/Login";
+import CreateEvents from "../CreateEvents/CreateEvents";
+import OneEvent from "../CreateEvents/Events/OneEvent";
 import EventSlot from "../Components/EventSlot/EventSlot";
 
 const router = createBrowserRouter([
@@ -13,7 +15,15 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-      }
+      },
+      {
+        path: "/createEvent",
+        element: <CreateEvents></CreateEvents>,
+      },
+      {
+        path: "/createEvent/oneEvent",
+        element: <OneEvent></OneEvent>,
+      },
     ],
   },
   {
