@@ -5,7 +5,7 @@ import { TypeAnimation } from "react-type-animation";
 const Hero = () => {
   return (
     <>
-      <div className="flex items-center justify-between h-screen ">
+      <div className="flex items-center justify-between ">
         <div>
           <h1 className="font-inter text-[50px] font-[600] ">
             Empowering Your Days
