@@ -7,7 +7,6 @@ const Home = () => {
     <div className="max-w-[1400px] mx-auto ">
       <Hero></Hero>
       <Card></Card>
-      <h1 className="text-3xl text-center">Home/TimeForge</h1>
       <Schedule></Schedule>
     </div>
   );
