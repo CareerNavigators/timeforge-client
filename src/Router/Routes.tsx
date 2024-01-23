@@ -4,6 +4,7 @@ import Home from "../Home/Home";
 
 import SignUp from "../AuthPage/SignUp";
 import Login from "../AuthPage/Login";
+import EventSlot from "../Components/EventSlot/EventSlot";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home></Home>,
       },
+      {
+        path: "/eventslot",
+        element: <EventSlot></EventSlot>,
+      }
     ],
   },
   {

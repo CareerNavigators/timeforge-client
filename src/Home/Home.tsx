@@ -1,7 +1,6 @@
 import Card from "./Card";
 import Hero from "./Hero";
 import Schedule from "../Components/Schedule/Schedule";
-import EventSlot from "../Components/EventSlot/EventSlot";
 
 const Home = () => {
   return (
@@ -9,7 +8,6 @@ const Home = () => {
       <Hero></Hero>
       <Card></Card>
       <Schedule></Schedule>
-      <EventSlot></EventSlot>
     </div>
   );
 };
