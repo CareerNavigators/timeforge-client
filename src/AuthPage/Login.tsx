@@ -15,7 +15,7 @@ import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthContext";
 
 const Login = () => {
-  const { googleSignIn } = useContext(AuthContext) 
+  const { googleSignIn } = useContext(AuthContext);
   interface FormEvent extends React.FormEvent<HTMLFormElement> {
     target: HTMLFormElement & {
       email: {
@@ -26,7 +26,6 @@ const Login = () => {
       };
     };
   }
-
   const [showPassword, setShowPassword] = useState(false);
   const [passwordLength, setPasswordLength] = useState(0);
 
