@@ -46,7 +46,11 @@
     height: 20px;
 }
 
-
+:where(.css-dev-only-do-not-override-zl9ks2).ant-menu .ant-menu-item .ant-menu-item-icon:nth-child(2) {
+    min-width: 0px;
+    font-size: 30px;
+    transition: font-size 0.2s cubic-bezier(0.215, 0.61, 0.355, 1),margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),color 0.3s;
+}
 
 :where(.css-dev-only-do-not-override-zl9ks2).ant-menu .ant-menu-item .ant-menu-item-icon {
     min-width: 30px;
@@ -55,20 +59,15 @@
     transition: font-size 0.2s cubic-bezier(0.215, 0.61, 0.355, 1),margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),color 0.3s;
 }
 
-:where(.css-dev-only-do-not-override-zl9ks2).ant-menu .ant-menu-item .ant-menu-item-icon:nth-child(2) {
+/* :where(.css-dev-only-do-not-override-zl9ks2).ant-menu .ant-menu-item > .ant-menu-item-icon:nth-child(2)>span {
     min-width: 0 !important;
     font-size: 30px;
     
     transition: font-size 0.2s cubic-bezier(0.215, 0.61, 0.355, 1),margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),color 0.3s;
-}
-
-
-/* :where(.css-dev-only-do-not-override-zl9ks2).ant-menu .ant-menu-item .ant-menu-item-icon:nth-child(2) {
-    min-width: 0px;
-    font-size: 30px;
-   
-    transition: font-size 0.2s cubic-bezier(0.215, 0.61, 0.355, 1),margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),color 0.3s;
 } */
+
+
+
 
 
 
@@ -92,4 +91,6 @@
 /* li[data-menu-id="rc-menu-uuid-04014-2-2"].active {
     background-color: #f0f0f0; 
 } */
-
+/* #root > div.flex.flex-row-reverse.max-w-1400px.mx-auto.items-center.gap-100px > div.h-screen > div > div.ant-layout.ant-layout-has-sider.css-dev-only-do-not-override-zl9ks2 > aside > div > ul > li.ant-menu-item.menu-item-1 > span.anticon.anticon-plus.ant-menu-item-icon{
+     min-width: 0px !important;
+} */
