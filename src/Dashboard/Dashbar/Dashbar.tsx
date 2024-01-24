@@ -13,8 +13,9 @@ import { Layout, Menu, Button, theme } from "antd";
 import { useState } from "react";
 import Logo from "/logo.png";
 import { NavLink } from "react-router-dom";
-const { Header, Sider } = Layout;
+import "./style.css";
 
+const { Header, Sider } = Layout;
 const Dashbar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -48,25 +49,21 @@ const Dashbar = () => {
           <Menu
             // theme="dark"
 
-            className="h-screen font-inter font-bold"
+            className="h-screen w-[300px] font-inter font-bold"
             // defaultSelectedKeys={['1']}
 
             items={[
               {
                 key: "0",
-                icon: (
-                  <div className="w-[50px]">
-                    <img src={Logo} className="bg-white  h-5" />
-                  </div>
-                ),
-                label: "Time Forge",
-                className:"h-full"
+                icon: <img src={Logo} className=" h-[30px] "/>,
+                label: <NavLink to="/dashboard">Time Forge</NavLink>,
               },
 
               {
                 key: "1",
                 icon: <PlusOutlined />,
                 label: "Start",
+                className: "menu-item-1",
               },
               {
                 key: "2",
@@ -90,6 +87,7 @@ const Dashbar = () => {
               },
             ]}
           />
+
           {/* <Menu.Item key="1">
             <PlusOutlined className="text-blue-500 h-6 w-6" />
             <span className="ml-4">Start</span>
