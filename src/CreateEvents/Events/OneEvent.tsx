@@ -1,18 +1,29 @@
 import { Form, Input, Select } from "antd";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { IoTimeOutline } from "react-icons/io5";
 import { AiFillAudio } from "react-icons/ai";
 import { FaVideo } from "react-icons/fa";
+import { SelectValue } from "antd/es/select";
 
 const OneEvent = () => {
   const [isAudioSelected, setIsAudioSelected] = useState(false);
   const [isVideoSelected, setIsVideoSelected] = useState(false);
+  const [eventName, setEventName] = useState<string>("");
+  const [eventDuration, setEventDuration] = useState<string>("");
 
   const handleAudioSelection = () => {
     setIsAudioSelected(!isAudioSelected);
   };
   const handleVideoSelection = () => {
     setIsVideoSelected(!isVideoSelected);
+  };
+
+  const handleEventName = (e: ChangeEvent<HTMLInputElement>) => {
+    setEventName(e.target.value);
+  };
+
+  const handleEventDuration = (value: SelectValue) => {
+    setEventDuration(value as string);
   };
 
   return (
@@ -30,19 +41,19 @@ const OneEvent = () => {
             <h3 className="text-xl text-center font-bold">New Event Type</h3>
           </div>
           <Form.Item label="Event Name">
-            <Input />
+            <Input value={eventName} onChange={handleEventName} />
           </Form.Item>
           <Form.Item label="Duration">
-            <Select>
-              <Select.Option value="demo">15 min</Select.Option>
-              <Select.Option value="demo">30 min</Select.Option>
-              <Select.Option value="demo">45 min</Select.Option>
-              <Select.Option value="demo">60 min</Select.Option>
+            <Select value={eventDuration} onChange={handleEventDuration}>
+              <Select.Option value="15 min">15 min</Select.Option>
+              <Select.Option value="30 min">30 min</Select.Option>
+              <Select.Option value="45 min">45 min</Select.Option>
+              <Select.Option value="60 min">60 min</Select.Option>
             </Select>
           </Form.Item>
 
-          <Form.Item label="">
-            <div className="flex gap-2 items-center">
+          <Form.Item label="Required">
+            <div className="w-full flex gap-2 ">
               <button
                 onClick={handleAudioSelection}
                 className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center ${
@@ -88,12 +99,33 @@ const OneEvent = () => {
             invitees.
           </h3>
         </div>
-        <div className="my-5">
+        <div className="my-5 space-y-3">
           <p className="text-lg font-semibold">Username</p>
-          <p className="text-2xl font-bold italic">Event name</p>
-          <div className="flex gap-2 items-center">
-            <IoTimeOutline />
-            <p>Duration</p>
+          <p className="text-2xl font-bold italic">
+            {eventName ? eventName : "Event Name"}{" "}
+          </p>
+          <div className="flex gap-1 items-center">
+            <IoTimeOutline className="text-2xl" />
+            <p className="text-lg">{eventDuration}</p>
+          </div>
+          <div className="flex gap-3">
+            {isAudioSelected ? (
+              <p className="w-fit rounded border-2 border-violet-600 bg-violet-400 px-2 text-md text-white">
+                Audio
+              </p>
+            ) : (
+              <p>
+                <span className="text-red-500 font-bold text-lg">*</span> Audio
+                not Required
+              </p>
+            )}
+            {isVideoSelected ? (
+              <p className="w-fit rounded border-2 border-violet-600 bg-violet-400 px-2 text-md text-white">
+                Video
+              </p>
+            ) : (
+              <p><span className="text-red-500 font-bold text-lg">*</span> Video not Required</p>
+            )}
           </div>
         </div>
       </div>
