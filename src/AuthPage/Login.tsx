@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useContext, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FiHome, FiUnlock, FiUser } from "react-icons/fi";
 import { LuEye, LuEyeOff } from "react-icons/lu";
@@ -11,7 +12,10 @@ import toast from "react-hot-toast";
 import BackgroundMotion from "../Components/BackgroundMotion/BackgroundMotion";
 import { BiUserPlus } from "react-icons/bi";
 import { motion } from "framer-motion";
+import { AuthContext } from "../Provider/AuthContext";
+
 const Login = () => {
+  const { googleSignIn } = useContext(AuthContext) 
   interface FormEvent extends React.FormEvent<HTMLFormElement> {
     target: HTMLFormElement & {
       email: {
@@ -38,8 +42,15 @@ const Login = () => {
     console.log(`Email:${email} password:${password}`);
   };
   const handleGoogle = () => {
-    toast.success("Google");
+    googleSignIn()
+      .then(() => {
+        toast.success("Login successful!");
+      })
+      .catch((error: any) => {
+        console.error(error);
+      });
   };
+
   const sty = `
 .smooth-parallax{
   width: 400px;
