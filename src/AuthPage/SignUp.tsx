@@ -39,7 +39,6 @@ const SignUp = () => {
   // handle signUp
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-
     const formData = new FormData(e.target);
     const email = formData.get("email");
     const password = formData.get("password");
@@ -88,7 +87,7 @@ const SignUp = () => {
   const handleGoogle = () => {
     googleSignIn()
       .then(() => {
-        toast.success("Login successful!");
+        toast.success("Secure Access, Unlimited Smiles!");
         navigate(from, { replace: true });
       })
       .catch((error: any) => {
