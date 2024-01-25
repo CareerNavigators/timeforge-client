@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
         <NavLink to="/createEvent">Create new Event</NavLink>
       </li>
       <li className="text-sm font-semibold">
-        <NavLink to="/product">Product</NavLink>
+        <NavLink to="/allEvents">All Events</NavLink>
       </li>
       <li className="text-sm font-semibold">
         <NavLink to="/solutions">Solutions</NavLink>
