@@ -8,6 +8,7 @@ import Dashboard from "../Dashboard/Layout/Dashboard";
 import CreateEvents from "../CreateEvents/CreateEvents";
 import OneEvent from "../CreateEvents/Events/OneEvent";
 import EventSlot from "../Components/EventSlot/EventSlot";
+import CalendarPage from "../CreateEvents/Events/CalendarPage";
 import AllEvents from "../ManageEvents/AllEvents/AllEvents";
 import EventDetails from "../ManageEvents/AllEvents/EventDetails";
 import Error from "../Error/Error";
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/createEvent/oneEvent",
         element: <OneEvent></OneEvent>,
+      },
+      {
+        path: "/calendarPage",
+        element: <CalendarPage></CalendarPage>,
       },
       {
         path: "/allEvents",
