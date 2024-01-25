@@ -9,6 +9,8 @@ import EventSlot from "../Components/EventSlot/EventSlot";
 import AllEvents from "../ManageEvents/AllEvents/AllEvents";
 import EventDetails from "../ManageEvents/AllEvents/EventDetails";
 import Error from "../Error/Error";
+import ContactUs from "../Contacts/ContactUs";
+import AboutUs from "../Contacts/AboutUs";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +37,14 @@ const router = createBrowserRouter([
       {
         path: "/eventDetails",
         element: <EventDetails></EventDetails>,
+      },
+      {
+        path: "/contactUs",
+        element: <ContactUs></ContactUs>
+      },
+      {
+        path: "/aboutUs",
+        element: <AboutUs></AboutUs>
       }
     ],
   },
