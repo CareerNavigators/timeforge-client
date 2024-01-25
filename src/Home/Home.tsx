@@ -11,7 +11,6 @@ const Home = () => {
         
       
       <Card></Card>
-      <h1 className="text-3xl text-center">Home/TimeForge</h1>
       <Schedule></Schedule>
     </div>
   );
