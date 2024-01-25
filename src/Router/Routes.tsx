@@ -6,6 +6,7 @@ import Login from "../AuthPage/Login";
 import CreateEvents from "../CreateEvents/CreateEvents";
 import OneEvent from "../CreateEvents/Events/OneEvent";
 import EventSlot from "../Components/EventSlot/EventSlot";
+import CalendarPage from "../CreateEvents/Events/CalendarPage";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
         path: "/createEvent/oneEvent",
         element: <OneEvent></OneEvent>,
       },
+      {
+        path: "/calendarPage",
+        element: <CalendarPage></CalendarPage>,
+      },
     ],
   },
   {
@@ -37,6 +42,6 @@ const router = createBrowserRouter([
   {
     path: "/eventslot",
     element: <EventSlot></EventSlot>,
-  }
+  },
 ]);
 export default router;

@@ -1,39 +1,20 @@
-import { Form, Input, Select, DatePicker } from "antd";
+import { Form, Input, Select } from "antd";
 import { ChangeEvent, useState } from "react";
 import { IoTimeOutline } from "react-icons/io5";
 import { AiFillAudio } from "react-icons/ai";
 import { FaVideo } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
-import toast from "react-hot-toast";
-import type { Dayjs } from "dayjs";
+// import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-const { RangePicker } = DatePicker;
-type RangeValue = [Dayjs | null, Dayjs | null] | null;
+const { TextArea } = Input;
 
 const OneEvent = () => {
   const [isAudioSelected, setIsAudioSelected] = useState(false);
   const [isVideoSelected, setIsVideoSelected] = useState(false);
   const [eventName, setEventName] = useState<string>("");
   const [eventDuration, setEventDuration] = useState<string>("15 min");
-  const [dates, setDates] = useState<RangeValue>(null);
-  const [value, setValue] = useState<RangeValue>(null);
-
-  const disabledDate = (current: Dayjs) => {
-    if (!dates) {
-      return false;
-    }
-    const tooLate = dates[0] && current.diff(dates[0], "days") >= 7;
-    const tooEarly = dates[1] && dates[1].diff(current, "days") >= 7;
-    return !!tooEarly || !!tooLate;
-  };
-
-  const onOpenChange = (open: boolean) => {
-    if (open) {
-      setDates([null, null]);
-    } else {
-      setDates(null);
-    }
-  };
+  const navigate = useNavigate();
 
   const handleAudioSelection = () => {
     setIsAudioSelected(!isAudioSelected);
@@ -62,7 +43,8 @@ const OneEvent = () => {
       console.log(newEvent);
 
       if (newEvent) {
-        toast.success(`${eventName} is added to the Events.`);
+        // toast.success(`${eventName} is added to the Events.`);
+        navigate("/calendarPage");
       }
     } catch (error) {
       console.error("Error adding task:", error);
@@ -74,7 +56,7 @@ const OneEvent = () => {
       {/* Input part */}
       <div className="h-full lg:m-0 m-5 flex items-center">
         <Form
-          labelCol={{ span: 7 }}
+          labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           layout="horizontal"
           style={{ maxWidth: 600 }}
@@ -103,21 +85,6 @@ const OneEvent = () => {
                 <Select.Option value="45 min">45 min</Select.Option>
                 <Select.Option value="60 min">60 min</Select.Option>
               </Select>
-            </Form.Item>
-
-            <Form.Item label="Date" className="font-semibold mb-2 lg:mb-5">
-              <RangePicker
-                value={dates || value}
-                disabledDate={disabledDate}
-                onCalendarChange={(val) => {
-                  setDates(val);
-                }}
-                onChange={(val) => {
-                  setValue(val);
-                }}
-                onOpenChange={onOpenChange}
-                changeOnBlur
-              />
             </Form.Item>
 
             <Form.Item label="Required" className="font-semibold">
@@ -149,6 +116,12 @@ const OneEvent = () => {
                     {/* <span className="text-xs">Video</span> */}
                   </div>
                 </span>
+              </div>
+            </Form.Item>
+
+            <Form.Item label="Description" className="text-lg font-semibold">
+              <div className="bg-blue-50 w-full">
+                <TextArea placeholder="Note"></TextArea>
               </div>
             </Form.Item>
           </div>
@@ -206,6 +179,12 @@ const OneEvent = () => {
                 not Required
               </p>
             )}
+          </div>
+          <div>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur,
+              natus?
+            </p>
           </div>
         </div>
       </div>
