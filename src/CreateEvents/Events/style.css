@@ -1,0 +1,20 @@
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-modal
+  .ant-modal-footer
+  > .ant-btn
+  + .ant-btn {
+  background-color: rgb(124 58 237);
+  transition: all 0.1s;
+}
+
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-modal
+  .ant-modal-footer
+  > .ant-btn
+  + .ant-btn:hover {
+  background-color: rgb(168, 120, 250);
+}
+
+.ant-btn.css-dev-only-do-not-override-1qhpsh8.ant-btn-default:hover {
+  border-color: rgb(124, 58, 237);
+  color: rgb(124, 58, 237);
+}
+
