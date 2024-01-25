@@ -72,7 +72,6 @@ const CalendarPage: React.FC = () => {
 
   const dateCellRender = (value: Dayjs) => {
     const data = event[value.format("DDMMYY")] || [];
-    const isSelectedDate = selectedDate && value.isSame(selectedDate, "day");
 
     return (
       <ul className="events">
@@ -81,14 +80,6 @@ const CalendarPage: React.FC = () => {
             <Badge status="success" text={item.content} />
           </li>
         ))}
-        {isSelectedDate && (
-          <li>
-            <Badge
-              status="processing"
-              text={selectedDate.format("DD-MM-YYYY")}
-            />
-          </li>
-        )}
       </ul>
     );
   };
