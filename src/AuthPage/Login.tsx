@@ -7,7 +7,7 @@ import {
   MouseParallaxContainer,
   MouseParallaxChild,
 } from "react-parallax-mouse";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import BackgroundMotion from "../Components/BackgroundMotion/BackgroundMotion";
 import { BiUserPlus } from "react-icons/bi";
@@ -15,7 +15,10 @@ import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthContext";
 
 const Login = () => {
-  const { googleSignIn } = useContext(AuthContext);
+  const { signIn, setLoading, googleSignIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/";
   interface FormEvent extends React.FormEvent<HTMLFormElement> {
     target: HTMLFormElement & {
       email: {
@@ -38,12 +41,47 @@ const Login = () => {
     const formData = new FormData(e.target);
     const email = formData.get("email");
     const password = formData.get("password");
-    console.log(`Email:${email} password:${password}`);
+    if (password === null) {
+      toast.error("Please enter your password");
+      return;
+    }
+
+    if ((password as string).length === 0) {
+      toast.error("Password cannot be empty");
+      return;
+    }
+
+    if ((password as string).length < 6) {
+      toast.error("Password should be at least 6 characters long");
+      return;
+    }
+
+    if (!/[A-Z]/.test(password as string)) {
+      toast.error("Password should contain at least one uppercase letter");
+      return;
+    }
+
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password as string)) {
+      toast.error("Password should contain at least one special character");
+      return;
+    }
+    signIn(email, password)
+      .then(() => {
+        toast.success("Login successful!");
+        setLoading(false);
+        navigate(from, { replace: true });
+      })
+      .catch((error: any) => {
+        if (error) {
+          toast.error("Incorrect password. Please try again.");
+        }
+      });
   };
   const handleGoogle = () => {
     googleSignIn()
       .then(() => {
         toast.success("Login successful!");
+        navigate(from, { replace: true });
       })
       .catch((error: any) => {
         console.error(error);
@@ -120,11 +158,11 @@ const Login = () => {
               onSubmit={handleLogin}>
               <div className="relative mb-4">
                 <FiUser className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
-
                 <input
                   autoComplete="off"
+                  required
                   className="bg-[#F0EDFFCC] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in"
-                  type="text"
+                  type="email"
                   placeholder="Username"
                   name="email"
                 />

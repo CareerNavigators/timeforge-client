@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useContext, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FiHome, FiUnlock, FiUser } from "react-icons/fi";
 import { LuEye, LuEyeOff, LuLogIn } from "react-icons/lu";
@@ -6,12 +7,18 @@ import {
   MouseParallaxContainer,
   MouseParallaxChild,
 } from "react-parallax-mouse";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import BackgroundMotion from "../Components/BackgroundMotion/BackgroundMotion";
 import { HiOutlineMail } from "react-icons/hi";
 import { motion } from "framer-motion";
+import { AuthContext } from "../Provider/AuthContext";
+
 const SignUp = () => {
+  const { createUser, setLoading, googleSignIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/";
   interface FormEvent extends React.FormEvent<HTMLFormElement> {
     target: HTMLFormElement & {
       email: {
@@ -30,17 +37,63 @@ const SignUp = () => {
     setPasswordLength(e.target.value.length);
   };
   // handle signUp
-  const handleLogin = (e: FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
+
     const formData = new FormData(e.target);
     const email = formData.get("email");
-    const username = formData.get("username");
     const password = formData.get("password");
-    toast.success(`Username:${username} Email:${email} password:${password}`);
+
+    if (password === null) {
+      toast.error("Please enter your password");
+      return;
+    }
+
+    const passwordString = password as string;
+
+    if (passwordString.length === 0) {
+      toast.error("Password cannot be empty");
+      return;
+    }
+
+    if (passwordString.length < 6) {
+      toast.error("Password should be at least 6 characters long");
+      return;
+    }
+
+    if (!/[A-Z]/.test(passwordString)) {
+      toast.error("Password should contain at least one uppercase letter");
+      return;
+    }
+
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(passwordString)) {
+      toast.error("Password should contain at least one special character");
+      return;
+    }
+
+    try {
+      await createUser(email, passwordString);
+      navigate(from, {replace: true });
+      toast.success("Secure Access, Unlimited Smiles!");
+      setLoading(false);
+    } catch (error: any) {
+      console.error(error);
+      if (error.code === "auth/email-already-in-use") {
+        toast.error("Email already exists. Please try with a new email.");
+      }
+    }
   };
+
   // handle google signUp
   const handleGoogle = () => {
-    toast.success("Google");
+    googleSignIn()
+      .then(() => {
+        toast.success("Login successful!");
+        navigate(from, { replace: true });
+      })
+      .catch((error: any) => {
+        console.error(error);
+      });
   };
   const sty = `
 .smooth-parallax{
