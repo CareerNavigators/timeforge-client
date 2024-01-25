@@ -6,13 +6,13 @@ import { Avatar, Divider, Tooltip } from "antd";
 const Card = () => {
   return (
     <div>
-      <p className="text-[32px] font-[600] font-inter text-center  mx-auto">
+      <p className=" text-[20px] md:text-[25px] lg:text-[32px] font-[600] font-inter text-center  mx-auto">
         <span className="text-indigo-700  ">TimeForge</span> delivers
         exceptional service <br />
         to companies all around the world
       </p>
       <div className=" my-[35px] p-[20px] bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600">
-        <div className="w-full mx-auto grid grid-cols-4 pl-[12px]">
+        <div className="w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-2 lg:grid-cols-4  pl-[35px]  md:pl-[50px] md:pr-[10px] lg:pl-[12px]">
 
           {/* 1st card */}
           <div className="overflow-hidden rounded-lg has-shadow w-80 p-4 flex flex-col gap-1 border-[1px] bg-white">

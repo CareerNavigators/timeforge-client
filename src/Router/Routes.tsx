@@ -3,6 +3,8 @@ import Main from "../Layout/Main";
 import Home from "../Home/Home";
 import SignUp from "../AuthPage/SignUp";
 import Login from "../AuthPage/Login";
+import Title from "../Components/Title/Title";
+import Dashboard from "../Dashboard/Layout/Dashboard";
 import CreateEvents from "../CreateEvents/CreateEvents";
 import OneEvent from "../CreateEvents/Events/OneEvent";
 import EventSlot from "../Components/EventSlot/EventSlot";
@@ -16,8 +18,8 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
-    errorElement:<Error></Error>,
-     children: [
+    errorElement: <Error></Error>,
+    children: [
       {
         path: "/",
         element: <Home></Home>,
@@ -32,7 +34,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/allEvents",
-        element: <AllEvents></AllEvents>
+        element: <AllEvents></AllEvents>,
       },
       {
         path: "/eventDetails",
@@ -57,8 +59,18 @@ const router = createBrowserRouter([
     element: <Login></Login>,
   },
   {
+    path: "/dashboard",
+    element: <Dashboard></Dashboard>,
+    children: [
+      {
+        path: "/dashboard",
+        element: <Title>TIME FORGE</Title>,
+      },
+    ],
+  },
+  {
     path: "/eventslot",
     element: <EventSlot></EventSlot>,
-  }
+  },
 ]);
 export default router;
