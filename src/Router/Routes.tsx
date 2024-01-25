@@ -13,13 +13,12 @@ import AllEvents from "../ManageEvents/AllEvents/AllEvents";
 import EventDetails from "../ManageEvents/AllEvents/EventDetails";
 import Error from "../Error/Error";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
-    errorElement:<Error></Error>,
-     children: [
+    errorElement: <Error></Error>,
+    children: [
       {
         path: "/",
         element: <Home></Home>,
@@ -36,13 +35,14 @@ const router = createBrowserRouter([
         path: "/calendarPage",
         element: <CalendarPage></CalendarPage>,
       },
+      {
         path: "/allEvents",
-        element: <AllEvents></AllEvents>
+        element: <AllEvents></AllEvents>,
       },
       {
         path: "/eventDetails",
         element: <EventDetails></EventDetails>,
-      }
+      },
     ],
   },
   {
@@ -56,12 +56,14 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard></Dashboard>,
-    children: [{
-      path:"/dashboard",
-      element:<Title>TIME FORGE</Title>
-    }],
+    children: [
+      {
+        path: "/dashboard",
+        element: <Title>TIME FORGE</Title>,
+      },
+    ],
   },
-     {
+  {
     path: "/eventslot",
     element: <EventSlot></EventSlot>,
   },
