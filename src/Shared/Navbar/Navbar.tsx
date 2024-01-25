@@ -24,8 +24,8 @@ const Navbar: React.FC = () => {
       <li className="text-sm font-semibold hover:text-dt">
         <NavLink to="/createEvent">Create new Event</NavLink>
       </li>
-      <li className="text-sm font-semibold hover:text-dt">
-        <NavLink to="/product">Product</NavLink>
+      <li className="text-sm font-semibold">
+        <NavLink to="/allEvents">All Events</NavLink>
       </li>
       <li className="text-sm font-semibold hover:text-dt">
         <NavLink to="/pricing">Pricing</NavLink>
