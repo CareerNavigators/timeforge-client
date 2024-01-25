@@ -2,15 +2,9 @@ import {
   DoubleLeftOutlined,
   DoubleRightOutlined,
   HomeOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
   PlusOutlined,
   ScheduleOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
 } from "@ant-design/icons";
-import { MdEventSeat } from "react-icons/md";
 import { Layout, Menu, Button, theme } from "antd";
 import { useState } from "react";
 import Logo from "/logo.png";
@@ -21,7 +15,7 @@ const { Header, Sider } = Layout;
 const Dashbar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { colorBgContainer },
   } = theme.useToken();
 
   // const toggleCollapsed = () => {
@@ -30,11 +24,17 @@ const Dashbar = () => {
   return (
     <div className="flex  lg:flex-row font-inter">
       <Layout className="">
-        <Header  style={{ padding: 0, background: colorBgContainer }}>
+        <Header style={{ padding: 0, background: colorBgContainer }}>
           <Button
             className=" absolute lg:sticky z-10 lg:font-bold lg:bg-slate-200"
             type="text"
-            icon={collapsed ? <DoubleRightOutlined className="text-white lg:text-black"/> : <DoubleLeftOutlined className="text-white lg:text-black" />}
+            icon={
+              collapsed ? (
+                <DoubleRightOutlined className="text-white lg:text-black" />
+              ) : (
+                <DoubleLeftOutlined className="text-white lg:text-black" />
+              )
+            }
             onClick={() => setCollapsed(!collapsed)}
             style={{
               fontSize: "16px",
@@ -46,18 +46,17 @@ const Dashbar = () => {
       </Layout>
 
       <Layout className="">
-        <Sider  trigger={null} collapsible collapsed={collapsed}>
+        <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className=" " />
           <Menu
             theme="dark"
-
             className="relative h-screen lg:w-[300px] font-inter font-bold"
             // defaultSelectedKeys={['1']}
 
             items={[
               {
                 key: "0",
-                icon: <img src={Logo} className=" h-[30px] "/>,
+                icon: <img src={Logo} className=" h-[30px] " />,
                 label: <NavLink to="/dashboard">Time Forge</NavLink>,
               },
 
@@ -69,7 +68,7 @@ const Dashbar = () => {
               },
               {
                 key: "2",
-                icon: <ScheduleOutlined/>,
+                icon: <ScheduleOutlined />,
                 label: "Events",
               },
               // {
