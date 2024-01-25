@@ -5,10 +5,12 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   PlusOutlined,
+  ScheduleOutlined,
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
+import { MdEventSeat } from "react-icons/md";
 import { Layout, Menu, Button, theme } from "antd";
 import { useState } from "react";
 import Logo from "/logo.png";
@@ -26,13 +28,13 @@ const Dashbar = () => {
   //   setCollapsed(!collapsed);
   // };
   return (
-    <div className="flex font-inter">
-      <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
+    <div className="flex  lg:flex-row font-inter">
+      <Layout className="">
+        <Header  style={{ padding: 0, background: colorBgContainer }}>
           <Button
-            className="font-bold bg-slate-200"
+            className=" absolute lg:sticky z-10 lg:font-bold lg:bg-slate-200"
             type="text"
-            icon={collapsed ? <DoubleRightOutlined /> : <DoubleLeftOutlined />}
+            icon={collapsed ? <DoubleRightOutlined className="text-white lg:text-black"/> : <DoubleLeftOutlined className="text-white lg:text-black" />}
             onClick={() => setCollapsed(!collapsed)}
             style={{
               fontSize: "16px",
@@ -44,12 +46,12 @@ const Dashbar = () => {
       </Layout>
 
       <Layout className="">
-        <Sider trigger={null} collapsible collapsed={collapsed}>
+        <Sider  trigger={null} collapsible collapsed={collapsed}>
           <div className=" " />
           <Menu
-            // theme="dark"
+            theme="dark"
 
-            className="h-screen w-[300px] font-inter font-bold"
+            className="relative h-screen lg:w-[300px] font-inter font-bold"
             // defaultSelectedKeys={['1']}
 
             items={[
@@ -67,21 +69,21 @@ const Dashbar = () => {
               },
               {
                 key: "2",
-                icon: <UserOutlined />,
-                label: "Event Types",
+                icon: <ScheduleOutlined/>,
+                label: "Events",
               },
+              // {
+              //   key: "3",
+              //   icon: <VideoCameraOutlined />,
+              //   label: "Schedule Events",
+              // },
+              // {
+              //   key: "4",
+              //   icon: <UploadOutlined />,
+              //   label: "Workflows",
+              // },
               {
                 key: "3",
-                icon: <VideoCameraOutlined />,
-                label: "Schedule Events",
-              },
-              {
-                key: "4",
-                icon: <UploadOutlined />,
-                label: "Workflows",
-              },
-              {
-                key: "5",
                 icon: <HomeOutlined />,
                 label: <NavLink to="/">Home</NavLink>,
               },
