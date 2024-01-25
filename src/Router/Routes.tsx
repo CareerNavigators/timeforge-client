@@ -8,12 +8,14 @@ import OneEvent from "../CreateEvents/Events/OneEvent";
 import EventSlot from "../Components/EventSlot/EventSlot";
 import AllEvents from "../ManageEvents/AllEvents/AllEvents";
 import EventDetails from "../ManageEvents/AllEvents/EventDetails";
+import Error from "../Error/Error";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
-    children: [
+    errorElement:<Error></Error>,
+     children: [
       {
         path: "/",
         element: <Home></Home>,
