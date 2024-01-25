@@ -4,6 +4,7 @@ import type { CalendarProps } from "antd";
 import { Badge, Calendar, Modal } from "antd";
 import DropDownCal from "./DropDownCal";
 import toast from "react-hot-toast";
+import "./style.css";
 
 interface EventItem {
   content: string;
@@ -90,8 +91,12 @@ const CalendarPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <Calendar onSelect={onSelect} cellRender={cellRender} />
+    <div className="h-screen flex justify-center items-center bg-gradient-to-r from-[#9181F4] to-[#5038ED]">
+      <Calendar
+        className="w-[1000px] mx-auto rounded p-5"
+        onSelect={onSelect}
+        cellRender={cellRender}
+      />
       <Modal
         title="Enter time"
         open={isModalVisible}
