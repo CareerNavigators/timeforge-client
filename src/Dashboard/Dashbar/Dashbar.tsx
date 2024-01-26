@@ -2,15 +2,10 @@ import {
   DoubleLeftOutlined,
   DoubleRightOutlined,
   HomeOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
   PlusOutlined,
   ScheduleOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
 } from "@ant-design/icons";
-import { MdEventSeat } from "react-icons/md";
+
 import { Layout, Menu, Button, theme } from "antd";
 import { useState } from "react";
 import Logo from "/logo.png";
@@ -21,7 +16,7 @@ const { Header, Sider } = Layout;
 const Dashbar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { colorBgContainer },
   } = theme.useToken();
 
   // const toggleCollapsed = () => {
