@@ -17,7 +17,7 @@ const Footer = () => {
     </>
   );
   return (
-    <footer className='bg-white'>
+    <footer className='bg-white dark:bg-d1'>
       <hr className='max-w-screen-xl mx-auto text-gray-600'></hr>
       <div className='max-w-screen-xl px-4 py-8 mx-auto sm:px-6 lg:px-8'>
         <div className='sm:flex sm:justify-between'>
