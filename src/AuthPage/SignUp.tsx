@@ -13,12 +13,17 @@ import BackgroundMotion from "../Components/BackgroundMotion/BackgroundMotion";
 import { HiOutlineMail } from "react-icons/hi";
 import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthContext";
+import usePfp from "../Hook/getPfp";
+import AvatarMenu from "../Components/AvatarMenu/AvaterMenu";
 
 const SignUp = () => {
-  const { createUser, setLoading, googleSignIn } = useContext(AuthContext);
+  const { user, createUser, setLoading, googleSignIn, handleUpdateProfile } =
+    useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from?.pathname || "/";
+  const pfp = usePfp();
+  console.log(user?.photoURL);
   interface FormEvent extends React.FormEvent<HTMLFormElement> {
     target: HTMLFormElement & {
       email: {
@@ -41,9 +46,14 @@ const SignUp = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const email = formData.get("email");
+    const username = formData.get("username");
     const password = formData.get("password");
+    if (!username) {
+      toast.error("Please enter your Username");
+      return;
+    }
 
-    if (password === null) {
+    if (!password) {
       toast.error("Please enter your password");
       return;
     }
@@ -72,7 +82,10 @@ const SignUp = () => {
 
     try {
       await createUser(email, passwordString);
-      navigate(from, {replace: true });
+      const name = username;
+      const imageLink = pfp;
+      await handleUpdateProfile(name, imageLink);
+      navigate(from, { replace: true });
       toast.success("Secure Access, Unlimited Smiles!");
       setLoading(false);
     } catch (error: any) {
@@ -84,16 +97,16 @@ const SignUp = () => {
   };
 
   // handle google signUp
-  const handleGoogle = () => {
-    googleSignIn()
-      .then(() => {
-        toast.success("Secure Access, Unlimited Smiles!");
-        navigate(from, { replace: true });
-      })
-      .catch((error: any) => {
-        console.error(error);
-      });
+  const handleGoogle = async () => {
+    try {
+      await googleSignIn();
+      toast.success("Secure Access, Unlimited Smiles!");
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   const sty = `
 .smooth-parallax{
   width: 400px;
@@ -125,13 +138,13 @@ const SignUp = () => {
       <div className="p-4 lg:w-1/2 lg:p-8 ">
         <Link to="/">
           <FiHome
-            className="absolute left-4 top-4 text-[#1C1C1C] text-lg cursor-pointer z-10"
+            className="absolute left-4 top-4 text-[#1C1C1C] text-lg cursor-pointer z-10 dark:text-dw"
             style={{ pointerEvents: "auto" }}
           />
         </Link>
         <Link
           to="/login"
-          className="absolute right-4 top-4 text-[#1C1C1C] text-lg cursor-pointer z-10">
+          className="absolute right-4 top-4 text-[#1C1C1C] text-lg cursor-pointer z-10 dark:text-dw">
           <LuLogIn />
         </Link>
         <style>{sty}</style>
@@ -150,7 +163,7 @@ const SignUp = () => {
               />
             </MouseParallaxChild>
             <h1 className="text-3xl font-bold">REGISTER</h1>
-            <p className="text-[#525252] my-2">
+            <p className="text-[#525252] my-2 dark:text-dg">
               How to get started with TimeForge?
             </p>
           </div>
@@ -166,26 +179,29 @@ const SignUp = () => {
               <FiUser className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
               <input
                 autoComplete="off"
-                className="bg-[#F0EDFFCC] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in"
+                className="bg-[#F0EDFFCC] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in  dark:bg-dw"
                 type="text"
                 placeholder="Username"
                 name="username"
               />
             </div>
+          <AvatarMenu/>
+
             <div className="relative mb-4">
               <HiOutlineMail className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
               <input
                 autoComplete="off"
-                className="bg-[#F0EDFFCC] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in"
+                className="bg-[#F0EDFFCC] dark:bg-dw pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in"
                 type="text"
                 placeholder="Email"
                 name="email"
+                required
               />
             </div>
             <div className="relative">
               <FiUnlock className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
               <input
-                className="bg-[#f0edffcc] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in"
+                className="bg-[#f0edffcc] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in  dark:bg-dw"
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
@@ -209,7 +225,7 @@ const SignUp = () => {
         </motion.div>
         <div className="flex flex-col items-center justify-center gap-3 my-8 lg:flex-row lg:justify-center">
           <hr className="w-24 h-[1px] bg-[#F0EDFF]" />
-          <p className="text-[#525252]">or continue with</p>
+          <p className="text-[#525252] dark:text-dg">or continue with</p>
           <hr className="w-24 h-[1px] bg-[#F0EDFF]" />
         </div>
         <div className="flex items-center justify-center">

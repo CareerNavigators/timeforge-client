@@ -19,6 +19,8 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from?.pathname || "/";
+
+
   interface FormEvent extends React.FormEvent<HTMLFormElement> {
     target: HTMLFormElement & {
       email: {
@@ -67,7 +69,7 @@ const Login = () => {
     }
     signIn(email, password)
       .then(() => {
-        toast.success("Login successful!");
+        toast.success("Secure Access, Unlimited Smiles!");
         setLoading(false);
         navigate(from, { replace: true });
       })
@@ -80,7 +82,7 @@ const Login = () => {
   const handleGoogle = () => {
     googleSignIn()
       .then(() => {
-        toast.success("Login successful!");
+        toast.success("Secure Access, Unlimited Smiles!");
         navigate(from, { replace: true });
       })
       .catch((error: any) => {
@@ -120,14 +122,14 @@ const Login = () => {
         <div className="p-4 lg:w-1/2 lg:p-8">
           <Link to="/">
             <FiHome
-              className="absolute left-4 top-4 text-[#1C1C1C] text-lg cursor-pointer z-10"
+              className="absolute left-4 top-4 text-[#1C1C1C] text-lg cursor-pointer z-10 dark:text-dw"
               style={{ pointerEvents: "auto" }}
             />
           </Link>
           <style>{sty}</style>
           <Link
             to="/signup"
-            className="absolute right-4 top-4 text-[#1C1C1C] text-xl  cursor-pointer z-10">
+            className="absolute right-4 top-4 text-[#1C1C1C] text-xl cursor-pointer z-10 dark:text-dw">
             <BiUserPlus />
           </Link>
           <MouseParallaxContainer
@@ -144,7 +146,7 @@ const Login = () => {
                 />
               </MouseParallaxChild>
               <h1 className="text-3xl font-bold">LOGIN</h1>
-              <p className="text-[#525252] my-2">
+              <p className="text-[#525252] my-2 dark:text-dg">
                 How to get started with TimeForge?
               </p>
             </div>
@@ -157,20 +159,20 @@ const Login = () => {
               className="flex flex-col items-center justify-center"
               onSubmit={handleLogin}>
               <div className="relative mb-4">
-                <FiUser className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
+                <FiUser className=" absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
                 <input
                   autoComplete="off"
                   required
-                  className="bg-[#F0EDFFCC] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in"
+                  className="bg-[#F0EDFFCC] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in dark:bg-dw"
                   type="email"
                   placeholder="Username"
                   name="email"
                 />
               </div>
               <div className="relative">
-                <FiUnlock className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
+                <FiUnlock className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg " />
                 <input
-                  className="bg-[#f0edffcc] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in"
+                  className="bg-[#f0edffcc] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in dark:bg-dw"
                   type={showPassword ? "text" : "password"}
                   name="password"
                   placeholder="Password"
@@ -194,7 +196,7 @@ const Login = () => {
           </motion.div>
           <div className="flex flex-col items-center justify-center gap-3 my-8 lg:flex-row lg:justify-center">
             <hr className="w-24 h-[1px] bg-[#F0EDFF]" />
-            <p className="text-[#525252]">or continue with</p>
+            <p className="text-[#525252] dark:text-dg">or continue with</p>
             <hr className="w-24 h-[1px] bg-[#F0EDFF]" />
           </div>
           <div className="flex items-center justify-center">
