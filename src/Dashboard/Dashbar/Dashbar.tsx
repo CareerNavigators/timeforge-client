@@ -28,7 +28,6 @@ const Dashbar = () => {
           <Button
             className=" absolute  z-10 lg:font-bold "
             type="text"
-            icon={collapsed ? <DoubleRightOutlined className="text-white"/> : <DoubleLeftOutlined className="text-white" />}
             icon={
               collapsed ? (
                 <DoubleRightOutlined className="text-white" />
