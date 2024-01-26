@@ -1,3 +1,4 @@
+import { FaClock, FaMailBulk, FaPhone } from "react-icons/fa";
 import CalenderDesign from "./CalenderDesign";
 import Logo from "/logo.png";
 
@@ -11,11 +12,22 @@ const EventSlot = () => {
               <img className="h-10" src={Logo} alt="logo" />
               <h3 className="text-[#5E47EF] text-4xl font-bold">TimeForge</h3>
             </div>
-            <section>
-                <h1 className="text-3xl py-5 font-bold">Event Name</h1>
-                <h1 className="text-xl py-2 text-gray-500 font-bold">Deadline</h1>
-                <h1 className="text-xl py-2 text-gray-500 ">Event Details</h1>
-            </section>
+            <div className="w-full px-6 py-4">
+              <h4 className="text-gray-400 font-medium">Author Name</h4>
+              <h2 className="text-3xl font-semibold">Event Name</h2>
+              <div className="flex items-center gap-2 text-lg text-gray-400 font-medium mt-5">
+                <FaClock></FaClock>
+                <h4>Duration min</h4>
+              </div>
+              <div className="flex items-center gap-2 text-lg text-gray-400 font-medium mt-2">
+                <FaPhone></FaPhone>
+                <h4>Phone call</h4>
+              </div>
+              <div className="flex items-center gap-2 text-lg text-gray-400 font-medium mt-2">
+                <FaMailBulk></FaMailBulk>
+                <h4>Email</h4>
+              </div>
+            </div>
           </div>
           <section className="w-1/3 shadow-md rounded-lg">
             <CalenderDesign />
