@@ -25,11 +25,11 @@ const Navbar: React.FC = () => {
       <li className="text-sm font-semibold hover:text-dt">
         <NavLink to="/createEvent">Create new Event</NavLink>
       </li>
-      <li className="text-sm font-semibold">
+      <li className="text-sm font-semibold hover:text-dt">
         <NavLink to="/allEvents">All Events</NavLink>
       </li>
       <li className="text-sm font-semibold hover:text-dt">
-        <NavLink to="/pricing">Pricing</NavLink>
+        <NavLink to="/aboutUs">About Us</NavLink>
       </li>
       <li className="text-sm font-semibold hover:text-dt">
         <NavLink to="/resources">Resources</NavLink>

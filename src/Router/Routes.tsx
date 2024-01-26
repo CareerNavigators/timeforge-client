@@ -14,7 +14,7 @@ import AllEvents from "../ManageEvents/AllEvents/AllEvents";
 import EventDetails from "../ManageEvents/AllEvents/EventDetails";
 import Error from "../Error/Error";
 import ContactUs from "../Contacts/ContactUs";
-import AboutUs from "../Contacts/AboutUs";
+import AboutUs from "../AboutUs/AboutUs";
 
 const router = createBrowserRouter([
   {
