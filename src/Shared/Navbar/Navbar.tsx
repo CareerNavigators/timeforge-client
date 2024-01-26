@@ -5,6 +5,8 @@ import type { DrawerProps } from "antd";
 import { Drawer } from "antd";
 import { useState } from "react";
 import DarkModeToggle from "../../Components/DarkModeToggle/DarkModeToggle";
+import AvatarMenu from "../../Components/AvatarMenu/AvaterMenu";
+
 
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -17,7 +19,6 @@ const Navbar: React.FC = () => {
   const onClose = () => {
     setOpen(false);
   };
-
   // common links
   const links = (
     <>
@@ -55,11 +56,10 @@ const Navbar: React.FC = () => {
               <h3 className="text-[#5E47EF] text-2xl font-bold">TimeForge</h3>
             </div>
           </Link>
-
           <div className="md:flex md:items-center md:gap-12">
             <nav className="hidden md:block">
               <ul className="flex items-center gap-4 text-sm">
-                {links} <DarkModeToggle />
+                {links} <DarkModeToggle /> <AvatarMenu/>
               </ul>
             </nav>
 

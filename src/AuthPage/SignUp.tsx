@@ -14,6 +14,7 @@ import { HiOutlineMail } from "react-icons/hi";
 import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthContext";
 import usePfp from "../Hook/getPfp";
+import AvatarMenu from "../Components/AvatarMenu/AvaterMenu";
 
 const SignUp = () => {
   const { user, createUser, setLoading, googleSignIn, handleUpdateProfile } =
@@ -99,8 +100,6 @@ const SignUp = () => {
   const handleGoogle = async () => {
     try {
       await googleSignIn();
-      const imageLink = pfp;
-      await handleUpdateProfile(imageLink);
       toast.success("Secure Access, Unlimited Smiles!");
       navigate(from, { replace: true });
     } catch (error) {
@@ -186,6 +185,8 @@ const SignUp = () => {
                 name="username"
               />
             </div>
+          <AvatarMenu/>
+
             <div className="relative mb-4">
               <HiOutlineMail className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
               <input

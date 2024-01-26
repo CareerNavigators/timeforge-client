@@ -6,6 +6,7 @@ import SignUp from "../AuthPage/SignUp";
 import Login from "../AuthPage/Login";
 import CreateEvents from "../CreateEvents/CreateEvents";
 import OneEvent from "../CreateEvents/Events/OneEvent";
+import UserProfile from "../Components/UserProfile/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login></Login>,
+  },
+  {
+    path: "profile",
+    element: <UserProfile />,
   },
 ]);
 export default router;
