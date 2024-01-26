@@ -1,0 +1,148 @@
+:where(.css-dev-only-do-not-override-zl9ks2).ant-menu-vertical > .ant-menu-item:nth-child(1) {
+    height: 70px;
+    line-height: 40px;
+    margin-top:80px;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    margin-bottom:15px;
+}
+:where(.css-dev-only-do-not-override-zl9ks2).ant-menu-vertical > .ant-menu-item:nth-child(3) {
+    /* height: 70px;
+    line-height: 40px;
+    margin-top:80px; */
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    margin-bottom:15px;
+}
+:where(.css-dev-only-do-not-override-zl9ks2).ant-menu-vertical > .ant-menu-item:nth-child(4) {
+    /* height: 70px;
+    line-height: 40px;
+    margin-top:80px; */
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    margin-bottom:15px;
+}
+:where(.css-dev-only-do-not-override-zl9ks2).ant-menu-vertical > .ant-menu-item:nth-child(2) {
+    /* height: 70px; */
+    width:80%;
+    margin:auto;
+    line-height: 40px;
+    /* margin-top:80px; */
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    margin-bottom:15px;
+    background-color: blue !important;
+    color:white;
+    text-align: center;
+    border-radius: 20px;
+    gap:none;
+}
+
+:where(.css-dev-only-do-not-override-zl9ks2).ant-menu-light .ant-menu-item-selected:nth-child(1){
+    background-color: white;
+}
+
+
+:where(.css-dev-only-do-not-override-zl9ks2).ant-menu-vertical > .ant-menu-item:nth-child(1).active{
+  color: white;
+}
+
+/* problem face this line */
+/* :where(.css-dev-only-do-not-override-zl9ks2).ant-menu .ant-menu-item .ant-menu-item-icon +span,:where(.css-dev-only-do-not-override-zl9ks2).ant-menu .ant-menu-item .anticon +span{
+    margin-inline-start:20px;
+    opacity: 1;
+    transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),margin 0.3s,color 0.3s;
+} */
+
+:where(.css-dev-only-do-not-override-zl9ks2).ant-menu .ant-menu-item .ant-menu-item-icon >*, :where(.css-dev-only-do-not-override-zl9ks2).ant-menu .ant-menu-submenu-title .ant-menu-item-icon:nth-child(1) >* {
+    line-height: 1;
+    width: 20px;
+    height: 20px;
+}
+
+:where(.css-dev-only-do-not-override-zl9ks2).ant-menu .ant-menu-item .ant-menu-item-icon:nth-child(2) {
+    min-width: 0px;
+    font-size: 30px;
+    transition: font-size 0.2s cubic-bezier(0.215, 0.61, 0.355, 1),margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),color 0.3s;
+}
+
+:where(.css-dev-only-do-not-override-zl9ks2).ant-menu .ant-menu-item .ant-menu-item-icon {
+    min-width: 30px;
+    font-size: 30px;
+   
+    transition: font-size 0.2s cubic-bezier(0.215, 0.61, 0.355, 1),margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),color 0.3s;
+}
+
+/* :where(.css-dev-only-do-not-override-zl9ks2).ant-menu .ant-menu-item > .ant-menu-item-icon:nth-child(2)>span {
+    min-width: 0 !important;
+    font-size: 30px;
+    
+    transition: font-size 0.2s cubic-bezier(0.215, 0.61, 0.355, 1),margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),color 0.3s;
+} */
+
+
+
+
+
+
+
+:where(.css-dev-only-do-not-override-zl9ks2).ant-menu-inline-collapsed >.ant-menu-item{
+        inset-inline-start: 0;
+        padding-inline: calc(50% - 8px - 8px);
+        text-overflow: clip;
+}
+
+
+/* :where(.css-dev-only-do-not-override-zl9ks2).ant-menu .ant-menu-item .ant-menu-item-icon >*, :where(.css-dev-only-do-not-override-zl9ks2).ant-menu .ant-menu-submenu-title.img.ant-menu-item-icon >*{
+  width: 50px;
+  height: 50px;
+} */
+/* li[data-menu-id="rc-menu-uuid-04014-2-2"] {
+    width: 200px; 
+    height: 50px; 
+} */
+
+/* li[data-menu-id="rc-menu-uuid-04014-2-2"].active {
+    background-color: #f0f0f0; 
+} */
+/* #root > div.flex.flex-row-reverse.max-w-1400px.mx-auto.items-center.gap-100px > div.h-screen > div > div.ant-layout.ant-layout-has-sider.css-dev-only-do-not-override-zl9ks2 > aside > div > ul > li.ant-menu-item.menu-item-1 > span.anticon.anticon-plus.ant-menu-item-icon{
+     min-width: 0px !important;
+} */
+/* @media (max-width: 576px) {
+    .Sider {
+       display: none;
+    }
+   
+    .bottom-nav {
+       display: block;
+       position: fixed;
+       bottom: 0;
+       width: 100%;
+    }
+
+    /* :where(.css-dev-only-do-not-override-zl9ks2).ant-menu-vertical{
+       display:none;
+    } */
+    
+    /* :where(.css-dev-only-do-not-override-zl9ks2).ant-layout, :where(.css-dev-only-do-not-override-zl9ks2).ant-layout * {
+        display:hidden;
+    } */
+    /* :where(.css-dev-only-do-not-override-zl9ks2).ant-layout{
+      display:none;
+    } */
+    /* :where(.css-dev-only-do-not-override-zl9ks2).ant-menu-vertical{
+        display:flex;
+        justify-content: center;
+        align-items:center;
+        width:full
+      }
+      :where(.css-dev-only-do-not-override-zl9ks2).ant-menu-vertical > .ant-menu-item{
+      line-height: 40px;
+      margin-bottom:15px;
+    }
+   }  */
+   
