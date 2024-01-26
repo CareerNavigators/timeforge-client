@@ -130,8 +130,15 @@ const SignUp = () => {
         timeZone: timezone,
         img_profile: imageLink,
       };
-      await axios.post(`${import.meta.env.VITE_BACK_END_API}/user`, userData);
-
+      await axios
+        .post(`${import.meta.env.VITE_BACK_END_API}/user`, userData)
+        .then((response) => {
+          console.log(response);
+          localStorage.setItem(
+            "user",
+            JSON.stringify({ email: userData.email, id: response.data._id })
+          );
+        });
       navigate(from, { replace: true });
       toast.success("Secure Access, Unlimited Smiles!");
       setLoading(false);
@@ -160,7 +167,14 @@ const SignUp = () => {
         img_profile: user?.photoURL,
       };
 
-      await axios.post(`${import.meta.env.VITE_BACK_END_API}/user`, userData);
+      await axios
+        .post(`${import.meta.env.VITE_BACK_END_API}/user`, userData)
+        .then((response) => {
+          localStorage.setItem(
+            "user",
+            JSON.stringify({ email: userData.email, id: response.data._id })
+          );
+        });
       toast.success("Secure Access, Unlimited Smiles!");
       navigate(from, { replace: true });
     } catch (error) {

@@ -1,10 +1,14 @@
-import React, { useState, useEffect, ChangeEvent, useContext } from "react";
-import { AiOutlineEdit, AiOutlineCamera } from "react-icons/ai";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useState, useEffect, ChangeEvent, useCallback } from "react";
+import { AiOutlineEdit } from "react-icons/ai";
 import axios from "axios";
-import { AuthContext } from "../../Provider/AuthContext";
+import { FaRegEdit } from "react-icons/fa";
+import { motion, useAnimation } from "framer-motion";
 
 interface UserProfile {
+  id?: string;
   name?: string;
+  email?: string;
   img_cover?: string;
   country?: string;
   timeZone?: string;
@@ -12,7 +16,8 @@ interface UserProfile {
 }
 
 const Profile: React.FC = () => {
-  const { user } = useContext(AuthContext);
+  const [loadingProfile, setLoadingProfile] = useState(false);
+  const [loadingImageUpload, setLoadingImageUpload] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile>();
   const [coverPhoto, setCoverPhoto] = useState<File | null>(null);
   const [coverPhotoPreview, setCoverPhotoPreview] = useState<string | null>(
@@ -24,32 +29,82 @@ const Profile: React.FC = () => {
   const [editedTimeZone, setEditedTimeZone] = useState("");
   const [isChangesMade, setIsChangesMade] = useState(false);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const fetchUserProfile = async () => {
+  const fetchUserProfile = useCallback(async () => {
+    const userEmail = JSON.parse(
+      localStorage.getItem("user") || "{'id':'65b34882318c020926483957'}"
+    ).email;
+    setLoadingProfile(true);
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACK_END_API}/user?email=${user.email}`
+        `${import.meta.env.VITE_BACK_END_API}/user?email=${userEmail}`
       );
-      setUserProfile(response.data);
+      const userProfileData: UserProfile = response.data;
+
+      setUserProfile(userProfileData);
+      setCoverPhotoPreview(userProfileData.img_cover || null);
     } catch (error) {
-      console.error("Error fetching user profile:", error);
+      console.error("Error:", error);
+    } finally {
+      setLoadingProfile(false);
+    }
+  }, []);
+
+  const uploadImageToApi = async (image: File): Promise<string> => {
+    setLoadingImageUpload(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append(
+        "upload_preset",
+        `${import.meta.env.VITE_IMAGE_UPLOAD_PREST}`
+      );
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_IMAGE_UPLOAD_API}`,
+        formData
+      );
+
+      console.log("Image upload successful. Response data:", response.data);
+
+      return response.data.url;
+    } catch (error: any) {
+      if (error.response) {
+        console.error(
+          "Server responded with error status:",
+          error.response.status
+        );
+        console.error("Response data:", error.response.data);
+      } else if (error.request) {
+        console.error("No response received from the server.");
+      } else {
+        console.error("Error setting up the request:", error.message);
+      }
+
+      throw error;
+    } finally {
+      setLoadingImageUpload(false);
     }
   };
+
   const handleEdit = () => {
     setIsEditing(true);
   };
+
   const handleSave = async () => {
     if (isChangesMade) {
-      const formData = new FormData();
-      formData.append("country", editedCountry);
-      formData.append("timeZone", editedTimeZone);
-      if (coverPhoto) {
-        formData.append("coverPhoto", coverPhoto);
-      }
-      if (profilePhoto) {
-        formData.append("profilePhoto", profilePhoto);
-      }
+      setLoadingProfile(true);
+      setLoadingImageUpload(true);
       try {
+        const formData = new FormData();
+        formData.append("country", editedCountry);
+        formData.append("timeZone", editedTimeZone);
+        if (coverPhoto) {
+          formData.append("coverPhoto", coverPhoto);
+        }
+        if (profilePhoto) {
+          formData.append("profilePhoto", profilePhoto);
+        }
+
         const [coverPhotoLink, profilePhotoLink] = await Promise.all([
           coverPhoto && uploadImageToApi(coverPhoto),
           profilePhoto && uploadImageToApi(profilePhoto),
@@ -57,8 +112,8 @@ const Profile: React.FC = () => {
 
         const updatedProfile: UserProfile = {
           ...userProfile,
-          country: editedCountry,
-          timeZone: editedTimeZone,
+          country: editedCountry || userProfile?.country,
+          timeZone: editedTimeZone || userProfile?.timeZone,
           img_cover: coverPhotoLink || userProfile?.img_cover,
           img_profile: profilePhotoLink || userProfile?.img_profile,
         };
@@ -70,6 +125,9 @@ const Profile: React.FC = () => {
         console.log("Edited Data:", JSON.stringify(updatedProfile, null, 2));
       } catch (error) {
         console.error("Error saving changes:", error);
+      } finally {
+        setLoadingProfile(false);
+        setLoadingImageUpload(false);
       }
     } else {
       shakeScreen();
@@ -77,36 +135,28 @@ const Profile: React.FC = () => {
   };
 
   const updateBackendData = async (data: UserProfile) => {
+    const userId = JSON.parse(
+      localStorage.getItem("user") || "{'id':'65b34882318c020926483957'}"
+    ).id;
     try {
-      await axios.patch("/api/user/update", data);
-      console.log("Backend data updated successfully!");
+      await axios.patch(
+        `${import.meta.env.VITE_BACK_END_API}/user/${userId}`,
+        data
+      );
+      console.log("Backend data");
     } catch (error) {
       console.error("Error updating backend data:", error);
     }
   };
-
-  const uploadImageToApi = async (image: File): Promise<string> => {
-    try {
-      const formData = new FormData();
-      formData.append("image", image);
-      formData.append(
-        "upload_preset",
-        `${import.meta.env.VITE_IMAGE_UPLOAD_PREST}`
-      );
-      const response = await axios.post(
-        `${import.meta.env.VITE_IMAGE_UPLOAD_API}`,
-        formData
-      );
-
-      return response.data.url;
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      throw error;
-    }
-  };
-  const shakeScreen = () => {
+  const controls = useAnimation();
+  const shakeScreen = async () => {
     console.log("Shaking the screen!");
+    await controls.start({
+      x: [-10, 10, -10, 10, 0],
+      transition: { duration: 0.5, times: [0, 0.25, 0.5, 0.75, 1] },
+    });
   };
+
   const handleCancel = () => {
     setIsEditing(false);
     setEditedCountry(userProfile?.country || "");
@@ -122,25 +172,41 @@ const Profile: React.FC = () => {
       setIsChangesMade(true);
     }
   };
+
   const handleProfilePhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setProfilePhoto(event.target.files[0]);
       setIsChangesMade(true);
     }
   };
+
   useEffect(() => {
     fetchUserProfile();
   }, [fetchUserProfile]);
 
   return (
-    <div className="container p-4 mx-auto">
+    <motion.div
+      animate={controls}
+      className="container h-screen p-4 mx-auto dark:bg-d">
+      {loadingProfile && (
+        <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-white dark:bg-d ">
+          <div className="flex items-center justify-center space-x-2">
+            <div className="w-4 h-4 bg-black rounded-full animate-pulse dark:bg-violet-400"></div>
+            <div className="w-4 h-4 bg-black rounded-full animate-pulse dark:bg-violet-400"></div>
+            <div className="w-4 h-4 bg-black rounded-full animate-pulse dark:bg-violet-400"></div>
+          </div>
+          <div className="ml-2 text-lg font-semibold text-black dark:text-white">
+            Loading Profile...
+          </div>
+        </div>
+      )}
       <div className="mb-8">
-        <div className="relative w-full h-56 mb-4 bg-center bg-cover">
+        <div className="relative object-top w-full h-56 mb-4 bg-center bg-cover">
           {coverPhotoPreview && (
             <img
               src={coverPhotoPreview}
               alt="Cover Preview"
-              className="object-cover w-full h-full rounded-t-md"
+              className="object-cover object-top w-full h-full rounded-t-md"
             />
           )}
           {isEditing && (
@@ -160,7 +226,7 @@ const Profile: React.FC = () => {
             />
           )}
           <div className="absolute cursor-pointer bottom-4 right-4">
-            <AiOutlineCamera size={24} onClick={handleEdit} />
+            <FaRegEdit size={24} onClick={handleEdit} />
           </div>
         </div>
 
@@ -171,7 +237,7 @@ const Profile: React.FC = () => {
               src={
                 profilePhoto
                   ? URL.createObjectURL(profilePhoto)
-                  : userProfile?.img_profile || ""
+                  : userProfile?.img_profile
               }
               alt="Profile"
               className="object-cover w-full h-full border-4 border-white rounded-full"
@@ -196,9 +262,11 @@ const Profile: React.FC = () => {
         </div>
       </div>
       <div
-        className={`bg-gray-200 p-4 rounded-md ${isEditing ? "editing" : ""}`}>
+        className={`bg-gray-200 dark:bg-d1 p-4 rounded-md ${
+          isEditing ? "editing" : ""
+        }`}>
         <div className="mb-4">
-          <p>Email: {user?.email}</p>
+          <p>Email: {userProfile?.email}</p>
         </div>
         {isEditing ? (
           <>
@@ -208,7 +276,7 @@ const Profile: React.FC = () => {
                 type="text"
                 value={editedCountry}
                 onChange={(e) => setEditedCountry(e.target.value)}
-                className="p-1 ml-2 border rounded-md"
+                className="p-1 ml-2 bg-white border rounded-md dark:bg-dw text-dt"
               />
             </label>
             <label className="block mt-2">
@@ -217,7 +285,7 @@ const Profile: React.FC = () => {
                 type="text"
                 value={editedTimeZone}
                 onChange={(e) => setEditedTimeZone(e.target.value)}
-                className="p-1 ml-2 border rounded-md"
+                className="p-1 ml-2 bg-white border rounded-md dark:bg-dw text-dt"
               />
             </label>
           </>
@@ -232,17 +300,19 @@ const Profile: React.FC = () => {
         <div className="fixed bottom-4 right-4">
           <button
             className="px-4 py-2 text-white bg-blue-500 rounded"
-            onClick={handleSave}>
+            onClick={handleSave}
+            disabled={loadingProfile || loadingImageUpload}>
             Save Changes
           </button>
           <button
             className="px-4 py-2 ml-2 text-white bg-gray-500 rounded"
-            onClick={handleCancel}>
+            onClick={handleCancel}
+            disabled={loadingProfile || loadingImageUpload}>
             Cancel
           </button>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 
