@@ -32,9 +32,9 @@ const Dashbar = () => {
       <Layout className="">
         <Header  style={{ padding: 0, background: colorBgContainer }}>
           <Button
-            className=" absolute lg:sticky z-10 lg:font-bold lg:bg-slate-200"
+            className=" absolute  z-10 lg:font-bold "
             type="text"
-            icon={collapsed ? <DoubleRightOutlined className="text-white lg:text-black"/> : <DoubleLeftOutlined className="text-white lg:text-black" />}
+            icon={collapsed ? <DoubleRightOutlined className="text-white"/> : <DoubleLeftOutlined className="text-white" />}
             onClick={() => setCollapsed(!collapsed)}
             style={{
               fontSize: "16px",
@@ -51,7 +51,7 @@ const Dashbar = () => {
           <Menu
             theme="dark"
 
-            className="relative h-screen lg:w-[300px] font-inter font-bold"
+            className="relative h-screen  font-inter font-bold"
             // defaultSelectedKeys={['1']}
 
             items={[
@@ -64,7 +64,7 @@ const Dashbar = () => {
               {
                 key: "1",
                 icon: <PlusOutlined />,
-                label: "Start",
+                label: "Create",
                 className: "menu-item-1",
               },
               {
