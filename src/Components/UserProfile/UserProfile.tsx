@@ -4,6 +4,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import axios from "axios";
 import { FaRegEdit } from "react-icons/fa";
 import { motion, useAnimation } from "framer-motion";
+import toast from "react-hot-toast";
 
 interface UserProfile {
   id?: string;
@@ -64,7 +65,7 @@ const Profile: React.FC = () => {
         formData
       );
 
-      console.log("Image upload successful. Response data:", response.data);
+      toast.success("Profile Updated Successfully");
 
       return response.data.url;
     } catch (error: any) {
@@ -143,14 +144,12 @@ const Profile: React.FC = () => {
         `${import.meta.env.VITE_BACK_END_API}/user/${userId}`,
         data
       );
-      console.log("Backend data");
     } catch (error) {
       console.error("Error updating backend data:", error);
     }
   };
   const controls = useAnimation();
   const shakeScreen = async () => {
-    console.log("Shaking the screen!");
     await controls.start({
       x: [-10, 10, -10, 10, 0],
       transition: { duration: 0.5, times: [0, 0.25, 0.5, 0.75, 1] },
@@ -201,7 +200,7 @@ const Profile: React.FC = () => {
         </div>
       )}
       <div className="mb-8">
-        <div className="relative object-top w-full h-56 mb-4 bg-center bg-cover">
+        <div className="relative object-top w-full mb-4 bg-center bg-cover h-80">
           {coverPhotoPreview && (
             <img
               src={coverPhotoPreview}
@@ -225,8 +224,12 @@ const Profile: React.FC = () => {
               onChange={handleCoverPhotoChange}
             />
           )}
-          <div className="absolute cursor-pointer bottom-4 right-4">
-            <FaRegEdit size={24} onClick={handleEdit} />
+          <div className="absolute bottom-4 right-4">
+            <button
+              className="px-4 py-2 font-bold text-white transition duration-300 ease-in-out bg-blue-500 rounded-full hover:bg-blue-700"
+              onClick={handleEdit}>
+              <FaRegEdit size={24} />
+            </button>
           </div>
         </div>
 
