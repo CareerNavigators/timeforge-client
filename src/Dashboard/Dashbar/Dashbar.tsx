@@ -22,17 +22,17 @@ const Dashbar = () => {
   //   setCollapsed(!collapsed);
   // };
   return (
-    <div className="flex  lg:flex-row font-inter">
+    <div className="flex lg:flex-row font-inter">
       <Layout className="">
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <Button
-            className=" absolute lg:sticky z-10 lg:font-bold lg:bg-slate-200"
+            className=" absolute  z-10 lg:font-bold "
             type="text"
             icon={
               collapsed ? (
-                <DoubleRightOutlined className="text-white lg:text-black" />
+                <DoubleRightOutlined className="text-white" />
               ) : (
-                <DoubleLeftOutlined className="text-white lg:text-black" />
+                <DoubleLeftOutlined className="text-white" />
               )
             }
             onClick={() => setCollapsed(!collapsed)}
@@ -50,26 +50,26 @@ const Dashbar = () => {
           <div className=" " />
           <Menu
             theme="dark"
-            className="relative h-screen lg:w-[300px] font-inter font-bold"
+            className="relative h-screen lg:w-full font-inter font-bold py-5 px-1"
             // defaultSelectedKeys={['1']}
 
             items={[
               {
                 key: "0",
-                icon: <img src={Logo} className=" h-[30px] " />,
-                label: <NavLink to="/dashboard">Time Forge</NavLink>,
+                icon: <img src={Logo} className="w-10 flex p-1" />,
+                label: <NavLink to="/dashboard"></NavLink>,
               },
 
               {
                 key: "1",
                 icon: <PlusOutlined />,
-                label: "Start",
+                label: <NavLink to="/dashboard/createEvent">Create</NavLink>,
                 className: "menu-item-1",
               },
               {
                 key: "2",
                 icon: <ScheduleOutlined />,
-                label: "Events",
+                label: <NavLink to="/dashboard/allEvents">Events</NavLink>,
               },
               // {
               //   key: "3",

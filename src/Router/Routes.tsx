@@ -7,14 +7,17 @@ import Title from "../Components/Title/Title";
 import Dashboard from "../Dashboard/Layout/Dashboard";
 import CreateEvents from "../CreateEvents/CreateEvents";
 import OneEvent from "../CreateEvents/Events/OneEvent";
+import UserProfile from "../Components/UserProfile/UserProfile";
 import EventSlot from "../Components/EventSlot/EventSlot";
 import CalendarPage from "../CreateEvents/Events/CalendarPage";
 import AllEvents from "../ManageEvents/AllEvents/AllEvents";
 import EventDetails from "../ManageEvents/AllEvents/EventDetails";
 import Error from "../Error/Error";
+import Pricing from "../Pages/Pricing";
 import ContactUs from "../Contacts/ContactUs";
 import AboutUs from "../AboutUs/AboutUs";
 import About from "../Contacts/AboutUs"
+
 
 const router = createBrowserRouter([
   {
@@ -47,8 +50,12 @@ const router = createBrowserRouter([
         element: <EventDetails></EventDetails>,
       },
       {
+        path:"/pricing",
+        element:<Pricing></Pricing>
+      },
+      {
         path: "/contactUs",
-        element: <ContactUs></ContactUs>
+        element: <ContactUs></ContactUs>,
       },
       {
         path: "/aboutUs",
@@ -57,7 +64,7 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <About></About>
-      }
+      },
     ],
   },
   {
@@ -69,12 +76,23 @@ const router = createBrowserRouter([
     element: <Login></Login>,
   },
   {
-    path: "/dashboard",
+    path: "profile",
+    element: <UserProfile />,
+  },
+  {
     element: <Dashboard></Dashboard>,
     children: [
       {
         path: "/dashboard",
         element: <Title>TIME FORGE</Title>,
+      },
+      {
+        path: "/dashboard/createEvent",
+        element: <CreateEvents></CreateEvents>,
+      },
+      {
+        path: "/dashboard/allEvents",
+        element: <AllEvents></AllEvents>,
       },
     ],
   },
