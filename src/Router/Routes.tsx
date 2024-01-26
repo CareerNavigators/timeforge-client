@@ -7,6 +7,7 @@ import Title from "../Components/Title/Title";
 import Dashboard from "../Dashboard/Layout/Dashboard";
 import CreateEvents from "../CreateEvents/CreateEvents";
 import OneEvent from "../CreateEvents/Events/OneEvent";
+import UserProfile from "../Components/UserProfile/UserProfile";
 import EventSlot from "../Components/EventSlot/EventSlot";
 import CalendarPage from "../CreateEvents/Events/CalendarPage";
 import AllEvents from "../ManageEvents/AllEvents/AllEvents";
@@ -64,7 +65,10 @@ const router = createBrowserRouter([
     element: <Login></Login>,
   },
   {
-    path: "/dashboard",
+    path: "profile",
+    element: <UserProfile />,
+  },
+  {
     element: <Dashboard></Dashboard>,
     children: [
       {

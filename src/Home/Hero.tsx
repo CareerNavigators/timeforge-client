@@ -29,7 +29,7 @@ const Hero = () => {
           <h1 className="font-inter text-[30px] lg:text-[50px] font-[600] ">
             Empowering Your Days
             <br /> with{" "}
-            <span className="text-indigo-700">
+            <span className="text-dt">
               <TypeAnimation
                 preRenderFirstString={false}
                 sequence={[`TimeForge`, 500, ""]}

@@ -25,7 +25,7 @@ const Footer = () => {
     </>
   );
   return (
-    <footer className="bg-white">
+    <footer className="bg-white dark:bg-d1">
       <hr className="mx-auto max-w-screen-xl text-gray-600"></hr>
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="sm:flex sm:justify-between">

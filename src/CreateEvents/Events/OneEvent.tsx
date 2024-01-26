@@ -1,14 +1,13 @@
+
 import { Form, Input, Select, Divider } from "antd";
 import { ChangeEvent, useState } from "react";
 import { IoTimeOutline } from "react-icons/io5";
 import { AiFillAudio } from "react-icons/ai";
 import { FaVideo } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-
 const { TextArea } = Input;
-
 const OneEvent = () => {
   const isLargeScreen = window.innerWidth > 768;
   const [isAudioSelected, setIsAudioSelected] = useState(false);
@@ -50,6 +49,7 @@ const OneEvent = () => {
       console.log(newEvent);
 
       if (newEvent) {
+        toast.success(`${eventName} is added to the Events.`);
         // toast.success(`${eventName} is added to the Events.`);
         navigate("/calendarPage");
       }
@@ -59,7 +59,7 @@ const OneEvent = () => {
   };
 
   return (
-    <div className="w-full lg:h-[80vh] pt-10 mb-20 lg:mb-0 lg:pt-0 flex flex-col lg:flex-row justify-center items-center bg-slate-50">
+    <div className="w-full lg:h-[80vh] pt-10 mb-20 lg:mb-0 lg:pt-0 flex flex-col lg:flex-row justify-center items-center bg-slate-50 dark:bg-d tin">
       {/* Input part */}
       <div className="h-full lg:m-0 m-5 flex items-center">
         <Form
@@ -70,7 +70,7 @@ const OneEvent = () => {
             minWidth: isLargeScreen ? 500 : "auto",
             minHeight: isLargeScreen ? 600 : "auto",
           }}
-          className="p-10 lg:border-r-2 border-r-violet-400 bg-white"
+          className="p-10 lg:border-r-2 border-r-violet-400 bg-white  dark:bg-d1 dark:text-dw tin"
           onFinish={handleSubmit}
         >
           <div className="lg:h-[28rem]">
@@ -101,7 +101,7 @@ const OneEvent = () => {
               <div className="w-full flex gap-2">
                 <span
                   onClick={handleAudioSelection}
-                  className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center ${
+                  className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
                     isAudioSelected
                       ? "border-violet-600 text-violet-600"
                       : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
@@ -114,7 +114,7 @@ const OneEvent = () => {
 
                 <span
                   onClick={handleVideoSelection}
-                  className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center ${
+                  className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
                     isVideoSelected
                       ? "border-violet-600 text-violet-600"
                       : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
@@ -145,7 +145,7 @@ const OneEvent = () => {
           <Form.Item className="flex justify-center">
             <button
               type="submit"
-              className="px-3 py-1 rounded-md border-2 font-semibold transition-all ease-in-out hover:border-violet-600 hover:text-violet-600"
+              className="px-3 py-1 rounded-md border-2 font-semibold transition-all ease-in-out hover:border-violet-600 hover:text-violet-600 dark:bg-[#ede9fe]"
             >
               Continue
             </button>
@@ -156,7 +156,7 @@ const OneEvent = () => {
       {/* preview part */}
       <div className="bg-white w-fit lg:h-[600px] lg:p-10">
         <div className="lg:px-0 px-5 pt-5">
-          <h3 className="lg:text-md text-sm font-semibold bg-violet-100 p-3 rounded text-violet-800">
+          <h3 className="lg:text-md text-sm font-semibold bg-violet-100 p-3 rounded text-violet-800 dark:bg-d1 tin">
             This is a preview. To book an event, share the link with your
             invitees.
           </h3>
