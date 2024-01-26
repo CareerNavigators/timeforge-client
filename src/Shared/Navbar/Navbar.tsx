@@ -6,11 +6,9 @@ import { Drawer } from "antd";
 import { useState } from "react";
 import DarkModeToggle from "../../Components/DarkModeToggle/DarkModeToggle";
 import AvatarMenu from "../../Components/AvatarMenu/AvaterMenu";
-
-
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const [placement] = useState<DrawerProps["placement"]>("bottom");
+  const [placement] = useState<DrawerProps["placement"]>("top");
 
   const showDrawer = () => {
     setOpen(true);
@@ -19,18 +17,22 @@ const Navbar: React.FC = () => {
   const onClose = () => {
     setOpen(false);
   };
-  // common links
   const links = (
     <>
-      <li className="text-sm font-semibold hover:text-dt">
-        <NavLink to="/createEvent">Create new Event</NavLink>
+      <li className='text-sm font-semibold hover:text-dt'>
+        <NavLink to='/createEvent'>Create new Event</NavLink>
       </li>
-      <li className="text-sm font-semibold hover:text-dt">
-        <NavLink to="/allEvents">All Events</NavLink>
+      <li className='text-sm font-semibold hover:text-dt'>
+        <NavLink to='/allEvents'>All Events</NavLink>
       </li>
-      <li className="text-sm font-semibold hover:text-dt">
-        <NavLink to="/aboutUs">About Us</NavLink>
+      <li className='text-sm font-semibold hover:text-dt'>
+        <NavLink to='/aboutUs'>About Us</NavLink>
       </li>
+      <li className='text-xs font-semibold py-2 px-5 border hover:text-white hover:transition-all hover:bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] duration-300'>
+        <NavLink to='/login'>Login</NavLink>
+      </li>
+      <li className='text-xs font-semibold text-white py-2 px-5 border bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] cursor-pointer '>
+        <NavLink to='/signup'>Register</NavLink>
       <li className="text-sm font-semibold hover:text-dt">
         <NavLink to="/dashboard">Dashboard</NavLink>
       </li>
@@ -63,22 +65,22 @@ const Navbar: React.FC = () => {
               </ul>
             </nav>
 
-            <div className="flex items-center gap-4">
-              <div className="block md:hidden">
+            <div className='flex items-center gap-4'>
+              <div className='block lg:hidden'>
                 <button
                   onClick={showDrawer}
-                  className="rounded bg-[#9181F4] p-2 text-gray-200 transition hover:text-gray-600/75">
+                  className='rounded bg-gradient-to-r from-[#9181F4] to-[#5038ED] p-2 text-gray-200 transition hover:text-gray-600/75'>
                   <FaAlignJustify></FaAlignJustify>
                 </button>
                 <Drawer
-                  className="dark:bg-d1 dark:text-dw"
+                  className='dark:bg-d1 dark:text-dw'
                   height={115}
                   placement={placement}
                   closable={false}
                   onClose={onClose}
                   open={open}
                   key={placement}>
-                  <ul className="flex flex-wrap items-center justify-center gap-4 text-sm">
+                  <ul className='flex flex-wrap items-center justify-center gap-4 text-sm'>
                     {links} <DarkModeToggle />
                   </ul>
                 </Drawer>

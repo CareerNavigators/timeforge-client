@@ -36,22 +36,22 @@ const AboutUs: React.FC = () => {
                 <p className='text-xl font-semibold'>
                   MD. Huzaifa
                 </p>
-                <p>Backend Developer(TL)</p>
+                <p>Web Developer</p>
               </div>
               <div className='flex items-center justify-center p-3 space-x-3 border-t-2'>
                 <a
                   title='Email'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaMailBulk></FaMailBulk>
                 </a>
                 <a
                   title='Linkedin'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaLinkedin></FaLinkedin>
                 </a>
                 <a
                   title='Github'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaGithub></FaGithub>
                 </a>
               </div>
@@ -66,22 +66,22 @@ const AboutUs: React.FC = () => {
               />
               <div className='flex-1 my-4'>
                 <p className='text-xl font-semibold'>Rohan Rouf</p>
-                <p>Frontend Developer</p>
+                <p>Web Developer</p>
               </div>
               <div className='flex items-center justify-center p-3 space-x-3 border-t-2'>
                 <a
                   title='Email'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaMailBulk></FaMailBulk>
                 </a>
                 <a
                   title='Linkedin'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaLinkedin></FaLinkedin>
                 </a>
                 <a
                   title='Github'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaGithub></FaGithub>
                 </a>
               </div>
@@ -96,22 +96,22 @@ const AboutUs: React.FC = () => {
               />
               <div className='flex-1 my-4'>
                 <p className='text-xl font-semibold'>MD. Sakib</p>
-                <p>Frontend Developer</p>
+                <p>Web Developer</p>
               </div>
               <div className='flex items-center justify-center p-3 space-x-3 border-t-2'>
                 <a
                   title='Email'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaMailBulk></FaMailBulk>
                 </a>
                 <a
                   title='Linkedin'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaLinkedin></FaLinkedin>
                 </a>
                 <a
                   title='Github'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaGithub></FaGithub>
                 </a>
               </div>
@@ -126,22 +126,22 @@ const AboutUs: React.FC = () => {
               />
               <div className='flex-1 my-4'>
                 <p className='text-xl font-semibold'>Shabbir Hossain</p>
-                <p>Frontend Developer</p>
+                <p>Web Developer</p>
               </div>
               <div className='flex items-center justify-center p-3 space-x-3 border-t-2'>
                 <a
                   title='Email'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaMailBulk></FaMailBulk>
                 </a>
                 <a
                   title='Linkedin'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaLinkedin></FaLinkedin>
                 </a>
                 <a
                   title='Github'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaGithub></FaGithub>
                 </a>
               </div>
@@ -156,22 +156,22 @@ const AboutUs: React.FC = () => {
               />
               <div className='flex-1 my-4'>
                 <p className='text-xl font-semibold'>Tanzil Rayhan</p>
-                <p>Frontend Developer</p>
+                <p>Web Developer</p>
               </div>
               <div className='flex items-center justify-center p-3 space-x-3 border-t-2'>
                 <a
                   title='Email'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaMailBulk></FaMailBulk>
                 </a>
                 <a
                   title='Linkedin'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaLinkedin></FaLinkedin>
                 </a>
                 <a
                   title='Github'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaGithub></FaGithub>
                 </a>
               </div>
@@ -188,22 +188,22 @@ const AboutUs: React.FC = () => {
                 <p className='text-xl font-semibold'>
                   Fazlul Karim Hridoy
                 </p>
-                <p>Backend Developer</p>
+                <p>Web Developer</p>
               </div>
               <div className='flex items-center justify-center p-3 space-x-3 border-t-2'>
                 <a
                   title='Email'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaMailBulk></FaMailBulk>
                 </a>
                 <a
                   title='Linkedin'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaLinkedin></FaLinkedin>
                 </a>
                 <a
                   title='Github'
-                  className='text-gray-50 text-xl hover:text-violet-400'>
+                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
                   <FaGithub></FaGithub>
                 </a>
               </div>
