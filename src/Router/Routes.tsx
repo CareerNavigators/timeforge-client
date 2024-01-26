@@ -8,6 +8,7 @@ import OneEvent from "../CreateEvents/Events/OneEvent";
 import EventSlot from "../Components/EventSlot/EventSlot";
 import AllEvents from "../ManageEvents/AllEvents/AllEvents";
 import EventDetails from "../ManageEvents/AllEvents/EventDetails";
+import AboutUs from "../AboutUs/AboutUs";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/eventDetails",
         element: <EventDetails></EventDetails>,
+      },
+      {
+        path: "/aboutUs",
+        element: <AboutUs></AboutUs>
       }
     ],
   },
