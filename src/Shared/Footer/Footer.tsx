@@ -4,23 +4,11 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   const links = (
     <>
-      <Link to="/privacy">
-        <li className="text-sm font-medium">Privacy</li>
+      <Link to="/about">
+        <li className="text-sm font-medium hover:text-dt">About Us</li>
       </Link>
-      <Link to="/termsAndConditions">
-        <li className="text-sm font-medium">Terms and Conditions</li>
-      </Link>
-      <Link to="/status">
-        <li className="text-sm font-medium">Status</li>
-      </Link>
-      <Link to="/security">
-        <li className="text-sm font-medium">Security</li>
-      </Link>
-      <Link to="/cookieSettings">
-        <li className="text-sm font-medium">Cookie Settings</li>
-      </Link>
-      <Link to="/yourPrivacyChoices">
-        <li className="text-sm font-medium">Your Privacy Choices</li>
+      <Link to="/contactUs">
+        <li className="text-sm font-medium hover:text-dt">Contact Us</li>
       </Link>
     </>
   );
