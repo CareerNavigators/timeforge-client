@@ -61,6 +61,14 @@ const router = createBrowserRouter([
         path: "/dashboard",
         element: <Title>TIME FORGE</Title>,
       },
+      {
+        path: "/dashboard/createEvent",
+        element: <CreateEvents></CreateEvents>,
+      },
+      {
+        path: "/dashboard/allEvents",
+        element: <AllEvents></AllEvents>,
+      },
     ],
   },
   {

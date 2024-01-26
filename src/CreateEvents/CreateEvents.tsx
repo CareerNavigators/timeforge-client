@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const CreateEvents = () => {
   return (
-    <div className="w-full h-screen mt-10 space-y-5 flex flex-col items-center">
+    <div className="w-full mt-20 mb-36 space-y-5 flex flex-col items-center">
       <div className="text-center space-y-3">
         <h3 className="text-3xl font-bold">Create Events</h3>
         <h3 className="text-2xl font-semibold">Event Type</h3>
