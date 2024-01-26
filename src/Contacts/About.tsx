@@ -1,4 +1,4 @@
-const AboutUs = () => {
+const About = () => {
   return (
     <div className="bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 pt-24 p-10 lg:px-40 min-h-screen">
       <div className="flex flex-col font-poppins lg:flex-row items-center justify-between">
@@ -189,4 +189,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default About;
