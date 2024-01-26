@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
         <NavLink to="/aboutUs">About Us</NavLink>
       </li>
       <li className="text-sm font-semibold hover:text-dt">
-        <NavLink to="/resources">Resources</NavLink>
+        <NavLink to="/dashboard">Dashboard</NavLink>
       </li>
       <Link
         to="/login"
