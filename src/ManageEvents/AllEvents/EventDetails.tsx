@@ -23,11 +23,11 @@ const EventDetails: React.FC = () => {
   };
 
   return (
-    <div className='h-dvh'>
+    <div className='mb-10'>
       <h1 className='text-3xl font-bold text-center mt-5'>
         Preview Of Details Page
       </h1>
-      <div className='max-w-5xl mx-auto h-[550px] shadow-md rounded-md mt-5 flex'>
+      <div className='max-w-5xl mx-auto shadow-md rounded-md mt-5 flex'>
         <div className='w-1/3 px-6 py-4 border-r'>
           <h4 className='text-gray-400 font-medium'>Author Name</h4>
           <h2 className='text-3xl font-semibold'>Event Name</h2>
@@ -85,84 +85,84 @@ const EventDetails: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className='max-w-5xl mx-auto h-[150px] shadow-md rounded-md mt-10'>
+      <div className='max-w-5xl mx-auto shadow-md rounded-md mt-10 pb-10'>
         <h4 className='font-semibold p-4'>All Participants</h4>
         <div className="flex flex-wrap justify-center gap-3 pl-3">
-          <div className='px-2 flex items-center gap-2 rounded-md border hover:border-black'>
+          <div className='px-2 py-1 flex items-center gap-2 rounded-md border hover:border-black'>
             <img
-              className='w-6'
+              className='w-6 rounded-full'
               src='https://i.ibb.co/MgGM9ky/istockphoto-1337144146-612x612.jpg'
               alt='participant-image'
             />
             <p className='text-sm font-semibold'>abc@gmail.com</p>
             <FaTimes className='text-xs hover:cursor-pointer'></FaTimes>
           </div>
-          <div className='px-2 flex items-center gap-2 rounded-md border hover:border-black'>
+          <div className='px-2 py-1 flex items-center gap-2 rounded-md border hover:border-black'>
             <img
-              className='w-6'
+              className='w-6 rounded-full'
               src='https://i.ibb.co/MgGM9ky/istockphoto-1337144146-612x612.jpg'
               alt='participant-image'
             />
             <p className='text-sm font-semibold'>abc@gmail.com</p>
             <FaTimes className='text-xs hover:cursor-pointer'></FaTimes>
           </div>
-          <div className='px-2 flex items-center gap-2 rounded-md border hover:border-black'>
+          <div className='px-2 py-1 flex items-center gap-2 rounded-md border hover:border-black'>
             <img
-              className='w-6'
+              className='w-6 rounded-full'
               src='https://i.ibb.co/MgGM9ky/istockphoto-1337144146-612x612.jpg'
               alt='participant-image'
             />
             <p className='text-sm font-semibold'>abc@gmail.com</p>
             <FaTimes className='text-xs hover:cursor-pointer'></FaTimes>
           </div>
-          <div className='px-2 flex items-center gap-2 rounded-md border hover:border-black'>
+          <div className='px-2 py-1 flex items-center gap-2 rounded-md border hover:border-black'>
             <img
-              className='w-6'
+              className='w-6 rounded-full'
               src='https://i.ibb.co/MgGM9ky/istockphoto-1337144146-612x612.jpg'
               alt='participant-image'
             />
             <p className='text-sm font-semibold'>abc@gmail.com</p>
             <FaTimes className='text-xs hover:cursor-pointer'></FaTimes>
           </div>
-          <div className='px-2 flex items-center gap-2 rounded-md border hover:border-black'>
+          <div className='px-2 py-1 flex items-center gap-2 rounded-md border hover:border-black'>
             <img
-              className='w-6'
+              className='w-6 rounded-full'
               src='https://i.ibb.co/MgGM9ky/istockphoto-1337144146-612x612.jpg'
               alt='participant-image'
             />
             <p className='text-sm font-semibold'>abc@gmail.com</p>
             <FaTimes className='text-xs hover:cursor-pointer'></FaTimes>
           </div>
-          <div className='px-2 flex items-center gap-2 rounded-md border hover:border-black'>
+          <div className='px-2 py-1 flex items-center gap-2 rounded-md border hover:border-black'>
             <img
-              className='w-6'
+              className='w-6 rounded-full'
               src='https://i.ibb.co/MgGM9ky/istockphoto-1337144146-612x612.jpg'
               alt='participant-image'
             />
             <p className='text-sm font-semibold'>abc@gmail.com</p>
             <FaTimes className='text-xs hover:cursor-pointer hover:border-black'></FaTimes>
           </div>
-          <div className='px-2 flex items-center gap-2 rounded-md border hover:border-black'>
+          <div className='px-2 py-1 flex items-center gap-2 rounded-md border hover:border-black'>
             <img
-              className='w-6'
+              className='w-6 rounded-full'
               src='https://i.ibb.co/MgGM9ky/istockphoto-1337144146-612x612.jpg'
               alt='participant-image'
             />
             <p className='text-sm font-semibold'>abc@gmail.com</p>
             <FaTimes className='text-xs hover:cursor-pointer hover:border-black'></FaTimes>
           </div>
-          <div className='px-2 flex items-center gap-2 rounded-md border hover:border-black'>
+          <div className='px-2 py-1 flex items-center gap-2 rounded-md border hover:border-black'>
             <img
-              className='w-6'
+              className='w-6 rounded-full'
               src='https://i.ibb.co/MgGM9ky/istockphoto-1337144146-612x612.jpg'
               alt='participant-image'
             />
             <p className='text-sm font-semibold'>abc@gmail.com</p>
             <FaTimes className='text-xs hover:cursor-pointer'></FaTimes>
           </div>
-          <div className='px-2 flex items-center gap-2 rounded-md border hover:border-black'>
+          <div className='px-2 py-1 flex items-center gap-2 rounded-md border hover:border-black'>
             <img
-              className='w-6'
+              className='w-6 rounded-full'
               src='https://i.ibb.co/MgGM9ky/istockphoto-1337144146-612x612.jpg'
               alt='participant-image'
             />
