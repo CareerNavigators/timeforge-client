@@ -16,8 +16,7 @@ import Error from "../Error/Error";
 import Pricing from "../Pages/Pricing";
 import ContactUs from "../Contacts/ContactUs";
 import AboutUs from "../AboutUs/AboutUs";
-import About from "../Contacts/AboutUs"
-
+import About from "../Contacts/About";
 
 const router = createBrowserRouter([
   {
@@ -50,8 +49,8 @@ const router = createBrowserRouter([
         element: <EventDetails></EventDetails>,
       },
       {
-        path:"/pricing",
-        element:<Pricing></Pricing>
+        path: "/pricing",
+        element: <Pricing></Pricing>,
       },
       {
         path: "/contactUs",
@@ -59,11 +58,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/aboutUs",
-        element: <AboutUs></AboutUs>
+        element: <AboutUs></AboutUs>,
       },
       {
         path: "/about",
-        element: <About></About>
+        element: <About></About>,
       },
     ],
   },
