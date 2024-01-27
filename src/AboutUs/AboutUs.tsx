@@ -29,7 +29,7 @@ const AboutUs: React.FC = () => {
             <div className='flex flex-col justify-center w-full px-8 mx-6 my-12 text-center rounded-md md:w-96 lg:w-80 xl:w-64 bg-gradient-to-r from-[#9181F4] to-[#5038ED] text-gray-100'>
               <img
                 alt='huzaifa-img'
-                className='self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full bg-gray-500'
+                className='self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover object-cover rounded-full bg-gray-500'
                 src={huzaifa}
               />
               <div className='flex-1 my-4'>
@@ -91,7 +91,7 @@ const AboutUs: React.FC = () => {
             <div className='flex flex-col justify-center w-full px-8 mx-6 my-12 text-center rounded-md md:w-96 lg:w-80 xl:w-64 bg-gradient-to-r from-[#9181F4] to-[#5038ED] text-gray-100'>
               <img
                 alt='sakib-img'
-                className='self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full bg-gray-500'
+                className='self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover object-cover rounded-full bg-gray-500'
                 src={sakib}
               />
               <div className='flex-1 my-4'>
