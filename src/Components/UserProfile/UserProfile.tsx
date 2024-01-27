@@ -186,7 +186,8 @@ const Profile: React.FC = () => {
   return (
     <motion.div
       animate={controls}
-      className="container h-screen p-4 mx-auto dark:bg-d">
+      className="container h-screen p-4 mx-auto dark:bg-d"
+    >
       {loadingProfile && (
         <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-white dark:bg-d ">
           <div className="flex items-center justify-center space-x-2">
@@ -211,7 +212,8 @@ const Profile: React.FC = () => {
           {isEditing && (
             <label
               htmlFor="coverPhoto"
-              className="absolute cursor-pointer top-2 right-2">
+              className="absolute cursor-pointer top-2 right-2"
+            >
               <AiOutlineEdit size={24} />
             </label>
           )}
@@ -227,7 +229,8 @@ const Profile: React.FC = () => {
           <div className="absolute bottom-4 right-4">
             <button
               className="px-4 py-2 font-bold text-white transition duration-300 ease-in-out bg-blue-500 rounded-full hover:bg-blue-700"
-              onClick={handleEdit}>
+              onClick={handleEdit}
+            >
               <FaRegEdit size={24} />
             </button>
           </div>
@@ -248,7 +251,8 @@ const Profile: React.FC = () => {
             {isEditing && (
               <label
                 htmlFor="profilePhoto"
-                className="absolute top-0 right-0 cursor-pointer">
+                className="absolute top-0 right-0 cursor-pointer"
+              >
                 <AiOutlineEdit size={18} onClick={handleEdit} />
               </label>
             )}
@@ -267,7 +271,8 @@ const Profile: React.FC = () => {
       <div
         className={`bg-gray-200 dark:bg-d1 p-4 rounded-md ${
           isEditing ? "editing" : ""
-        }`}>
+        }`}
+      >
         <div className="mb-4">
           <p>Email: {userProfile?.email}</p>
         </div>
@@ -304,13 +309,15 @@ const Profile: React.FC = () => {
           <button
             className="px-4 py-2 text-white bg-blue-500 rounded"
             onClick={handleSave}
-            disabled={loadingProfile || loadingImageUpload}>
+            disabled={loadingProfile || loadingImageUpload}
+          >
             Save Changes
           </button>
           <button
             className="px-4 py-2 ml-2 text-white bg-gray-500 rounded"
             onClick={handleCancel}
-            disabled={loadingProfile || loadingImageUpload}>
+            disabled={loadingProfile || loadingImageUpload}
+          >
             Cancel
           </button>
         </div>
