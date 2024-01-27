@@ -6,29 +6,30 @@ import {
   FaPhone,
   FaTimes,
 } from "react-icons/fa";
-import type { Dayjs } from "dayjs";
-import { Calendar, theme } from "antd";
-import type { CalendarProps } from "antd";
+// import type { Dayjs } from "dayjs";
+// import { Calendar, theme } from "antd";
+// import type { CalendarProps } from "antd";
+import CalendarPage from "../../CreateEvents/Events/CalendarPage";
 
 const EventDetails: React.FC = () => {
-  const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
-    console.log(value.format("YYYY-MM-DD"), mode);
-  };
-  const { token } = theme.useToken();
-  const wrapperStyle: React.CSSProperties = {
-    width: 500,
-    height: 400,
-    border: `1px solid ${token.colorBorderSecondary}`,
-    borderRadius: token.borderRadiusLG,
-  };
+  // const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
+  //   console.log(value.format("YYYY-MM-DD"), mode);
+  // };
+  // const { token } = theme.useToken();
+  // const wrapperStyle: React.CSSProperties = {
+  //   width: 500,
+  //   height: 400,
+  //   border: `1px solid ${token.colorBorderSecondary}`,
+  //   borderRadius: token.borderRadiusLG,
+  // };
 
   return (
     <div className='mb-10'>
       <h1 className='text-3xl font-bold text-center mt-5'>
         Preview Of Details Page
       </h1>
-      <div className='max-w-5xl mx-auto shadow-md rounded-md mt-5 flex'>
-        <div className='w-1/3 px-6 py-4 border-r'>
+      <div className='max-w-5xl mx-auto shadow-md rounded-md mt-5 flex flex-col md:flex-row'>
+        <div className='sm:w-1/3 px-6 py-4 border-r'>
           <h4 className='text-gray-400 font-medium'>Author Name</h4>
           <h2 className='text-3xl font-semibold'>Event Name</h2>
           <div className='flex items-center gap-2 text-lg text-gray-400 font-medium mt-5'>
@@ -45,9 +46,9 @@ const EventDetails: React.FC = () => {
           </div>
         </div>
 
-        <div className='w-3/4 px-6 py-4'>
+        <div className='sm:w-3/4 px-6 py-4 mt-20 md:mt-0'>
           <h3 className='text-2xl font-semibold'>Select a Date & Time</h3>
-          <div className='flex mt-5'>
+          {/* <div className='flex mt-5'>
             <div>
               <div className='w-3/4' style={wrapperStyle}>
                 <Calendar fullscreen={false} onPanelChange={onPanelChange} />
@@ -82,12 +83,23 @@ const EventDetails: React.FC = () => {
                 1.00pm
               </button>
             </div>
+          </div> */}
+          <div className='h-full md:max-h-[600px]  w-full md:overflow-y-scroll'>
+            <CalendarPage></CalendarPage>
+          </div>
+          <div className="mt-20 md:mt-5">
+            <h4 className='font-semibold mt-2'>Time zone</h4>
+            <div className='flex items-center gap-2'>
+              <FaGlobeAsia></FaGlobeAsia>
+              <p>Asia/Dhaka(1:43)</p>
+              <FaChevronDown></FaChevronDown>
+            </div>
           </div>
         </div>
       </div>
       <div className='max-w-5xl mx-auto shadow-md rounded-md mt-10 pb-10'>
         <h4 className='font-semibold p-4'>All Participants</h4>
-        <div className="flex flex-wrap justify-center gap-3 pl-3">
+        <div className='flex flex-wrap justify-center gap-3 pl-3'>
           <div className='px-2 py-1 flex items-center gap-2 rounded-md border hover:border-black'>
             <img
               className='w-6 rounded-full'

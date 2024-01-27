@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FiHome, FiUnlock, FiUser } from "react-icons/fi";
 import { LuEye, LuEyeOff, LuLogIn } from "react-icons/lu";
@@ -14,7 +14,7 @@ import { HiOutlineMail } from "react-icons/hi";
 import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthContext";
 import usePfp from "../Hook/getPfp";
-import AvatarMenu from "../Components/AvatarMenu/AvaterMenu";
+import axios from "axios";
 
 const SignUp = () => {
   const { user, createUser, setLoading, googleSignIn, handleUpdateProfile } =
@@ -23,7 +23,10 @@ const SignUp = () => {
   const location = useLocation();
   const from = location?.state?.from?.pathname || "/";
   const pfp = usePfp();
-  console.log(user?.photoURL);
+  const [country, setCountry] = useState("");
+
+  const [timezone, setTimezone] = useState("");
+  console.log(country, timezone);
   interface FormEvent extends React.FormEvent<HTMLFormElement> {
     target: HTMLFormElement & {
       email: {
@@ -41,13 +44,48 @@ const SignUp = () => {
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordLength(e.target.value.length);
   };
+  // get country
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${
+          import.meta.env.VITE_OPENCAGE_API
+        }`;
+
+        fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            const retrievedCountry =
+              data.results[0].components.country || "Unknown";
+            const retrievedTimezone =
+              data.results[0].annotations.timezone.name || "Unknown";
+            setCountry(retrievedCountry);
+            setTimezone(retrievedTimezone);
+          })
+          .catch((error) => {
+            console.error("Error fetching geocoding data:", error.message);
+            setCountry("Error");
+            setTimezone("Error");
+          });
+      },
+      (error) => {
+        console.error("Error getting geolocation:", error.message);
+        setCountry("Error");
+        setTimezone("Error");
+      }
+    );
+  }, []);
   // handle signUp
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
+
     const formData = new FormData(e.target);
     const email = formData.get("email");
     const username = formData.get("username");
     const password = formData.get("password");
+
     if (!username) {
       toast.error("Please enter your Username");
       return;
@@ -85,13 +123,33 @@ const SignUp = () => {
       const name = username;
       const imageLink = pfp;
       await handleUpdateProfile(name, imageLink);
+      const userData = {
+        name: name,
+        email: email,
+        country: country,
+        timeZone: timezone,
+        img_profile: imageLink,
+      };
+      await axios
+        .post(`${import.meta.env.VITE_BACK_END_API}/user`, userData)
+        .then((response) => {
+          console.log(response);
+          localStorage.setItem(
+            "user",
+            JSON.stringify({ email: userData.email, id: response.data._id })
+          );
+        });
       navigate(from, { replace: true });
       toast.success("Secure Access, Unlimited Smiles!");
       setLoading(false);
     } catch (error: any) {
       console.error(error);
+
       if (error.code === "auth/email-already-in-use") {
         toast.error("Email already exists. Please try with a new email.");
+      } else {
+        console.error("An unexpected error occurred:", error);
+        throw new Error("Unexpected error occurred");
       }
     }
   };
@@ -100,6 +158,23 @@ const SignUp = () => {
   const handleGoogle = async () => {
     try {
       await googleSignIn();
+
+      const userData = {
+        name: user?.displayName,
+        email: user?.email,
+        country: country,
+        timeZone: timezone,
+        img_profile: user?.photoURL,
+      };
+
+      await axios
+        .post(`${import.meta.env.VITE_BACK_END_API}/user`, userData)
+        .then((response) => {
+          localStorage.setItem(
+            "user",
+            JSON.stringify({ email: userData.email, id: response.data._id })
+          );
+        });
       toast.success("Secure Access, Unlimited Smiles!");
       navigate(from, { replace: true });
     } catch (error) {
@@ -185,8 +260,6 @@ const SignUp = () => {
                 name="username"
               />
             </div>
-          <AvatarMenu/>
-
             <div className="relative mb-4">
               <HiOutlineMail className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
               <input

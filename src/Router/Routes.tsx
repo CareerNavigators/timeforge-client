@@ -13,6 +13,7 @@ import CalendarPage from "../CreateEvents/Events/CalendarPage";
 import AllEvents from "../ManageEvents/AllEvents/AllEvents";
 import EventDetails from "../ManageEvents/AllEvents/EventDetails";
 import Error from "../Error/Error";
+import Pricing from "../Pages/Pricing";
 import ContactUs from "../Contacts/ContactUs";
 import AboutUs from "../AboutUs/AboutUs";
 import About from "../Contacts/About";
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
         element: <EventDetails></EventDetails>,
       },
       {
+        path: "/pricing",
+        element: <Pricing></Pricing>,
+      },
+      {
         path: "/contactUs",
         element: <ContactUs></ContactUs>,
       },
@@ -56,9 +61,9 @@ const router = createBrowserRouter([
         element: <AboutUs></AboutUs>,
       },
       {
-        path:"/about",
-        element:<About></About>
-      }
+        path: "/about",
+        element: <About></About>,
+      },
     ],
   },
   {
