@@ -10,7 +10,7 @@
   .ant-modal-footer
   > .ant-btn
   + .ant-btn:hover {
-  background-color: rgb(168, 120, 250);
+  background-color: rgb(147, 88, 250)
 }
 
 .ant-btn.css-dev-only-do-not-override-1qhpsh8.ant-btn-default:hover {
