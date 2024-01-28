@@ -4,7 +4,7 @@ import type { CalendarProps } from "antd";
 import { Badge, Calendar, Modal } from "antd";
 import DropDownCal from "./DropDownCal";
 import toast from "react-hot-toast";
-import "./style.css";
+import "./CalenderPageStyle.css";
 
 interface EventItem {
   content: string;
