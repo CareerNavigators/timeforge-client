@@ -30,7 +30,10 @@ const EventSlot = () => {
             </div>
           </div>
           <section className="w-2/3 my-20 shadow-md rounded-lg">
-            <CalendarPage></CalendarPage>
+            <CalendarPage
+              selectedTimes={{}}
+              onSelectTime={function (): void {}}
+            ></CalendarPage>
           </section>
         </div>
       </div>

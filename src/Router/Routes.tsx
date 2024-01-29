@@ -38,7 +38,12 @@ const router = createBrowserRouter([
       },
       {
         path: "/calendarPage",
-        element: <CalendarPage></CalendarPage>,
+        element: (
+          <CalendarPage
+            selectedTimes={{}}
+            onSelectTime={function (): void {}}
+          ></CalendarPage>
+        ),
       },
       {
         path: "/allEvents",
