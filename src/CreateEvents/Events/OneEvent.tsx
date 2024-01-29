@@ -1,12 +1,13 @@
-
 import { Form, Input, Select, Divider } from "antd";
 import { ChangeEvent, useState } from "react";
 import { IoTimeOutline } from "react-icons/io5";
 import { AiFillAudio } from "react-icons/ai";
 import { FaVideo } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+// import Testing from "./TimeSelector";
+
 const { TextArea } = Input;
 const OneEvent = () => {
   const isLargeScreen = window.innerWidth > 768;
@@ -49,7 +50,6 @@ const OneEvent = () => {
       console.log(newEvent);
 
       if (newEvent) {
-        toast.success(`${eventName} is added to the Events.`);
         // toast.success(`${eventName} is added to the Events.`);
         navigate("/calendarPage");
       }
@@ -126,6 +126,10 @@ const OneEvent = () => {
                 </span>
               </div>
             </Form.Item>
+
+            {/* <Form.Item>
+              <Testing></Testing>
+            </Form.Item> */}
 
             <Form.Item
               label="Description"

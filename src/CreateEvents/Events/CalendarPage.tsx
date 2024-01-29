@@ -1,41 +1,78 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { Dayjs } from "dayjs";
 import type { CalendarProps } from "antd";
 import { Badge, Calendar, Modal } from "antd";
-import DropDownCal from "./DropDownCal";
-import toast from "react-hot-toast";
 import "./CalenderPageStyle.css";
 
-interface EventItem {
-  content: string;
+interface CalendarPageProps {
+  selectedTimes: { [date: string]: string[] };
+}
+interface CalendarPageProps {
+  onSelectTime: (times: string[]) => void;
 }
 
-interface EventMap {
-  [key: string]: EventItem[];
-}
-
-const CalendarPage: React.FC = () => {
-  const [event, setEvent] = useState<EventMap>({});
+const CalendarPage: React.FC<CalendarPageProps> = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
+  const [selectedTimes, setSelectedTimes] = useState<{
+    [date: string]: string[];
+  }>({});
 
-  const onSelectTime = (time: string) => {
-    if (!selectedTimes.includes(time)) {
-      setSelectedTimes([...selectedTimes, time]);
-      if (selectedDate) {
-        updateEvent(selectedDate, time);
-      }
-    } else {
-      toast("Already selected");
+  const [modalOpen, setModalOpen] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (modalOpen) {
+      setSelectedTimes({});
+    }
+  }, [modalOpen]);
+
+  const handleCheckboxChange = (time: string) => {
+    const currentDateKey = selectedDate?.format("DDMMYY");
+
+    if (currentDateKey) {
+      const isSelected = selectedTimes[currentDateKey]?.includes(time);
+
+      setSelectedTimes((prevSelectedTimes) => ({
+        ...prevSelectedTimes,
+        [currentDateKey]: isSelected
+          ? prevSelectedTimes[currentDateKey]?.filter(
+              (selectedTime) => selectedTime !== time
+            ) || []
+          : [...(prevSelectedTimes[currentDateKey] || []), time],
+      }));
     }
   };
-  const showModal = () => {
-    setIsModalVisible(true);
+
+  const generateTimes = (
+    startHour: number,
+    endHour: number,
+    interval: number
+  ) => {
+    const times: string[] = [];
+    for (let hour = startHour; hour <= endHour; hour++) {
+      for (let minute = 0; minute < 60; minute += interval) {
+        const formattedTime = `${hour % 12 || 12}:${
+          minute === 0 ? "00" : minute
+        } ${hour >= 12 ? "PM" : "AM"}`;
+        times.push(formattedTime);
+      }
+    }
+    return times;
   };
 
+  const times: string[] = generateTimes(9, 16, 30);
+
   const handleOk = () => {
+    const dateKey = selectedDate?.format("DDMMYY");
+    const timesForSelectedDate = selectedTimes[dateKey || ""] || [];
+    onSelectTime(timesForSelectedDate);
+    setModalOpen(false);
     setIsModalVisible(false);
+  };
+
+  const showModal = (date: Dayjs) => {
+    setSelectedDate(date);
+    setIsModalVisible(true);
   };
 
   const handleCancel = () => {
@@ -44,41 +81,27 @@ const CalendarPage: React.FC = () => {
 
   const onSelect = (date: Dayjs, info: { source: string }) => {
     if (info.source === "date") {
-      showModal();
-      setSelectedDate(date);
-      setSelectedTimes([]);
+      showModal(date);
     }
   };
 
-  const updateEvent = (date: Dayjs, time: string) => {
-    const newEvent = { ...event };
-
-    const inside: EventItem = { content: time || "" };
-    const dateKey = date.format("DDMMYY");
-
-    if (newEvent[dateKey]) {
-      const isTimeAlreadySelected = newEvent[dateKey].some(
-        (item) => item.content === time
-      );
-
-      if (!isTimeAlreadySelected) {
-        newEvent[dateKey].push(inside);
-      }
-    } else {
-      newEvent[dateKey] = [inside];
-    }
-
-    setEvent(newEvent);
+  const onSelectTime = (times: string[]) => {
+    const dateKey = selectedDate?.format("DDMMYY") || "";
+    setSelectedTimes({
+      ...selectedTimes,
+      [dateKey]: times,
+    });
+    setIsModalVisible(false);
   };
 
   const dateCellRender = (value: Dayjs) => {
-    const data = event[value.format("DDMMYY")] || [];
+    const data = selectedTimes[value.format("DDMMYY")] || [];
 
     return (
       <ul className="events">
         {data.map((item, index) => (
           <li key={index}>
-            <Badge status="success" text={item.content} />
+            <Badge status="success" text={item} />
           </li>
         ))}
       </ul>
@@ -105,12 +128,47 @@ const CalendarPage: React.FC = () => {
       >
         <div>
           <ul>
-            {selectedTimes.map((time, index) => (
-              <li key={index}>{time}</li>
-            ))}
+            {selectedDate &&
+              selectedTimes[selectedDate.format("DDMMYY")]?.map(
+                (time, index) => <li key={index}>{time}</li>
+              )}
           </ul>
         </div>
-        <DropDownCal onSelectTime={onSelectTime} />
+        <div>
+          <h3>Select Times:</h3>
+          <ul className="grid grid-cols-4 mb-5 mt-2">
+            {times.map((time) => (
+              <li key={time} className="py-1 mx-auto">
+                <label className="flex w-20 justify-center bg-violet-100 border-[1px] border-violet-500 px-2 py-[2px] rounded">
+                  <input
+                    type="checkbox"
+                    style={{ display: "none" }}
+                    checked={selectedTimes[
+                      selectedDate?.format("DDMMYY") || ""
+                    ]?.includes(time)}
+                    onChange={() => handleCheckboxChange(time)}
+                  />
+                  {time}
+                </label>
+              </li>
+            ))}
+          </ul>
+          <div>
+            <h3>Selected Times:</h3>
+            <ul className="grid grid-cols-6 gap-5">
+              {selectedTimes[selectedDate?.format("DDMMYY") || ""]?.map(
+                (selectedTime) => (
+                  <li
+                    className="border-2 border-violet-100 text-center rounded"
+                    key={selectedTime}
+                  >
+                    {selectedTime}
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+        </div>
       </Modal>
     </div>
   );
