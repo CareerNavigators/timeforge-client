@@ -32,9 +32,7 @@ const EventSlot = () => {
           <section className="w-2/3 my-20 shadow-md rounded-lg">
             <CalendarPage
               selectedTimes={{}}
-              onSelectTime={function (): void {
-                throw new Error("Function not implemented.");
-              }}
+              onSelectTime={function (): void {}}
             ></CalendarPage>
           </section>
         </div>
