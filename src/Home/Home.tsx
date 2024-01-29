@@ -4,12 +4,11 @@ import Schedule from "../Components/Schedule/Schedule";
 
 const Home = () => {
   return (
-    <div className="max-w-[1400px] mx-auto ">
-        <div className="mb-[100px] lg:mb-0">
+    <div className="max-w-[1400px] mx-auto">
+      <div className="mb-[100px] lg:mb-0">
         <Hero></Hero>
-        </div>
-        
-      
+      </div>
+
       <Card></Card>
       <Schedule></Schedule>
     </div>

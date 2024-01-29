@@ -26,7 +26,10 @@ const CreateEvents = () => {
           </div>
         </Link>
 
-        <div className="flex items-center gap-5 p-3 border-2 hover:border-[#5E47EF] rounded cursor-pointer hover:shadow-md hover:shadow-[#5d47ef49] transition-all ease-in-out">
+        <Link
+          to="/createEvent/oneEvent"
+          className="flex items-center gap-5 p-3 border-2 hover:border-[#5E47EF] rounded cursor-pointer hover:shadow-md hover:shadow-[#5d47ef49] transition-all ease-in-out"
+        >
           <BsPeopleFill className="text-4xl text-[#5E47EF] m-4" />
           <div>
             <h3 className="text-xl font-semibold">Group Meeting</h3>
@@ -37,9 +40,12 @@ const CreateEvents = () => {
               Good for: online classes. webinars
             </p>
           </div>
-        </div>
+        </Link>
 
-        <div className="flex items-center gap-5 p-3 border-2 hover:border-[#5E47EF] rounded cursor-pointer hover:shadow-md hover:shadow-[#5d47ef49] transition-all ease-in-out">
+        <Link
+          to="/createEvent/oneEvent"
+          className="flex items-center gap-5 p-3 border-2 hover:border-[#5E47EF] rounded cursor-pointer hover:shadow-md hover:shadow-[#5d47ef49] transition-all ease-in-out"
+        >
           <BsPeopleFill className="text-4xl text-[#5E47EF] m-4" />
           <div>
             <h3 className="text-xl font-semibold">Board Meeting</h3>
@@ -50,7 +56,7 @@ const CreateEvents = () => {
               Good for: panel interviews, viva board
             </p>
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   );
