@@ -118,7 +118,7 @@ const CalendarPage: React.FC<CalendarPageProps> = () => {
     <div className="flex justify-center items-center p-3">
       {isLargeScreen ? (
         <Calendar
-          className="w-full border-2 border-violet-500 mt-10 flex flex-col items-center justify-center mx-auto rounded"
+          className="p-5 rounded-md shadow-xl border-2 border-violet-500"
           onSelect={onSelect}
           cellRender={cellRender}
           mode={"month"}
@@ -126,7 +126,7 @@ const CalendarPage: React.FC<CalendarPageProps> = () => {
         />
       ) : (
         <Calendar
-          className="w-full border-2 border-violet-500 mt-10 flex flex-col items-center justify-center mx-auto rounded"
+          className="w-full border-2 mb-10 border-violet-500 rounded-md"
           onSelect={onSelect}
           cellRender={cellRender}
           mode={"month"}
