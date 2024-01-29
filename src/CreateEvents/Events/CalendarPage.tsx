@@ -13,6 +13,7 @@ interface CalendarPageProps {
 
 const CalendarPage: React.FC<CalendarPageProps> = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const isLargeScreen = window.innerWidth > 768;
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [selectedTimes, setSelectedTimes] = useState<{
     [date: string]: string[];
@@ -114,12 +115,24 @@ const CalendarPage: React.FC<CalendarPageProps> = () => {
   };
 
   return (
-    <div className="h-screen flex justify-center items-center bg-gradient-to-r from-[#9181F4] to-[#5038ED]">
-      <Calendar
-        className="w-[1000px] mx-auto rounded p-5"
-        onSelect={onSelect}
-        cellRender={cellRender}
-      />
+    <div className="flex justify-center items-center p-3">
+      {isLargeScreen ? (
+        <Calendar
+          className="w-full border-2 border-violet-500 mt-10 flex flex-col items-center justify-center mx-auto rounded"
+          onSelect={onSelect}
+          cellRender={cellRender}
+          mode={"month"}
+          fullscreen={true}
+        />
+      ) : (
+        <Calendar
+          className="w-full border-2 border-violet-500 mt-10 flex flex-col items-center justify-center mx-auto rounded"
+          onSelect={onSelect}
+          cellRender={cellRender}
+          mode={"month"}
+          fullscreen={false}
+        />
+      )}
       <Modal
         title="Enter time"
         open={isModalVisible}

@@ -1,12 +1,13 @@
-import { Form, Input, Select, Divider } from "antd";
+import { Form, Input, Select } from "antd";
 import { ChangeEvent, useState } from "react";
-import { IoTimeOutline } from "react-icons/io5";
+// import { IoTimeOutline } from "react-icons/io5";
 import { AiFillAudio } from "react-icons/ai";
 import { FaVideo } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
 // import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-// import Testing from "./TimeSelector";
+import CalendarPage from "./CalendarPage";
+import bgImg from "../../../public/bg.png";
 
 const { TextArea } = Input;
 const OneEvent = () => {
@@ -59,9 +60,15 @@ const OneEvent = () => {
   };
 
   return (
-    <div className="w-full lg:h-[80vh] pt-10 mb-20 lg:mb-0 lg:pt-0 flex flex-col lg:flex-row justify-center items-center bg-slate-50 dark:bg-d tin">
+    <div
+      className="w-full lg:h-screen pt-10 mb-20 lg:mb-0 lg:p-10 flex flex-col lg:flex-row justify-center items-center"
+      style={{
+        backgroundImage: `url(${bgImg})`,
+        backgroundSize: "cover",
+      }}
+    >
       {/* Input part */}
-      <div className="h-full lg:m-0 m-5 flex items-center">
+      <div className="lg:m-0 m-5 flex items-center rounded-md">
         <Form
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
@@ -70,10 +77,10 @@ const OneEvent = () => {
             minWidth: isLargeScreen ? 500 : "auto",
             minHeight: isLargeScreen ? 600 : "auto",
           }}
-          className="p-10 lg:border-r-2 border-r-violet-400 bg-white  dark:bg-d1 dark:text-dw tin"
+          className="p-10 lg:border-r-2 border-r-violet-400 bg-white"
           onFinish={handleSubmit}
         >
-          <div className="lg:h-[28rem]">
+          <div className="lg:h-fit">
             <div className="lg:mb-10">
               <h3 className="text-xl text-center font-bold">New Event Type</h3>
             </div>
@@ -127,10 +134,6 @@ const OneEvent = () => {
               </div>
             </Form.Item>
 
-            {/* <Form.Item>
-              <Testing></Testing>
-            </Form.Item> */}
-
             <Form.Item
               label="Description"
               className="text-lg font-semibold mt-8"
@@ -158,8 +161,8 @@ const OneEvent = () => {
       </div>
 
       {/* preview part */}
-      <div className="bg-white w-fit lg:h-[600px] lg:p-10">
-        <div className="lg:px-0 px-5 pt-5">
+      <div className="bg-white w-fit flex lg:h-full">
+        {/* <div className="lg:px-0 px-5 pt-5">
           <h3 className="lg:text-md text-sm font-semibold bg-violet-100 p-3 rounded text-violet-800 dark:bg-d1 tin">
             This is a preview. To book an event, share the link with your
             invitees.
@@ -206,7 +209,11 @@ const OneEvent = () => {
               {eventDesc ? eventDesc : "Note"}{" "}
             </p>
           </div>
-        </div>
+        </div> */}
+        <CalendarPage
+          selectedTimes={{}}
+          onSelectTime={function (): void {}}
+        ></CalendarPage>
       </div>
     </div>
   );
