@@ -61,108 +61,114 @@ const OneEvent = () => {
 
   return (
     <div
-      className="w-full lg:h-screen pt-10 mb-20 lg:mb-0 lg:p-10 flex flex-col lg:flex-row justify-center items-center"
+      className="w-full lg:h-screen pt-10 mb-20 lg:mb-0 lg:p-10"
       style={{
         backgroundImage: `url(${bgImg})`,
         backgroundSize: "cover",
       }}
     >
-      {/* Input part */}
-      <div className="lg:m-0 m-5 flex items-center rounded-md">
-        <Form
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          layout="horizontal"
-          style={{
-            minWidth: isLargeScreen ? 500 : "auto",
-            minHeight: isLargeScreen ? 600 : "auto",
-          }}
-          className="p-10 lg:border-r-2 border-r-violet-400 bg-white"
-          onFinish={handleSubmit}
-        >
-          <div className="lg:h-fit">
-            <div className="lg:mb-10">
-              <h3 className="text-xl text-center font-bold">New Event Type</h3>
+      <div className="flex flex-col lg:flex-row items-center">
+        {/* Input part */}
+        <div className="lg:m-0 m-5 w-fit">
+          <Form
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 16 }}
+            layout="horizontal"
+            style={{
+              minWidth: isLargeScreen ? 500 : "auto",
+              minHeight: isLargeScreen ? 600 : "auto",
+            }}
+            className="p-10 lg:border-2 border-violet-400 bg-white rounded-md shadow-xl"
+            onFinish={handleSubmit}
+          >
+            <div className="lg:h-[50vh]">
+              <div className="lg:mb-10">
+                <h3 className="text-xl text-center font-bold">
+                  New Event Type
+                </h3>
+              </div>
+              <Form.Item
+                label="Event Name"
+                className="font-semibold mb-2 lg:mb-8"
+              >
+                <Input
+                  name="eventName"
+                  value={eventName}
+                  onChange={handleEventName}
+                  required
+                />
+              </Form.Item>
+              <Form.Item
+                label="Duration"
+                className="font-semibold mb-2 lg:mb-8"
+              >
+                <Select value={eventDuration} onChange={handleEventDuration}>
+                  <Select.Option value="15 min">15 min</Select.Option>
+                  <Select.Option value="30 min">30 min</Select.Option>
+                  <Select.Option value="45 min">45 min</Select.Option>
+                  <Select.Option value="60 min">60 min</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item label="Required" className="font-semibold">
+                <div className="w-full flex gap-2">
+                  <span
+                    onClick={handleAudioSelection}
+                    className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
+                      isAudioSelected
+                        ? "border-violet-600 text-violet-600"
+                        : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
+                    }`}
+                  >
+                    <div className="flex flex-col gap-1 items-center">
+                      <AiFillAudio className="text-2xl" />
+                    </div>
+                  </span>
+
+                  <span
+                    onClick={handleVideoSelection}
+                    className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
+                      isVideoSelected
+                        ? "border-violet-600 text-violet-600"
+                        : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
+                    }`}
+                  >
+                    <div className="flex flex-col items-center">
+                      <FaVideo className="text-2xl" />
+                    </div>
+                  </span>
+                </div>
+              </Form.Item>
+
+              <Form.Item
+                label="Description"
+                className="text-lg font-semibold mt-8"
+              >
+                <div className="w-full">
+                  <TextArea
+                    value={eventDesc}
+                    onChange={(e) => handleEventDesc(e)}
+                    placeholder="Note"
+                    className=""
+                  ></TextArea>
+                </div>
+              </Form.Item>
             </div>
-            <Form.Item
-              label="Event Name"
-              className="font-semibold mb-2 lg:mb-8"
-            >
-              <Input
-                name="eventName"
-                value={eventName}
-                onChange={handleEventName}
-                required
-              />
+
+            <Form.Item className="flex justify-center">
+              <button
+                type="submit"
+                className="px-3 py-1 rounded-md border-2 font-semibold transition-all ease-in-out hover:border-violet-600 hover:text-violet-600 dark:bg-[#ede9fe]"
+              >
+                Continue
+              </button>
             </Form.Item>
-            <Form.Item label="Duration" className="font-semibold mb-2 lg:mb-8">
-              <Select value={eventDuration} onChange={handleEventDuration}>
-                <Select.Option value="15 min">15 min</Select.Option>
-                <Select.Option value="30 min">30 min</Select.Option>
-                <Select.Option value="45 min">45 min</Select.Option>
-                <Select.Option value="60 min">60 min</Select.Option>
-              </Select>
-            </Form.Item>
+          </Form>
+        </div>
 
-            <Form.Item label="Required" className="font-semibold">
-              <div className="w-full flex gap-2">
-                <span
-                  onClick={handleAudioSelection}
-                  className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
-                    isAudioSelected
-                      ? "border-violet-600 text-violet-600"
-                      : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
-                  }`}
-                >
-                  <div className="flex flex-col gap-1 items-center">
-                    <AiFillAudio className="text-2xl" />
-                  </div>
-                </span>
-
-                <span
-                  onClick={handleVideoSelection}
-                  className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
-                    isVideoSelected
-                      ? "border-violet-600 text-violet-600"
-                      : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
-                  }`}
-                >
-                  <div className="flex flex-col items-center">
-                    <FaVideo className="text-2xl" />
-                  </div>
-                </span>
-              </div>
-            </Form.Item>
-
-            <Form.Item
-              label="Description"
-              className="text-lg font-semibold mt-8"
-            >
-              <div className="w-full">
-                <TextArea
-                  value={eventDesc}
-                  onChange={(e) => handleEventDesc(e)}
-                  placeholder="Note"
-                  className=""
-                ></TextArea>
-              </div>
-            </Form.Item>
-          </div>
-
-          <Form.Item className="flex justify-center">
-            <button
-              type="submit"
-              className="px-3 py-1 rounded-md border-2 font-semibold transition-all ease-in-out hover:border-violet-600 hover:text-violet-600 dark:bg-[#ede9fe]"
-            >
-              Continue
-            </button>
-          </Form.Item>
-        </Form>
-      </div>
-
-      {/* preview part */}
-      <div className="bg-white w-fit flex lg:h-full">
-        {/* <div className="lg:px-0 px-5 pt-5">
+        {/* calendar part */}
+        <div className="rounded-md">
+          {/* <div className="lg:px-0 px-5 pt-5">
           <h3 className="lg:text-md text-sm font-semibold bg-violet-100 p-3 rounded text-violet-800 dark:bg-d1 tin">
             This is a preview. To book an event, share the link with your
             invitees.
@@ -210,10 +216,11 @@ const OneEvent = () => {
             </p>
           </div>
         </div> */}
-        <CalendarPage
-          selectedTimes={{}}
-          onSelectTime={function (): void {}}
-        ></CalendarPage>
+          <CalendarPage
+            selectedTimes={{}}
+            onSelectTime={function (): void {}}
+          ></CalendarPage>
+        </div>
       </div>
     </div>
   );
