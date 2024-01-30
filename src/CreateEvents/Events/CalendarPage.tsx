@@ -13,7 +13,7 @@ interface CalendarPageProps {
 
 const CalendarPage: React.FC<CalendarPageProps> = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const isLargeScreen = window.innerWidth > 768;
+  // const isLargeScreen = window.innerWidth > 768;
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [selectedTimes, setSelectedTimes] = useState<{
     [date: string]: string[];
@@ -49,19 +49,19 @@ const CalendarPage: React.FC<CalendarPageProps> = () => {
     endHour: number,
     interval: number
   ) => {
-    const times: string[] = [];
+    const times: { time: string; checked: boolean }[] = [];
     for (let hour = startHour; hour <= endHour; hour++) {
       for (let minute = 0; minute < 60; minute += interval) {
         const formattedTime = `${hour % 12 || 12}:${
           minute === 0 ? "00" : minute
         } ${hour >= 12 ? "PM" : "AM"}`;
-        times.push(formattedTime);
+        times.push({ time: formattedTime, checked: false });
       }
     }
     return times;
   };
 
-  const times: string[] = generateTimes(9, 16, 30);
+  const timesWithCheckboxes = generateTimes(9, 16, 30);
 
   const handleOk = () => {
     const dateKey = selectedDate?.format("DDMMYY");
@@ -116,23 +116,14 @@ const CalendarPage: React.FC<CalendarPageProps> = () => {
 
   return (
     <div className="flex justify-center items-center p-3">
-      {isLargeScreen ? (
-        <Calendar
-          className="p-5 rounded-md shadow-xl border-2 border-violet-500"
-          onSelect={onSelect}
-          cellRender={cellRender}
-          mode={"month"}
-          fullscreen={true}
-        />
-      ) : (
-        <Calendar
-          className="w-full border-2 mb-10 border-violet-500 rounded-md"
-          onSelect={onSelect}
-          cellRender={cellRender}
-          mode={"month"}
-          fullscreen={false}
-        />
-      )}
+      <Calendar
+        className="p-5 rounded-md shadow-xl border-2 border-violet-500"
+        onSelect={onSelect}
+        cellRender={cellRender}
+        mode={"month"}
+        fullscreen={true}
+      />
+
       <Modal
         title="Enter time"
         open={isModalVisible}
@@ -150,18 +141,16 @@ const CalendarPage: React.FC<CalendarPageProps> = () => {
         <div>
           <h3>Select Times:</h3>
           <ul className="grid grid-cols-4 mb-5 mt-2">
-            {times.map((time) => (
-              <li key={time} className="py-1 mx-auto">
+            {timesWithCheckboxes.map((timeData) => (
+              <li key={timeData.time} className="py-1 mx-auto">
                 <label className="flex w-20 justify-center bg-violet-100 border-[1px] border-violet-500 px-2 py-[2px] rounded">
                   <input
                     type="checkbox"
                     style={{ display: "none" }}
-                    checked={selectedTimes[
-                      selectedDate?.format("DDMMYY") || ""
-                    ]?.includes(time)}
-                    onChange={() => handleCheckboxChange(time)}
+                    checked={timeData.checked}
+                    onChange={() => handleCheckboxChange(timeData.time)}
                   />
-                  {time}
+                  {timeData.time}
                 </label>
               </li>
             ))}
