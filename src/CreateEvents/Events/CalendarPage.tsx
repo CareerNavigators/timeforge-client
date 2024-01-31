@@ -6,14 +6,13 @@ import "./style.css";
 
 interface CalendarPageProps {
   selectedTimes: { [date: string]: string[] };
-}
-interface CalendarPageProps {
   onSelectTime: (times: string[]) => void;
 }
 
-const CalendarPage: React.FC<CalendarPageProps> = () => {
+const CalendarPage: React.FC<CalendarPageProps> = ({
+  onSelectTime: propOnSelectTime,
+}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  // const isLargeScreen = window.innerWidth > 768;
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [selectedTimes, setSelectedTimes] = useState<{
     [date: string]: string[];
@@ -93,6 +92,7 @@ const CalendarPage: React.FC<CalendarPageProps> = () => {
       [dateKey]: times,
     });
     setIsModalVisible(false);
+    propOnSelectTime(times);
   };
 
   const dateCellRender = (value: Dayjs) => {
@@ -115,9 +115,9 @@ const CalendarPage: React.FC<CalendarPageProps> = () => {
   };
 
   return (
-    <div className="flex justify-center items-center p-3">
+    <div className="flex justify-center items-center lg:h-[88vh] overflow-auto pt-5 rounded-md">
       <Calendar
-        className="p-5 rounded-md shadow-xl border-2 border-violet-500"
+        className="lg:w-[40vw] h-fit m-5 p-5 rounded-md shadow-xl border-2 border-violet-500"
         onSelect={onSelect}
         cellRender={cellRender}
         mode={"month"}
