@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import type { Dayjs } from "dayjs";
 import type { CalendarProps } from "antd";
 import { Badge, Calendar, Modal } from "antd";
-import "./CalenderPageStyle.css";
+import "./style.css";
 
 interface CalendarPageProps {
   selectedTimes: { [date: string]: string[] };
