@@ -1,4 +1,4 @@
-import { Form, Input, Select } from "antd";
+import { Button, Form, Input, Select } from "antd";
 import { ChangeEvent, useEffect, useState } from "react";
 import { AiFillAudio } from "react-icons/ai";
 import { FaVideo } from "react-icons/fa";
@@ -17,9 +17,11 @@ const OneEvent = () => {
   const [isVideoSelected, setIsVideoSelected] = useState(false);
   const [eventName, setEventName] = useState<string>("");
   const [eventDuration, setEventDuration] = useState<string>("15 min");
+  const [eventType, setEventType] = useState<string>("");
   const [eventDesc, setEventDesc] = useState<string>("");
   const [events, setEvents] = useState<Array<unknown>>([]);
   const navigate = useNavigate();
+  const [form] = Form.useForm();
 
   const handleAudioSelection = () => {
     setIsAudioSelected(!isAudioSelected);
@@ -35,6 +37,9 @@ const OneEvent = () => {
   const handleEventDuration = (value: SelectValue) => {
     setEventDuration(value as string);
   };
+  const handleEventType = (value: SelectValue) => {
+    setEventType(value as string);
+  };
 
   const handleEventDesc = (value: string) => {
     setEventDesc(value);
@@ -42,14 +47,17 @@ const OneEvent = () => {
 
   const handleSubmit = async () => {
     try {
+      await form.validateFields();
+
       const newEvent = {
-        // email: user.email,
         eventName: eventName,
         duration: eventDuration,
         requiredAudio: isAudioSelected,
         requiredVideo: isVideoSelected,
+        eventType: eventType,
         eventDesc: eventDesc,
       };
+
       await setEvents((prevEvents) => [...prevEvents, newEvent]);
 
       if (newEvent) {
@@ -77,6 +85,7 @@ const OneEvent = () => {
         {/* Input part */}
         <div className="lg:m-0 m-5 w-fit">
           <Form
+            form={form}
             labelCol={{ span: 5 }}
             wrapperCol={{ span: 18 }}
             layout="horizontal"
@@ -94,19 +103,17 @@ const OneEvent = () => {
                 </h3>
               </div>
               <Form.Item
-                label="Event Name"
-                className="font-semibold mb-2 lg:mb-8"
+                label="Input"
+                name="Input"
+                rules={[{ required: true, message: "Please input!" }]}
               >
-                <Input
-                  name="eventName"
-                  value={eventName}
-                  onChange={handleEventName}
-                  required
-                />
+                <Input value={eventName} onChange={handleEventName} />
               </Form.Item>
+
               <Form.Item
                 label="Duration"
-                className="font-semibold mb-2 lg:mb-8"
+                name="duration"
+                rules={[{ required: true, message: "Please input!" }]}
               >
                 <Select value={eventDuration} onChange={handleEventDuration}>
                   <Select.Option value="15 min">15 min</Select.Option>
@@ -116,7 +123,26 @@ const OneEvent = () => {
                 </Select>
               </Form.Item>
 
-              <Form.Item label="Required" className="font-semibold">
+              <Form.Item
+                label="Event Type"
+                name="eventType"
+                rules={[{ required: true, message: "Please input!" }]}
+              >
+                <Select value={eventType} onChange={handleEventType}>
+                  <Select.Option value="Interview">Interview</Select.Option>
+                  <Select.Option value="Meeting">Meeting</Select.Option>
+                  <Select.Option value="Seminar">Seminar</Select.Option>
+                  <Select.Option value="Webinar">Webinar</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item
+                label="Required"
+                className="font-semibold"
+                rules={[
+                  { required: true, message: "Please input the event name" },
+                ]}
+              >
                 <div className="w-full flex gap-2">
                   <span
                     onClick={handleAudioSelection}
@@ -146,15 +172,13 @@ const OneEvent = () => {
                 </div>
               </Form.Item>
 
-              <Form.Item label="Description" className="text-lg font-semibold">
-                {/* <div className="w-full">
-                  <TextArea
-                    value={eventDesc}
-                    onChange={(e) => handleEventDesc(e)}
-                    placeholder="Note"
-                    className=""
-                  ></TextArea>
-                </div> */}
+              <Form.Item
+                label="Description"
+                className="text-lg font-semibold"
+                rules={[
+                  { required: true, message: "Please input the event name" },
+                ]}
+              >
                 <ReactQuill
                   theme="snow"
                   value={eventDesc}
@@ -165,12 +189,12 @@ const OneEvent = () => {
             </div>
 
             <Form.Item className="flex justify-center">
-              <button
-                type="submit"
+              <Button
+                htmlType="submit"
                 className="px-3 py-1 rounded-md border-2 font-semibold transition-all ease-in-out hover:border-violet-600 hover:text-violet-600 dark:bg-[#ede9fe]"
               >
                 Continue
-              </button>
+              </Button>
             </Form.Item>
           </Form>
         </div>
