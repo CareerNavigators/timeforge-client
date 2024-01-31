@@ -1,15 +1,16 @@
 import { Form, Input, Select } from "antd";
-import { ChangeEvent, useState } from "react";
-// import { IoTimeOutline } from "react-icons/io5";
+import { ChangeEvent, useEffect, useState } from "react";
 import { AiFillAudio } from "react-icons/ai";
 import { FaVideo } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import CalendarPage from "./CalendarPage";
 import bgImg from "../../../public/bg.png";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-const { TextArea } = Input;
+// const { TextArea } = Input;
 const OneEvent = () => {
   const isLargeScreen = window.innerWidth > 768;
   const [isAudioSelected, setIsAudioSelected] = useState(false);
@@ -17,6 +18,7 @@ const OneEvent = () => {
   const [eventName, setEventName] = useState<string>("");
   const [eventDuration, setEventDuration] = useState<string>("15 min");
   const [eventDesc, setEventDesc] = useState<string>("");
+  const [events, setEvents] = useState<Array<unknown>>([]);
   const navigate = useNavigate();
 
   const handleAudioSelection = () => {
@@ -34,8 +36,8 @@ const OneEvent = () => {
     setEventDuration(value as string);
   };
 
-  const handleEventDesc = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setEventDesc(e.target.value);
+  const handleEventDesc = (value: string) => {
+    setEventDesc(value);
   };
 
   const handleSubmit = async () => {
@@ -48,16 +50,20 @@ const OneEvent = () => {
         requiredVideo: isVideoSelected,
         eventDesc: eventDesc,
       };
-      console.log(newEvent);
+      await setEvents((prevEvents) => [...prevEvents, newEvent]);
 
       if (newEvent) {
-        // toast.success(`${eventName} is added to the Events.`);
+        toast.success(`${eventName} is added to the Events.`);
         navigate("/calendarPage");
       }
     } catch (error) {
       console.error("Error adding task:", error);
     }
   };
+
+  useEffect(() => {
+    console.log("All Events:", events);
+  }, [events]);
 
   return (
     <div
@@ -71,17 +77,17 @@ const OneEvent = () => {
         {/* Input part */}
         <div className="lg:m-0 m-5 w-fit">
           <Form
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 16 }}
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 18 }}
             layout="horizontal"
             style={{
-              minWidth: isLargeScreen ? 500 : "auto",
-              minHeight: isLargeScreen ? 600 : "auto",
+              minWidth: isLargeScreen ? 600 : "auto",
+              minHeight: isLargeScreen ? 700 : "auto",
             }}
             className="p-10 lg:border-2 border-violet-400 bg-white rounded-md shadow-xl"
             onFinish={handleSubmit}
           >
-            <div className="lg:h-[50vh]">
+            <div className="lg:h-[65vh] h-full">
               <div className="lg:mb-10">
                 <h3 className="text-xl text-center font-bold">
                   New Event Type
@@ -140,18 +146,21 @@ const OneEvent = () => {
                 </div>
               </Form.Item>
 
-              <Form.Item
-                label="Description"
-                className="text-lg font-semibold mt-8"
-              >
-                <div className="w-full">
+              <Form.Item label="Description" className="text-lg font-semibold">
+                {/* <div className="w-full">
                   <TextArea
                     value={eventDesc}
                     onChange={(e) => handleEventDesc(e)}
                     placeholder="Note"
                     className=""
                   ></TextArea>
-                </div>
+                </div> */}
+                <ReactQuill
+                  theme="snow"
+                  value={eventDesc}
+                  onChange={handleEventDesc}
+                  className="h-[200px] lg:w-[20vw]"
+                />
               </Form.Item>
             </div>
 
