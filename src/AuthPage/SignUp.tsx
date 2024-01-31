@@ -24,9 +24,7 @@ const SignUp = () => {
   const from = location?.state?.from?.pathname || "/";
   const pfp = usePfp();
   const [country, setCountry] = useState("");
-
   const [timezone, setTimezone] = useState("");
-  console.log(country, timezone);
   interface FormEvent extends React.FormEvent<HTMLFormElement> {
     target: HTMLFormElement & {
       email: {
@@ -37,10 +35,8 @@ const SignUp = () => {
       };
     };
   }
-
   const [showPassword, setShowPassword] = useState(false);
   const [passwordLength, setPasswordLength] = useState(0);
-
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordLength(e.target.value.length);
   };
@@ -327,5 +323,4 @@ const SignUp = () => {
     </motion.div>
   );
 };
-
 export default SignUp;
