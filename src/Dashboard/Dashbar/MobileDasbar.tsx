@@ -24,7 +24,7 @@ const MobileDasbar: React.FC = () => {
         whileTap={{ cursor: "grabbing" }}
         className="cursor-grab"
       >
-        <ul className="my-2 flex py-[15px] mb-0 mr-0 m-auto justify-center items-center bg-black text-white w-full object-contain gap-[50px] lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 shadow-inner shadow-indigo-600">
+        <ul className="my-2 flex py-[15px] mb-0 mr-0 m-auto justify-center items-center bg-black text-white w-full object-contain gap-[50px] lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 shadow-inner shadow-indigo-600 " >
           <li className="p-1 font-medium">
             <NavLink
               to="/dashboard"
@@ -48,7 +48,7 @@ const MobileDasbar: React.FC = () => {
               to="/dashboard/createEvent"
               className="flex items-center hover:text-blue-500 transition-colors"
             >
-              <PlusOutlined className="text-[25px] " />
+              <PlusOutlined className="text-[28px] " />
             </NavLink>
           </li>
           <li className="p-1 font-medium">
@@ -56,7 +56,7 @@ const MobileDasbar: React.FC = () => {
               to="/dashboard/allEvents"
               className="flex items-center hover:text-blue-500 transition-colors"
             >
-              <ScheduleOutlined className="text-[25px] " />
+              <ScheduleOutlined className="text-[28px] " />
             </NavLink>
           </li>
           <li className="p-1 font-medium">
@@ -64,7 +64,7 @@ const MobileDasbar: React.FC = () => {
               to="/"
               className="flex items-center hover:text-blue-500 transition-colors w-[25px] h-[25px]"
             >
-              <HomeOutlined className="text-[25px] " />
+              <HomeOutlined className="text-[28px] " />
             </NavLink>
           </li>
           <ul className="flex flex-wrap items-center justify-center gap-4 text-lg">
