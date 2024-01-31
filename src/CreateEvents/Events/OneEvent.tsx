@@ -10,7 +10,6 @@ import bgImg from "../../../public/bg.png";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-// const { TextArea } = Input;
 const OneEvent = () => {
   const isLargeScreen = window.innerWidth > 768;
   const [isAudioSelected, setIsAudioSelected] = useState(false);
@@ -22,6 +21,11 @@ const OneEvent = () => {
   const [events, setEvents] = useState<Array<unknown>>([]);
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+
+  const onSelectTime = (times: string[]) => {
+    setSelectedTimes(times);
+  };
 
   const handleAudioSelection = () => {
     setIsAudioSelected(!isAudioSelected);
@@ -56,16 +60,28 @@ const OneEvent = () => {
         requiredVideo: isVideoSelected,
         eventType: eventType,
         eventDesc: eventDesc,
+        selectedTimes: selectedTimes,
       };
+      console.log(newEvent);
+      const response = await fetch("/meeting", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newEvent),
+      });
 
-      await setEvents((prevEvents) => [...prevEvents, newEvent]);
-
-      if (newEvent) {
+      if (response.ok) {
+        await setEvents((prevEvents) => [...prevEvents, newEvent]);
         toast.success(`${eventName} is added to the Events.`);
         navigate("/calendarPage");
+      } else {
+        console.error("Error adding task:", response.statusText);
+        toast.error("Error adding task. Please try again.");
       }
     } catch (error) {
       console.error("Error adding task:", error);
+      toast.error("Please fill in all required fields.");
     }
   };
 
@@ -75,13 +91,13 @@ const OneEvent = () => {
 
   return (
     <div
-      className="w-full lg:h-screen pt-10 mb-20 lg:mb-0 lg:p-10"
+      className="w-ful pt-10 mb-20 lg:mb-0 lg:p-10"
       style={{
         backgroundImage: `url(${bgImg})`,
         backgroundSize: "cover",
       }}
     >
-      <div className="flex flex-col lg:flex-row items-center">
+      <div className="flex flex-col lg:flex-row gap-3 items-center justify-center mx-auto">
         {/* Input part */}
         <div className="lg:m-0 m-5 w-fit">
           <Form
@@ -201,57 +217,9 @@ const OneEvent = () => {
 
         {/* calendar part */}
         <div className="rounded-md">
-          {/* <div className="lg:px-0 px-5 pt-5">
-          <h3 className="lg:text-md text-sm font-semibold bg-violet-100 p-3 rounded text-violet-800 dark:bg-d1 tin">
-            This is a preview. To book an event, share the link with your
-            invitees.
-          </h3>
-        </div>
-        <div className="my-5 space-y-3">
-          <p className="lg:text-lg font-semibold lg:px-0 px-5">Username</p>
-
-          <div className="space-y-2">
-            <p className="lg:text-2xl w-[500px] font-bold italic lg:px-0 px-5">
-              {eventName ? eventName : "Event Name"}{" "}
-            </p>
-            <div className="flex gap-1 lg:px-0 px-5 pt-5 items-center">
-              <IoTimeOutline className="lg:text-2xl" />
-              <p className="text-lg">{eventDuration}</p>
-            </div>
-          </div>
-
-          <div className="w-full flex gap-3 lg:px-0 px-5">
-            {isAudioSelected ? (
-              <p className="w-fit rounded border-2 border-violet-600 bg-violet-400 px-2 text-md text-white">
-                Audio
-              </p>
-            ) : (
-              <p className="text-sm ">
-                <span className="text-red-500 font-bold text-lg">*</span> Audio
-                not Required
-              </p>
-            )}
-            {isVideoSelected ? (
-              <p className="w-fit rounded border-2 border-violet-600 bg-violet-400 px-2 text-md text-white">
-                Video
-              </p>
-            ) : (
-              <p className="text-sm">
-                <span className="text-red-500 font-bold text-lg">*</span> Video
-                not Required
-              </p>
-            )}
-          </div>
-          <div>
-            <Divider className="bg-violet-500" />
-            <p className="w-[500px] text-justify lg:text-lg lg:px-0 px-5">
-              {eventDesc ? eventDesc : "Note"}{" "}
-            </p>
-          </div>
-        </div> */}
           <CalendarPage
-            selectedTimes={{}}
-            onSelectTime={function (): void {}}
+            selectedTimes={{ selectedTimes }}
+            onSelectTime={onSelectTime}
           ></CalendarPage>
         </div>
       </div>
