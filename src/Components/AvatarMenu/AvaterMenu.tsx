@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useState } from "react";
 import {
   Typography,
@@ -11,26 +12,45 @@ import { RxDashboard } from "react-icons/rx";
 import { FaAngleDown } from "react-icons/fa";
 import { CiPower } from "react-icons/ci";
 import { Link } from "react-router-dom";
-
-import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 import { AuthContext } from "../../Provider/AuthContext";
+import showToast from "../../Hook/swalToast";
 export default function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const closeMenu = () => setIsMenuOpen(false);
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   const { logOut, user } = useContext(AuthContext);
   if (!user) {
     return null;
   }
-  const handleLogOut = () => {
-    logOut();
-    toast.success("Logged Out Successfully");
+  const handleLogOut = async () => {
+    const shouldLogOut = await Swal.fire({
+      title: "Are you sure?",
+      text: "Logging out will end your session. Please ensure all your scheduled meetings are saved.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, log out",
+      customClass: {
+        popup: "dark:bg-d2 dark:text-dw",
+      },
+    }).then((result) => result.isConfirmed);
+
+    if (shouldLogOut) {
+      logOut();
+      showToast("success", "Signed in successfully");
+    }
   };
+
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
-      <MenuHandler>
+      <MenuHandler >
         <Button
           variant="text"
-          className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
+          className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto border-none"
           placeholder={undefined}>
           <div className="w-11">
             <img

@@ -183,6 +183,8 @@ const Profile: React.FC = () => {
     fetchUserProfile();
   }, [fetchUserProfile]);
 
+ 
+
   return (
     <motion.div
       animate={controls}
