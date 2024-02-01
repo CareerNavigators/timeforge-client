@@ -28,14 +28,12 @@ const Hero = () => {
   const handleGoogle = async () => {
     try {
       await googleSignIn().then((res: any) => {
-        console.log(res);
         const userData = {
           name: res?.user?.displayName,
           email: res?.user?.email,
           timeZone: timezone,
           img_profile: res?.user?.photoURL,
         };
-        console.log("userData", userData);
         caxios.post("/user", userData).then((res) => {
           setUserData(res.data);
         });

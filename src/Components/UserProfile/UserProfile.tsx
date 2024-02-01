@@ -127,8 +127,6 @@ const Profile: React.FC = () => {
         setIsEditing(false);
         setIsChangesMade(false);
         await updateBackendData(updatedProfile);
-
-        console.log("Edited Data:", JSON.stringify(updatedProfile, null, 2));
       } catch (error) {
         console.error("Error saving changes:", error);
       } finally {
@@ -147,7 +145,6 @@ const Profile: React.FC = () => {
       await axios
         .patch(`${import.meta.env.VITE_BACK_END_API}/user/${userId}`, data)
         .then((response) => {
-          console.log(response.data);
           setUserData(response.data);
         });
     } catch (error) {

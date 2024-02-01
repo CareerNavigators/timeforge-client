@@ -61,15 +61,14 @@ const OneEvent = () => {
 
   return (
     <div
-      className="w-full lg:h-screen pt-10 mb-20 lg:mb-0 lg:p-10"
+      className="w-full pt-10 mb-20 lg:h-screen lg:mb-0 lg:p-10"
       style={{
         backgroundImage: `url(${bgImg})`,
         backgroundSize: "cover",
-      }}
-    >
-      <div className="flex flex-col lg:flex-row items-center">
+      }}>
+      <div className="flex flex-col items-center lg:flex-row">
         {/* Input part */}
-        <div className="lg:m-0 m-5 w-fit">
+        <div className="m-5 lg:m-0 w-fit">
           <Form
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 16 }}
@@ -78,19 +77,17 @@ const OneEvent = () => {
               minWidth: isLargeScreen ? 500 : "auto",
               minHeight: isLargeScreen ? 600 : "auto",
             }}
-            className="p-10 lg:border-2 border-violet-400 bg-white rounded-md shadow-xl"
-            onFinish={handleSubmit}
-          >
+            className="p-10 bg-white rounded-md shadow-xl lg:border-2 border-violet-400"
+            onFinish={handleSubmit}>
             <div className="lg:h-[50vh]">
               <div className="lg:mb-10">
-                <h3 className="text-xl text-center font-bold">
+                <h3 className="text-xl font-bold text-center">
                   New Event Type
                 </h3>
               </div>
               <Form.Item
                 label="Event Name"
-                className="font-semibold mb-2 lg:mb-8"
-              >
+                className="mb-2 font-semibold lg:mb-8">
                 <Input
                   name="eventName"
                   value={eventName}
@@ -100,8 +97,7 @@ const OneEvent = () => {
               </Form.Item>
               <Form.Item
                 label="Duration"
-                className="font-semibold mb-2 lg:mb-8"
-              >
+                className="mb-2 font-semibold lg:mb-8">
                 <Select value={eventDuration} onChange={handleEventDuration}>
                   <Select.Option value="15 min">15 min</Select.Option>
                   <Select.Option value="30 min">30 min</Select.Option>
@@ -111,16 +107,15 @@ const OneEvent = () => {
               </Form.Item>
 
               <Form.Item label="Required" className="font-semibold">
-                <div className="w-full flex gap-2">
+                <div className="flex w-full gap-2">
                   <span
                     onClick={handleAudioSelection}
                     className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
                       isAudioSelected
                         ? "border-violet-600 text-violet-600"
                         : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
-                    }`}
-                  >
-                    <div className="flex flex-col gap-1 items-center">
+                    }`}>
+                    <div className="flex flex-col items-center gap-1">
                       <AiFillAudio className="text-2xl" />
                     </div>
                   </span>
@@ -131,8 +126,7 @@ const OneEvent = () => {
                       isVideoSelected
                         ? "border-violet-600 text-violet-600"
                         : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
-                    }`}
-                  >
+                    }`}>
                     <div className="flex flex-col items-center">
                       <FaVideo className="text-2xl" />
                     </div>
@@ -142,15 +136,13 @@ const OneEvent = () => {
 
               <Form.Item
                 label="Description"
-                className="text-lg font-semibold mt-8"
-              >
+                className="mt-8 text-lg font-semibold">
                 <div className="w-full">
                   <TextArea
                     value={eventDesc}
                     onChange={(e) => handleEventDesc(e)}
                     placeholder="Note"
-                    className=""
-                  ></TextArea>
+                    className=""></TextArea>
                 </div>
               </Form.Item>
             </div>
@@ -158,8 +150,7 @@ const OneEvent = () => {
             <Form.Item className="flex justify-center">
               <button
                 type="submit"
-                className="px-3 py-1 rounded-md border-2 font-semibold transition-all ease-in-out hover:border-violet-600 hover:text-violet-600 dark:bg-[#ede9fe]"
-              >
+                className="px-3 py-1 rounded-md border-2 font-semibold transition-all ease-in-out hover:border-violet-600 hover:text-violet-600 dark:bg-[#ede9fe]">
                 Continue
               </button>
             </Form.Item>
@@ -168,43 +159,43 @@ const OneEvent = () => {
 
         {/* calendar part */}
         <div className="rounded-md">
-          {/* <div className="lg:px-0 px-5 pt-5">
-          <h3 className="lg:text-md text-sm font-semibold bg-violet-100 p-3 rounded text-violet-800 dark:bg-d1 tin">
+          {/* <div className="px-5 pt-5 lg:px-0">
+          <h3 className="p-3 text-sm font-semibold rounded lg:text-md bg-violet-100 text-violet-800 dark:bg-d1 tin">
             This is a preview. To book an event, share the link with your
             invitees.
           </h3>
         </div>
         <div className="my-5 space-y-3">
-          <p className="lg:text-lg font-semibold lg:px-0 px-5">Username</p>
+          <p className="px-5 font-semibold lg:text-lg lg:px-0">Username</p>
 
           <div className="space-y-2">
             <p className="lg:text-2xl w-[500px] font-bold italic lg:px-0 px-5">
               {eventName ? eventName : "Event Name"}{" "}
             </p>
-            <div className="flex gap-1 lg:px-0 px-5 pt-5 items-center">
+            <div className="flex items-center gap-1 px-5 pt-5 lg:px-0">
               <IoTimeOutline className="lg:text-2xl" />
               <p className="text-lg">{eventDuration}</p>
             </div>
           </div>
 
-          <div className="w-full flex gap-3 lg:px-0 px-5">
+          <div className="flex w-full gap-3 px-5 lg:px-0">
             {isAudioSelected ? (
-              <p className="w-fit rounded border-2 border-violet-600 bg-violet-400 px-2 text-md text-white">
+              <p className="px-2 text-white border-2 rounded w-fit border-violet-600 bg-violet-400 text-md">
                 Audio
               </p>
             ) : (
               <p className="text-sm ">
-                <span className="text-red-500 font-bold text-lg">*</span> Audio
+                <span className="text-lg font-bold text-red-500">*</span> Audio
                 not Required
               </p>
             )}
             {isVideoSelected ? (
-              <p className="w-fit rounded border-2 border-violet-600 bg-violet-400 px-2 text-md text-white">
+              <p className="px-2 text-white border-2 rounded w-fit border-violet-600 bg-violet-400 text-md">
                 Video
               </p>
             ) : (
               <p className="text-sm">
-                <span className="text-red-500 font-bold text-lg">*</span> Video
+                <span className="text-lg font-bold text-red-500">*</span> Video
                 not Required
               </p>
             )}
@@ -218,8 +209,7 @@ const OneEvent = () => {
         </div> */}
           <CalendarPage
             selectedTimes={{}}
-            onSelectTime={function (): void {}}
-          ></CalendarPage>
+            onSelectTime={function (): void {}}></CalendarPage>
         </div>
       </div>
     </div>
