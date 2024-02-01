@@ -1,10 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect, ChangeEvent, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  ChangeEvent,
+  useCallback,
+  useContext,
+} from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import axios from "axios";
 import { FaRegEdit } from "react-icons/fa";
 import { motion, useAnimation } from "framer-motion";
 import toast from "react-hot-toast";
+import { AuthContext } from "../../Provider/AuthContext";
 
 interface UserProfile {
   id?: string;
@@ -29,11 +36,9 @@ const Profile: React.FC = () => {
   const [editedCountry, setEditedCountry] = useState("");
   const [editedTimeZone, setEditedTimeZone] = useState("");
   const [isChangesMade, setIsChangesMade] = useState(false);
-
+  const { userData, setUserData } = useContext(AuthContext);
   const fetchUserProfile = useCallback(async () => {
-    const userEmail = JSON.parse(
-      localStorage.getItem("user") || "{'id':'65b34882318c020926483957'}"
-    ).email;
+    const userEmail = userData?.email;
     setLoadingProfile(true);
     try {
       const response = await axios.get(
@@ -48,7 +53,7 @@ const Profile: React.FC = () => {
     } finally {
       setLoadingProfile(false);
     }
-  }, []);
+  }, [userData?.email]);
 
   const uploadImageToApi = async (image: File): Promise<string> => {
     setLoadingImageUpload(true);
@@ -136,14 +141,15 @@ const Profile: React.FC = () => {
   };
 
   const updateBackendData = async (data: UserProfile) => {
-    const userId = JSON.parse(
-      localStorage.getItem("user") || "{'id':'65b34882318c020926483957'}"
-    ).id;
+    const userId = userData._id;
+
     try {
-      await axios.patch(
-        `${import.meta.env.VITE_BACK_END_API}/user/${userId}`,
-        data
-      );
+      await axios
+        .patch(`${import.meta.env.VITE_BACK_END_API}/user/${userId}`, data)
+        .then((response) => {
+          console.log(response.data);
+          setUserData(response.data);
+        });
     } catch (error) {
       console.error("Error updating backend data:", error);
     }
@@ -182,8 +188,6 @@ const Profile: React.FC = () => {
   useEffect(() => {
     fetchUserProfile();
   }, [fetchUserProfile]);
-
- 
 
   return (
     <motion.div
