@@ -1,23 +1,31 @@
-import { Form, Input, Select } from "antd";
-import { ChangeEvent, useState } from "react";
-// import { IoTimeOutline } from "react-icons/io5";
+import { Button, Form, Input, Select } from "antd";
+import { ChangeEvent, useEffect, useState } from "react";
 import { AiFillAudio } from "react-icons/ai";
 import { FaVideo } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import CalendarPage from "./CalendarPage";
 import bgImg from "../../../public/bg.png";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-const { TextArea } = Input;
 const OneEvent = () => {
   const isLargeScreen = window.innerWidth > 768;
   const [isAudioSelected, setIsAudioSelected] = useState(false);
   const [isVideoSelected, setIsVideoSelected] = useState(false);
   const [eventName, setEventName] = useState<string>("");
   const [eventDuration, setEventDuration] = useState<string>("15 min");
+  const [eventType, setEventType] = useState<string>("");
   const [eventDesc, setEventDesc] = useState<string>("");
+  const [events, setEvents] = useState<Array<unknown>>([]);
   const navigate = useNavigate();
+  const [form] = Form.useForm();
+  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+
+  const onSelectTime = (times: string[]) => {
+    setSelectedTimes(times);
+  };
 
   const handleAudioSelection = () => {
     setIsAudioSelected(!isAudioSelected);
@@ -33,71 +41,96 @@ const OneEvent = () => {
   const handleEventDuration = (value: SelectValue) => {
     setEventDuration(value as string);
   };
+  const handleEventType = (value: SelectValue) => {
+    setEventType(value as string);
+  };
 
-  const handleEventDesc = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setEventDesc(e.target.value);
+  const handleEventDesc = (value: string) => {
+    setEventDesc(value);
   };
 
   const handleSubmit = async () => {
     try {
+      await form.validateFields();
+
       const newEvent = {
-        // email: user.email,
         eventName: eventName,
         duration: eventDuration,
         requiredAudio: isAudioSelected,
         requiredVideo: isVideoSelected,
+        eventType: eventType,
         eventDesc: eventDesc,
+        selectedTimes: selectedTimes,
       };
       console.log(newEvent);
+      const response = await fetch("/meeting", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newEvent),
+      });
 
-      if (newEvent) {
-        // toast.success(`${eventName} is added to the Events.`);
+      if (response.ok) {
+        await setEvents((prevEvents) => [...prevEvents, newEvent]);
+        toast.success(`${eventName} is added to the Events.`);
         navigate("/calendarPage");
+      } else {
+        console.error("Error adding task:", response.statusText);
+        toast.error("Error adding task. Please try again.");
       }
     } catch (error) {
       console.error("Error adding task:", error);
+      toast.error("Please fill in all required fields.");
     }
   };
 
+  useEffect(() => {
+    console.log("All Events:", events);
+  }, [events]);
+
   return (
     <div
-      className="w-full pt-10 mb-20 lg:h-screen lg:mb-0 lg:p-10"
+      className="w-ful pt-10 mb-20 lg:mb-0 lg:p-10"
       style={{
         backgroundImage: `url(${bgImg})`,
         backgroundSize: "cover",
-      }}>
-      <div className="flex flex-col items-center lg:flex-row">
+      }}
+    >
+      <div className="flex flex-col lg:flex-row gap-3 items-center justify-center mx-auto">
         {/* Input part */}
         <div className="m-5 lg:m-0 w-fit">
           <Form
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 16 }}
+            form={form}
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 18 }}
             layout="horizontal"
             style={{
-              minWidth: isLargeScreen ? 500 : "auto",
-              minHeight: isLargeScreen ? 600 : "auto",
+              minWidth: isLargeScreen ? 600 : "auto",
+              minHeight: isLargeScreen ? 700 : "auto",
             }}
-            className="p-10 bg-white rounded-md shadow-xl lg:border-2 border-violet-400"
-            onFinish={handleSubmit}>
-            <div className="lg:h-[50vh]">
+            className="p-10 lg:border-2 border-violet-400 bg-white rounded-md shadow-xl"
+            onFinish={handleSubmit}
+          >
+            <div className="lg:h-[65vh] h-full">
               <div className="lg:mb-10">
                 <h3 className="text-xl font-bold text-center">
                   New Event Type
                 </h3>
               </div>
               <Form.Item
-                label="Event Name"
-                className="mb-2 font-semibold lg:mb-8">
-                <Input
-                  name="eventName"
-                  value={eventName}
-                  onChange={handleEventName}
-                  required
-                />
+                label="Input"
+                name="Input"
+                rules={[{ required: true, message: "Please input!" }]}
+              >
+                <Input value={eventName} onChange={handleEventName} />
               </Form.Item>
+
               <Form.Item
                 label="Duration"
-                className="mb-2 font-semibold lg:mb-8">
+                name="duration"
+                rules={[{ required: true, message: "Please input!" }]}
+              >
                 <Select value={eventDuration} onChange={handleEventDuration}>
                   <Select.Option value="15 min">15 min</Select.Option>
                   <Select.Option value="30 min">30 min</Select.Option>
@@ -106,8 +139,27 @@ const OneEvent = () => {
                 </Select>
               </Form.Item>
 
-              <Form.Item label="Required" className="font-semibold">
-                <div className="flex w-full gap-2">
+              <Form.Item
+                label="Event Type"
+                name="eventType"
+                rules={[{ required: true, message: "Please input!" }]}
+              >
+                <Select value={eventType} onChange={handleEventType}>
+                  <Select.Option value="Interview">Interview</Select.Option>
+                  <Select.Option value="Meeting">Meeting</Select.Option>
+                  <Select.Option value="Seminar">Seminar</Select.Option>
+                  <Select.Option value="Webinar">Webinar</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item
+                label="Required"
+                className="font-semibold"
+                rules={[
+                  { required: true, message: "Please input the event name" },
+                ]}
+              >
+                <div className="w-full flex gap-2">
                   <span
                     onClick={handleAudioSelection}
                     className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
@@ -136,80 +188,37 @@ const OneEvent = () => {
 
               <Form.Item
                 label="Description"
-                className="mt-8 text-lg font-semibold">
-                <div className="w-full">
-                  <TextArea
-                    value={eventDesc}
-                    onChange={(e) => handleEventDesc(e)}
-                    placeholder="Note"
-                    className=""></TextArea>
-                </div>
+                className="text-lg font-semibold"
+                rules={[
+                  { required: true, message: "Please input the event name" },
+                ]}
+              >
+                <ReactQuill
+                  theme="snow"
+                  value={eventDesc}
+                  onChange={handleEventDesc}
+                  className="h-[200px] lg:w-[20vw]"
+                />
               </Form.Item>
             </div>
 
             <Form.Item className="flex justify-center">
-              <button
-                type="submit"
-                className="px-3 py-1 rounded-md border-2 font-semibold transition-all ease-in-out hover:border-violet-600 hover:text-violet-600 dark:bg-[#ede9fe]">
+              <Button
+                htmlType="submit"
+                className="px-3 py-1 rounded-md border-2 font-semibold transition-all ease-in-out hover:border-violet-600 hover:text-violet-600 dark:bg-[#ede9fe]"
+              >
                 Continue
-              </button>
+              </Button>
             </Form.Item>
           </Form>
         </div>
 
         {/* calendar part */}
         <div className="rounded-md">
-          {/* <div className="px-5 pt-5 lg:px-0">
-          <h3 className="p-3 text-sm font-semibold rounded lg:text-md bg-violet-100 text-violet-800 dark:bg-d1 tin">
-            This is a preview. To book an event, share the link with your
-            invitees.
-          </h3>
-        </div>
-        <div className="my-5 space-y-3">
-          <p className="px-5 font-semibold lg:text-lg lg:px-0">Username</p>
-
-          <div className="space-y-2">
-            <p className="lg:text-2xl w-[500px] font-bold italic lg:px-0 px-5">
-              {eventName ? eventName : "Event Name"}{" "}
-            </p>
-            <div className="flex items-center gap-1 px-5 pt-5 lg:px-0">
-              <IoTimeOutline className="lg:text-2xl" />
-              <p className="text-lg">{eventDuration}</p>
-            </div>
-          </div>
-
-          <div className="flex w-full gap-3 px-5 lg:px-0">
-            {isAudioSelected ? (
-              <p className="px-2 text-white border-2 rounded w-fit border-violet-600 bg-violet-400 text-md">
-                Audio
-              </p>
-            ) : (
-              <p className="text-sm ">
-                <span className="text-lg font-bold text-red-500">*</span> Audio
-                not Required
-              </p>
-            )}
-            {isVideoSelected ? (
-              <p className="px-2 text-white border-2 rounded w-fit border-violet-600 bg-violet-400 text-md">
-                Video
-              </p>
-            ) : (
-              <p className="text-sm">
-                <span className="text-lg font-bold text-red-500">*</span> Video
-                not Required
-              </p>
-            )}
-          </div>
-          <div>
-            <Divider className="bg-violet-500" />
-            <p className="w-[500px] text-justify lg:text-lg lg:px-0 px-5">
-              {eventDesc ? eventDesc : "Note"}{" "}
-            </p>
-          </div>
-        </div> */}
           <CalendarPage
-            selectedTimes={{}}
-            onSelectTime={function (): void {}}></CalendarPage>
+            selectedTimes={{ selectedTimes }}
+            onSelectTime={onSelectTime}
+          ></CalendarPage>
         </div>
       </div>
     </div>
