@@ -65,7 +65,7 @@ export function Profile() {
 
         const userProfileData: UserProfile = response.data;
         setUserProfile(userProfileData);
-        setCoverPhotoPreview(userProfileData.img_cover || null);
+        setCoverPhotoPreview(userProfileData.img_cover || "https://cdn.discordapp.com/attachments/1065689957525630997/1198863824783155271/3L6gDuf.png?ex=65c9ae71&is=65b73971&hm=e6cfcb9041394544326bb8681a1ffafba1b3b5f4fdbfbf311d379438a1ff37da&");
       } catch (error) {
         console.error("Error:", error);
       } finally {
@@ -214,10 +214,10 @@ export function Profile() {
   }, [fetchUserProfile]);
 
   const coverPhotoStyles = `
-  .coverPhoto {
-    background-image: url('${coverPhotoPreview}');
-    background-position: center;
-  }`;
+.coverPhoto {
+  background-image: url('${coverPhotoPreview}');
+  background-position: center;
+}`;
 
   return (
     <>

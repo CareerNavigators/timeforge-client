@@ -8,22 +8,26 @@ import {
   FaMicrophone,
   FaTimes,
 } from "react-icons/fa";
-import CalendarPage from "../../CreateEvents/Events/CalendarPage";
 import { useLoaderData } from "react-router-dom";
 import { EventType } from "./AllEvents";
 import useAxios from "../../Hook/useAxios";
 import { useQuery } from "@tanstack/react-query";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import toast from "react-hot-toast";
+import { Calendar } from 'antd';
+import type { CalendarProps } from 'antd'
 
 const EventDetails: React.FC = () => {
   // hooks and states
   const customAxios = useAxios();
   dayjs.extend(customParseFormat);
-  const { _id, title, duration, desc, eventType, events, camera, mic } =
-    useLoaderData() as EventType;
-  console.log(events);
+  const { _id, title, duration, desc, eventType, events, camera, mic } = useLoaderData() as EventType;
+  console.log("events from details page", events);
+
+  const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
+    console.log(value.format('YYYY-MM-DD'), mode);
+  };
 
   // fetching all participants
   const { data: allParticipants = [], refetch } = useQuery({
@@ -95,9 +99,7 @@ const EventDetails: React.FC = () => {
         {/* calender area */}
         <div className='sm:w-3/4 px-6 py-4 mt-20 md:mt-0'>
           <div className='h-full md:max-h-[600px]  w-full md:overflow-y-scroll'>
-            <CalendarPage
-              selectedTimes={{}}
-              onSelectTime={function (): void { }}></CalendarPage>
+          <Calendar onPanelChange={onPanelChange} />
           </div>
           <div className='mt-20 md:mt-5'>
             <h4 className='font-semibold mt-2'>Time zone</h4>

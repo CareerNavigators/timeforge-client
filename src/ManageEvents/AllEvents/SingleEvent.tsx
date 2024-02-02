@@ -16,7 +16,7 @@ interface SingleEventProps {
 }
 
 const SingleEvent: React.FC<SingleEventProps> = ({ item, handleEventDelete }) => {
-  const { _id, title, duration, eventType, camera, mic, attendee } = item;
+  const { _id, title, duration, eventType, camera, mic } = item;
 
   return (
     <div className='w-[350px] mx-auto rounded-lg border shadow-sm hover:shadow-[#a59cda] hover:transition-all hover:ease-out p-3 hover:shadow-md'>
@@ -33,7 +33,7 @@ const SingleEvent: React.FC<SingleEventProps> = ({ item, handleEventDelete }) =>
             <div className="flex items-center justify-between mt-2">
               <div className="flex items-center gap-3">
                 <FaUsers color="gray" size={30}></FaUsers>
-                <p className="text-2xl font-semibold">{attendee}</p>
+                <p className="text-2xl font-semibold">4</p>
               </div>
               <div className='flex items-center gap-4 text-lg font-medium'>
                 <div className='flex items-center gap-1'>
