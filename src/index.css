@@ -4,10 +4,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer utilities {
   .tin {
     transition: background-color 0.5s cubic-bezier(0.99, 1.56, 0.64, 1);
   }
+}
+:root {
+  --d: #161927;
+  --d1: #0f111a;
+  --d2: #2b314d;
+  --dt: #576ee0;
+  --dw: #f5f5f5;
+  --dg: #bfc3c2;
+}
+/* toast fix for dark mode */
+.dark .swal2-success-circular-line-right,
+.dark .swal2-success-fix,
+.dark .swal2-success-circular-line-left {
+  display: none;
+}
+.dark .swal2-top-end.swal2-backdrop-show > div {
+  background-color: var(--d2);
 }
 
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-modal

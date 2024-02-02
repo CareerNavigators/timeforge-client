@@ -56,6 +56,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logOut = (): Promise<void> => {
     setLoading(true);
+    localStorage.removeItem("user");
     return signOut(auth);
   };
 

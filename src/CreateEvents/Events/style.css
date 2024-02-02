@@ -1,4 +1,4 @@
-/* :where(.css-dev-only-do-not-override-1qhpsh8).ant-modal
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-modal
   .ant-modal-footer
   > .ant-btn
   + .ant-btn {
@@ -10,11 +10,18 @@
   .ant-modal-footer
   > .ant-btn
   + .ant-btn:hover {
-  background-color: rgb(147, 88, 250)
+  background-color: rgb(147, 88, 250);
 }
 
 .ant-btn.css-dev-only-do-not-override-1qhpsh8.ant-btn-default:hover {
   border-color: rgb(124, 58, 237);
   color: rgb(124, 58, 237);
 }
- */
+
+.lg\:h-\[88vh\] {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  &::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
+}
