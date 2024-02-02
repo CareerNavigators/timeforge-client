@@ -67,7 +67,7 @@ export function Profile() {
         setUserProfile(userProfileData);
         setCoverPhotoPreview(
           userProfileData.img_cover ||
-            "https://cdn.discordapp.com/attachments/1065689957525630997/1198863824783155271/3L6gDuf.png?ex=65c9ae71&is=65b73971&hm=e6cfcb9041394544326bb8681a1ffafba1b3b5f4fdbfbf311d379438a1ff37da&"
+            "https://flowbite.com/docs/images/examples/image-1@2x.jpg"
         );
       } catch (error) {
         console.error("Error:", error);
@@ -252,7 +252,7 @@ export function Profile() {
               <label
                 htmlFor="coverPhoto"
                 className="absolute text-white cursor-pointer top-2 right-2">
-                <AiOutlineEdit  size={24} />
+                <AiOutlineEdit size={24} />
               </label>
             )}
             {isEditing && (
