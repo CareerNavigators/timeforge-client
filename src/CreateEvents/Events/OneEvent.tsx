@@ -104,7 +104,7 @@ const OneEvent = () => {
               minWidth: isLargeScreen ? 600 : "auto",
               minHeight: isLargeScreen ? 700 : "auto",
             }}
-            className="p-10 lg:border-2 border-violet-400 bg-white rounded-md shadow-xl"
+            className="p-10 lg:border-2 border-[#7c3aed] bg-white rounded-md shadow-xl"
             onFinish={handleSubmit}
           >
             <div className="lg:h-[65vh] h-full">
@@ -114,7 +114,7 @@ const OneEvent = () => {
                 </h3>
               </div>
               <Form.Item
-                label="Input"
+                label="Event name"
                 name="Input"
                 rules={[{ required: true, message: "Please input!" }]}
               >
@@ -159,8 +159,8 @@ const OneEvent = () => {
                     onClick={handleAudioSelection}
                     className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
                       isAudioSelected
-                        ? "border-violet-600 text-violet-600"
-                        : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
+                        ? "border-[#7c3aed] text-[#7c3aed]"
+                        : "border-gray-300 hover:shadow-md hover:border-[#7c3aed] transition-all ease-in-out"
                     }`}
                   >
                     <div className="flex flex-col items-center gap-1">
@@ -172,8 +172,8 @@ const OneEvent = () => {
                     onClick={handleVideoSelection}
                     className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
                       isVideoSelected
-                        ? "border-violet-600 text-violet-600"
-                        : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
+                        ? "border-[#7c3aed] text-[#7c3aed]"
+                        : "border-gray-300 hover:shadow-md hover:border-[#7c3aed] transition-all ease-in-out"
                     }`}
                   >
                     <div className="flex flex-col items-center">
