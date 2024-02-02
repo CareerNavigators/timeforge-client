@@ -13,6 +13,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import app from "../Firebase/firebase.config";
+import AxiosSecure from "../Hook/useAxios";
 
 type AuthContextType = {
   user: User | null;
@@ -35,6 +36,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
+  const caxios = AxiosSecure();
 
   const googleSignIn = () => {
     setLoading(true);
@@ -58,10 +60,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logOut = (): Promise<void> => {
     setLoading(true);
-    setUserData(null);
+    // setUserData(null);
     return signOut(auth);
   };
-
+  // console.log(userData);
   const signIn = (email: string, password: string): Promise<UserCredential> => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
@@ -72,6 +74,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       auth,
       (currentUser) => {
         setUser(currentUser!);
+        caxios.get(`/user?email=${currentUser?.email}`).then((res) => {
+          setUserData(res.data);
+        });
         setLoading(false);
       },
       (error) => {
@@ -82,7 +87,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       unSubscribe();
     };
-  }, []);
+  }, [caxios]);
 
   const authInfo: AuthContextType = {
     user,
