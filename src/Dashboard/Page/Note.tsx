@@ -39,7 +39,7 @@ const Note = () => {
         </Button>
       </div>
       <div className="mt-4">
-        {/* <p>{displayedContent}</p> */}
+        
       </div>
     </div>
   );
