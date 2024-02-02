@@ -22,11 +22,7 @@
     "dayjs": "^1.11.10",
     "firebase": "^10.7.2",
     "framer-motion": "^10.18.0",
-<<<<<<< HEAD
     "jodit-react": "^4.0.9",
-=======
-    "i": "^0.3.7",
->>>>>>> 1b8d0dcabbd96823a5e0d7ef4aa9f9c5726294df
     "localforage": "^1.10.0",
     "lottie-react": "^2.4.0",
     "match-sorter": "^6.3.3",

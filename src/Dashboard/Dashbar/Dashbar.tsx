@@ -7,6 +7,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme } from "antd";
+import { SlNote } from "react-icons/sl";
 import { useState } from "react";
 import Logo from "/logo.png";
 import { Link, NavLink } from "react-router-dom";
@@ -94,6 +95,12 @@ const Dashbar = () => {
                   </NavLink>
                 ),
               },
+              {
+                key: "5",
+                icon: 
+                <SlNote />,
+                label:<NavLink to="/dashboard/note">Note</NavLink>
+              }
             ]}
           />
 
