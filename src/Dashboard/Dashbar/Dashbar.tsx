@@ -81,11 +81,7 @@ const Dashbar = () => {
               //   icon: <UploadOutlined />,
               //   label: "Workflows",
               // },
-              {
-                key: "3",
-                icon: <HomeOutlined />,
-                label: <NavLink to="/">Home</NavLink>,
-              },
+              
               {
                 key: "4",
                 icon: <UserOutlined />,
@@ -100,7 +96,12 @@ const Dashbar = () => {
                 icon: 
                 <SlNote />,
                 label:<NavLink to="/dashboard/note">Note</NavLink>
-              }
+              },
+              {
+                key: "3",
+                icon: <HomeOutlined />,
+                label: <NavLink to="/">Home</NavLink>,
+              },
             ]}
           />
 
