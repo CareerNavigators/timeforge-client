@@ -31,8 +31,6 @@ type AuthContextType = {
 export const AuthContext = createContext<any>(null);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
-const caxios = AxiosSecure();
-
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -87,8 +85,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       unSubscribe();
     };
-  }, [userData]);
-
+  }, [caxios, userData]);
 
   const authInfo: AuthContextType = {
     user,

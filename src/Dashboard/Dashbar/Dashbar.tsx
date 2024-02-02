@@ -83,12 +83,12 @@ const Dashbar = () => {
               // },
               {
                 key: "3",
-                icon: <UserOutlined />,
-                label: <NavLink to="/dashboard">Home</NavLink>,
+                icon: <HomeOutlined />,
+                label: <NavLink to="/">Home</NavLink>,
               },
               {
                 key: "4",
-                icon: <HomeOutlined />,
+                icon: <UserOutlined />,
                 label: (
                   <NavLink className="mt-auto" to="/dashboard/profile">
                     Profile
