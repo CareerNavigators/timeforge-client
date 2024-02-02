@@ -4,6 +4,7 @@ import {
   HomeOutlined,
   PlusOutlined,
   ScheduleOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme } from "antd";
 import { useState } from "react";
@@ -26,7 +27,7 @@ const Dashbar = () => {
       <Layout className="">
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <Button
-            className=" absolute  z-10 lg:font-bold "
+            className="absolute z-10 lg:font-bold"
             type="text"
             icon={
               collapsed ? (
@@ -47,15 +48,18 @@ const Dashbar = () => {
 
       <Layout className="h-screen">
         <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div className=" " />
-           <Link to="/dashboard"><img className="w-[50px] h-[50px] flex justify-center items-center mt-[80px] mx-auto" src={Logo}></img></Link> 
+          <div className="" />
+          <Link to="/dashboard">
+            <img
+              className="w-[50px] h-[50px] flex justify-center items-center mt-[80px] mx-auto"
+              src={Logo}></img>
+          </Link>
           <Menu
             theme="dark"
-            className="relative   lg:w-full font-inter font-bold py-5 px-1"
+            className="relative px-1 py-5 font-bold lg:w-full font-inter"
             // defaultSelectedKeys={['1']}
-              
-            items={[
 
+            items={[
               {
                 key: "1",
                 icon: <PlusOutlined />,
@@ -82,11 +86,20 @@ const Dashbar = () => {
                 icon: <HomeOutlined />,
                 label: <NavLink to="/">Home</NavLink>,
               },
+              {
+                key: "4",
+                icon: <UserOutlined />,
+                label: (
+                  <NavLink className="mt-auto" to="/dashboard/profile">
+                    Profile
+                  </NavLink>
+                ),
+              },
             ]}
           />
 
           {/* <Menu.Item key="1">
-            <PlusOutlined className="text-blue-500 h-6 w-6" />
+            <PlusOutlined className="w-6 h-6 text-blue-500" />
             <span className="ml-4">Start</span>
           </Menu.Item> */}
         </Sider>
