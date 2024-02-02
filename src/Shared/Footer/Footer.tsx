@@ -14,8 +14,8 @@ const Footer = () => {
   );
   return (
     <footer className="bg-white dark:bg-d1">
-      <hr className="mx-auto max-w-screen-xl text-gray-600"></hr>
-      <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
+      <hr className="mx-auto max-w-screen-[1920px] text-gray-600"></hr>
+      <div className="mx-auto max-w-screen-[1920px] px-4 py-8 sm:px-6 lg:px-8">
         <div className="sm:flex sm:justify-between">
           <div>
             <div className="flex items-center justify-center sm:justify-start gap-2">

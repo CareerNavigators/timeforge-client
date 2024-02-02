@@ -1,16 +1,21 @@
 import { Button, Form, Input, Select } from "antd";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { AiFillAudio } from "react-icons/ai";
 import { FaVideo } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import CalendarPage from "./CalendarPage";
 import bgImg from "../../../public/bg.png";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import AxiosSecure from "../../Hook/useAxios";
+import { AuthContext } from "../../Provider/AuthContext";
+import showToast from "../../Hook/swalToast";
 
 const OneEvent = () => {
+  const { userData } = useContext(AuthContext);
+  console.log(userData);
+
   const isLargeScreen = window.innerWidth > 768;
   const [isAudioSelected, setIsAudioSelected] = useState(false);
   const [isVideoSelected, setIsVideoSelected] = useState(false);
@@ -19,11 +24,12 @@ const OneEvent = () => {
   const [eventType, setEventType] = useState<string>("");
   const [eventDesc, setEventDesc] = useState<string>("");
   const [events, setEvents] = useState<Array<unknown>>([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+  const [selectedTimes, setSelectedTimes] = useState(null);
+  const axiosSecure = AxiosSecure();
 
-  const onSelectTime = (times: string[]) => {
+  const onSelectTime = (times: any) => {
     setSelectedTimes(times);
   };
 
@@ -51,37 +57,26 @@ const OneEvent = () => {
 
   const handleSubmit = async () => {
     try {
-      await form.validateFields();
-
       const newEvent = {
-        eventName: eventName,
+        createdBy: "65ba4751f6c3e2ad4492cc69",
+        title: eventName,
         duration: eventDuration,
-        requiredAudio: isAudioSelected,
-        requiredVideo: isVideoSelected,
+        mic: isAudioSelected,
+        camera: isVideoSelected,
         eventType: eventType,
-        eventDesc: eventDesc,
-        selectedTimes: selectedTimes,
+        desc: eventDesc,
+        events: selectedTimes,
       };
-      console.log(newEvent);
-      const response = await fetch("/meeting", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newEvent),
-      });
+      console.log(selectedTimes);
 
-      if (response.ok) {
-        await setEvents((prevEvents) => [...prevEvents, newEvent]);
-        toast.success(`${eventName} is added to the Events.`);
-        navigate("/calendarPage");
-      } else {
-        console.error("Error adding task:", response.statusText);
-        toast.error("Error adding task. Please try again.");
-      }
+      axiosSecure.post("/meeting", newEvent).then((res) => {
+        console.log(res);
+        setEvents((prevEvents) => [...prevEvents, newEvent]);
+        showToast("success", `${eventName} is added to the Events.`);
+      });
     } catch (error) {
       console.error("Error adding task:", error);
-      toast.error("Please fill in all required fields.");
+      showToast("error", "Please fill in all required fields.");
     }
   };
 
@@ -99,7 +94,7 @@ const OneEvent = () => {
     >
       <div className="flex flex-col lg:flex-row gap-3 items-center justify-center mx-auto">
         {/* Input part */}
-        <div className="lg:m-0 m-5 w-fit">
+        <div className="m-5 lg:m-0 w-fit">
           <Form
             form={form}
             labelCol={{ span: 5 }}
@@ -114,7 +109,7 @@ const OneEvent = () => {
           >
             <div className="lg:h-[65vh] h-full">
               <div className="lg:mb-10">
-                <h3 className="text-xl text-center font-bold">
+                <h3 className="text-xl font-bold text-center">
                   New Event Type
                 </h3>
               </div>
@@ -168,7 +163,7 @@ const OneEvent = () => {
                         : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
                     }`}
                   >
-                    <div className="flex flex-col gap-1 items-center">
+                    <div className="flex flex-col items-center gap-1">
                       <AiFillAudio className="text-2xl" />
                     </div>
                   </span>
@@ -187,7 +182,6 @@ const OneEvent = () => {
                   </span>
                 </div>
               </Form.Item>
-
               <Form.Item
                 label="Description"
                 className="text-lg font-semibold"
@@ -218,7 +212,8 @@ const OneEvent = () => {
         {/* calendar part */}
         <div className="rounded-md">
           <CalendarPage
-            selectedTimes={{ selectedTimes }}
+            selectedTimes={selectedTimes}
+            setSelectedTimes={setSelectedTimes}
             onSelectTime={onSelectTime}
           ></CalendarPage>
         </div>

@@ -7,7 +7,6 @@ import Title from "../Components/Title/Title";
 import Dashboard from "../Dashboard/Layout/Dashboard";
 import CreateEvents from "../CreateEvents/CreateEvents";
 import OneEvent from "../CreateEvents/Events/OneEvent";
-import UserProfile from "../Components/UserProfile/UserProfile";
 import EventSlot from "../Components/EventSlot/EventSlot";
 import CalendarPage from "../CreateEvents/Events/CalendarPage";
 import AllEvents from "../ManageEvents/AllEvents/AllEvents";
@@ -15,9 +14,10 @@ import EventDetails from "../ManageEvents/AllEvents/EventDetails";
 import Error from "../Error/Error";
 import Pricing from "../Pages/Pricing";
 import ContactUs from "../Contacts/ContactUs";
-import AboutUs from "../AboutUs/AboutUs";
+import AboutUs from "../AboutUs/AboutUs"
 import About from "../Contacts/About";
 import Note from "../Dashboard/Page/Note";
+import { Profile } from "../Dashboard/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -42,8 +42,7 @@ const router = createBrowserRouter([
         element: (
           <CalendarPage
             selectedTimes={{}}
-            onSelectTime={function (): void {}}
-          ></CalendarPage>
+            onSelectTime={function (): void {}}></CalendarPage>
         ),
       },
       {
@@ -51,8 +50,9 @@ const router = createBrowserRouter([
         element: <AllEvents></AllEvents>,
       },
       {
-        path: "/eventDetails",
+        path: "/eventDetails/:id",
         element: <EventDetails></EventDetails>,
+        loader: ({ params }) => fetch(`https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`)
       },
       {
         path: "/pricing",
@@ -81,10 +81,6 @@ const router = createBrowserRouter([
     element: <Login></Login>,
   },
   {
-    path: "profile",
-    element: <UserProfile />,
-  },
-  {
     element: <Dashboard></Dashboard>,
     children: [
       {
@@ -102,12 +98,17 @@ const router = createBrowserRouter([
       {
         path: "dashboard/note",
         element: <Note></Note>
-      }
+      },{
+
+        path: "/dashboard/profile",
+        element: <Profile></Profile>,
+      },
     ],
   },
   {
-    path: "/eventslot",
+    path: "/eventslot/:id",
     element: <EventSlot></EventSlot>,
+    loader: ({ params }) => fetch(`https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`)
   },
   
 ]);

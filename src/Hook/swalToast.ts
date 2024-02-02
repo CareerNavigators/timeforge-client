@@ -6,7 +6,8 @@ export default function showToast(icon: SweetAlertIcon, title: string): void {
     toast: true,
     position: "top-end",
     showConfirmButton: false,
-    timer: 4000,
+    timer: 3000,
+    showCloseButton: true,
     timerProgressBar: true,
     didOpen: (toast) => {
       toast.addEventListener("mouseenter", Swal.stopTimer);
