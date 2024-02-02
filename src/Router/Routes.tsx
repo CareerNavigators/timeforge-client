@@ -17,6 +17,7 @@ import Pricing from "../Pages/Pricing";
 import ContactUs from "../Contacts/ContactUs";
 import AboutUs from "../AboutUs/AboutUs";
 import About from "../Contacts/About";
+import Note from "../Dashboard/Page/Note";
 
 const router = createBrowserRouter([
   {
@@ -98,11 +99,16 @@ const router = createBrowserRouter([
         path: "/dashboard/allEvents",
         element: <AllEvents></AllEvents>,
       },
+      {
+        path: "dashboard/note",
+        element: <Note></Note>
+      }
     ],
   },
   {
     path: "/eventslot",
     element: <EventSlot></EventSlot>,
   },
+  
 ]);
 export default router;

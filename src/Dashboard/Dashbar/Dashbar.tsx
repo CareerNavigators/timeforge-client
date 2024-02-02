@@ -10,7 +10,7 @@ import { useState } from "react";
 import Logo from "/logo.png";
 import { Link, NavLink } from "react-router-dom";
 import "./style.css";
-
+import { GiNotebook } from "react-icons/gi";
 const { Header, Sider } = Layout;
 const Dashbar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -37,7 +37,7 @@ const Dashbar = () => {
             }
             onClick={() => setCollapsed(!collapsed)}
             style={{
-              fontSize: "16px",
+              fontSize: "26px",
               width: 74,
               height: 74,
             }}
@@ -45,13 +45,13 @@ const Dashbar = () => {
         </Header>
       </Layout>
 
-      <Layout className="h-screen">
+      <Layout className="h-screen text-[30px]">
         <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className=" " />
            <Link to="/dashboard"><img className="w-[50px] h-[50px] flex justify-center items-center mt-[80px] mx-auto" src={Logo}></img></Link> 
           <Menu
             theme="dark"
-            className="relative   lg:w-full font-inter font-bold py-5 px-1"
+            className="relative   lg:w-full  font-inter font-bold py-5 px-1"
             // defaultSelectedKeys={['1']}
               
             items={[
@@ -82,6 +82,11 @@ const Dashbar = () => {
                 icon: <HomeOutlined />,
                 label: <NavLink to="/">Home</NavLink>,
               },
+              {
+                key: "4",
+                icon:<GiNotebook />,
+                label: <NavLink to="dashboard/note">Your Note</NavLink>
+              }
             ]}
           />
 
