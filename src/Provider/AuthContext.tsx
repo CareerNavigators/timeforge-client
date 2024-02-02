@@ -63,7 +63,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     // setUserData(null);
     return signOut(auth);
   };
-  // console.log(userData);
   const signIn = (email: string, password: string): Promise<UserCredential> => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
