@@ -4,13 +4,18 @@ import { AiFillAudio } from "react-icons/ai";
 import { FaVideo } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import CalendarPage from "./CalendarPage";
 import bgImg from "../../../public/bg.png";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import AxiosSecure from "../../Hook/useAxios";
+// import { AuthContext } from "../../Provider/AuthContext";
 
 const OneEvent = () => {
+  // const { user } = useContext(AuthContext);
+  // console.log(user.uid);
+
   const isLargeScreen = window.innerWidth > 768;
   const [isAudioSelected, setIsAudioSelected] = useState(false);
   const [isVideoSelected, setIsVideoSelected] = useState(false);
@@ -19,11 +24,12 @@ const OneEvent = () => {
   const [eventType, setEventType] = useState<string>("");
   const [eventDesc, setEventDesc] = useState<string>("");
   const [events, setEvents] = useState<Array<unknown>>([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+  const [selectedTimes, setSelectedTimes] = useState(null);
+  const axiosSecure = AxiosSecure();
 
-  const onSelectTime = (times: string[]) => {
+  const onSelectTime = (times: any) => {
     setSelectedTimes(times);
   };
 
@@ -51,34 +57,23 @@ const OneEvent = () => {
 
   const handleSubmit = async () => {
     try {
-      await form.validateFields();
-
       const newEvent = {
-        eventName: eventName,
+        createdBy: "65ba4751f6c3e2ad4492cc69",
+        title: eventName,
         duration: eventDuration,
-        requiredAudio: isAudioSelected,
-        requiredVideo: isVideoSelected,
+        mic: isAudioSelected,
+        camera: isVideoSelected,
         eventType: eventType,
-        eventDesc: eventDesc,
-        selectedTimes: selectedTimes,
+        desc: eventDesc,
+        events: selectedTimes,
       };
-      console.log(newEvent);
-      const response = await fetch("/meeting", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newEvent),
-      });
+      console.log(selectedTimes);
 
-      if (response.ok) {
-        await setEvents((prevEvents) => [...prevEvents, newEvent]);
+      axiosSecure.post("/meeting", newEvent).then((res) => {
+        console.log(res);
+        setEvents((prevEvents) => [...prevEvents, newEvent]);
         toast.success(`${eventName} is added to the Events.`);
-        navigate("/calendarPage");
-      } else {
-        console.error("Error adding task:", response.statusText);
-        toast.error("Error adding task. Please try again.");
-      }
+      });
     } catch (error) {
       console.error("Error adding task:", error);
       toast.error("Please fill in all required fields.");
@@ -218,7 +213,8 @@ const OneEvent = () => {
         {/* calendar part */}
         <div className="rounded-md">
           <CalendarPage
-            selectedTimes={{ selectedTimes }}
+            selectedTimes={selectedTimes}
+            setSelectedTimes={setSelectedTimes}
             onSelectTime={onSelectTime}
           ></CalendarPage>
         </div>
