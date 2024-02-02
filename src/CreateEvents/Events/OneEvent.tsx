@@ -94,7 +94,7 @@ const OneEvent = () => {
     >
       <div className="flex flex-col lg:flex-row gap-3 items-center justify-center mx-auto">
         {/* Input part */}
-        <div className="lg:m-0 m-5 w-fit">
+        <div className="m-5 lg:m-0 w-fit">
           <Form
             form={form}
             labelCol={{ span: 5 }}
@@ -109,7 +109,7 @@ const OneEvent = () => {
           >
             <div className="lg:h-[65vh] h-full">
               <div className="lg:mb-10">
-                <h3 className="text-xl text-center font-bold">
+                <h3 className="text-xl font-bold text-center">
                   New Event Type
                 </h3>
               </div>
@@ -161,9 +161,8 @@ const OneEvent = () => {
                       isAudioSelected
                         ? "border-violet-600 text-violet-600"
                         : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
-                    }`}
-                  >
-                    <div className="flex flex-col gap-1 items-center">
+                    }`}>
+                    <div className="flex flex-col items-center gap-1">
                       <AiFillAudio className="text-2xl" />
                     </div>
                   </span>
@@ -174,8 +173,7 @@ const OneEvent = () => {
                       isVideoSelected
                         ? "border-violet-600 text-violet-600"
                         : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
-                    }`}
-                  >
+                    }`}>
                     <div className="flex flex-col items-center">
                       <FaVideo className="text-2xl" />
                     </div>
