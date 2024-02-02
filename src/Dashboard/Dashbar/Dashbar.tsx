@@ -8,7 +8,7 @@ import {
 import { Layout, Menu, Button, theme } from "antd";
 import { useState } from "react";
 import Logo from "/logo.png";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./style.css";
 
 const { Header, Sider } = Layout;
@@ -45,30 +45,26 @@ const Dashbar = () => {
         </Header>
       </Layout>
 
-      <Layout className="">
+      <Layout className="h-screen">
         <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className=" " />
+           <Link to="/dashboard"><img className="w-[50px] h-[50px] flex justify-center items-center mt-[80px] mx-auto" src={Logo}></img></Link> 
           <Menu
             theme="dark"
-            className="relative h-screen lg:w-full font-inter font-bold py-5 px-1"
+            className="relative   lg:w-full font-inter font-bold py-5 px-1"
             // defaultSelectedKeys={['1']}
-
+              
             items={[
-              {
-                key: "0",
-                icon: <img src={Logo} className="w-10 flex p-1" />,
-                label: <NavLink to="/dashboard"></NavLink>,
-              },
 
               {
                 key: "1",
                 icon: <PlusOutlined />,
                 label: <NavLink to="/dashboard/createEvent">Create</NavLink>,
-                className: "menu-item-1",
+                className: "",
               },
               {
                 key: "2",
-                icon: <ScheduleOutlined />,
+                icon: <ScheduleOutlined></ScheduleOutlined>,
                 label: <NavLink to="/dashboard/allEvents">Events</NavLink>,
               },
               // {

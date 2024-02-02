@@ -3,11 +3,13 @@ import Logo from "/logo.png";
 import { FaAlignJustify } from "react-icons/fa";
 import type { DrawerProps } from "antd";
 import { Drawer } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import DarkModeToggle from "../../Components/DarkModeToggle/DarkModeToggle";
 import ProfileMenu from "../../Components/AvatarMenu/AvaterMenu";
+import { AuthContext } from "../../Provider/AuthContext";
 
 const Navbar: React.FC = () => {
+  const { userData, loading } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const [placement] = useState<DrawerProps["placement"]>("bottom");
   const showDrawer = () => {
@@ -17,7 +19,6 @@ const Navbar: React.FC = () => {
   const onClose = () => {
     setOpen(false);
   };
-  const user = localStorage.getItem("user");
   // common links
   const links = (
     <>
@@ -27,20 +28,21 @@ const Navbar: React.FC = () => {
       <li className="text-sm font-semibold hover:text-dt">
         <NavLink to="/pricing">Pricing</NavLink>
       </li>
-      {!user ? (
-        <Link
-          to="/login"
-          className="text-xs font-semibold py-2 px-5 border hover:text-white hover:transition-all hover:bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] duration-300">
-          Login
-        </Link>
-      ) : null}
-
-      {!user ? (
-        <Link
-          to="/signup"
-          className="text-xs font-semibold text-white py-2 px-5 border bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] cursor-pointer">
-          Register
-        </Link>
+      {loading ? (
+        ""
+      ) : userData === null ? (
+        <>
+          <Link
+            to="/login"
+            className="text-xs font-semibold py-2 px-5 border hover:text-white hover:transition-all hover:bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] duration-300">
+            Login
+          </Link>
+          <Link
+            to="/signup"
+            className="text-xs font-semibold text-white py-2 px-5 border bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] cursor-pointer">
+            Register
+          </Link>
+        </>
       ) : null}
     </>
   );
