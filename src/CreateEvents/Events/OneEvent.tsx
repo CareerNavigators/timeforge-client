@@ -1,5 +1,5 @@
 import { Button, Form, Input, Select } from "antd";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { AiFillAudio } from "react-icons/ai";
 import { FaVideo } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
@@ -10,11 +10,11 @@ import bgImg from "../../../public/bg.png";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import AxiosSecure from "../../Hook/useAxios";
-// import { AuthContext } from "../../Provider/AuthContext";
+import { AuthContext } from "../../Provider/AuthContext";
 
 const OneEvent = () => {
-  // const { user } = useContext(AuthContext);
-  // console.log(user.uid);
+  const { userData } = useContext(AuthContext);
+  console.log(userData);
 
   const isLargeScreen = window.innerWidth > 768;
   const [isAudioSelected, setIsAudioSelected] = useState(false);
@@ -161,7 +161,8 @@ const OneEvent = () => {
                       isAudioSelected
                         ? "border-violet-600 text-violet-600"
                         : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
-                    }`}>
+                    }`}
+                  >
                     <div className="flex flex-col items-center gap-1">
                       <AiFillAudio className="text-2xl" />
                     </div>
@@ -173,7 +174,8 @@ const OneEvent = () => {
                       isVideoSelected
                         ? "border-violet-600 text-violet-600"
                         : "border-gray-300 hover:shadow-md hover:border-violet-500 transition-all ease-in-out"
-                    }`}>
+                    }`}
+                  >
                     <div className="flex flex-col items-center">
                       <FaVideo className="text-2xl" />
                     </div>
