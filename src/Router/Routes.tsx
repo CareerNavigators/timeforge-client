@@ -14,7 +14,7 @@ import EventDetails from "../ManageEvents/AllEvents/EventDetails";
 import Error from "../Error/Error";
 import Pricing from "../Pages/Pricing";
 import ContactUs from "../Contacts/ContactUs";
-import AboutUs from "../AboutUs/AboutUs";
+import AboutUs from "../AboutUs/AboutUs"
 import About from "../Contacts/About";
 import { Profile } from "../Dashboard/Profile/Profile";
 
@@ -49,8 +49,9 @@ const router = createBrowserRouter([
         element: <AllEvents></AllEvents>,
       },
       {
-        path: "/eventDetails",
+        path: "/eventDetails/:id",
         element: <EventDetails></EventDetails>,
+        loader: ({ params }) => fetch(`https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`)
       },
       {
         path: "/pricing",

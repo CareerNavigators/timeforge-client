@@ -9,8 +9,8 @@ import tanzil from "../assets/TeamImages/Tanzil.png"
 const AboutUs: React.FC = () => {
   return (
     <section className='max-w-screen-xl mx-auto'>
-      <div className='px-2 mt-10 space-y-4'>
-        <h3 className='text-[#5E47EF] text-2xl font-bold text-center sm:text-5xl'>
+      <div className='space-y-4 mt-10 px-2'>
+        <h3 className='bg-gradient-to-r from-green-300 to-[#5038ED] bg-clip-text text-transparent text-2xl font-bold text-center sm:text-5xl'>
           Time Forge Team Members
         </h3>
         <p className='max-w-2xl mx-auto text-center text-gray-500'>
