@@ -1,46 +1,36 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import type { Dayjs } from "dayjs";
 import type { CalendarProps } from "antd";
 import { Badge, Calendar, Modal } from "antd";
-import "./CalenderPageStyle.css";
+import "./style.css";
 
-interface CalendarPageProps {
-  selectedTimes: { [date: string]: string[] };
-}
-interface CalendarPageProps {
-  onSelectTime: (times: string[]) => void;
-}
-
-const CalendarPage: React.FC<CalendarPageProps> = () => {
+const CalendarPage = ({ selectedTimes, setSelectedTimes }: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  // const isLargeScreen = window.innerWidth > 768;
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
-  const [selectedTimes, setSelectedTimes] = useState<{
-    [date: string]: string[];
-  }>({});
-
   const [modalOpen, setModalOpen] = useState<boolean>(true);
 
   useEffect(() => {
     if (modalOpen) {
       setSelectedTimes({});
     }
-  }, [modalOpen]);
+  }, [modalOpen, setSelectedTimes]);
 
   const handleCheckboxChange = (time: string) => {
     const currentDateKey = selectedDate?.format("DDMMYY");
 
     if (currentDateKey) {
-      const isSelected = selectedTimes[currentDateKey]?.includes(time);
+      setSelectedTimes((prevSelectedTimes: { [x: string]: any }) => {
+        const isSelected = prevSelectedTimes[currentDateKey]?.includes(time);
 
-      setSelectedTimes((prevSelectedTimes) => ({
-        ...prevSelectedTimes,
-        [currentDateKey]: isSelected
-          ? prevSelectedTimes[currentDateKey]?.filter(
-              (selectedTime) => selectedTime !== time
-            ) || []
-          : [...(prevSelectedTimes[currentDateKey] || []), time],
-      }));
+        return {
+          ...prevSelectedTimes,
+          [currentDateKey]: isSelected
+            ? (prevSelectedTimes[currentDateKey] || []).filter(
+                (selectedTime: string) => selectedTime !== time
+              )
+            : [...(prevSelectedTimes[currentDateKey] || []), time],
+        };
+      });
     }
   };
 
@@ -65,7 +55,8 @@ const CalendarPage: React.FC<CalendarPageProps> = () => {
 
   const handleOk = () => {
     const dateKey = selectedDate?.format("DDMMYY");
-    const timesForSelectedDate = selectedTimes[dateKey || ""] || [];
+    const timesForSelectedDate =
+      (selectedTimes && selectedTimes[dateKey || ""]) || [];
     onSelectTime(timesForSelectedDate);
     setModalOpen(false);
     setIsModalVisible(false);
@@ -93,14 +84,18 @@ const CalendarPage: React.FC<CalendarPageProps> = () => {
       [dateKey]: times,
     });
     setIsModalVisible(false);
+    console.log(times);
   };
 
   const dateCellRender = (value: Dayjs) => {
-    const data = selectedTimes[value.format("DDMMYY")] || [];
+    // console.log(selectedTimes);
+    const data = selectedTimes
+      ? selectedTimes[value.format("DDMMYY")] || []
+      : [];
 
     return (
       <ul className="events">
-        {data.map((item, index) => (
+        {data?.map((item: any, index: any) => (
           <li key={index}>
             <Badge status="success" text={item} />
           </li>
@@ -115,9 +110,15 @@ const CalendarPage: React.FC<CalendarPageProps> = () => {
   };
 
   return (
+<<<<<<< manage&EditEvents
     <div className="flex justify-center items-center p-3">
       <Calendar
         className="p-5 rounded-md shadow-xl border-2 border-violet-500"
+=======
+    <div className="flex justify-center items-center lg:h-[88vh] overflow-auto pt-5 rounded-md">
+      <Calendar
+        className="lg:w-[40vw] h-fit m-5 p-5 rounded-md shadow-xl border-2 border-violet-500"
+>>>>>>> devBranch
         onSelect={onSelect}
         cellRender={cellRender}
         mode={"month"}
@@ -133,8 +134,10 @@ const CalendarPage: React.FC<CalendarPageProps> = () => {
         <div>
           <ul>
             {selectedDate &&
-              selectedTimes[selectedDate.format("DDMMYY")]?.map(
-                (time, index) => <li key={index}>{time}</li>
+              selectedTimes &&
+              selectedTimes[selectedDate.format("DDMMYY")] &&
+              selectedTimes[selectedDate.format("DDMMYY")].map(
+                (time: any, index: any) => <li key={index}>{time}</li>
               )}
           </ul>
         </div>
@@ -158,16 +161,17 @@ const CalendarPage: React.FC<CalendarPageProps> = () => {
           <div>
             <h3>Selected Times:</h3>
             <ul className="grid grid-cols-6 gap-5">
-              {selectedTimes[selectedDate?.format("DDMMYY") || ""]?.map(
-                (selectedTime) => (
-                  <li
-                    className="border-2 border-violet-100 text-center rounded"
-                    key={selectedTime}
-                  >
-                    {selectedTime}
-                  </li>
-                )
-              )}
+              {selectedTimes &&
+                selectedTimes[selectedDate?.format("DDMMYY") || ""]?.map(
+                  (selectedTime: any) => (
+                    <li
+                      className="border-2 border-violet-100 text-center rounded"
+                      key={selectedTime}
+                    >
+                      {selectedTime}
+                    </li>
+                  )
+                )}
             </ul>
           </div>
         </div>

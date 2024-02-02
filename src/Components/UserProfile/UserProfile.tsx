@@ -1,10 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect, ChangeEvent, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  ChangeEvent,
+  useCallback,
+  useContext,
+} from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import axios from "axios";
 import { FaRegEdit } from "react-icons/fa";
 import { motion, useAnimation } from "framer-motion";
 import toast from "react-hot-toast";
+import { AuthContext } from "../../Provider/AuthContext";
 
 interface UserProfile {
   id?: string;
@@ -29,11 +36,9 @@ const Profile: React.FC = () => {
   const [editedCountry, setEditedCountry] = useState("");
   const [editedTimeZone, setEditedTimeZone] = useState("");
   const [isChangesMade, setIsChangesMade] = useState(false);
-
+  const { userData, setUserData } = useContext(AuthContext);
   const fetchUserProfile = useCallback(async () => {
-    const userEmail = JSON.parse(
-      localStorage.getItem("user") || "{'id':'65b34882318c020926483957'}"
-    ).email;
+    const userEmail = userData?.email;
     setLoadingProfile(true);
     try {
       const response = await axios.get(
@@ -48,7 +53,7 @@ const Profile: React.FC = () => {
     } finally {
       setLoadingProfile(false);
     }
-  }, []);
+  }, [userData?.email]);
 
   const uploadImageToApi = async (image: File): Promise<string> => {
     setLoadingImageUpload(true);
@@ -122,8 +127,6 @@ const Profile: React.FC = () => {
         setIsEditing(false);
         setIsChangesMade(false);
         await updateBackendData(updatedProfile);
-
-        console.log("Edited Data:", JSON.stringify(updatedProfile, null, 2));
       } catch (error) {
         console.error("Error saving changes:", error);
       } finally {
@@ -136,14 +139,14 @@ const Profile: React.FC = () => {
   };
 
   const updateBackendData = async (data: UserProfile) => {
-    const userId = JSON.parse(
-      localStorage.getItem("user") || "{'id':'65b34882318c020926483957'}"
-    ).id;
+    const userId = userData._id;
+
     try {
-      await axios.patch(
-        `${import.meta.env.VITE_BACK_END_API}/user/${userId}`,
-        data
-      );
+      await axios
+        .patch(`${import.meta.env.VITE_BACK_END_API}/user/${userId}`, data)
+        .then((response) => {
+          setUserData(response.data);
+        });
     } catch (error) {
       console.error("Error updating backend data:", error);
     }
@@ -186,20 +189,22 @@ const Profile: React.FC = () => {
   return (
     <motion.div
       animate={controls}
-      className="container h-screen p-4 mx-auto dark:bg-d"
-    >
+      className="container h-screen p-4 mx-auto dark:bg-d">
       {loadingProfile && (
-        <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-white dark:bg-d ">
-          <div className="flex items-center justify-center space-x-2">
-            <div className="w-4 h-4 bg-black rounded-full animate-pulse dark:bg-violet-400"></div>
-            <div className="w-4 h-4 bg-black rounded-full animate-pulse dark:bg-violet-400"></div>
-            <div className="w-4 h-4 bg-black rounded-full animate-pulse dark:bg-violet-400"></div>
-          </div>
-          <div className="ml-2 text-lg font-semibold text-black dark:text-white">
-            Loading Profile...
+        <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-white dark:bg-d">
+          <div className="flex flex-col items-center">
+            <div className="flex items-center space-x-2">
+              <div className="w-4 h-4 bg-black rounded-full animate-pulse dark:bg-violet-400"></div>
+              <div className="w-4 h-4 bg-black rounded-full animate-pulse dark:bg-violet-400"></div>
+              <div className="w-4 h-4 bg-black rounded-full animate-pulse dark:bg-violet-400"></div>
+            </div>
+            {/* <div className="ml-2 text-lg font-semibold text-black dark:text-white">
+              Loading Profile...
+            </div> */}
           </div>
         </div>
       )}
+
       <div className="mb-8">
         <div className="relative object-top w-full mb-4 bg-center bg-cover h-80">
           {coverPhotoPreview && (
@@ -212,8 +217,7 @@ const Profile: React.FC = () => {
           {isEditing && (
             <label
               htmlFor="coverPhoto"
-              className="absolute cursor-pointer top-2 right-2"
-            >
+              className="absolute cursor-pointer top-2 right-2">
               <AiOutlineEdit size={24} />
             </label>
           )}
@@ -229,8 +233,7 @@ const Profile: React.FC = () => {
           <div className="absolute bottom-4 right-4">
             <button
               className="px-4 py-2 font-bold text-white transition duration-300 ease-in-out bg-blue-500 rounded-full hover:bg-blue-700"
-              onClick={handleEdit}
-            >
+              onClick={handleEdit}>
               <FaRegEdit size={24} />
             </button>
           </div>
@@ -251,8 +254,7 @@ const Profile: React.FC = () => {
             {isEditing && (
               <label
                 htmlFor="profilePhoto"
-                className="absolute top-0 right-0 cursor-pointer"
-              >
+                className="absolute top-0 right-0 cursor-pointer">
                 <AiOutlineEdit size={18} onClick={handleEdit} />
               </label>
             )}
@@ -271,8 +273,7 @@ const Profile: React.FC = () => {
       <div
         className={`bg-gray-200 dark:bg-d1 p-4 rounded-md ${
           isEditing ? "editing" : ""
-        }`}
-      >
+        }`}>
         <div className="mb-4">
           <p>Email: {userProfile?.email}</p>
         </div>
@@ -309,15 +310,13 @@ const Profile: React.FC = () => {
           <button
             className="px-4 py-2 text-white bg-blue-500 rounded"
             onClick={handleSave}
-            disabled={loadingProfile || loadingImageUpload}
-          >
+            disabled={loadingProfile || loadingImageUpload}>
             Save Changes
           </button>
           <button
             className="px-4 py-2 ml-2 text-white bg-gray-500 rounded"
             onClick={handleCancel}
-            disabled={loadingProfile || loadingImageUpload}
-          >
+            disabled={loadingProfile || loadingImageUpload}>
             Cancel
           </button>
         </div>

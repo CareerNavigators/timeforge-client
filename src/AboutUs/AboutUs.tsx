@@ -13,7 +13,7 @@ const AboutUs: React.FC = () => {
         <h3 className='bg-gradient-to-r from-green-300 to-[#5038ED] bg-clip-text text-transparent text-2xl font-bold text-center sm:text-5xl'>
           Time Forge Team Members
         </h3>
-        <p className='max-w-2xl mx-auto text-gray-500 text-center'>
+        <p className='max-w-2xl mx-auto text-center text-gray-500'>
           Meet our dynamic team of six hardworking and enthusiastic web
           developers. We approach coding with meticulous precision, turning
           complexity into seamless digital art. We are creating web solutions
@@ -29,7 +29,7 @@ const AboutUs: React.FC = () => {
             <div className='flex flex-col justify-center w-full px-8 mx-6 my-12 text-center rounded-md md:w-96 lg:w-80 xl:w-64 bg-gradient-to-r from-[#9181F4] to-[#5038ED] text-gray-100'>
               <img
                 alt='huzaifa-img'
-                className='self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover object-cover rounded-full bg-gray-500'
+                className='self-center flex-shrink-0 object-cover w-24 h-24 -mt-12 bg-gray-500 bg-center bg-cover rounded-full'
                 src={huzaifa}
               />
               <div className='flex-1 my-4'>
@@ -41,17 +41,17 @@ const AboutUs: React.FC = () => {
               <div className='flex items-center justify-center p-3 space-x-3 border-t-2'>
                 <a
                   title='Email'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaMailBulk></FaMailBulk>
                 </a>
                 <a
                   title='Linkedin'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaLinkedin></FaLinkedin>
                 </a>
                 <a
                   title='Github'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaGithub></FaGithub>
                 </a>
               </div>
@@ -61,7 +61,7 @@ const AboutUs: React.FC = () => {
             <div className='flex flex-col justify-center w-full px-8 mx-6 my-12 text-center rounded-md md:w-96 lg:w-80 xl:w-64 bg-gradient-to-r from-[#9181F4] to-[#5038ED] text-gray-100'>
               <img
                 alt='huzaifa-img'
-                className='self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full bg-gray-500'
+                className='self-center flex-shrink-0 w-24 h-24 -mt-12 bg-gray-500 bg-center bg-cover rounded-full'
                 src={rohan}
               />
               <div className='flex-1 my-4'>
@@ -71,17 +71,17 @@ const AboutUs: React.FC = () => {
               <div className='flex items-center justify-center p-3 space-x-3 border-t-2'>
                 <a
                   title='Email'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaMailBulk></FaMailBulk>
                 </a>
                 <a
                   title='Linkedin'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaLinkedin></FaLinkedin>
                 </a>
                 <a
                   title='Github'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaGithub></FaGithub>
                 </a>
               </div>
@@ -91,7 +91,7 @@ const AboutUs: React.FC = () => {
             <div className='flex flex-col justify-center w-full px-8 mx-6 my-12 text-center rounded-md md:w-96 lg:w-80 xl:w-64 bg-gradient-to-r from-[#9181F4] to-[#5038ED] text-gray-100'>
               <img
                 alt='sakib-img'
-                className='self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover object-cover rounded-full bg-gray-500'
+                className='self-center flex-shrink-0 object-cover w-24 h-24 -mt-12 bg-gray-500 bg-center bg-cover rounded-full'
                 src={sakib}
               />
               <div className='flex-1 my-4'>
@@ -101,17 +101,17 @@ const AboutUs: React.FC = () => {
               <div className='flex items-center justify-center p-3 space-x-3 border-t-2'>
                 <a
                   title='Email'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaMailBulk></FaMailBulk>
                 </a>
                 <a
                   title='Linkedin'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaLinkedin></FaLinkedin>
                 </a>
                 <a
                   title='Github'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaGithub></FaGithub>
                 </a>
               </div>
@@ -121,7 +121,7 @@ const AboutUs: React.FC = () => {
             <div className='flex flex-col justify-center w-full px-8 mx-6 my-12 text-center rounded-md md:w-96 lg:w-80 xl:w-64 bg-gradient-to-r from-[#9181F4] to-[#5038ED] text-gray-100'>
               <img
                 alt='huzaifa-img'
-                className='self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full bg-gray-500'
+                className='self-center flex-shrink-0 w-24 h-24 -mt-12 bg-gray-500 bg-center bg-cover rounded-full'
                 src={shabbir}
               />
               <div className='flex-1 my-4'>
@@ -131,17 +131,17 @@ const AboutUs: React.FC = () => {
               <div className='flex items-center justify-center p-3 space-x-3 border-t-2'>
                 <a
                   title='Email'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaMailBulk></FaMailBulk>
                 </a>
                 <a
                   title='Linkedin'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaLinkedin></FaLinkedin>
                 </a>
                 <a
                   title='Github'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaGithub></FaGithub>
                 </a>
               </div>
@@ -151,7 +151,7 @@ const AboutUs: React.FC = () => {
             <div className='flex flex-col justify-center w-full px-8 mx-6 my-12 text-center rounded-md md:w-96 lg:w-80 xl:w-64 bg-gradient-to-r from-[#9181F4] to-[#5038ED] text-gray-100'>
               <img
                 alt='huzaifa-img'
-                className='self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full bg-gray-500'
+                className='self-center flex-shrink-0 w-24 h-24 -mt-12 bg-gray-500 bg-center bg-cover rounded-full'
                 src={tanzil}
               />
               <div className='flex-1 my-4'>
@@ -161,17 +161,17 @@ const AboutUs: React.FC = () => {
               <div className='flex items-center justify-center p-3 space-x-3 border-t-2'>
                 <a
                   title='Email'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaMailBulk></FaMailBulk>
                 </a>
                 <a
                   title='Linkedin'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaLinkedin></FaLinkedin>
                 </a>
                 <a
                   title='Github'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaGithub></FaGithub>
                 </a>
               </div>
@@ -181,7 +181,7 @@ const AboutUs: React.FC = () => {
             <div className='flex flex-col justify-center w-full px-8 mx-6 my-12 text-center rounded-md md:w-96 lg:w-80 xl:w-64 bg-gradient-to-r from-[#9181F4] to-[#5038ED] text-gray-100'>
               <img
                 alt='hridoy-img'
-                className='self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full bg-gray-500'
+                className='self-center flex-shrink-0 w-24 h-24 -mt-12 bg-gray-500 bg-center bg-cover rounded-full'
                 src={hridoy}
               />
               <div className='flex-1 my-4'>
@@ -193,17 +193,17 @@ const AboutUs: React.FC = () => {
               <div className='flex items-center justify-center p-3 space-x-3 border-t-2'>
                 <a
                   title='Email'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaMailBulk></FaMailBulk>
                 </a>
                 <a
                   title='Linkedin'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaLinkedin></FaLinkedin>
                 </a>
                 <a
                   title='Github'
-                  className='text-gray-50 text-xl hover:text-violet-400 cursor-pointer'>
+                  className='text-xl cursor-pointer text-gray-50 hover:text-violet-400'>
                   <FaGithub></FaGithub>
                 </a>
               </div>
