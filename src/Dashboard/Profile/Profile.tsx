@@ -218,10 +218,10 @@ export function Profile() {
   }, [fetchUserProfile]);
 
   const coverPhotoStyles = `
-  .coverPhoto {
-    background-image: url('${coverPhotoPreview}');
-    background-position: center;
-  }`;
+.coverPhoto {
+  background-image: url('${coverPhotoPreview}');
+  background-position: center;
+}`;
 
   return (
     <>
