@@ -140,7 +140,7 @@ const CalendarPage = ({ selectedTimes, setSelectedTimes }: any) => {
           <ul className="grid grid-cols-4 mb-5 mt-2">
             {timesWithCheckboxes.map((timeData) => (
               <li key={timeData.time} className="py-1 mx-auto">
-                <label className="flex w-20 justify-center bg-violet-100 border-[1px] border-violet-500 px-2 py-[2px] rounded">
+                <label className="flex w-20 justify-center bg-[#e3d9f3] border-[1px] border-[#7c3aed] px-2 py-[2px] rounded">
                   <input
                     type="checkbox"
                     style={{ display: "none" }}
@@ -159,7 +159,7 @@ const CalendarPage = ({ selectedTimes, setSelectedTimes }: any) => {
                 selectedTimes[selectedDate?.format("DDMMYY") || ""]?.map(
                   (selectedTime: any) => (
                     <li
-                      className="border-2 border-violet-100 text-center rounded"
+                      className="border-2 border-[#7c3aed] text-center rounded"
                       key={selectedTime}
                     >
                       {selectedTime}
