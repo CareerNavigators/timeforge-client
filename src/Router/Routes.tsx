@@ -7,7 +7,6 @@ import Title from "../Components/Title/Title";
 import Dashboard from "../Dashboard/Layout/Dashboard";
 import CreateEvents from "../CreateEvents/CreateEvents";
 import OneEvent from "../CreateEvents/Events/OneEvent";
-import UserProfile from "../Components/UserProfile/UserProfile";
 import EventSlot from "../Components/EventSlot/EventSlot";
 import CalendarPage from "../CreateEvents/Events/CalendarPage";
 import AllEvents from "../ManageEvents/AllEvents/AllEvents";
@@ -17,6 +16,7 @@ import Pricing from "../Pages/Pricing";
 import ContactUs from "../Contacts/ContactUs";
 import AboutUs from "../AboutUs/AboutUs";
 import About from "../Contacts/About";
+import { Profile } from "../Dashboard/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -41,8 +41,7 @@ const router = createBrowserRouter([
         element: (
           <CalendarPage
             selectedTimes={{}}
-            onSelectTime={function (): void {}}
-          ></CalendarPage>
+            onSelectTime={function (): void {}}></CalendarPage>
         ),
       },
       {
@@ -80,10 +79,6 @@ const router = createBrowserRouter([
     element: <Login></Login>,
   },
   {
-    path: "profile",
-    element: <UserProfile />,
-  },
-  {
     element: <Dashboard></Dashboard>,
     children: [
       {
@@ -97,6 +92,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/allEvents",
         element: <AllEvents></AllEvents>,
+      },
+      {
+        path: "/dashboard/profile",
+        element: <Profile></Profile>,
       },
     ],
   },

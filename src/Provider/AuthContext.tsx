@@ -31,12 +31,11 @@ type AuthContextType = {
 export const AuthContext = createContext<any>(null);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
-const caxios = AxiosSecure();
-
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
+  const caxios = AxiosSecure();
 
   const googleSignIn = () => {
     setLoading(true);
@@ -60,10 +59,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logOut = (): Promise<void> => {
     setLoading(true);
-    setUserData(null);
+    // setUserData(null);
     return signOut(auth);
   };
-
   const signIn = (email: string, password: string): Promise<UserCredential> => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
@@ -77,7 +75,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         caxios.get(`/user?email=${currentUser?.email}`).then((res) => {
           setUserData(res.data);
         });
-        console.log(userData);
         setLoading(false);
       },
       (error) => {
@@ -88,7 +85,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       unSubscribe();
     };
-  }, [userData]);
+  }, [caxios, userData]);
 
   const authInfo: AuthContextType = {
     user,
