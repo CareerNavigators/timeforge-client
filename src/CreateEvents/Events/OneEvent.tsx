@@ -114,7 +114,7 @@ const OneEvent = () => {
                 </h3>
               </div>
               <Form.Item
-                label="Input"
+                label="Event name"
                 name="Input"
                 rules={[{ required: true, message: "Please input!" }]}
               >
