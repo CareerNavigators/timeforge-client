@@ -10,7 +10,7 @@ const AboutUs: React.FC = () => {
   return (
     <section className='max-w-screen-xl mx-auto'>
       <div className='space-y-4 mt-10 px-2'>
-        <h3 className='text-[#5E47EF] text-2xl font-bold text-center sm:text-5xl'>
+        <h3 className='bg-gradient-to-r from-green-300 to-[#5038ED] bg-clip-text text-transparent text-2xl font-bold text-center sm:text-5xl'>
           Time Forge Team Members
         </h3>
         <p className='max-w-2xl mx-auto text-gray-500 text-center'>
