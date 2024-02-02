@@ -1,10 +1,8 @@
-
 import { Button, Form, Input, Select } from "antd";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { AiFillAudio } from "react-icons/ai";
 import { FaVideo } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
-import toast from "react-hot-toast";
 // import { useNavigate } from "react-router-dom";
 import CalendarPage from "./CalendarPage";
 import bgImg from "../../../public/bg.png";
@@ -12,6 +10,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import AxiosSecure from "../../Hook/useAxios";
 import { AuthContext } from "../../Provider/AuthContext";
+import showToast from "../../Hook/swalToast";
 
 const OneEvent = () => {
   const { userData } = useContext(AuthContext);
@@ -73,11 +72,11 @@ const OneEvent = () => {
       axiosSecure.post("/meeting", newEvent).then((res) => {
         console.log(res);
         setEvents((prevEvents) => [...prevEvents, newEvent]);
-        toast.success(`${eventName} is added to the Events.`);
+        showToast("success", `${eventName} is added to the Events.`);
       });
     } catch (error) {
       console.error("Error adding task:", error);
-      toast.error("Please fill in all required fields.");
+      showToast("error", "Please fill in all required fields.");
     }
   };
 

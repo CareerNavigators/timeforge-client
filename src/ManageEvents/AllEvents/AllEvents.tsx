@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import SingleEvent from "./SingleEvent";
 import useAxios from "../../Hook/useAxios";
 import { Spin } from "antd";
-import toast from "react-hot-toast";
+import showToast from "../../Hook/swalToast";
 
 export interface EventType {
   _id: string;
@@ -23,7 +23,11 @@ const AllEvents: React.FC = () => {
   const customAxios = useAxios();
 
   // fetching all events
-  const { data: allEvents = [], isLoading, refetch } = useQuery({
+  const {
+    data: allEvents = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["AllEvents"],
     queryFn: async () => {
       const res = await customAxios.get(
@@ -36,28 +40,31 @@ const AllEvents: React.FC = () => {
   // deleting a event
   const handleEventDelete = (id: string) => {
     console.log("event id", id);
-    customAxios.delete(`/meeting/${id}`)
-      .then(res => {
-        const data = res.data;
-        console.log(data);
-        toast.success("Event Deleted")
-        refetch();
-      })
-  }
+    customAxios.delete(`/meeting/${id}`).then((res) => {
+      const data = res.data;
+      console.log(data);
+      showToast("success", "Event Deleted");
+      refetch();
+    });
+  };
 
   // show this loader if data is loading
   if (isLoading) {
-    return <Spin size='large'></Spin>;
+    return <Spin size="large"></Spin>;
   }
 
   return (
-    <div className='mx-auto max-w-screen-xl'>
-      <h1 className='text-center bg-gradient-to-r from-green-300 to-[#5038ED] my-5 bg-clip-text text-3xl font-extrabold text-transparent'>
+    <div className="mx-auto max-w-screen-xl">
+      <h1 className="text-center bg-gradient-to-r from-green-300 to-[#5038ED] my-5 bg-clip-text text-3xl font-extrabold text-transparent">
         All Events Are Displayed Below
       </h1>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-10 px-2'>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-10 px-2">
         {allEvents?.map((item: EventType) => (
-          <SingleEvent key={item._id} item={item} handleEventDelete={handleEventDelete}></SingleEvent>
+          <SingleEvent
+            key={item._id}
+            item={item}
+            handleEventDelete={handleEventDelete}
+          ></SingleEvent>
         ))}
       </div>
     </div>
