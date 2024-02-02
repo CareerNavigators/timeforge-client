@@ -13,6 +13,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import app from "../Firebase/firebase.config";
+import AxiosSecure from "../Hook/useAxios";
 
 type AuthContextType = {
   user: User | null;
@@ -23,16 +24,19 @@ type AuthContextType = {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   googleSignIn: () => Promise<UserCredential>;
   handleUpdateProfile: (name: any, imageLink: any) => Promise<void>;
+  userData: object | null;
+  setUserData: any;
 };
 
 export const AuthContext = createContext<any>(null);
-
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
+const caxios = AxiosSecure();
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
 
   const googleSignIn = () => {
     setLoading(true);
@@ -56,6 +60,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logOut = (): Promise<void> => {
     setLoading(true);
+    setUserData(null);
     return signOut(auth);
   };
 
@@ -69,6 +74,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       auth,
       (currentUser) => {
         setUser(currentUser!);
+        caxios.get(`/user?email=${currentUser?.email}`).then((res) => {
+          setUserData(res.data);
+        });
+        console.log(userData);
         setLoading(false);
       },
       (error) => {
@@ -79,7 +88,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       unSubscribe();
     };
-  }, []);
+  }, [userData]);
 
   const authInfo: AuthContextType = {
     user,
@@ -90,6 +99,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading,
     googleSignIn,
     handleUpdateProfile,
+    userData,
+    setUserData,
   };
 
   return (

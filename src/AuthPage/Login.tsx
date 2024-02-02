@@ -13,15 +13,15 @@ import BackgroundMotion from "../Components/BackgroundMotion/BackgroundMotion";
 import { BiUserPlus } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthContext";
+import AxiosSecure from "../Hook/useAxios";
 
+const caxios = AxiosSecure();
 const Login = () => {
-  const { signIn, setLoading, googleSignIn } = useContext(AuthContext);
+  const { signIn, setLoading, googleSignIn, setUserData } =
+    useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from?.pathname || "/";
-
-
-  
   interface FormEvent extends React.FormEvent<HTMLFormElement> {
     target: HTMLFormElement & {
       email: {
@@ -70,6 +70,9 @@ const Login = () => {
     }
     signIn(email, password)
       .then(() => {
+        caxios.get(`/user?email=${email}`).then((res) => {
+          setUserData(res.data);
+        });
         toast.success("Secure Access, Unlimited Smiles!");
         setLoading(false);
         navigate(from, { replace: true });
@@ -82,7 +85,10 @@ const Login = () => {
   };
   const handleGoogle = () => {
     googleSignIn()
-      .then(() => {
+      .then((res: any) => {
+        caxios.get(`/user?email=${res?.user?.email}`).then((res) => {
+          setUserData(res.data);
+        });
         toast.success("Secure Access, Unlimited Smiles!");
         navigate(from, { replace: true });
       })

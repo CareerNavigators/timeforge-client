@@ -3,14 +3,15 @@ import Logo from "/logo.png";
 import { FaAlignJustify } from "react-icons/fa";
 import type { DrawerProps } from "antd";
 import { Drawer } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import DarkModeToggle from "../../Components/DarkModeToggle/DarkModeToggle";
-import AvatarMenu from "../../Components/AvatarMenu/AvaterMenu";
+import ProfileMenu from "../../Components/AvatarMenu/AvaterMenu";
+import { AuthContext } from "../../Provider/AuthContext";
 
 const Navbar: React.FC = () => {
+  const { userData, loading } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const [placement] = useState<DrawerProps["placement"]>("bottom");
-
   const showDrawer = () => {
     setOpen(true);
   };
@@ -27,19 +28,22 @@ const Navbar: React.FC = () => {
       <li className='text-sm font-semibold hover:text-dt'>
         <NavLink to='/pricing'>Pricing</NavLink>
       </li>
-      <li className='text-sm font-semibold hover:text-dt'>
-        <NavLink to='/dashboard'>Dashboard</NavLink>
-      </li>
-      <Link
-        to='/login'
-        className='text-xs font-semibold py-2 px-5 border hover:text-white hover:transition-all hover:bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] duration-300'>
-        Login
-      </Link>
-      <Link
-        to='/signup'
-        className='text-xs font-semibold text-white py-2 px-5 border bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] cursor-pointer hover:bg-gradient-to-r hover:from-[#5038ED] hover:to-[#9181F4]'>
-        Register
-      </Link>
+      {loading ? (
+        ""
+      ) : userData === null ? (
+        <>
+          <Link
+            to="/login"
+            className="text-xs font-semibold py-2 px-5 border hover:text-white hover:transition-all hover:bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] duration-300">
+            Login
+          </Link>
+          <Link
+            to="/signup"
+            className="text-xs font-semibold text-white py-2 px-5 border bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] cursor-pointer">
+            Register
+          </Link>
+        </>
+      ) : null}
     </>
   );
   return (
@@ -52,15 +56,17 @@ const Navbar: React.FC = () => {
               <h3 className='text-[#5E47EF] text-2xl font-bold'>TimeForge</h3>
             </div>
           </Link>
-          <div className='md:flex md:items-center '>
-            <nav className='hidden md:block'>
-              <ul className='flex items-center gap-4 text-sm'>
-                {links} <DarkModeToggle /> <AvatarMenu />
+          <div className="md:flex md:items-center md:gap-12">
+            <nav className="hidden md:block">
+              <ul className="flex items-center gap-4 text-sm">
+                {links} <DarkModeToggle />
+                <ProfileMenu />
               </ul>
             </nav>
 
-            <div className='flex items-center gap-4'>
-              <div className='block md:hidden'>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center justify-center md:hidden">
+                <ProfileMenu></ProfileMenu>
                 <button
                   onClick={showDrawer}
                   className='rounded bg-gradient-to-r from-[#9181F4] to-[#5038ED] p-2 text-gray-200 transition hover:text-gray-600/75'>
@@ -74,8 +80,8 @@ const Navbar: React.FC = () => {
                   onClose={onClose}
                   open={open}
                   key={placement}>
-                  <ul className='flex flex-wrap items-center justify-center gap-4 text-sm'>
-                    {links}
+                  <ul className="flex flex-wrap items-center justify-center gap-4 text-sm">
+                    {links} <DarkModeToggle />
                   </ul>
                 </Drawer>
               </div>
@@ -89,3 +95,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+

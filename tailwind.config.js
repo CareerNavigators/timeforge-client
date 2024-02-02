@@ -12,6 +12,7 @@ export default {
       colors: {
         d: "#161927",
         d1: "#0f111a",
+        d2: "#2b314d",
         dt: "#576ee0",
         dw: "#f5f5f5f5",
         dg: "#bfc3c2",
