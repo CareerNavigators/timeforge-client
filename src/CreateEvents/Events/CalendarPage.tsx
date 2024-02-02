@@ -110,9 +110,15 @@ const CalendarPage = ({ selectedTimes, setSelectedTimes }: any) => {
   };
 
   return (
+<<<<<<< manage&EditEvents
+    <div className="flex justify-center items-center p-3">
+      <Calendar
+        className="p-5 rounded-md shadow-xl border-2 border-violet-500"
+=======
     <div className="flex justify-center items-center lg:h-[88vh] overflow-auto pt-5 rounded-md">
       <Calendar
         className="lg:w-[40vw] h-fit m-5 p-5 rounded-md shadow-xl border-2 border-violet-500"
+>>>>>>> devBranch
         onSelect={onSelect}
         cellRender={cellRender}
         mode={"month"}
