@@ -65,7 +65,10 @@ export function Profile() {
 
         const userProfileData: UserProfile = response.data;
         setUserProfile(userProfileData);
-        setCoverPhotoPreview(userProfileData.img_cover || null);
+        setCoverPhotoPreview(
+          userProfileData.img_cover ||
+            "https://flowbite.com/docs/images/examples/image-1@2x.jpg"
+        );
       } catch (error) {
         console.error("Error:", error);
       } finally {
@@ -249,7 +252,7 @@ export function Profile() {
               <label
                 htmlFor="coverPhoto"
                 className="absolute text-white cursor-pointer top-2 right-2">
-                <AiOutlineEdit  size={24} />
+                <AiOutlineEdit size={24} />
               </label>
             )}
             {isEditing && (
