@@ -1,0 +1,31 @@
+html{
+  height:100%;
+}
+
+body {
+  margin: 0 10%;
+  font-family: "Mulish",sans-serif, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  background-image: linear-gradient( 122.1deg, hsl(263,59%, 10%) 32.29%, hsl(263,59%, 26%) 70.55% );
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.inverted{
+  color: #fff;
+  text-align: center;
+}
+
+section.inverted{
+  font-size: 1.5em;
+}
+
+.inverted a{
+  color: #C9FD43;
+}
