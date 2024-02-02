@@ -85,7 +85,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       unSubscribe();
     };
-  }, [caxios, userData]);
+  }, []);
 
   const authInfo: AuthContextType = {
     user,
