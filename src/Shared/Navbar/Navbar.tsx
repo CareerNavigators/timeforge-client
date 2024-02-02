@@ -53,7 +53,7 @@ const Navbar: React.FC = () => {
           <Link to='./'>
             <div className='flex flex-row items-center gap-2'>
               <img className='h-10' src={Logo} alt='logo' />
-              <h3 className='text-[#5E47EF] text-2xl font-bold'>TimeForge</h3>
+              <h3 className='text-[#5E47EF] dark:text-dw text-2xl font-bold'>TimeForge</h3>
             </div>
           </Link>
           <div className="md:flex md:items-center md:gap-12">

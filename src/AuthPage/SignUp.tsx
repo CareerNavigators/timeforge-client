@@ -8,7 +8,6 @@ import {
   MouseParallaxChild,
 } from "react-parallax-mouse";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import BackgroundMotion from "../Components/BackgroundMotion/BackgroundMotion";
 import { HiOutlineMail } from "react-icons/hi";
 import { motion } from "framer-motion";
@@ -21,6 +20,7 @@ import timezone from "dayjs/plugin/timezone";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 import AxiosSecure from "../Hook/useAxios";
+import showToast from "../Hook/swalToast";
 
 const SignUp = () => {
   const {
@@ -66,34 +66,40 @@ const SignUp = () => {
     const password = formData.get("password");
 
     if (!username) {
-      toast.error("Please enter your Username");
+      showToast("error", "Please enter your Username");
       return;
     }
 
     if (!password) {
-      toast.error("Please enter your password");
+      showToast("error", "Please enter your Username");
       return;
     }
 
     const passwordString = password as string;
 
     if (passwordString.length === 0) {
-      toast.error("Password cannot be empty");
+      showToast("error", "Password cannot be empty");
       return;
     }
 
     if (passwordString.length < 6) {
-      toast.error("Password should be at least 6 characters long");
+      showToast("error", "Password should be at least 6 characters long");
       return;
     }
 
     if (!/[A-Z]/.test(passwordString)) {
-      toast.error("Password should contain at least one uppercase letter");
+      showToast(
+        "error",
+        "Password should contain at least one uppercase letter"
+      );
       return;
     }
 
     if (!/[!@#$%^&*(),.?":{}|<>]/.test(passwordString)) {
-      toast.error("Password should contain at least one special character");
+      showToast(
+        "error",
+        "Password should contain at least one special character"
+      );
       return;
     }
 
@@ -122,13 +128,16 @@ const SignUp = () => {
           });
         });
       navigate(from, { replace: true });
-      toast.success("Secure Access, Unlimited Smiles!");
+      showToast("success", "Secure Access, Unlimited Smiles!");
       setLoading(false);
     } catch (error: any) {
       console.error(error);
 
       if (error.code === "auth/email-already-in-use") {
-        toast.error("Email already exists. Please try with a new email.");
+        showToast(
+          "error",
+          "Email already exists. Please try with a new email."
+        );
       } else {
         console.error("An unexpected error occurred:", error);
         throw new Error("Unexpected error occurred");
@@ -150,7 +159,7 @@ const SignUp = () => {
           setUserData(res.data);
         });
       });
-      toast.success("Secure Access, Unlimited Smiles!");
+      showToast("success", "Secure Access, Unlimited Smiles!");
       navigate(from, { replace: true });
     } catch (error) {
       console.error(error);
@@ -184,7 +193,8 @@ const SignUp = () => {
       variants={listVariants}
       initial="initial"
       animate="animate"
-      className="flex flex-col items-center overflow-hidden lg:flex-row lg:h-screen">
+      className="flex flex-col items-center overflow-hidden lg:flex-row lg:h-screen"
+    >
       <div className="p-4 lg:w-1/2 lg:p-8 ">
         <Link to="/">
           <FiHome
@@ -194,7 +204,8 @@ const SignUp = () => {
         </Link>
         <Link
           to="/login"
-          className="absolute right-4 top-4 text-[#1C1C1C] text-lg cursor-pointer z-10 dark:text-dw">
+          className="absolute right-4 top-4 text-[#1C1C1C] text-lg cursor-pointer z-10 dark:text-dw"
+        >
           <LuLogIn />
         </Link>
         <style>{sty}</style>
@@ -203,7 +214,8 @@ const SignUp = () => {
           className="smooth-parallax"
           globalFactorX={0.7}
           globalFactorY={0.7}
-          resetOnLeave>
+          resetOnLeave
+        >
           <div className="flex flex-col items-center justify-center mb-6 pt-[72px]">
             <MouseParallaxChild factorX={0.7} factorY={0.8}>
               <img
@@ -221,10 +233,12 @@ const SignUp = () => {
         <motion.div
           initial={{ opacity: 0, y: "-100%" }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, x: "100%" }}>
+          exit={{ opacity: 0, x: "100%" }}
+        >
           <form
             className="flex flex-col items-center justify-center"
-            onSubmit={handleLogin}>
+            onSubmit={handleLogin}
+          >
             <div className="relative mb-4">
               <FiUser className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
               <input
@@ -259,14 +273,16 @@ const SignUp = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-4 text-[#1C1C1C]">
+                  className="absolute right-4 top-4 text-[#1C1C1C]"
+                >
                   {showPassword ? <LuEyeOff /> : <LuEye />}
                 </button>
               )}
             </div>
             <button
               type="submit"
-              className="px-8 py-3 mt-8 font-bold text-white transition-transform transform rounded-md bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:scale-110">
+              className="px-8 py-3 mt-8 font-bold text-white transition-transform transform rounded-md bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:scale-110"
+            >
               Signup Now
             </button>
           </form>
@@ -279,7 +295,8 @@ const SignUp = () => {
         <div className="flex items-center justify-center">
           <div
             onClick={handleGoogle}
-            className="flex items-center justify-center gap-2 p-4 transition duration-300 ease-in-out transform bg-white border cursor-pointer select-none rounded-2xl md:w-96 hover:scale-105 hover:shadow-lg">
+            className="flex items-center justify-center gap-2 p-4 transition duration-300 ease-in-out transform bg-white border cursor-pointer select-none rounded-2xl md:w-96 hover:scale-105 hover:shadow-lg"
+          >
             <FcGoogle className="w-8 h-8" />
             <p className="text-[#1C1C1C]">
               Sign up with <span className="font-bold">Google</span>
