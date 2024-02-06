@@ -16,7 +16,7 @@ export interface EventType {
   camera: boolean;
   mic: boolean;
   desc: string;
-  events: object;
+  events: any;
   name: string;
   email: string;
   slot: keyof object;
@@ -33,7 +33,7 @@ const AllEvents: React.FC = () => {
   const { data: allEvents = [], isLoading, refetch } = useQuery({
     queryKey: ["AllEvents"],
     queryFn: async () => {
-      const res = await customAxios.get(`/meeting?id=${userData?._id}&type=all`);
+      const res = await customAxios.get(`/meeting?id=65ba4751f6c3e2ad4492cc69&type=all`);
       return res.data;
     },
   });
