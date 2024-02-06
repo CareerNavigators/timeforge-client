@@ -14,7 +14,7 @@ import useAxios from "../../Hook/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { Calendar, Spin } from "antd";
+import { Badge, Calendar, Spin } from "antd";
 import type { CalendarProps } from "antd";
 import showToast from "../../Hook/swalToast";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -49,6 +49,28 @@ const EventDetails: React.FC = () => {
       showToast("success", "Attendee removed");
       refetch();
     });
+  };
+
+  const dateCellRender = (value: any) => {
+    // console.log(selectedTimes);
+    const data = events
+      ? events[value.format("DDMMYY")] || []
+      : [];
+
+    return (
+      <ul className="events">
+        {data?.map((item: any, index: any) => (
+          <li key={index}>
+            <Badge status="success" text={item} />
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  const cellRender: CalendarProps<Dayjs>["cellRender"] = (current, info) => {
+    if (info.type === "date") return dateCellRender(current);
+    return info.originNode;
   };
 
   // show this loader if data is loading
@@ -100,7 +122,7 @@ const EventDetails: React.FC = () => {
         {/* calender area */}
         <div className="sm:w-3/4 px-6 py-4 mt-20 md:mt-0">
           <div className="h-full w-full">
-            <Calendar onPanelChange={onPanelChange} />
+            <Calendar cellRender={cellRender} onPanelChange={onPanelChange} />
           </div>
         </div>
       </div>
