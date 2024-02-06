@@ -1,11 +1,11 @@
 import {
-  FaAddressBook,
   FaArchive,
   FaCamera,
   FaCheck,
+  FaClipboardList,
   FaClock,
-  FaGlobeAsia,
   FaMicrophone,
+  FaRegTrashAlt,
   FaTimes,
 } from "react-icons/fa";
 import { useLoaderData } from "react-router-dom";
@@ -14,9 +14,10 @@ import useAxios from "../../Hook/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { Calendar } from "antd";
+import { Calendar, Spin } from "antd";
 import type { CalendarProps } from "antd";
 import showToast from "../../Hook/swalToast";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const EventDetails: React.FC = () => {
   // hooks and states
@@ -31,7 +32,7 @@ const EventDetails: React.FC = () => {
   };
 
   // fetching all participants
-  const { data: allParticipants = [], refetch } = useQuery({
+  const { data: allParticipants = [], isLoading, refetch } = useQuery({
     queryKey: ["AllParticipants"],
     queryFn: async () => {
       const res = await customAxios.get(`attendee?id=${_id}`);
@@ -50,70 +51,63 @@ const EventDetails: React.FC = () => {
     });
   };
 
+  // show this loader if data is loading
+  if (isLoading) {
+    return <div className="flex items-center justify-center my-[20%]">
+      <Spin fullscreen indicator={<LoadingOutlined></LoadingOutlined>} size="large"></Spin>;
+    </div>
+  }
+
   return (
     <div className="mb-10">
       {/* event details */}
-      <div className="max-w-[1400px] mx-2 lg:mx-auto shadow-xl shadow-[#ddd7ff] rounded-md mt-5 flex flex-col md:flex-row">
+      <div className="max-w-[1800px] p-4 lg:mx-auto shadow-lg rounded-md mt-5 flex flex-col md:flex-row">
         {/* author and event information */}
         <div className="sm:w-1/3 px-6 py-4 border-r">
-          {/* <h4 className='text-gray-400 font-medium'>Author Name</h4> */}
-          <h2 className="text-3xl font-bold mt-2">{title}</h2>
-          <div className="flex items-center gap-2 text-lg text-gray-600 font-medium mt-3">
-            <FaArchive></FaArchive>
-            <h4>
-              Event Type : <span className="text-gray-400">{eventType}</span>
-            </h4>
+          <h2 className="text-4xl text-[#9181F4] font-bold mt-2">{title}</h2>
+          <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
+            <FaArchive size={30}></FaArchive>
+            <span className="text-gray-400">{eventType}</span>
           </div>
-          <div className="flex items-center gap-2 text-lg text-gray-600 font-medium mt-3">
-            <FaClock></FaClock>
-            <h4>
-              Duration : <span className="text-gray-400">{duration}</span>
-            </h4>
+          <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
+            <FaClock size={30}></FaClock>
+            <span className="text-gray-400">{duration}</span>
           </div>
-          <div className="flex items-center gap-4 mt-2 text-lg font-medium">
+          <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
+            <FaClipboardList size={30}></FaClipboardList>
+            <span className="text-gray-400">{desc}</span>
+          </div>
+          <div className="flex items-center gap-4 mt-5 text-lg font-medium">
             <div className="flex items-center gap-1">
-              <FaCamera color="gray" size={25}></FaCamera>
+              <FaCamera color="gray" size={30}></FaCamera>
               {camera ? (
-                <FaCheck color="green"></FaCheck>
+                <FaCheck size={10} color="green"></FaCheck>
               ) : (
-                <FaTimes color="red"></FaTimes>
+                <FaTimes size={10} color="red"></FaTimes>
               )}
             </div>
             <div className="flex items-center gap-1">
-              <FaMicrophone color="gray" size={25}></FaMicrophone>
+              <FaMicrophone color="gray" size={30}></FaMicrophone>
               {mic ? (
-                <FaCheck color="green"></FaCheck>
+                <FaCheck size={10} color="green"></FaCheck>
               ) : (
-                <FaTimes color="red"></FaTimes>
+                <FaTimes size={10} color="red"></FaTimes>
               )}
             </div>
-          </div>
-          <div className="flex items-center gap-2 text-lg text-gray-600 font-medium mt-3">
-            <FaAddressBook></FaAddressBook>
-            <h4>
-              Description : <span className="text-gray-400">{desc}</span>
-            </h4>
           </div>
         </div>
 
         {/* calender area */}
         <div className="sm:w-3/4 px-6 py-4 mt-20 md:mt-0">
-          <div className="h-full md:max-h-[600px]  w-full md:overflow-y-scroll">
+          <div className="h-full w-full">
             <Calendar onPanelChange={onPanelChange} />
-          </div>
-          <div className="mt-20 md:mt-5">
-            <h4 className="font-semibold mt-2">Time zone</h4>
-            <div className="flex items-center gap-2">
-              <FaGlobeAsia></FaGlobeAsia>
-              <p>Asia/Dhaka</p>
-            </div>
           </div>
         </div>
       </div>
 
       {/* participants area */}
-      <div className="max-w-[1400px] shadow-xl shadow-[#ddd7ff] rounded-md mx-2 lg:mx-auto mt-20 pb-10">
-        <h1 className="text-center bg-gradient-to-r from-green-300 to-[#5038ED] my-5 bg-clip-text text-3xl font-extrabold text-transparent">
+      <div className="max-w-[1800px] shadow-lg rounded-md p-4 lg:mx-auto mt-20 pb-10">
+        <h1 className="text-center text-[#5038ED] my-5 text-3xl font-extrabold">
           All Participants
         </h1>
         <div className="overflow-x-auto p-4">
@@ -138,7 +132,7 @@ const EventDetails: React.FC = () => {
                   Time
                 </th>
                 <th className="text-left px-4 py-2 font-medium text-gray-900">
-                  Manage
+                  Remove
                 </th>
               </tr>
             </thead>
@@ -154,13 +148,7 @@ const EventDetails: React.FC = () => {
                     <td className="px-4 py-2 font-medium text-gray-900">
                       {index + 1}
                     </td>
-                    <td className="px-4 py-2 font-medium text-gray-900 flex items-center gap-2">
-                      <img
-                        className="w-8 rounded-full"
-                        src="https://i.ibb.co/MgGM9ky/istockphoto-1337144146-612x612.jpg"
-                      />
-                      {data.name}
-                    </td>
+                    <td className="px-4 py-2 font-medium text-gray-900">{data.name}</td>
                     <td className="px-4 py-2 text-gray-700">{data.email}</td>
                     <td className="px-4 py-2 text-gray-700">{formattedDate}</td>
                     <td className="px-4 py-2 text-gray-700">
@@ -169,9 +157,9 @@ const EventDetails: React.FC = () => {
                     <td className="px-4 py-2">
                       <button
                         onClick={() => handleParticipantDelete(data._id)}
-                        className="rounded bg-gradient-to-r from-[#9181F4] to-[#5038ED] px-4 py-2 text-xs font-medium text-white hover:bg-gradient-to-r hover:from-[#5038ED] hover:to-[#9181F4]"
+                        className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300"
                       >
-                        Delete
+                        <FaRegTrashAlt></FaRegTrashAlt>
                       </button>
                     </td>
                   </tr>
