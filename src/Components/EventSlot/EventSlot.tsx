@@ -1,20 +1,46 @@
-import {FaAddressBook,FaArchive,FaCamera,FaCheck,FaClock,FaMicrophone,FaTimes} from "react-icons/fa";
+import {FaArchive,FaCamera,FaCheck,FaClock,FaMicrophone,FaTimes} from "react-icons/fa";
 import Logo from "/logo.png";
-import dayjs, { Dayjs } from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
 import { Calendar } from "antd";
 import type { CalendarProps } from "antd";
 import { useLoaderData } from "react-router-dom";
 import { EventType } from "../../ManageEvents/AllEvents/AllEvents";
+import parse from 'html-react-parser';
+import { Dayjs } from "dayjs";
+import { Badge } from "antd";
 
 const EventSlot = () => {
-  dayjs.extend(customParseFormat);
-  const { title, duration, desc, eventType, camera, mic } = useLoaderData() as EventType;
-  
-  const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
-    console.log(value.format("YYYY-MM-DD"), mode);
-  };
-
+   // hooks and states
+   const { title, duration, desc, eventType, events, camera, mic } = useLoaderData() as EventType;
+   const parsedDesc = parse(desc);
+   // console.log("user from database", userData);
+   // console.log("events from details page", events);
+ 
+   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
+     console.log(value.format("YYYY-MM-DD"), mode);
+   };
+ 
+   const dateCellRender = (value: any) => {
+     // console.log(selectedTimes);
+     const data = events
+       ? events[value.format("DDMMYY")] || []
+       : [];
+ 
+     return (
+       <ul className="events">
+         {data?.map((item: any, index: any) => (
+           <li key={index}>
+             <Badge status="success" text={item} />
+           </li>
+         ))}
+       </ul>
+     );
+   };
+ 
+   const cellRender: CalendarProps<Dayjs>["cellRender"] = (current, info) => {
+     if (info.type === "date") return dateCellRender(current);
+     return info.originNode;
+   };
+ 
   return (
     <>
       <div className="bg-[#5E47EF] pt-24 p-5 lg:p-20 min-h-screen">
@@ -26,50 +52,44 @@ const EventSlot = () => {
             </div>
             <div className="max-w-[1400px] mx-2 lg:mx-auto  rounded-md mt-5 flex flex-col md:flex-row">
               <div className="sm:w-1/3 px-6 py-4 border-r">
-                <h2 className="text-3xl font-bold mt-2">{title}</h2>
-                <div className="flex items-center gap-2 text-lg text-gray-600 font-medium mt-3">
-                  <FaArchive></FaArchive>
-                  <h4>
-                    Event Type :{" "}
-                    <span className="text-gray-400">{eventType}</span>
-                  </h4>
-                </div>
-                <div className="flex items-center gap-2 text-lg text-gray-600 font-medium mt-3">
-                  <FaClock></FaClock>
-                  <h4>
-                    Duration : <span className="text-gray-400">{duration}</span>
-                  </h4>
-                </div>
-                <div className="flex items-center gap-4 mt-2 text-lg font-medium">
-                  <div className="flex items-center gap-1">
-                    <FaCamera color="gray" size={25}></FaCamera>
-                    {camera ? (
-                      <FaCheck color="green"></FaCheck>
-                    ) : (
-                      <FaTimes color="red"></FaTimes>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <FaMicrophone color="gray" size={25}></FaMicrophone>
-                    {mic ? (
-                      <FaCheck color="green"></FaCheck>
-                    ) : (
-                      <FaTimes color="red"></FaTimes>
-                    )}
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 text-lg text-gray-600 font-medium mt-3">
-                  <FaAddressBook></FaAddressBook>
-                  <h4>
-                    Description : <span className="text-gray-400">{desc}</span>
-                  </h4>
-                </div>
+              <h2 className="text-2xl text-[#5038ED] font-bold">{title}</h2>
+            <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
+              <FaArchive size={30}></FaArchive>
+              <span className="text-gray-500">{eventType}</span>
+            </div>
+            <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
+              <FaClock size={30}></FaClock>
+              <span className="text-gray-500">{duration}</span>
+            </div>
+            <div className="flex items-center gap-4 mt-5 text-lg font-medium">
+              <div className="flex items-center gap-1">
+                <FaCamera color="gray" size={30}></FaCamera>
+                {camera ? (
+                  <FaCheck size={10} color="green"></FaCheck>
+                ) : (
+                  <FaTimes size={10} color="red"></FaTimes>
+                )}
               </div>
-              <div className="sm:w-3/4 px-6 py-4 mt-20 md:mt-0">
-                <div className="h-full md:max-h-[600px]  w-full md:overflow-y-scroll">
-                  <Calendar onPanelChange={onPanelChange} />
-                </div>
+              <div className="flex items-center gap-1">
+                <FaMicrophone color="gray" size={30}></FaMicrophone>
+                {mic ? (
+                  <FaCheck size={10} color="green"></FaCheck>
+                ) : (
+                  <FaTimes size={10} color="red"></FaTimes>
+                )}
               </div>
+            </div>
+            <div className="text-gray-600 mt-5">
+              {parsedDesc}
+            </div>
+          </div>
+
+               {/* calender area */}
+        <div className="sm:w-3/4 p-2 mt-2 md:mt-0">
+          <div className="min-h-full min-w-full">
+            <Calendar cellRender={cellRender} onPanelChange={onPanelChange} />
+          </div>
+        </div>
             </div>
           </div>
         </div>
