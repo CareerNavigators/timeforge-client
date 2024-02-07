@@ -2,10 +2,7 @@ import { Button, Form, Input, InputNumber, Select, Switch } from "antd";
 import { FaVideoSlash, FaVideo } from "react-icons/fa";
 import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-// import { AiFillAudio } from "react-icons/ai";
-// import { FaVideo } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
-// import { useNavigate } from "react-router-dom";
 import CalendarPage from "./CalendarPage";
 import bgImg from "../../../public/bg.png";
 import ReactQuill from "react-quill";
@@ -135,16 +132,6 @@ const OneEvent = () => {
                 name="duration"
                 rules={[{ required: true, message: "Please input!" }]}
               >
-                {/* <Select
-                  value={eventDuration}
-                  placeholder="Duration"
-                  onChange={handleEventDuration}
-                >
-                  <Select.Option value="15 min">15 min</Select.Option>
-                  <Select.Option value="30 min">30 min</Select.Option>
-                  <Select.Option value="45 min">45 min</Select.Option>
-                  <Select.Option value="60 min">60 min</Select.Option>
-                </Select> */}
                 <InputNumber
                   placeholder="Duration"
                   min={1}
@@ -175,18 +162,6 @@ const OneEvent = () => {
                   { required: true, message: "Please input the event name" },
                 ]}
               >
-                {/* <span
-                    onClick={handleAudioSelection}
-                    className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
-                      isAudioSelected
-                        ? "border-[#7c3aed] text-[#7c3aed]"
-                        : "border-gray-300 hover:shadow-md hover:border-[#7c3aed] transition-all ease-in-out"
-                    }`}
-                  >
-                    <div className="flex flex-col items-center gap-1">
-                      <AiFillAudio className="text-2xl" />
-                    </div>
-                  </span> */}
                 <div className="flex gap-5">
                   <div className="flex gap-2">
                     <AudioMutedOutlined />
@@ -208,19 +183,6 @@ const OneEvent = () => {
                     <FaVideo />
                   </div>
                 </div>
-
-                {/* <span
-                    onClick={handleVideoSelection}
-                    className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
-                      isVideoSelected
-                        ? "border-[#7c3aed] text-[#7c3aed]"
-                        : "border-gray-300 hover:shadow-md hover:border-[#7c3aed] transition-all ease-in-out"
-                    }`}
-                  >
-                    <div className="flex flex-col items-center">
-                      <FaVideo className="text-2xl" />
-                    </div>
-                  </span> */}
               </Form.Item>
               <Form.Item
                 className="text-lg font-semibold"
