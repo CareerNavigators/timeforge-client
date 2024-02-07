@@ -74,8 +74,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(currentUser!);
         caxios.get(`/user?email=${currentUser?.email}`).then((res) => {
           setUserData(res.data);
-        });
-        setLoading(false);
+          setLoading(false);
+        }).catch(() => {
+          setLoading(false)
+        })
       },
       (error) => {
         console.error("Auth state change error:", error.message);
