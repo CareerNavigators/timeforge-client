@@ -3,7 +3,6 @@ import {
   FaCheck,
   FaExternalLinkAlt,
   FaMicrophone,
-  FaPen,
   FaRegTrashAlt,
   FaTimes,
   FaUsers,
@@ -14,16 +13,15 @@ import { EventType } from "./AllEvents";
 interface SingleEventProps {
   item: EventType;
   handleEventDelete: (id: string) => void;
-  handleEventEdit: (id: string) => void;
 }
 
-const SingleEvent: React.FC<SingleEventProps> = ({ item, handleEventDelete, handleEventEdit }) => {
+const SingleEvent: React.FC<SingleEventProps> = ({ item, handleEventDelete }) => {
   const { _id, title, duration, eventType, camera, mic, attendee } = item;
 
   return (
-    <div className='w-[350px] mx-auto rounded-lg border shadow-sm hover:shadow-[#a59cda] hover:transition-all hover:ease-out p-3 hover:shadow-md'>
+    <div className='w-full xl:w-[350px] mx-auto rounded-lg border shadow-sm hover:shadow-[#a59cda] hover:transition-all hover:ease-out p-4 hover:shadow-md hover:scale-105 hover:duration-300'>
       <div>
-        <Link to={`/eventDetails/${_id}`}>
+        <Link to={`/dashboard/eventDetails/${_id}`}>
           <div>
             <h3 className='text-[#5E47EF] text-2xl font-bold my-2'>
               {title}
@@ -52,19 +50,16 @@ const SingleEvent: React.FC<SingleEventProps> = ({ item, handleEventDelete, hand
         </Link>
         <hr className='mt-3' />
         <div className='flex justify-between items-center mt-5 gap-2'>
-          <div className='flex items-center gap-1 text-[#5E47EF] p-2 rounded'>
-            <FaExternalLinkAlt></FaExternalLinkAlt>
-            <h3 className='hover:underline hover:cursor-pointer'>Preview</h3>
-          </div>
-          <div className="flex flex-row items-center">
-            <button onClick={() => handleEventEdit(_id)} className='p-2 text-lg rounded text-orange-500 hover:bg-orange-500/10 hover:transition-all hover:duration-300'>
-              <FaPen></FaPen>
-              
-            </button>
-            <button onClick={() => handleEventDelete(_id)} className='p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300'>
-              <FaRegTrashAlt></FaRegTrashAlt>
-            </button>
-          </div>
+          <Link to={`/eventslot/${_id}`}>
+            <div className='flex items-center gap-1 text-[#5E47EF] p-2 rounded'>
+              <FaExternalLinkAlt></FaExternalLinkAlt>
+              <h3 className='hover:underline hover:cursor-pointer'>Preview</h3>
+            </div>
+          </Link>
+
+          <button onClick={() => handleEventDelete(_id)} className='p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300'>
+            <FaRegTrashAlt></FaRegTrashAlt>
+          </button>
         </div>
       </div>
     </div>

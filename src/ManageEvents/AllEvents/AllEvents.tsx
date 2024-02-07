@@ -26,19 +26,22 @@ export interface EventType {
 const AllEvents: React.FC = () => {
   const customAxios = useAxios();
   const { userData } = useContext(AuthContext)
-  console.log("database user", userData);
-  console.log("id", userData?._id);
+  // console.log("database user", userData);
+
+  const MAX_API_CALLS = 2;
 
   // fetching all events
   const { data: allEvents = [], isLoading, refetch } = useQuery({
     queryKey: ["AllEvents"],
     queryFn: async () => {
-      const res = await customAxios.get(`/meeting?id=65ba4751f6c3e2ad4492cc69&type=all`);
+      const res = await customAxios.get(`/meeting?id=${userData?._id}&type=all`);
       return res.data;
     },
+    enabled: userData != null ? true : false,
+    retry: MAX_API_CALLS - 1
   });
 
-  console.log(allEvents);
+  // console.log(allEvents);
 
   // deleting a event
   const handleEventDelete = (id: string) => {
@@ -51,10 +54,6 @@ const AllEvents: React.FC = () => {
     });
   };
 
-  // updating a event
-  const handleEventEdit = (id: string) => {
-    console.log("updating a event", id);
-  }
 
   // show this loader if data is loading
   if (isLoading) {
@@ -64,18 +63,17 @@ const AllEvents: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto">
-      <h1 className="text-center text-[#5038ED] my-5 text-3xl font-extrabold">
-        All Events
+    <div className="mx-auto mb-20 xl:mx-32">
+      <h1 className="text-center text-[#5038ED] my-5 text-lg font-extrabold">
+        Events Of {userData?.name}
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-10 px-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-10 px-2">
         {
           allEvents?.map((item: EventType) => (
             <SingleEvent
               key={item._id}
               item={item}
               handleEventDelete={handleEventDelete}
-              handleEventEdit={handleEventEdit}
             ></SingleEvent>
           ))
         }
