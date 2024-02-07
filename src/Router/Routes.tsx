@@ -17,6 +17,7 @@ import ContactUs from "../Contacts/ContactUs";
 import AboutUs from "../AboutUs/AboutUs"
 import About from "../Contacts/About";
 import { Profile } from "../Dashboard/Profile/Profile";
+import UpdateEvent from "../UpdateEvent/UpdateEvent";
 
 const router = createBrowserRouter([
   {
@@ -43,15 +44,6 @@ const router = createBrowserRouter([
             selectedTimes={{}}
             onSelectTime={function (): void {}}></CalendarPage>
         ),
-      },
-      {
-        path: "/allEvents",
-        element: <AllEvents></AllEvents>,
-      },
-      {
-        path: "/eventDetails/:id",
-        element: <EventDetails></EventDetails>,
-        loader: ({ params }) => fetch(`https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`)
       },
       {
         path: "/pricing",
@@ -93,6 +85,16 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/allEvents",
         element: <AllEvents></AllEvents>,
+      },
+      {
+        path: "dashboard/eventDetails/:id",
+        element: <EventDetails></EventDetails>,
+        loader: ({ params }) => fetch(`https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`)
+      },
+      {
+        path: "dashboard/updateEvent/:id",
+        element: <UpdateEvent></UpdateEvent>,
+        loader: ({ params }) => fetch(`https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`)
       },
       {
         path: "/dashboard/profile",
