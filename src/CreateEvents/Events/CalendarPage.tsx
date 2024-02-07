@@ -26,22 +26,36 @@ const CalendarPage = ({
     setModalTimes(generateTimes(9, 16, eventDuration));
   }, [eventDuration]);
 
+  // const handleCheckboxChange = (time: string) => {
+  //   const currentDateKey = selectedDate?.format("DDMMYY");
+
+  //   if (currentDateKey) {
+  //     setSelectedTimes((prevSelectedTimes: { [x: string]: any }) => {
+  //       const isSelected = prevSelectedTimes[currentDateKey]?.includes(time);
+
+  //       return {
+  //         ...prevSelectedTimes,
+  //         [currentDateKey]: isSelected
+  //           ? (prevSelectedTimes[currentDateKey] || []).filter(
+  //               (selectedTime: string) => selectedTime !== time
+  //             )
+  //           : [...(prevSelectedTimes[currentDateKey] || []), time],
+  //       };
+  //     });
+  //   }
+  // };
+
   const handleCheckboxChange = (time: string) => {
     const currentDateKey = selectedDate?.format("DDMMYY");
 
     if (currentDateKey) {
-      setSelectedTimes((prevSelectedTimes: { [x: string]: any }) => {
-        const isSelected = prevSelectedTimes[currentDateKey]?.includes(time);
-
-        return {
-          ...prevSelectedTimes,
-          [currentDateKey]: isSelected
-            ? (prevSelectedTimes[currentDateKey] || []).filter(
-                (selectedTime: string) => selectedTime !== time
-              )
-            : [...(prevSelectedTimes[currentDateKey] || []), time],
-        };
-      });
+      setModalTimes((prevModalTimes) =>
+        prevModalTimes.map((modalTime) =>
+          modalTime.time === time
+            ? { ...modalTime, checked: !modalTime.checked }
+            : modalTime
+        )
+      );
     }
   };
 
@@ -137,7 +151,13 @@ const CalendarPage = ({
           <ul className="grid grid-cols-4 mb-5 mt-2">
             {modalTimes.map((timeData) => (
               <li key={timeData.time} className="py-1 mx-auto">
-                <label className="flex w-20 justify-center border-2 border-[#7c3aed] px-2 py-[2px] rounded">
+                <label
+                  className={`flex w-20 justify-center border-2 px-2 py-[2px] rounded ${
+                    timeData.checked
+                      ? "border-[#7c3aed] bg-[#7c3aed] text-white text-bold"
+                      : "border-[#7c3aed]"
+                  }`}
+                >
                   <input
                     type="checkbox"
                     style={{ display: "none" }}
