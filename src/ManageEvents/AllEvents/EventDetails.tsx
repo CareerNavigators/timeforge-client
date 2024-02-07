@@ -16,7 +16,8 @@ import AllParticipants from "../AllParticipants/AllParticipants";
 import parse from 'html-react-parser';
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
-// import logo from "/logo.png"
+import logo from "/logo.png"
+import { TypeAnimation } from "react-type-animation";
 
 const EventDetails: React.FC = () => {
   // hooks and states
@@ -55,16 +56,28 @@ const EventDetails: React.FC = () => {
 
   return (
     <div className="mb-10">
+      <h1 className="flex pl-2 my-5 items-center gap-2 ">
+        <img className="w-12" src={logo} alt="logo" />
+        <br /> {" "}
+        <span className="text-[#5E47EF] text-3xl font-bold">
+          <TypeAnimation
+            preRenderFirstString={false}
+            sequence={[`TimeForge`, 500, ""]}
+            speed={10}
+            repeat={Infinity}
+          ></TypeAnimation>{" "}
+        </span>
+      </h1>
+      {/* <div className="flex pl-2 my-5 items-center gap-2">
+
+        <h3 className="text-[#5E47EF] text-4xl font-bold">TimeForge</h3>
+      </div> */}
       <div className="max-w-full lg:px-2 lg:m-5 shadow-md rounded-md flex flex-col md:flex-row">
 
         {/* event information */}
         <div className="md:w-2/3 lg:w-1/3 p-2 border-r lg:relative">
-          {/* <div className="flex mb-5 items-center gap-4">
-            <img className="h-10" src={logo} alt="logo" />
-            <h3 className="text-[#5E47EF] text-4xl font-bold">TimeForge</h3>
-          </div> */}
           <div>
-            <h2 className="text-2xl text-[#5038ED] font-bold">{title}</h2>
+            <h2 className="text-2xl text-[#7c3aed] font-bold">{title}</h2>
             <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
               <FaArchive size={30}></FaArchive>
               <span className="text-gray-500">{eventType}</span>
@@ -107,7 +120,7 @@ const EventDetails: React.FC = () => {
                 alt="author-image" />
               <div className="flex flex-col">
                 <h2 className="font-semibold text-gray-500">{userData?.name}</h2>
-                <h3 className="text-sm font-medium text-gray-500">{userData?.email}</h3>
+                <h3 className="text-xs font-medium text-gray-500">{userData?.email}</h3>
               </div>
             </div>
           </div>
