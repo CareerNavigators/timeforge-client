@@ -157,11 +157,7 @@ const OneEvent = () => {
                 </Select>
               </Form.Item>
 
-              <Form.Item
-                rules={[
-                  { required: true, message: "Please input the event name" },
-                ]}
-              >
+              <Form.Item rules={[{ required: true, message: "Please input!" }]}>
                 <div className="flex gap-5">
                   <div className="flex gap-2">
                     <AudioMutedOutlined />
@@ -184,6 +180,7 @@ const OneEvent = () => {
                   </div>
                 </div>
               </Form.Item>
+              
               <Form.Item
                 className="text-lg font-semibold"
                 rules={[

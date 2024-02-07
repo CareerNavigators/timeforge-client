@@ -15,19 +15,20 @@ interface SingleEventProps {
   handleEventDelete: (id: string) => void;
 }
 
-const SingleEvent: React.FC<SingleEventProps> = ({ item, handleEventDelete }) => {
+const SingleEvent: React.FC<SingleEventProps> = ({
+  item,
+  handleEventDelete,
+}) => {
   const { _id, title, duration, eventType, camera, mic, attendee } = item;
 
   return (
-    <div className='w-full xl:w-[350px] mx-auto rounded-lg border shadow-sm hover:shadow-[#a59cda] hover:transition-all hover:ease-out p-4 hover:shadow-md hover:scale-105 hover:duration-300'>
+    <div className="w-full xl:w-[350px] mx-auto rounded-lg border-2 shadow-sm hover:border-[#5E47EF] hover:shadow-[#5d47ef62] hover:transition-all hover:ease-out p-4 hover:shadow-md hover:scale-105 hover:duration-300">
       <div>
         <Link to={`/dashboard/eventDetails/${_id}`}>
           <div>
-            <h3 className='text-[#5E47EF] text-2xl font-bold my-2'>
-              {title}
-            </h3>
-            <h4 className='text-gray-500 font-medium'>Duration : {duration}</h4>
-            <h4 className='text-gray-500 font-medium mt-2'>
+            <h3 className="text-[#5E47EF] text-2xl font-bold my-2">{title}</h3>
+            <h4 className="text-gray-500 font-medium">Duration : {duration}</h4>
+            <h4 className="text-gray-500 font-medium mt-2">
               Event Type : {eventType}
             </h4>
             <div className="flex items-center justify-between mt-2">
@@ -35,29 +36,40 @@ const SingleEvent: React.FC<SingleEventProps> = ({ item, handleEventDelete }) =>
                 <FaUsers color="gray" size={30}></FaUsers>
                 <p className="text-2xl font-semibold">{attendee}</p>
               </div>
-              <div className='flex items-center gap-4 text-lg font-medium'>
-                <div className='flex items-center gap-1'>
+              <div className="flex items-center gap-4 text-lg font-medium">
+                <div className="flex items-center gap-1">
                   <FaCamera color="gray" size={25}></FaCamera>
-                  {camera ? <FaCheck size={10} color="green"></FaCheck> : <FaTimes size={10} color="red"></FaTimes>}
+                  {camera ? (
+                    <FaCheck size={10} color="green"></FaCheck>
+                  ) : (
+                    <FaTimes size={10} color="red"></FaTimes>
+                  )}
                 </div>
-                <div className='flex items-center gap-1'>
-                  <FaMicrophone color='gray' size={25}></FaMicrophone>
-                  {mic ? <FaCheck size={10} color="green"></FaCheck> : <FaTimes size={10} color="red"></FaTimes>}
+                <div className="flex items-center gap-1">
+                  <FaMicrophone color="gray" size={25}></FaMicrophone>
+                  {mic ? (
+                    <FaCheck size={10} color="green"></FaCheck>
+                  ) : (
+                    <FaTimes size={10} color="red"></FaTimes>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </Link>
-        <hr className='mt-3' />
-        <div className='flex justify-between items-center mt-5 gap-2'>
+        <hr className="mt-3" />
+        <div className="flex justify-between items-center mt-5 gap-2">
           <Link to={`/eventslot/${_id}`}>
-            <div className='flex items-center gap-1 text-[#5E47EF] p-2 rounded'>
+            <div className="flex items-center gap-1 text-[#5E47EF] p-2 rounded">
               <FaExternalLinkAlt></FaExternalLinkAlt>
-              <h3 className='hover:underline hover:cursor-pointer'>Preview</h3>
+              <h3 className="hover:underline hover:cursor-pointer">Preview</h3>
             </div>
           </Link>
 
-          <button onClick={() => handleEventDelete(_id)} className='p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300'>
+          <button
+            onClick={() => handleEventDelete(_id)}
+            className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300"
+          >
             <FaRegTrashAlt></FaRegTrashAlt>
           </button>
         </div>
