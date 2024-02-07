@@ -114,19 +114,25 @@ const OneEvent = () => {
                 </h3>
               </div>
               <Form.Item
-                label="Event name"
                 name="Input"
                 rules={[{ required: true, message: "Please input!" }]}
               >
-                <Input value={eventName} onChange={handleEventName} />
+                <Input
+                  placeholder="Event name"
+                  value={eventName}
+                  onChange={handleEventName}
+                />
               </Form.Item>
 
               <Form.Item
-                label="Duration"
                 name="duration"
                 rules={[{ required: true, message: "Please input!" }]}
               >
-                <Select value={eventDuration} onChange={handleEventDuration}>
+                <Select
+                  value={eventDuration}
+                  placeholder="Duration"
+                  onChange={handleEventDuration}
+                >
                   <Select.Option value="15 min">15 min</Select.Option>
                   <Select.Option value="30 min">30 min</Select.Option>
                   <Select.Option value="45 min">45 min</Select.Option>
@@ -135,11 +141,14 @@ const OneEvent = () => {
               </Form.Item>
 
               <Form.Item
-                label="Event Type"
                 name="eventType"
                 rules={[{ required: true, message: "Please input!" }]}
               >
-                <Select value={eventType} onChange={handleEventType}>
+                <Select
+                  value={eventType}
+                  placeholder="Event Type"
+                  onChange={handleEventType}
+                >
                   <Select.Option value="Interview">Interview</Select.Option>
                   <Select.Option value="Meeting">Meeting</Select.Option>
                   <Select.Option value="Seminar">Seminar</Select.Option>
@@ -215,6 +224,7 @@ const OneEvent = () => {
             selectedTimes={selectedTimes}
             setSelectedTimes={setSelectedTimes}
             onSelectTime={onSelectTime}
+            eventDuration={eventDuration}
           ></CalendarPage>
         </div>
       </div>
