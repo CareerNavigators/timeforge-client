@@ -49,7 +49,7 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
 
     return (
         <div className="max-w-full shadow-md rounded-md p-2 lg:m-5 overflow-hidden">
-            <div className="text-[#5038ED] my-2 text-xl font-extrabold">
+            <div className="text-[#7c3aed] my-2 text-xl font-extrabold">
                 <div className="flex flex-row items-center justify-center gap-2">
                     <FaUsers></FaUsers>
                     <h1> Participants</h1>
