@@ -23,25 +23,39 @@ const CalendarPage = ({
   }, [modalOpen, setSelectedTimes]);
 
   useEffect(() => {
-    setModalTimes(generateTimes(9, 16, parseInt(eventDuration.split(" ")[0])));
+    setModalTimes(generateTimes(9, 16, eventDuration));
   }, [eventDuration]);
+
+  // const handleCheckboxChange = (time: string) => {
+  //   const currentDateKey = selectedDate?.format("DDMMYY");
+
+  //   if (currentDateKey) {
+  //     setSelectedTimes((prevSelectedTimes: { [x: string]: any }) => {
+  //       const isSelected = prevSelectedTimes[currentDateKey]?.includes(time);
+
+  //       return {
+  //         ...prevSelectedTimes,
+  //         [currentDateKey]: isSelected
+  //           ? (prevSelectedTimes[currentDateKey] || []).filter(
+  //               (selectedTime: string) => selectedTime !== time
+  //             )
+  //           : [...(prevSelectedTimes[currentDateKey] || []), time],
+  //       };
+  //     });
+  //   }
+  // };
 
   const handleCheckboxChange = (time: string) => {
     const currentDateKey = selectedDate?.format("DDMMYY");
 
     if (currentDateKey) {
-      setSelectedTimes((prevSelectedTimes: { [x: string]: any }) => {
-        const isSelected = prevSelectedTimes[currentDateKey]?.includes(time);
-
-        return {
-          ...prevSelectedTimes,
-          [currentDateKey]: isSelected
-            ? (prevSelectedTimes[currentDateKey] || []).filter(
-                (selectedTime: string) => selectedTime !== time
-              )
-            : [...(prevSelectedTimes[currentDateKey] || []), time],
-        };
-      });
+      setModalTimes((prevModalTimes) =>
+        prevModalTimes.map((modalTime) =>
+          modalTime.time === time
+            ? { ...modalTime, checked: !modalTime.checked }
+            : modalTime
+        )
+      );
     }
   };
 
@@ -118,7 +132,7 @@ const CalendarPage = ({
   };
 
   return (
-    <div className="flex justify-center items-center lg:h-[88vh] overflow-auto pt-5 rounded-md">
+    <div className="flex justify-center items-center lg:h-[88vh] pt-5 rounded-md">
       <Calendar
         className="lg:w-[40vw] h-fit m-5 p-5 rounded-md shadow-xl border-2 border-violet-500"
         onSelect={onSelect}
@@ -134,21 +148,16 @@ const CalendarPage = ({
         onCancel={handleCancel}
       >
         <div>
-          <ul>
-            {selectedDate &&
-              selectedTimes &&
-              selectedTimes[selectedDate.format("DDMMYY")] &&
-              selectedTimes[selectedDate.format("DDMMYY")].map(
-                (time: any, index: any) => <li key={index}>{time}</li>
-              )}
-          </ul>
-        </div>
-        <div>
-          <h3>Select Times:</h3>
           <ul className="grid grid-cols-4 mb-5 mt-2">
             {modalTimes.map((timeData) => (
               <li key={timeData.time} className="py-1 mx-auto">
-                <label className="flex w-20 justify-center bg-[#e3d9f3] border-[1px] border-[#7c3aed] px-2 py-[2px] rounded">
+                <label
+                  className={`flex w-20 justify-center border-2 px-2 py-[2px] rounded ${
+                    timeData.checked
+                      ? "border-[#7c3aed] bg-[#7c3aed] text-white text-bold"
+                      : "border-[#7c3aed]"
+                  }`}
+                >
                   <input
                     type="checkbox"
                     style={{ display: "none" }}
@@ -161,13 +170,13 @@ const CalendarPage = ({
             ))}
           </ul>
           <div>
-            <h3>Selected Times:</h3>
-            <ul className="grid grid-cols-6 gap-5">
+            <h3 className="font-semibold text-md mb-3">Selected Times:</h3>
+            <ul className="grid grid-cols-5 gap-2">
               {selectedTimes &&
                 selectedTimes[selectedDate?.format("DDMMYY") || ""]?.map(
                   (selectedTime: any) => (
                     <li
-                      className="border-2 border-[#7c3aed] text-center rounded"
+                      className="w-20 px-2 py-[2px] border-2 border-[#7c3aed] text-center rounded"
                       key={selectedTime}
                     >
                       {selectedTime}

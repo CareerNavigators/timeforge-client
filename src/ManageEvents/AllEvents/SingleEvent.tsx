@@ -16,7 +16,10 @@ interface SingleEventProps {
   handleEventDelete: (id: string) => void;
 }
 
-const SingleEvent: React.FC<SingleEventProps> = ({ item, handleEventDelete }) => {
+const SingleEvent: React.FC<SingleEventProps> = ({
+  item,
+  handleEventDelete,
+}) => {
   const { _id, title, duration, eventType, camera, mic, attendee } = item;
 
   return (
