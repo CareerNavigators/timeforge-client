@@ -1,7 +1,9 @@
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, InputNumber, Select, Switch } from "antd";
+import { FaVideoSlash, FaVideo } from "react-icons/fa";
+import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-import { AiFillAudio } from "react-icons/ai";
-import { FaVideo } from "react-icons/fa";
+// import { AiFillAudio } from "react-icons/ai";
+// import { FaVideo } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
 // import { useNavigate } from "react-router-dom";
 import CalendarPage from "./CalendarPage";
@@ -11,6 +13,7 @@ import "react-quill/dist/quill.snow.css";
 import AxiosSecure from "../../Hook/useAxios";
 import { AuthContext } from "../../Provider/AuthContext";
 import showToast from "../../Hook/swalToast";
+import { useNavigate } from "react-router-dom";
 
 const OneEvent = () => {
   const { userData } = useContext(AuthContext);
@@ -20,11 +23,11 @@ const OneEvent = () => {
   const [isAudioSelected, setIsAudioSelected] = useState(false);
   const [isVideoSelected, setIsVideoSelected] = useState(false);
   const [eventName, setEventName] = useState<string>("");
-  const [eventDuration, setEventDuration] = useState<string>("15 min");
+  const [eventDuration, setEventDuration] = useState(15);
   const [eventType, setEventType] = useState<string>("");
   const [eventDesc, setEventDesc] = useState<string>("");
   const [events, setEvents] = useState<Array<unknown>>([]);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [selectedTimes, setSelectedTimes] = useState(null);
   const axiosSecure = AxiosSecure();
@@ -44,9 +47,13 @@ const OneEvent = () => {
     setEventName(e.target.value);
   };
 
-  const handleEventDuration = (value: SelectValue) => {
-    setEventDuration(value as string);
+  const handleEventDuration = (value: number | null) => {
+    if (value !== null) {
+      setEventDuration(value);
+      console.log("changed", value);
+    }
   };
+
   const handleEventType = (value: SelectValue) => {
     setEventType(value as string);
   };
@@ -73,6 +80,7 @@ const OneEvent = () => {
         console.log(res);
         setEvents((prevEvents) => [...prevEvents, newEvent]);
         showToast("success", `${eventName} is added to the Events.`);
+        navigate("/dashboard/allEvents");
       });
     } catch (error) {
       console.error("Error adding task:", error);
@@ -97,11 +105,10 @@ const OneEvent = () => {
         <div className="m-5 lg:m-0 w-fit">
           <Form
             form={form}
-            labelCol={{ span: 5 }}
-            wrapperCol={{ span: 18 }}
+            labelCol={{ span: 2 }}
             layout="horizontal"
             style={{
-              minWidth: isLargeScreen ? 600 : "auto",
+              minWidth: isLargeScreen ? 500 : "auto",
               minHeight: isLargeScreen ? 700 : "auto",
             }}
             className="p-10 lg:border-2 border-[#7c3aed] bg-white rounded-md shadow-xl"
@@ -128,7 +135,7 @@ const OneEvent = () => {
                 name="duration"
                 rules={[{ required: true, message: "Please input!" }]}
               >
-                <Select
+                {/* <Select
                   value={eventDuration}
                   placeholder="Duration"
                   onChange={handleEventDuration}
@@ -137,7 +144,14 @@ const OneEvent = () => {
                   <Select.Option value="30 min">30 min</Select.Option>
                   <Select.Option value="45 min">45 min</Select.Option>
                   <Select.Option value="60 min">60 min</Select.Option>
-                </Select>
+                </Select> */}
+                <InputNumber
+                  placeholder="Duration"
+                  min={1}
+                  max={60}
+                  style={{ width: "100%" }}
+                  onChange={handleEventDuration}
+                />
               </Form.Item>
 
               <Form.Item
@@ -157,14 +171,11 @@ const OneEvent = () => {
               </Form.Item>
 
               <Form.Item
-                label="Required"
-                className="font-semibold"
                 rules={[
                   { required: true, message: "Please input the event name" },
                 ]}
               >
-                <div className="w-full flex gap-2">
-                  <span
+                {/* <span
                     onClick={handleAudioSelection}
                     className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
                       isAudioSelected
@@ -175,9 +186,30 @@ const OneEvent = () => {
                     <div className="flex flex-col items-center gap-1">
                       <AiFillAudio className="text-2xl" />
                     </div>
-                  </span>
+                  </span> */}
+                <div className="flex gap-5">
+                  <div className="flex gap-2">
+                    <AudioMutedOutlined />
+                    <Switch
+                      className="bg-gray-400"
+                      size="small"
+                      onClick={handleAudioSelection}
+                    />
+                    <AudioOutlined />
+                  </div>
 
-                  <span
+                  <div className="flex gap-2 items-center">
+                    <FaVideoSlash />
+                    <Switch
+                      className="bg-gray-400"
+                      size="small"
+                      onClick={handleVideoSelection}
+                    />
+                    <FaVideo />
+                  </div>
+                </div>
+
+                {/* <span
                     onClick={handleVideoSelection}
                     className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
                       isVideoSelected
@@ -188,21 +220,20 @@ const OneEvent = () => {
                     <div className="flex flex-col items-center">
                       <FaVideo className="text-2xl" />
                     </div>
-                  </span>
-                </div>
+                  </span> */}
               </Form.Item>
               <Form.Item
-                label="Description"
                 className="text-lg font-semibold"
                 rules={[
                   { required: true, message: "Please input the event name" },
                 ]}
               >
                 <ReactQuill
+                  placeholder="Description"
                   theme="snow"
                   value={eventDesc}
                   onChange={handleEventDesc}
-                  className="h-[200px] lg:w-[20vw]"
+                  className="h-[200px] lg:w-[25vw]"
                 />
               </Form.Item>
             </div>
