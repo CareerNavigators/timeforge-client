@@ -23,7 +23,7 @@ const CalendarPage = ({
   }, [modalOpen, setSelectedTimes]);
 
   useEffect(() => {
-    setModalTimes(generateTimes(9, 16, parseInt(eventDuration.split(" ")[0])));
+    setModalTimes(generateTimes(9, 16, eventDuration));
   }, [eventDuration]);
 
   const handleCheckboxChange = (time: string) => {
@@ -118,7 +118,7 @@ const CalendarPage = ({
   };
 
   return (
-    <div className="flex justify-center items-center lg:h-[88vh] overflow-auto pt-5 rounded-md">
+    <div className="flex justify-center items-center lg:h-[88vh] pt-5 rounded-md">
       <Calendar
         className="lg:w-[40vw] h-fit m-5 p-5 rounded-md shadow-xl border-2 border-violet-500"
         onSelect={onSelect}
