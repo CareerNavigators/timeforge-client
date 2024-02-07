@@ -134,21 +134,10 @@ const CalendarPage = ({
         onCancel={handleCancel}
       >
         <div>
-          <ul>
-            {selectedDate &&
-              selectedTimes &&
-              selectedTimes[selectedDate.format("DDMMYY")] &&
-              selectedTimes[selectedDate.format("DDMMYY")].map(
-                (time: any, index: any) => <li key={index}>{time}</li>
-              )}
-          </ul>
-        </div>
-        <div>
-          <h3>Select Times:</h3>
           <ul className="grid grid-cols-4 mb-5 mt-2">
             {modalTimes.map((timeData) => (
               <li key={timeData.time} className="py-1 mx-auto">
-                <label className="flex w-20 justify-center bg-[#e3d9f3] border-[1px] border-[#7c3aed] px-2 py-[2px] rounded">
+                <label className="flex w-20 justify-center border-2 border-[#7c3aed] px-2 py-[2px] rounded">
                   <input
                     type="checkbox"
                     style={{ display: "none" }}
@@ -161,13 +150,13 @@ const CalendarPage = ({
             ))}
           </ul>
           <div>
-            <h3>Selected Times:</h3>
-            <ul className="grid grid-cols-6 gap-5">
+            <h3 className="font-semibold text-md mb-3">Selected Times:</h3>
+            <ul className="grid grid-cols-5 gap-2">
               {selectedTimes &&
                 selectedTimes[selectedDate?.format("DDMMYY") || ""]?.map(
                   (selectedTime: any) => (
                     <li
-                      className="border-2 border-[#7c3aed] text-center rounded"
+                      className="w-20 px-2 py-[2px] border-2 border-[#7c3aed] text-center rounded"
                       key={selectedTime}
                     >
                       {selectedTime}
