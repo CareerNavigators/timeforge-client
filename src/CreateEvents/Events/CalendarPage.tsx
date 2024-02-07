@@ -4,9 +4,16 @@ import type { CalendarProps } from "antd";
 import { Badge, Calendar, Modal } from "antd";
 import "./style.css";
 
-const CalendarPage = ({ selectedTimes, setSelectedTimes }: any) => {
+const CalendarPage = ({
+  selectedTimes,
+  setSelectedTimes,
+  eventDuration,
+}: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
+  const [modalTimes, setModalTimes] = useState<
+    { time: string; checked: boolean }[]
+  >([]);
   const [modalOpen, setModalOpen] = useState<boolean>(true);
 
   useEffect(() => {
@@ -14,6 +21,10 @@ const CalendarPage = ({ selectedTimes, setSelectedTimes }: any) => {
       setSelectedTimes({});
     }
   }, [modalOpen, setSelectedTimes]);
+
+  useEffect(() => {
+    setModalTimes(generateTimes(9, 16, parseInt(eventDuration.split(" ")[0])));
+  }, [eventDuration]);
 
   const handleCheckboxChange = (time: string) => {
     const currentDateKey = selectedDate?.format("DDMMYY");
@@ -37,11 +48,11 @@ const CalendarPage = ({ selectedTimes, setSelectedTimes }: any) => {
   const generateTimes = (
     startHour: number,
     endHour: number,
-    interval: number
+    eventDuration: number
   ) => {
     const times: { time: string; checked: boolean }[] = [];
     for (let hour = startHour; hour <= endHour; hour++) {
-      for (let minute = 0; minute < 60; minute += interval) {
+      for (let minute = 0; minute < 60; minute += eventDuration) {
         const formattedTime = `${hour % 12 || 12}:${
           minute === 0 ? "00" : minute
         } ${hour >= 12 ? "PM" : "AM"}`;
@@ -50,8 +61,6 @@ const CalendarPage = ({ selectedTimes, setSelectedTimes }: any) => {
     }
     return times;
   };
-
-  const timesWithCheckboxes = generateTimes(9, 16, 30);
 
   const handleOk = () => {
     const dateKey = selectedDate?.format("DDMMYY");
@@ -88,7 +97,6 @@ const CalendarPage = ({ selectedTimes, setSelectedTimes }: any) => {
   };
 
   const dateCellRender = (value: Dayjs) => {
-    // console.log(selectedTimes);
     const data = selectedTimes
       ? selectedTimes[value.format("DDMMYY")] || []
       : [];
@@ -138,7 +146,7 @@ const CalendarPage = ({ selectedTimes, setSelectedTimes }: any) => {
         <div>
           <h3>Select Times:</h3>
           <ul className="grid grid-cols-4 mb-5 mt-2">
-            {timesWithCheckboxes.map((timeData) => (
+            {modalTimes.map((timeData) => (
               <li key={timeData.time} className="py-1 mx-auto">
                 <label className="flex w-20 justify-center bg-[#e3d9f3] border-[1px] border-[#7c3aed] px-2 py-[2px] rounded">
                   <input
