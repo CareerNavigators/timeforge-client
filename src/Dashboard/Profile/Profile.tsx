@@ -22,6 +22,7 @@ import axios from "axios";
 import { motion, useAnimation } from "framer-motion";
 import { AiOutlineEdit } from "react-icons/ai";
 import showToast from "../../Hook/swalToast";
+import ChartComponent from "../Chart/Chart";
 
 interface UserProfile {
   id?: string;
@@ -251,8 +252,7 @@ export function Profile() {
             {isEditing && (
               <label
                 htmlFor="coverPhoto"
-                className="absolute text-white cursor-pointer top-2 right-2"
-              >
+                className="absolute text-white cursor-pointer top-2 right-2">
                 <AiOutlineEdit size={24} />
               </label>
             )}
@@ -268,8 +268,7 @@ export function Profile() {
           </div>
           <Card
             className="mx-3 mb-6 -mt-16 border lg:mx-4 border-blue-gray-100"
-            placeholder={undefined}
-          >
+            placeholder={undefined}>
             <CardBody className="p-4" placeholder={undefined}>
               <div className="flex flex-wrap items-center justify-between gap-6 mb-10">
                 <div className="flex items-center gap-6">
@@ -288,8 +287,7 @@ export function Profile() {
                     {isEditing && (
                       <label
                         htmlFor="profilePhoto"
-                        className="absolute cursor-pointer -right-2 -top-2"
-                      >
+                        className="absolute cursor-pointer -right-2 -top-2">
                         <AiOutlineEdit size={18} onClick={handleEdit} />
                       </label>
                     )}
@@ -308,15 +306,13 @@ export function Profile() {
                       variant="h5"
                       color="blue-gray"
                       className="mb-1"
-                      placeholder={undefined}
-                    >
+                      placeholder={undefined}>
                       {userProfile?.name}
                     </Typography>
                     <Typography
                       variant="small"
                       className="font-normal text-blue-gray-600"
-                      placeholder={undefined}
-                    >
+                      placeholder={undefined}>
                       User
                     </Typography>
                   </div>
@@ -326,20 +322,17 @@ export function Profile() {
                 <Card
                   color="transparent"
                   shadow={false}
-                  placeholder={undefined}
-                >
+                  placeholder={undefined}>
                   <CardHeader
                     color="transparent"
                     shadow={false}
                     floated={false}
                     className="flex items-center justify-between gap-4 mx-0 mt-0 mb-4"
-                    placeholder={undefined}
-                  >
+                    placeholder={undefined}>
                     <Typography
                       variant="h6"
                       color="blue-gray"
-                      placeholder={undefined}
-                    >
+                      placeholder={undefined}>
                       Profile Information
                     </Typography>
                     <Tooltip
@@ -348,8 +341,7 @@ export function Profile() {
                       animate={{
                         mount: { scale: 1, y: 0 },
                         unmount: { scale: 0, y: 25 },
-                      }}
-                    >
+                      }}>
                       <div>
                         <BiPencil
                           onClick={handleEdit}
@@ -362,8 +354,7 @@ export function Profile() {
                     <Typography
                       variant="small"
                       className="font-normal text-blue-gray-500"
-                      placeholder={undefined}
-                    >
+                      placeholder={undefined}>
                       {userData?.desc || "Edit to add description"}
                     </Typography>
 
@@ -375,15 +366,13 @@ export function Profile() {
                           variant="small"
                           color="blue-gray"
                           className="font-semibold capitalize"
-                          placeholder={undefined}
-                        >
+                          placeholder={undefined}>
                           Name:
                         </Typography>
                         <Typography
                           variant="small"
                           className="font-normal text-blue-gray-500"
-                          placeholder={undefined}
-                        >
+                          placeholder={undefined}>
                           {userProfile?.name}
                         </Typography>
                       </li>
@@ -393,15 +382,13 @@ export function Profile() {
                           variant="small"
                           color="blue-gray"
                           className="font-semibold capitalize"
-                          placeholder={undefined}
-                        >
+                          placeholder={undefined}>
                           Mobile:
                         </Typography>
                         <Typography
                           variant="small"
                           className="font-normal text-blue-gray-500"
-                          placeholder={undefined}
-                        >
+                          placeholder={undefined}>
                           {userProfile?.phone || "Edit to add phone Number"}
                         </Typography>
                       </li>
@@ -411,15 +398,13 @@ export function Profile() {
                           variant="small"
                           color="blue-gray"
                           className="font-semibold capitalize"
-                          placeholder={undefined}
-                        >
+                          placeholder={undefined}>
                           Email:
                         </Typography>
                         <Typography
                           variant="small"
                           className="font-normal text-blue-gray-500"
-                          placeholder={undefined}
-                        >
+                          placeholder={undefined}>
                           {userProfile?.email}
                         </Typography>
                       </li>
@@ -429,15 +414,13 @@ export function Profile() {
                           variant="small"
                           color="blue-gray"
                           className="font-semibold capitalize"
-                          placeholder={undefined}
-                        >
+                          placeholder={undefined}>
                           Location:
                         </Typography>
                         <Typography
                           variant="small"
                           className="font-normal text-blue-gray-500"
-                          placeholder={undefined}
-                        >
+                          placeholder={undefined}>
                           {userProfile?.location || "Edit to add Location"}
                         </Typography>
                       </li>
@@ -446,15 +429,13 @@ export function Profile() {
                           variant="small"
                           color="blue-gray"
                           className="font-semibold capitalize"
-                          placeholder={undefined}
-                        >
+                          placeholder={undefined}>
                           Time Zone:
                         </Typography>
                         <Typography
                           variant="small"
                           className="font-normal text-blue-gray-500"
-                          placeholder={undefined}
-                        >
+                          placeholder={undefined}>
                           {userProfile?.timeZone}
                         </Typography>
                       </li>
@@ -500,7 +481,11 @@ export function Profile() {
                     </>
                   ) : null}
                 </div>
+                {/* chart */}
               </div>
+                <div>
+                  <ChartComponent></ChartComponent>
+                </div>
             </CardBody>
           </Card>
         </div>{" "}
@@ -510,15 +495,13 @@ export function Profile() {
           <button
             className="px-4 py-2 text-white rounded bg-dt"
             onClick={handleSave}
-            disabled={loadingProfile || loadingImageUpload}
-          >
+            disabled={loadingProfile || loadingImageUpload}>
             Save Changes
           </button>
           <button
             className="px-4 py-2 ml-2 text-white bg-gray-500 rounded"
             onClick={handleCancel}
-            disabled={loadingProfile || loadingImageUpload}
-          >
+            disabled={loadingProfile || loadingImageUpload}>
             Cancel
           </button>
         </div>
