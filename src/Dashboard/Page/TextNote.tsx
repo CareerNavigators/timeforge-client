@@ -13,10 +13,24 @@ import {
 import { RxCross2 } from "react-icons/rx";
 // import showToast from "../../Hook/swalToast";
 import Swal from "sweetalert2";
+import AxiosSecure from "../../Hook/useAxios";
+import { useQuery } from "@tanstack/react-query";
 // import  "./modal.css";
 const TextNote = () => {
   const [open, setOpen] = useState(false);
-  // const myRef = useRef(null);
+ 
+  // get note data using tanstack query
+  const axios = AxiosSecure();
+  const {data, isLoading, refetch} = useQuery({
+    queryKey: ["note"],
+    queryFn: async()=>{
+      const res = await axios.get("/note")
+      return res.data
+    }
+  })
+  console.log(data);
+
+
 
     const handleDelete =()=>{
       
