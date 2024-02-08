@@ -18,6 +18,7 @@ import AboutUs from "../AboutUs/AboutUs"
 import About from "../Contacts/About";
 import Note from "../Dashboard/Page/Note";
 import { Profile } from "../Dashboard/Profile/Profile";
+import TextNote from "../Dashboard/Page/TextNote";
 
 const router = createBrowserRouter([
   {
@@ -102,6 +103,10 @@ const router = createBrowserRouter([
 
         path: "/dashboard/profile",
         element: <Profile></Profile>,
+      },
+      {
+        path: "/dashboard/textNote",
+        element: <TextNote></TextNote>
       },
     ],
   },
