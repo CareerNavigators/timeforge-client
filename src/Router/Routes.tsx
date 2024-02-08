@@ -14,10 +14,11 @@ import EventDetails from "../ManageEvents/AllEvents/EventDetails";
 import Error from "../Error/Error";
 import Pricing from "../Pages/Pricing";
 import ContactUs from "../Contacts/ContactUs";
-import AboutUs from "../AboutUs/AboutUs"
+import AboutUs from "../AboutUs/AboutUs";
 import About from "../Contacts/About";
 import { Profile } from "../Dashboard/Profile/Profile";
 import UpdateEvent from "../UpdateEvent/UpdateEvent";
+import AllUser from "../Components/AllUser/AllUser";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +43,8 @@ const router = createBrowserRouter([
         element: (
           <CalendarPage
             selectedTimes={{}}
-            onSelectTime={function (): void {}}></CalendarPage>
+            onSelectTime={function (): void {}}
+          ></CalendarPage>
         ),
       },
       {
@@ -83,18 +85,28 @@ const router = createBrowserRouter([
         element: <CreateEvents></CreateEvents>,
       },
       {
+        path: "/dashboard/allUsers",
+        element: <AllUser></AllUser>,
+      },
+      {
         path: "/dashboard/allEvents",
         element: <AllEvents></AllEvents>,
       },
       {
         path: "dashboard/eventDetails/:id",
         element: <EventDetails></EventDetails>,
-        loader: ({ params }) => fetch(`https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`)
+        loader: ({ params }) =>
+          fetch(
+            `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
+          ),
       },
       {
         path: "dashboard/updateEvent/:id",
         element: <UpdateEvent></UpdateEvent>,
-        loader: ({ params }) => fetch(`https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`)
+        loader: ({ params }) =>
+          fetch(
+            `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
+          ),
       },
       {
         path: "/dashboard/profile",
@@ -105,7 +117,10 @@ const router = createBrowserRouter([
   {
     path: "/eventslot/:id",
     element: <EventSlot></EventSlot>,
-    loader: ({ params }) => fetch(`https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`)
+    loader: ({ params }) =>
+      fetch(
+        `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
+      ),
   },
 ]);
 export default router;
