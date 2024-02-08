@@ -19,6 +19,7 @@ import About from "../Contacts/About";
 import { Profile } from "../Dashboard/Profile/Profile";
 import TextNote from "../Dashboard/Page/TextNote";
 import UpdateEvent from "../UpdateEvent/UpdateEvent";
+import Note from "../Dashboard/Page/Note";
 
 const router = createBrowserRouter([
   {
@@ -105,6 +106,10 @@ const router = createBrowserRouter([
         path: "/dashboard/textNote",
         element: <TextNote></TextNote>
       },
+      {
+        path: "/dashboard/note",
+        element: <Note></Note>
+      }
     ],
   },
   {

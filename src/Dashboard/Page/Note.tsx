@@ -70,13 +70,8 @@ const Note = () => {
               className="my-6 font-semibold font-inter text-[#7c3aed] border-2 border-[#7c3aed]"
               onClick={handleSubmit}
             >
-              Submit Note
+              Update Note
             </Button>
-            <Link to="/dashboard/textNote">
-              <button className="text-[30px]">
-                <FaPersonWalkingArrowRight />
-              </button>
-            </Link>
           </div>
           {showOutput && (
             <div className="">

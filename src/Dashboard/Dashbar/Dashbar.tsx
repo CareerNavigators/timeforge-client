@@ -11,6 +11,7 @@ import { useState } from "react";
 import Logo from "/logo.png";
 import { Link, NavLink } from "react-router-dom";
 import "./style.css";
+import { SlNote } from "react-icons/sl";
 
 const { Header, Sider } = Layout;
 const Dashbar = () => {
@@ -91,20 +92,17 @@ const Dashbar = () => {
                   </NavLink>
                 ),
               },
-<<<<<<< HEAD
               {
                 key: "5",
                 icon: 
                 <SlNote />,
-                label:<NavLink to="/dashboard/note">Note</NavLink>
+                label:<NavLink to="/dashboard/textNote">Note</NavLink>
               },
               {
                 key: "3",
                 icon: <HomeOutlined />,
                 label: <NavLink to="/">Home</NavLink>,
               },
-=======
->>>>>>> 7c12f55abc72466b9e50934df3f947131ab751ae
             ]}
           />
 
