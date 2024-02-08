@@ -8,8 +8,8 @@ import {
 } from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
 import Logo from "/logo.png";
-const MobileDasbar: React.FC = () => {
-    // implement motoion
+const MobileDashbar: React.FC = () => {
+  // implement motoion
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useTransform(y, [-100, 100], [30, -30]);
@@ -24,7 +24,7 @@ const MobileDasbar: React.FC = () => {
         whileTap={{ cursor: "grabbing" }}
         className="cursor-grab"
       >
-        <ul className="my-2 flex py-[15px] mb-0 mr-0 m-auto justify-center items-center bg-black text-white w-full object-contain gap-[50px] lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 shadow-inner shadow-indigo-600 " >
+        <ul className="my-2 flex py-[15px] mb-0 mr-0 m-auto justify-center items-center bg-black text-white w-full object-contain gap-[50px] lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 shadow-inner shadow-indigo-600 ">
           <li className="p-1 font-medium">
             <NavLink
               to="/dashboard"
@@ -68,12 +68,12 @@ const MobileDasbar: React.FC = () => {
             </NavLink>
           </li>
           <ul className="flex flex-wrap items-center justify-center gap-4 text-lg">
-                     <DarkModeToggle />
-                  </ul>
+            <DarkModeToggle />
+          </ul>
         </ul>
       </motion.div>
     </div>
   );
 };
 
-export default MobileDasbar;
+export default MobileDashbar;

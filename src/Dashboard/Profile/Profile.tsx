@@ -33,6 +33,7 @@ interface UserProfile {
   img_profile?: string;
   phone?: string;
   desc?: string;
+  role?: string;
 }
 
 export function Profile() {
@@ -317,7 +318,7 @@ export function Profile() {
                       className="font-normal text-blue-gray-600"
                       placeholder={undefined}
                     >
-                      User
+                      {userProfile?.role}
                     </Typography>
                   </div>
                 </div>
