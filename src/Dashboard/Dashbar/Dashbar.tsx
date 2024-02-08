@@ -7,11 +7,11 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme } from "antd";
-import { SlNote } from "react-icons/sl";
 import { useState } from "react";
 import Logo from "/logo.png";
 import { Link, NavLink } from "react-router-dom";
 import "./style.css";
+
 const { Header, Sider } = Layout;
 const Dashbar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -38,7 +38,7 @@ const Dashbar = () => {
             }
             onClick={() => setCollapsed(!collapsed)}
             style={{
-              fontSize: "26px",
+              fontSize: "16px",
               width: 74,
               height: 74,
             }}
@@ -46,7 +46,7 @@ const Dashbar = () => {
         </Header>
       </Layout>
 
-      <Layout className="h-screen text-[30px]">
+      <Layout className="h-screen">
         <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className="" />
           <Link to="/dashboard">
@@ -91,6 +91,7 @@ const Dashbar = () => {
                   </NavLink>
                 ),
               },
+<<<<<<< HEAD
               {
                 key: "5",
                 icon: 
@@ -102,6 +103,8 @@ const Dashbar = () => {
                 icon: <HomeOutlined />,
                 label: <NavLink to="/">Home</NavLink>,
               },
+=======
+>>>>>>> 7c12f55abc72466b9e50934df3f947131ab751ae
             ]}
           />
 
