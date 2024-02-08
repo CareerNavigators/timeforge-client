@@ -10,40 +10,41 @@ import showToast from "../../Hook/swalToast";
 import AxiosSecure from "../../Hook/useAxios";
 import { AuthContext } from "../../Provider/AuthContext";
 
-
 interface NoteInput {
   content: string;
   // event: string;
   createdBy: string;
 }
 const Note = () => {
-  const {userData}=useContext(AuthContext);
+  const { userData } = useContext(AuthContext);
 
   const [eventDesc, setEventDesc] = useState<string>(""); // Define type string for eventDesc
   const [showOutput, setShowOutput] = useState<boolean>(false);
 
-
   const axios = AxiosSecure();
   const postNote = useMutation({
-     mutationFn: async(data : NoteInput): Promise<any>=>{
-       const res = await axios.post("/note" , data);
-       return res.data;
-    }
-  })
-  
+    mutationFn: async (data: NoteInput): Promise<any> => {
+      const res = await axios.post("/note", data);
+      return res.data;
+    },
+  });
+
   const handleSubmit = () => {
-    const noteData = {
-      content: eventDesc,
-      // event: "65bbe00e1693a8d7b28414b2",
-      createdBy: userData?._id,
-    };
-    postNote.mutateAsync(noteData)
-    showToast("success", "note created successfully");
+    try {
+      const noteData = {
+        content: eventDesc,
+        // event: "65bbe00e1693a8d7b28414b2",
+        createdBy: userData?._id,
+      };
+      postNote.mutateAsync(noteData);
+      showToast("success", "note created successfully");
+    } catch (error) {
+      showToast("error", "something went wrong");
+    }
   };
 
   const handleEventDescChange = (content: string) => {
     setEventDesc(content);
-    
   };
 
   return (

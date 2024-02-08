@@ -31,7 +31,7 @@ const AllEvents: React.FC = () => {
     queryKey: ["AllEvents"],
     queryFn: async () => {
       const res = await customAxios.get(
-        "/meeting?id=65afa0d20cd675ad26b7669a&type=all"
+        "/meeting?id=65bd35d330d307e9e082b481&type=all"
       );
       return res.data;
     },

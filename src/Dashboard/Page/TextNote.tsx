@@ -1,4 +1,4 @@
-import  { useRef, useState } from "react";
+import  { useContext, useRef, useState } from "react";
 import { Modal } from "antd";
 import { CiEdit } from "react-icons/ci";
 
@@ -15,21 +15,24 @@ import { RxCross2 } from "react-icons/rx";
 import Swal from "sweetalert2";
 import AxiosSecure from "../../Hook/useAxios";
 import { useQuery } from "@tanstack/react-query";
+import { AuthContext } from "../../Provider/AuthContext";
 // import  "./modal.css";
 const TextNote = () => {
   const [open, setOpen] = useState(false);
- 
+  const {userData} = useContext(AuthContext);
   // get note data using tanstack query
   const axios = AxiosSecure();
   const {data, isLoading, refetch} = useQuery({
     queryKey: ["note"],
-    queryFn: async()=>{
-      const res = await axios.get("/note")
+    queryFn: async( )=>{
+
+      const res = await axios.get(`/note?userid=${userData._id}` )
       return res.data
-    }
+    },
+    enabled: userData != null ? true : false
   })
   console.log(data);
-
+  // console.log(userData);
 
 
     const handleDelete =()=>{

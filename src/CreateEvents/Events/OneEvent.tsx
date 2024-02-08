@@ -58,7 +58,7 @@ const OneEvent = () => {
   const handleSubmit = async () => {
     try {
       const newEvent = {
-        createdBy: "65ba4751f6c3e2ad4492cc69",
+        createdBy: "65bd35d330d307e9e082b481",
         title: eventName,
         duration: eventDuration,
         mic: isAudioSelected,
