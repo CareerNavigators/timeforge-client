@@ -1,4 +1,4 @@
-import { FaFacebook, FaGlobe, FaInstagram } from "react-icons/fa";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -17,13 +17,7 @@ const Footer = () => {
       <hr className="mx-auto max-w-screen-[1920px] text-gray-600"></hr>
       <div className="mx-auto max-w-screen-[1920px] px-4 py-8 sm:px-6 lg:px-8">
         <div className="sm:flex sm:justify-between">
-          <div>
-            <div className="flex items-center justify-center sm:justify-start gap-2">
-              <FaGlobe></FaGlobe>
-              <h3 className="font-semibold text-base">English</h3>
-              {/* <FaChevronDown></FaChevronDown> */}
-            </div>
-          </div>
+          
           <ul className="flex flex-wrap-reverse md:flex-row items-center justify-center gap-3">
             {links}
           </ul>
