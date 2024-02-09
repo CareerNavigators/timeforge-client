@@ -50,11 +50,12 @@ export default function ProfileMenu() {
         <Button
           variant="text"
           className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto border-none"
-          placeholder={undefined}>
+          placeholder={undefined}
+        >
           <div className="w-11">
             <img
               alt={`${userData?.name}'s Picture`}
-              className=" border-d border-2 dark:border-dw p-0.5 rounded-full w-full object-fill"
+              className=" border-d border-2 dark:border-dw p-0.5 rounded-full w-11 h-11 object-cover"
               src={userData?.img_profile}
             />
           </div>
@@ -69,7 +70,8 @@ export default function ProfileMenu() {
         <Link to={"dashboard"}>
           <div
             onClick={closeMenu}
-            className="flex items-center gap-2 px-3 py-1 border-none rounded dark:text-dw hover:dark:bg-d1 hover:bg-[#f0f2f4]">
+            className="flex items-center gap-2 px-3 py-1 border-none rounded dark:text-dw hover:dark:bg-d1 hover:bg-[#f0f2f4]"
+          >
             <RxDashboard className="w-4 h-4" />
             <Typography className="font-normal" placeholder={undefined}>
               Dashboard
@@ -79,7 +81,8 @@ export default function ProfileMenu() {
         <div className="cursor-pointer" onClick={handleLogOut}>
           <div
             onClick={closeMenu}
-            className="flex items-center gap-2 px-3 py-1 text-red-500 border-none rounded dark:text-dw hover:bg-red-500/10 dark:hover:bg-red-500/40">
+            className="flex items-center gap-2 px-3 py-1 text-red-500 border-none rounded dark:text-dw hover:bg-red-500/10 dark:hover:bg-red-500/40"
+          >
             <CiPower className="w-4 h-4" />
             <Typography className="font-normal" placeholder={undefined}>
               Sign Out
