@@ -52,6 +52,7 @@ const MobileDasbar: React.FC = () => {
               className="flex items-center transition-colors hover:text-blue-500">
               <ScheduleOutlined className="text-[28px] " />
             </NavLink>
+            
           </li>
           <li className="p-1 font-medium">
             <NavLink
