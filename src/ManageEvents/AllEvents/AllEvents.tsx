@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import SingleEvent from "./SingleEvent";
 import useAxios from "../../Hook/useAxios";
-import { Spin } from "antd";
+import { Empty, Spin } from "antd";
 import showToast from "../../Hook/swalToast";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useContext } from "react";
@@ -30,6 +30,16 @@ const AllEvents: React.FC = () => {
   const MAX_API_CALLS = 2;
 
   // fetching all events
+
+  let apiURL: string;
+  if (userData != null) {
+    if (userData.role == "Admin") {
+      apiURL = "/admin/meetings";
+    } else {
+      apiURL = `/meeting?id=${userData?._id}&type=all`;
+    }
+  }
+
   const {
     data: allEvents = [],
     isLoading,
@@ -37,9 +47,7 @@ const AllEvents: React.FC = () => {
   } = useQuery({
     queryKey: ["AllEvents"],
     queryFn: async () => {
-      const res = await customAxios.get(
-        `/meeting?id=${userData?._id}&type=all`
-      );
+      const res = await customAxios.get(apiURL);
       return res.data;
     },
     enabled: userData != null ? true : false,
@@ -72,19 +80,29 @@ const AllEvents: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto mb-20 xl:mx-32">
-      <h1 className="text-center my-5 text-2xl font-extrabold">
-        Events of <span className="text-[#5038ED]">{userData?.name}</span>
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-10 px-2">
-        {allEvents?.map((item: EventType) => (
+    <div
+      style={{
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+      }}
+      className="grid gap-5 px-2 my-4 mt-10 mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-4 overflow-auto"
+    >
+      {allEvents && allEvents.length > 0 ? (
+        allEvents.map((item: EventType) => (
           <SingleEvent
             key={item._id}
             item={item}
             handleEventDelete={handleEventDelete}
-          ></SingleEvent>
-        ))}
-      </div>
+          />
+        ))
+      ) : (
+        // <p className="flex items-center justify-center h-screen text-lg text-gray-500">
+        //   No Events Found
+        // </p>
+        <div className="lg:w-[85vw]">
+          <Empty className="flex flex-col items-center justify-center h-screen" />
+        </div>
+      )}
     </div>
   );
 };

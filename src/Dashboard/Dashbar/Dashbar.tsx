@@ -65,24 +65,32 @@ const Dashbar = () => {
             {userData?.role === "Admin" ? (
               <>
                 <Menu.Item icon={<FaUsers />}>
-                  <NavLink to="/dashboard/allUsers">All users</NavLink>
+                  <NavLink to="/dashboard/allUsers" end>
+                    All users
+                  </NavLink>
                 </Menu.Item>
               </>
             ) : (
               <>
                 <Menu.Item icon={<PlusOutlined />}>
-                  <NavLink to="/dashboard/createEvent">Create</NavLink>
+                  <NavLink to="/dashboard/createEvent" end>
+                    Create
+                  </NavLink>
                 </Menu.Item>
               </>
             )}
             <Menu.Item icon={<ScheduleOutlined />}>
-              <NavLink to="/dashboard/allEvents">All Events</NavLink>
+              <NavLink to="/dashboard/allEvents" end>
+                All Events
+              </NavLink>
             </Menu.Item>
             <Menu.Item icon={<HomeOutlined />}>
-              <NavLink to="/">Home</NavLink>
+              <NavLink to="/" end>
+                Home
+              </NavLink>
             </Menu.Item>
             <Menu.Item icon={<UserOutlined />}>
-              <NavLink className="mt-auto" to="/dashboard/profile">
+              <NavLink className="mt-auto" to="/dashboard/profile" end>
                 Profile
               </NavLink>
             </Menu.Item>
