@@ -94,9 +94,9 @@ const Hero = () => {
               </Link>
             </div>
           ) : (
-            <button
-              onClick={handleGoogle}
-              className="px-[5px] py-[5px] mt-5 rounded-lg border-2 border-[#7c3aed] flex items-center gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out"
+            <Link
+              to={"/createEvent"}
+              className="w-fit px-[5px] py-[5px] mt-5 rounded-lg border-2 border-[#7c3aed] flex items-center gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out"
             >
               <div className="p-[4px] rounded-md">
                 <PlusCircleOutlined className="text-[#7c3aed]" />
@@ -104,7 +104,7 @@ const Hero = () => {
               <p className="pr-1 text-black font-semibold dark:text-white">
                 Create Event
               </p>
-            </button>
+            </Link>
           )}
         </div>
         <img src={image} alt="" />
