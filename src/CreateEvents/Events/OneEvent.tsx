@@ -1,16 +1,16 @@
-import { Button, Form, Input, InputNumber, Select, Switch } from "antd";
-import { FaVideoSlash, FaVideo } from "react-icons/fa";
-import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Select } from "antd";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { AiFillAudio } from "react-icons/ai";
+import { FaVideo } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
+// import { useNavigate } from "react-router-dom";
 import CalendarPage from "./CalendarPage";
-import bgImg from "/bg.png";
+import bgImg from "../../../public/bg.png";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import AxiosSecure from "../../Hook/useAxios";
 import { AuthContext } from "../../Provider/AuthContext";
 import showToast from "../../Hook/swalToast";
-import { useNavigate } from "react-router-dom";
 
 const OneEvent = () => {
   const { userData } = useContext(AuthContext);
@@ -20,11 +20,11 @@ const OneEvent = () => {
   const [isAudioSelected, setIsAudioSelected] = useState(false);
   const [isVideoSelected, setIsVideoSelected] = useState(false);
   const [eventName, setEventName] = useState<string>("");
-  const [eventDuration, setEventDuration] = useState(15);
+  const [eventDuration, setEventDuration] = useState<string>("15 min");
   const [eventType, setEventType] = useState<string>("");
   const [eventDesc, setEventDesc] = useState<string>("");
   const [events, setEvents] = useState<Array<unknown>>([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [form] = Form.useForm();
   const [selectedTimes, setSelectedTimes] = useState(null);
   const axiosSecure = AxiosSecure();
@@ -44,13 +44,9 @@ const OneEvent = () => {
     setEventName(e.target.value);
   };
 
-  const handleEventDuration = (value: number | null) => {
-    if (value !== null) {
-      setEventDuration(value);
-      console.log("changed", value);
-    }
+  const handleEventDuration = (value: SelectValue) => {
+    setEventDuration(value as string);
   };
-
   const handleEventType = (value: SelectValue) => {
     setEventType(value as string);
   };
@@ -62,7 +58,7 @@ const OneEvent = () => {
   const handleSubmit = async () => {
     try {
       const newEvent = {
-        createdBy: userData?._id,
+        createdBy: "65ba4751f6c3e2ad4492cc69",
         title: eventName,
         duration: eventDuration,
         mic: isAudioSelected,
@@ -77,7 +73,6 @@ const OneEvent = () => {
         console.log(res);
         setEvents((prevEvents) => [...prevEvents, newEvent]);
         showToast("success", `${eventName} is added to the Events.`);
-        navigate("/dashboard/allEvents");
       });
     } catch (error) {
       console.error("Error adding task:", error);
@@ -102,10 +97,11 @@ const OneEvent = () => {
         <div className="m-5 lg:m-0 w-fit">
           <Form
             form={form}
-            labelCol={{ span: 2 }}
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 18 }}
             layout="horizontal"
             style={{
-              minWidth: isLargeScreen ? 500 : "auto",
+              minWidth: isLargeScreen ? 600 : "auto",
               minHeight: isLargeScreen ? 700 : "auto",
             }}
             className="p-10 lg:border-2 border-[#7c3aed] bg-white rounded-md shadow-xl"
@@ -118,38 +114,32 @@ const OneEvent = () => {
                 </h3>
               </div>
               <Form.Item
+                label="Event name"
                 name="Input"
                 rules={[{ required: true, message: "Please input!" }]}
               >
-                <Input
-                  placeholder="Event name"
-                  value={eventName}
-                  onChange={handleEventName}
-                />
+                <Input value={eventName} onChange={handleEventName} />
               </Form.Item>
 
               <Form.Item
+                label="Duration"
                 name="duration"
                 rules={[{ required: true, message: "Please input!" }]}
               >
-                <InputNumber
-                  placeholder="Duration"
-                  min={1}
-                  max={60}
-                  style={{ width: "100%" }}
-                  onChange={handleEventDuration}
-                />
+                <Select value={eventDuration} onChange={handleEventDuration}>
+                  <Select.Option value="15 min">15 min</Select.Option>
+                  <Select.Option value="30 min">30 min</Select.Option>
+                  <Select.Option value="45 min">45 min</Select.Option>
+                  <Select.Option value="60 min">60 min</Select.Option>
+                </Select>
               </Form.Item>
 
               <Form.Item
+                label="Event Type"
                 name="eventType"
                 rules={[{ required: true, message: "Please input!" }]}
               >
-                <Select
-                  value={eventType}
-                  placeholder="Event Type"
-                  onChange={handleEventType}
-                >
+                <Select value={eventType} onChange={handleEventType}>
                   <Select.Option value="Interview">Interview</Select.Option>
                   <Select.Option value="Meeting">Meeting</Select.Option>
                   <Select.Option value="Seminar">Seminar</Select.Option>
@@ -157,42 +147,53 @@ const OneEvent = () => {
                 </Select>
               </Form.Item>
 
-              <Form.Item rules={[{ required: true, message: "Please input!" }]}>
-                <div className="flex gap-5">
-                  <div className="flex gap-2">
-                    <AudioMutedOutlined />
-                    <Switch
-                      className="bg-gray-400"
-                      size="small"
-                      onClick={handleAudioSelection}
-                    />
-                    <AudioOutlined />
-                  </div>
+              <Form.Item
+                label="Required"
+                className="font-semibold"
+                rules={[
+                  { required: true, message: "Please input the event name" },
+                ]}
+              >
+                <div className="w-full flex gap-2">
+                  <span
+                    onClick={handleAudioSelection}
+                    className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
+                      isAudioSelected
+                        ? "border-[#7c3aed] text-[#7c3aed]"
+                        : "border-gray-300 hover:shadow-md hover:border-[#7c3aed] transition-all ease-in-out"
+                    }`}
+                  >
+                    <div className="flex flex-col items-center gap-1">
+                      <AiFillAudio className="text-2xl" />
+                    </div>
+                  </span>
 
-                  <div className="flex gap-2 items-center">
-                    <FaVideoSlash />
-                    <Switch
-                      className="bg-gray-400"
-                      size="small"
-                      onClick={handleVideoSelection}
-                    />
-                    <FaVideo />
-                  </div>
+                  <span
+                    onClick={handleVideoSelection}
+                    className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
+                      isVideoSelected
+                        ? "border-[#7c3aed] text-[#7c3aed]"
+                        : "border-gray-300 hover:shadow-md hover:border-[#7c3aed] transition-all ease-in-out"
+                    }`}
+                  >
+                    <div className="flex flex-col items-center">
+                      <FaVideo className="text-2xl" />
+                    </div>
+                  </span>
                 </div>
               </Form.Item>
-              
               <Form.Item
+                label="Description"
                 className="text-lg font-semibold"
                 rules={[
                   { required: true, message: "Please input the event name" },
                 ]}
               >
                 <ReactQuill
-                  placeholder="Description"
                   theme="snow"
                   value={eventDesc}
                   onChange={handleEventDesc}
-                  className="h-[200px] lg:w-[25vw]"
+                  className="h-[200px] lg:w-[20vw]"
                 />
               </Form.Item>
             </div>
@@ -214,7 +215,6 @@ const OneEvent = () => {
             selectedTimes={selectedTimes}
             setSelectedTimes={setSelectedTimes}
             onSelectTime={onSelectTime}
-            eventDuration={eventDuration}
           ></CalendarPage>
         </div>
       </div>
