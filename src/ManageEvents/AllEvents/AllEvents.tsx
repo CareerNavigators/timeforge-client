@@ -63,19 +63,24 @@ const AllEvents: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto mb-20 xl:mx-32">
-      <h1 className="text-center my-5 text-2xl font-extrabold">
-        Events of <span className="text-[#5038ED]">{userData?.name}</span>
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-10 px-2">
-        {allEvents?.map((item: EventType) => (
-          <SingleEvent
-            key={item._id}
-            item={item}
-            handleEventDelete={handleEventDelete}
-          ></SingleEvent>
-        ))}
-      </div>
+    <div className="max-w-screen-xl mx-auto">
+      {allEvents && allEvents.length > 0 ? (
+        allEvents.map((item: EventType) => (
+          <>
+            <div className="grid grid-cols-1 gap-10 px-2 my-10 md:grid-cols-2 lg:grid-cols-3">
+              <SingleEvent
+                key={item._id}
+                item={item}
+                handleEventDelete={handleEventDelete}
+              />
+            </div>
+          </>
+        ))
+      ) : (
+        <p className="flex items-center justify-center h-screen text-lg text-gray-500">
+          No Events Found
+        </p>
+      )}
     </div>
   );
 };
