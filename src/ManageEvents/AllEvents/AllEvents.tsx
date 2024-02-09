@@ -3,6 +3,9 @@ import SingleEvent from "./SingleEvent";
 import useAxios from "../../Hook/useAxios";
 import { Spin } from "antd";
 import showToast from "../../Hook/swalToast";
+import { LoadingOutlined } from "@ant-design/icons";
+import { useContext } from "react";
+import { AuthContext } from "../../Provider/AuthContext";
 
 export interface EventType {
   _id: string;
@@ -13,7 +16,7 @@ export interface EventType {
   camera: boolean;
   mic: boolean;
   desc: string;
-  events: object;
+  events: any;
   name: string;
   email: string;
   slot: keyof object;
@@ -21,8 +24,8 @@ export interface EventType {
 
 const AllEvents: React.FC = () => {
   const customAxios = useAxios();
-
-  // fetching all events
+  const { userData } = useContext(AuthContext);
+  const MAX_API_CALLS = 2;
   const {
     data: allEvents = [],
     isLoading,
@@ -31,13 +34,13 @@ const AllEvents: React.FC = () => {
     queryKey: ["AllEvents"],
     queryFn: async () => {
       const res = await customAxios.get(
-        "/meeting?id=65afa0d20cd675ad26b7669a&type=all"
+        `/meeting?id=${userData?._id}&type=all`
       );
       return res.data;
     },
+    enabled: userData != null ? true : false,
+    retry: MAX_API_CALLS - 1,
   });
-
-  // deleting a event
   const handleEventDelete = (id: string) => {
     console.log("event id", id);
     customAxios.delete(`/meeting/${id}`).then((res) => {
@@ -48,11 +51,12 @@ const AllEvents: React.FC = () => {
     });
   };
 
-  // show this loader if data is loading
   if (isLoading) {
     return (
-      <div className="flex items-center mx-auto">
-        <Spin size="large" />
+      <div className="flex items-center justify-center fixed left-[40%] top-[50%]">
+        <Spin
+          indicator={<LoadingOutlined></LoadingOutlined>}
+          size="large"></Spin>
       </div>
     );
   }
@@ -62,9 +66,6 @@ const AllEvents: React.FC = () => {
       {allEvents && allEvents.length > 0 ? (
         allEvents.map((item: EventType) => (
           <>
-            <h1 className="text-center bg-gradient-to-r from-green-300 to-[#5038ED] my-5 bg-clip-text text-3xl font-extrabold text-transparent">
-              All Events Are Displayed Below
-            </h1>
             <div className="grid grid-cols-1 gap-10 px-2 my-10 md:grid-cols-2 lg:grid-cols-3">
               <SingleEvent
                 key={item._id}
