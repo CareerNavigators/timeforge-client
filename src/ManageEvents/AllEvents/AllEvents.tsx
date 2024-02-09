@@ -25,11 +25,7 @@ export interface EventType {
 const AllEvents: React.FC = () => {
   const customAxios = useAxios();
   const { userData } = useContext(AuthContext);
-  // console.log("database user", userData);
-
   const MAX_API_CALLS = 2;
-
-  // fetching all events
   const {
     data: allEvents = [],
     isLoading,
@@ -45,10 +41,6 @@ const AllEvents: React.FC = () => {
     enabled: userData != null ? true : false,
     retry: MAX_API_CALLS - 1,
   });
-
-  // console.log(allEvents);
-
-  // deleting a event
   const handleEventDelete = (id: string) => {
     console.log("event id", id);
     customAxios.delete(`/meeting/${id}`).then((res) => {
@@ -59,7 +51,6 @@ const AllEvents: React.FC = () => {
     });
   };
 
-  // show this loader if data is loading
   if (isLoading) {
     return (
       <div className="flex items-center justify-center fixed left-[40%] top-[50%]">
