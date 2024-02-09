@@ -25,7 +25,11 @@ export interface EventType {
 const AllEvents: React.FC = () => {
   const customAxios = useAxios();
   const { userData } = useContext(AuthContext);
+  // console.log("database user", userData);
+
   const MAX_API_CALLS = 2;
+
+  // fetching all events
   const {
     data: allEvents = [],
     isLoading,
@@ -41,6 +45,10 @@ const AllEvents: React.FC = () => {
     enabled: userData != null ? true : false,
     retry: MAX_API_CALLS - 1,
   });
+
+  // console.log(allEvents);
+
+  // deleting a event
   const handleEventDelete = (id: string) => {
     console.log("event id", id);
     customAxios.delete(`/meeting/${id}`).then((res) => {
@@ -51,35 +59,32 @@ const AllEvents: React.FC = () => {
     });
   };
 
+  // show this loader if data is loading
   if (isLoading) {
     return (
       <div className="flex items-center justify-center fixed left-[40%] top-[50%]">
         <Spin
           indicator={<LoadingOutlined></LoadingOutlined>}
-          size="large"></Spin>
+          size="large"
+        ></Spin>
       </div>
     );
   }
 
   return (
-    <div className="max-w-screen-xl mx-auto">
-      {allEvents && allEvents.length > 0 ? (
-        allEvents.map((item: EventType) => (
-          <>
-            <div className="grid grid-cols-1 gap-10 px-2 my-10 md:grid-cols-2 lg:grid-cols-3">
-              <SingleEvent
-                key={item._id}
-                item={item}
-                handleEventDelete={handleEventDelete}
-              />
-            </div>
-          </>
-        ))
-      ) : (
-        <p className="flex items-center justify-center h-screen text-lg text-gray-500">
-          No Events Found
-        </p>
-      )}
+    <div className="mx-auto mb-20 xl:mx-32">
+      <h1 className="text-center my-5 text-2xl font-extrabold">
+        Events of <span className="text-[#5038ED]">{userData?.name}</span>
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-10 px-2">
+        {allEvents?.map((item: EventType) => (
+          <SingleEvent
+            key={item._id}
+            item={item}
+            handleEventDelete={handleEventDelete}
+          ></SingleEvent>
+        ))}
+      </div>
     </div>
   );
 };

@@ -48,14 +48,16 @@ const AllUser = () => {
       style={{
         scrollbarWidth: "none",
         msOverflowStyle: "none",
+        margin: "0 auto",
+        marginTop: "10px",
       }}
       className="max-w-full rounded-md p-2 lg:m-5 overflow-auto scroll-smooth"
     >
-      <div className=" my-2 text-xl font-extrabold">
+      <div className="my-2 text-xl font-extrabold">
         <div className="flex flex-row items-center justify-center gap-2">
           <FaUsers></FaUsers>
           <h1>
-            All Users -{" "}
+            All Users :{" "}
             <span className="text-[#7c3aed]">{allUsers?.length}</span>
           </h1>
         </div>

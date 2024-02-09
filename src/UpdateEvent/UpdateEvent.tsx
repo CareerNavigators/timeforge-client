@@ -1,33 +1,39 @@
 import { Button, Form, Input, InputNumber, Select, Switch } from "antd";
-import { FaVideoSlash, FaVideo } from "react-icons/fa";
-import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { FaVideo, FaVideoSlash } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
-import CalendarPage from "./CalendarPage";
-import bgImg from "../../../public/bg.png";
+// import { useNavigate } from "react-router-dom";
+import CalendarPage from "../CreateEvents/Events/CalendarPage";
+import bgImg from "/bg.png";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import AxiosSecure from "../../Hook/useAxios";
-import { AuthContext } from "../../Provider/AuthContext";
-import showToast from "../../Hook/swalToast";
-import { useNavigate } from "react-router-dom";
+import AxiosSecure from "../Hook/useAxios";
+import { AuthContext } from "../Provider/AuthContext";
+import showToast from "../Hook/swalToast";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { EventType } from "../ManageEvents/AllEvents/AllEvents";
+import { AudioMutedOutlined, AudioOutlined } from "@ant-design/icons";
 
-const OneEvent = () => {
+const UpdateEvent = () => {
   const { userData } = useContext(AuthContext);
-  console.log(userData);
-
+  const { _id, title, duration, desc, eventType, events, camera, mic } =
+    useLoaderData() as EventType;
   const isLargeScreen = window.innerWidth > 768;
-  const [isAudioSelected, setIsAudioSelected] = useState(false);
-  const [isVideoSelected, setIsVideoSelected] = useState(false);
+  const [isAudioSelected, setIsAudioSelected] = useState(mic);
+  const [isVideoSelected, setIsVideoSelected] = useState(camera);
   const [eventName, setEventName] = useState<string>("");
   const [eventDuration, setEventDuration] = useState(15);
-  const [eventType, setEventType] = useState<string>("");
-  const [eventDesc, setEventDesc] = useState<string>("");
-  const [events, setEvents] = useState<Array<unknown>>([]);
+  const [eventTypes, setEventTypes] = useState<string>("");
+  const [eventDesc, setEventDesc] = useState<string>(desc);
+  const [event, setEvent] = useState<Array<unknown>>([]);
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [selectedTimes, setSelectedTimes] = useState(null);
   const axiosSecure = AxiosSecure();
+
+  useEffect(() => {
+    setSelectedTimes(events);
+  }, [events]);
 
   const onSelectTime = (times: any) => {
     setSelectedTimes(times);
@@ -52,7 +58,7 @@ const OneEvent = () => {
   };
 
   const handleEventType = (value: SelectValue) => {
-    setEventType(value as string);
+    setEventTypes(value as string);
   };
 
   const handleEventDesc = (value: string) => {
@@ -63,21 +69,19 @@ const OneEvent = () => {
     try {
       const newEvent = {
         createdBy: userData?._id,
-        title: eventName,
+        title: eventName || title,
         duration: eventDuration,
         mic: isAudioSelected,
         camera: isVideoSelected,
-        eventType: eventType,
+        eventType: eventTypes || eventType,
         desc: eventDesc,
         events: selectedTimes,
       };
-      console.log(selectedTimes);
-
-      axiosSecure.post("/meeting", newEvent).then((res) => {
-        console.log(res);
-        setEvents((prevEvents) => [...prevEvents, newEvent]);
+      axiosSecure.patch(`/meeting/${_id}`, newEvent).then((res) => {
+        console.log(res.data);
+        setEvent((prevEvents) => [...prevEvents, newEvent]);
         showToast("success", `${eventName} is added to the Events.`);
-        navigate("/dashboard/allEvents");
+        navigate(`/dashboard/eventDetails/${_id}`);
       });
     } catch (error) {
       console.error("Error adding task:", error);
@@ -86,12 +90,12 @@ const OneEvent = () => {
   };
 
   useEffect(() => {
-    console.log("All Events:", events);
-  }, [events]);
+    console.log("All Events:", event);
+  }, [event]);
 
   return (
     <div
-      className="w-ful pt-10 mb-20 lg:mb-0 lg:p-10"
+      className="w-full h-screen pt-10 mb-20 lg:mb-0 lg:p-10"
       style={{
         backgroundImage: `url(${bgImg})`,
         backgroundSize: "cover",
@@ -119,6 +123,7 @@ const OneEvent = () => {
               </div>
               <Form.Item
                 name="Input"
+                initialValue={title}
                 rules={[{ required: true, message: "Please input!" }]}
               >
                 <Input
@@ -130,6 +135,7 @@ const OneEvent = () => {
 
               <Form.Item
                 name="duration"
+                initialValue={duration}
                 rules={[{ required: true, message: "Please input!" }]}
               >
                 <InputNumber
@@ -137,17 +143,19 @@ const OneEvent = () => {
                   min={1}
                   max={60}
                   style={{ width: "100%" }}
+                  value={eventDuration}
                   onChange={handleEventDuration}
                 />
               </Form.Item>
 
               <Form.Item
                 name="eventType"
+                initialValue={eventType}
                 rules={[{ required: true, message: "Please input!" }]}
               >
                 <Select
-                  value={eventType}
                   placeholder="Event Type"
+                  value={eventTypes}
                   onChange={handleEventType}
                 >
                   <Select.Option value="Interview">Interview</Select.Option>
@@ -156,6 +164,42 @@ const OneEvent = () => {
                   <Select.Option value="Webinar">Webinar</Select.Option>
                 </Select>
               </Form.Item>
+
+              {/* <Form.Item
+                label="Required"
+                className="font-semibold"
+                rules={[
+                  { required: true, message: "Please input the event name" },
+                ]}
+              >
+                <div className="w-full flex gap-2">
+                  <span
+                    onClick={handleAudioSelection}
+                    className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
+                      isAudioSelected
+                        ? "border-[#7c3aed] text-[#7c3aed]"
+                        : "border-gray-300 hover:shadow-md hover:border-[#7c3aed] transition-all ease-in-out"
+                    }`}
+                  >
+                    <div className="flex flex-col items-center gap-1">
+                      <AiFillAudio className="text-2xl" />
+                    </div>
+                  </span>
+
+                  <span
+                    onClick={handleVideoSelection}
+                    className={`w-14 h-14 border-[1px] rounded-md bg-white flex items-center justify-center dark:bg-[#ede9fe] ${
+                      isVideoSelected
+                        ? "border-[#7c3aed] text-[#7c3aed]"
+                        : "border-gray-300 hover:shadow-md hover:border-[#7c3aed] transition-all ease-in-out"
+                    }`}
+                  >
+                    <div className="flex flex-col items-center">
+                      <FaVideo className="text-2xl" />
+                    </div>
+                  </span>
+                </div>
+              </Form.Item> */}
 
               <Form.Item rules={[{ required: true, message: "Please input!" }]}>
                 <div className="flex gap-5">
@@ -188,7 +232,6 @@ const OneEvent = () => {
                 ]}
               >
                 <ReactQuill
-                  placeholder="Description"
                   theme="snow"
                   value={eventDesc}
                   onChange={handleEventDesc}
@@ -202,19 +245,18 @@ const OneEvent = () => {
                 htmlType="submit"
                 className="px-3 py-1 rounded-md border-2 font-semibold transition-all ease-in-out hover:border-violet-600 hover:text-violet-600 dark:bg-[#ede9fe]"
               >
-                Continue
+                Update
               </Button>
             </Form.Item>
           </Form>
         </div>
 
         {/* calendar part */}
-        <div className="rounded-md">
+        <div className="rounded-md h-full">
           <CalendarPage
             selectedTimes={selectedTimes}
             setSelectedTimes={setSelectedTimes}
             onSelectTime={onSelectTime}
-            eventDuration={eventDuration}
           ></CalendarPage>
         </div>
       </div>
@@ -222,4 +264,4 @@ const OneEvent = () => {
   );
 };
 
-export default OneEvent;
+export default UpdateEvent;
