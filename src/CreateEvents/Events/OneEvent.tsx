@@ -4,7 +4,7 @@ import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { SelectValue } from "antd/es/select";
 import CalendarPage from "./CalendarPage";
-import bgImg from "../../../public/bg.png";
+import bgImg from "/bg.png";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import AxiosSecure from "../../Hook/useAxios";
