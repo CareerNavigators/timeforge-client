@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import showToast from "../Hook/swalToast";
+import { PlusCircleOutlined } from "@ant-design/icons";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 const Hero = () => {
@@ -89,7 +90,19 @@ const Hero = () => {
                 </p>
               </Link>
             </div>
-          ) : null}
+          ) : (
+            <Link
+              to={"/createEvent"}
+              className="w-fit px-[5px] py-[5px] mt-5 rounded-lg border-2 border-[#7c3aed] flex items-center gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out"
+            >
+              <div className="p-[4px] rounded-md">
+                <PlusCircleOutlined className="text-[#7c3aed]" />
+              </div>
+              <p className="pr-1 text-black font-semibold dark:text-white">
+                Create Event
+              </p>
+            </Link>
+          )}
         </div>
         <img src={image} alt="" />
       </div>
