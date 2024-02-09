@@ -26,37 +26,23 @@ const CalendarPage = ({
     setModalTimes(generateTimes(9, 16, eventDuration));
   }, [eventDuration]);
 
-  // const handleCheckboxChange = (time: string) => {
-  //   const currentDateKey = selectedDate?.format("DDMMYY");
-
-  //   if (currentDateKey) {
-  //     setSelectedTimes((prevSelectedTimes: { [x: string]: any }) => {
-  //       const isSelected = prevSelectedTimes[currentDateKey]?.includes(time);
-
-  //       return {
-  //         ...prevSelectedTimes,
-  //         [currentDateKey]: isSelected
-  //           ? (prevSelectedTimes[currentDateKey] || []).filter(
-  //               (selectedTime: string) => selectedTime !== time
-  //             )
-  //           : [...(prevSelectedTimes[currentDateKey] || []), time],
-  //       };
-  //     });
-  //   }
-  // };
-
   const handleCheckboxChange = (time: string) => {
-    const currentDateKey = selectedDate?.format("DDMMYY");
+    setModalTimes((prevModalTimes) =>
+      prevModalTimes.map((modalTime) =>
+        modalTime.time === time
+          ? { ...modalTime, checked: !modalTime.checked }
+          : modalTime
+      )
+    );
+  };
 
-    if (currentDateKey) {
-      setModalTimes((prevModalTimes) =>
-        prevModalTimes.map((modalTime) =>
-          modalTime.time === time
-            ? { ...modalTime, checked: !modalTime.checked }
-            : modalTime
-        )
-      );
-    }
+  const handleTimeClick = (time: string) => {
+    const updatedModalTimes = modalTimes.map((modalTime) =>
+      modalTime.time === time
+        ? { ...modalTime, checked: !modalTime.checked }
+        : modalTime
+    );
+    setModalTimes(updatedModalTimes);
   };
 
   const generateTimes = (
@@ -77,21 +63,30 @@ const CalendarPage = ({
   };
 
   const handleOk = () => {
-    const dateKey = selectedDate?.format("DDMMYY");
-    const timesForSelectedDate =
-      (selectedTimes && selectedTimes[dateKey || ""]) || [];
-    onSelectTime(timesForSelectedDate);
+    const selectedTimesForDate = modalTimes
+      .filter((time) => time.checked)
+      .map((time) => time.time);
+    onSelectTime(selectedTimesForDate);
     setModalOpen(false);
     setIsModalVisible(false);
+    setModalTimes(modalTimes.map((time) => ({ ...time, checked: false })));
   };
 
   const showModal = (date: Dayjs) => {
+    const timesForSelectedDate = selectedTimes[date.format("DDMMYY")] || [];
+    const preCheckedTimes = modalTimes.map((modalTime) => ({
+      ...modalTime,
+      checked: timesForSelectedDate.includes(modalTime.time),
+    }));
+
+    setModalTimes(preCheckedTimes);
     setSelectedDate(date);
     setIsModalVisible(true);
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
+    setModalTimes(modalTimes.map((time) => ({ ...time, checked: false })));
   };
 
   const onSelect = (date: Dayjs, info: { source: string }) => {
@@ -102,12 +97,12 @@ const CalendarPage = ({
 
   const onSelectTime = (times: string[]) => {
     const dateKey = selectedDate?.format("DDMMYY") || "";
-    setSelectedTimes({
+    const updatedSelectedTimes = {
       ...selectedTimes,
       [dateKey]: times,
-    });
+    };
+    setSelectedTimes(updatedSelectedTimes);
     setIsModalVisible(false);
-    console.log(times);
   };
 
   const dateCellRender = (value: Dayjs) => {
@@ -157,6 +152,7 @@ const CalendarPage = ({
                       ? "border-[#7c3aed] bg-[#7c3aed] text-white text-bold"
                       : "border-[#7c3aed]"
                   }`}
+                  onClick={() => handleTimeClick(timeData.time)}
                 >
                   <input
                     type="checkbox"
@@ -169,7 +165,7 @@ const CalendarPage = ({
               </li>
             ))}
           </ul>
-          <div>
+          {/* <div>
             <h3 className="font-semibold text-md mb-3">Selected Times:</h3>
             <ul className="grid grid-cols-5 gap-2">
               {selectedTimes &&
@@ -184,7 +180,7 @@ const CalendarPage = ({
                   )
                 )}
             </ul>
-          </div>
+          </div> */}
         </div>
       </Modal>
     </div>

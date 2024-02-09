@@ -56,8 +56,7 @@ const AllEvents: React.FC = () => {
       <div className="flex items-center justify-center fixed left-[40%] top-[50%]">
         <Spin
           indicator={<LoadingOutlined></LoadingOutlined>}
-          size="large"
-        ></Spin>
+          size="large"></Spin>
       </div>
     );
   }
