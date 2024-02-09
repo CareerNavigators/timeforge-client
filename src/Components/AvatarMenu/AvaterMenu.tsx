@@ -76,6 +76,7 @@ export default function ProfileMenu() {
             </Typography>
           </div>
         </Link>
+        
         <div className="cursor-pointer" onClick={handleLogOut}>
           <div
             onClick={closeMenu}
