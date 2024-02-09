@@ -3,7 +3,6 @@ import Main from "../Layout/Main";
 import Home from "../Home/Home";
 import SignUp from "../AuthPage/SignUp";
 import Login from "../AuthPage/Login";
-import Title from "../Components/Title/Title";
 import Dashboard from "../Dashboard/Layout/Dashboard";
 import CreateEvents from "../CreateEvents/CreateEvents";
 import OneEvent from "../CreateEvents/Events/OneEvent";
@@ -14,7 +13,7 @@ import EventDetails from "../ManageEvents/AllEvents/EventDetails";
 import Error from "../Error/Error";
 import Pricing from "../Pages/Pricing";
 import ContactUs from "../Contacts/ContactUs";
-import AboutUs from "../AboutUs/AboutUs"
+import AboutUs from "../AboutUs/AboutUs";
 import About from "../Contacts/About";
 import { Profile } from "../Dashboard/Profile/Profile";
 
@@ -51,7 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/eventDetails/:id",
         element: <EventDetails></EventDetails>,
-        loader: ({ params }) => fetch(`https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`)
+        loader: ({ params }) =>
+          fetch(
+            `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
+          ),
       },
       {
         path: "/pricing",
@@ -84,7 +86,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
-        element: <Title>TIME FORGE</Title>,
+        element: <Profile></Profile>,
       },
       {
         path: "/dashboard/createEvent",
@@ -94,16 +96,15 @@ const router = createBrowserRouter([
         path: "/dashboard/allEvents",
         element: <AllEvents></AllEvents>,
       },
-      {
-        path: "/dashboard/profile",
-        element: <Profile></Profile>,
-      },
     ],
   },
   {
     path: "/eventslot/:id",
     element: <EventSlot></EventSlot>,
-    loader: ({ params }) => fetch(`https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`)
+    loader: ({ params }) =>
+      fetch(
+        `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
+      ),
   },
 ]);
 export default router;

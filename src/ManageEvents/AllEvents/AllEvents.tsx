@@ -50,23 +50,35 @@ const AllEvents: React.FC = () => {
 
   // show this loader if data is loading
   if (isLoading) {
-    return <Spin size="large"></Spin>;
+    return (
+      <div className="flex items-center mx-auto">
+        <Spin size="large" />
+      </div>
+    );
   }
 
   return (
-    <div className="mx-auto max-w-screen-xl">
-      <h1 className="text-center bg-gradient-to-r from-green-300 to-[#5038ED] my-5 bg-clip-text text-3xl font-extrabold text-transparent">
-        All Events Are Displayed Below
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-10 px-2">
-        {allEvents?.map((item: EventType) => (
-          <SingleEvent
-            key={item._id}
-            item={item}
-            handleEventDelete={handleEventDelete}
-          ></SingleEvent>
-        ))}
-      </div>
+    <div className="max-w-screen-xl mx-auto">
+      {allEvents && allEvents.length > 0 ? (
+        allEvents.map((item: EventType) => (
+          <>
+            <h1 className="text-center bg-gradient-to-r from-green-300 to-[#5038ED] my-5 bg-clip-text text-3xl font-extrabold text-transparent">
+              All Events Are Displayed Below
+            </h1>
+            <div className="grid grid-cols-1 gap-10 px-2 my-10 md:grid-cols-2 lg:grid-cols-3">
+              <SingleEvent
+                key={item._id}
+                item={item}
+                handleEventDelete={handleEventDelete}
+              />
+            </div>
+          </>
+        ))
+      ) : (
+        <p className="flex items-center justify-center h-screen text-lg text-gray-500">
+          No Events Found
+        </p>
+      )}
     </div>
   );
 };

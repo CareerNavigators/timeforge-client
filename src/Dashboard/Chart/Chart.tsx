@@ -11,6 +11,7 @@ import {
 import { BsClockFill } from "react-icons/bs";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
+import { Spin } from "antd";
 
 export default function ChartComponent() {
   const caxios = AxiosSecure();
@@ -26,10 +27,12 @@ export default function ChartComponent() {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center">
+        <Spin size="large" />
+      </div>
+    );
   }
-
-  console.log(data);
 
   const categories = data?.meeting?.map((e: string) => e.toLowerCase()) || [];
 
