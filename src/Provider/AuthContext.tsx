@@ -57,11 +57,12 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const logOut = (): Promise<void> => {
+  const logOut = async (): Promise<void> => {
     setLoading(true);
-    // setUserData(null);
-    return signOut(auth);
+    await signOut(auth);
+    setUserData(null);
   };
+
   const signIn = (email: string, password: string): Promise<UserCredential> => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
@@ -71,23 +72,26 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     const unSubscribe = onAuthStateChanged(
       auth,
       (currentUser) => {
-        setUser(currentUser!);
-        caxios.get(`/user?email=${currentUser?.email}`).then((res) => {
-          setUserData(res.data);
+        if (currentUser && currentUser.email) {
+          setUser(currentUser);
+          caxios.get(`/user?email=${currentUser.email}`).then((res) => {
+            setUserData(res.data);
+            setLoading(false);
+          });
+        } else {
           setLoading(false);
-        }).catch(() => {
-          setLoading(false)
-        })
+        }
       },
       (error) => {
         console.error("Auth state change error:", error.message);
+        setLoading(false);
       }
     );
 
     return () => {
-      unSubscribe();
+      unSubscribe(); // Unsubscribe from the auth state change listener when the component unmounts
     };
-  }, []);
+  }, []); // Empty dependency array to run this effect only once when the component mounts
 
   const authInfo: AuthContextType = {
     user,

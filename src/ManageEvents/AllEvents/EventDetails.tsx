@@ -1,149 +1,186 @@
 import {
+  FaAddressBook,
   FaArchive,
   FaCamera,
   FaCheck,
   FaClock,
+  FaGlobeAsia,
   FaMicrophone,
-  FaPencilAlt,
   FaTimes,
 } from "react-icons/fa";
-import { Link, useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { EventType } from "./AllEvents";
-import { Dayjs } from "dayjs";
-import { Badge, Calendar } from "antd";
+import useAxios from "../../Hook/useAxios";
+import { useQuery } from "@tanstack/react-query";
+import dayjs, { Dayjs } from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { Calendar } from "antd";
 import type { CalendarProps } from "antd";
-import AllParticipants from "../AllParticipants/AllParticipants";
-import parse from 'html-react-parser';
-import { useContext } from "react";
-import { AuthContext } from "../../Provider/AuthContext";
-import logo from "/logo.png"
-import { TypeAnimation } from "react-type-animation";
+import showToast from "../../Hook/swalToast";
 
 const EventDetails: React.FC = () => {
   // hooks and states
-  const { _id, title, duration, desc, eventType, events, camera, mic } = useLoaderData() as EventType;
-  const parsedDesc = parse(desc);
-  const { userData } = useContext(AuthContext);
-  // console.log("user from database", userData);
-  // console.log("events from details page", events);
+  const customAxios = useAxios();
+  dayjs.extend(customParseFormat);
+  const { _id, title, duration, desc, eventType, events, camera, mic } =
+    useLoaderData() as EventType;
+  console.log("events from details page", events);
 
   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
     console.log(value.format("YYYY-MM-DD"), mode);
   };
 
-  const dateCellRender = (value: any) => {
-    // console.log(selectedTimes);
-    const data = events
-      ? events[value.format("DDMMYY")] || []
-      : [];
+  // fetching all participants
+  const { data: allParticipants = [], refetch } = useQuery({
+    queryKey: ["AllParticipants"],
+    queryFn: async () => {
+      const res = await customAxios.get(`attendee?id=${_id}`);
+      return res.data;
+    },
+  });
 
-    return (
-      <ul className="events">
-        {data?.map((item: any, index: any) => (
-          <li key={index}>
-            <Badge status="success" text={item} />
-          </li>
-        ))}
-      </ul>
-    );
+  // deleting a participant
+  const handleParticipantDelete = (id: string) => {
+    console.log("id", id);
+    customAxios.delete(`/attendee/${id}`).then((res) => {
+      const data = res.data;
+      console.log("deleted", data);
+      showToast("success", "Attendee removed");
+      refetch();
+    });
   };
-
-  const cellRender: CalendarProps<Dayjs>["cellRender"] = (current, info) => {
-    if (info.type === "date") return dateCellRender(current);
-    return info.originNode;
-  };
-
 
   return (
     <div className="mb-10">
-      <h1 className="flex pl-2 my-5 items-center gap-2 ">
-        <img className="w-12" src={logo} alt="logo" />
-        <br /> {" "}
-        <span className="text-[#5E47EF] text-3xl font-bold">
-          <TypeAnimation
-            preRenderFirstString={false}
-            sequence={[`TimeForge`, 500, ""]}
-            speed={10}
-            repeat={Infinity}
-          ></TypeAnimation>{" "}
-        </span>
-      </h1>
-      {/* <div className="flex pl-2 my-5 items-center gap-2">
-
-        <h3 className="text-[#5E47EF] text-4xl font-bold">TimeForge</h3>
-      </div> */}
-      <div className="max-w-full lg:px-2 lg:m-5 shadow-md rounded-md flex flex-col md:flex-row">
-
-        {/* event information */}
-        <div className="md:w-2/3 lg:w-1/3 p-2 border-r lg:relative">
-          <div>
-            <h2 className="text-2xl text-[#7c3aed] font-bold">{title}</h2>
-            <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
-              <FaArchive size={30}></FaArchive>
-              <span className="text-gray-500">{eventType}</span>
+      {/* event details */}
+      <div className="max-w-[1400px] mx-2 lg:mx-auto shadow-xl shadow-[#ddd7ff] rounded-md mt-5 flex flex-col md:flex-row">
+        {/* author and event information */}
+        <div className="sm:w-1/3 px-6 py-4 border-r">
+          {/* <h4 className='text-gray-400 font-medium'>Author Name</h4> */}
+          <h2 className="text-3xl font-bold mt-2">{title}</h2>
+          <div className="flex items-center gap-2 text-lg text-gray-600 font-medium mt-3">
+            <FaArchive></FaArchive>
+            <h4>
+              Event Type : <span className="text-gray-400">{eventType}</span>
+            </h4>
+          </div>
+          <div className="flex items-center gap-2 text-lg text-gray-600 font-medium mt-3">
+            <FaClock></FaClock>
+            <h4>
+              Duration : <span className="text-gray-400">{duration}</span>
+            </h4>
+          </div>
+          <div className="flex items-center gap-4 mt-2 text-lg font-medium">
+            <div className="flex items-center gap-1">
+              <FaCamera color="gray" size={25}></FaCamera>
+              {camera ? (
+                <FaCheck color="green"></FaCheck>
+              ) : (
+                <FaTimes color="red"></FaTimes>
+              )}
             </div>
-            <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
-              <FaClock size={30}></FaClock>
-              <span className="text-gray-500">{duration}</span>
-            </div>
-            <div className="flex items-center gap-4 mt-5 text-lg font-medium">
-              <div className="flex items-center gap-1">
-                <FaCamera color="gray" size={30}></FaCamera>
-                {camera ? (
-                  <FaCheck size={10} color="green"></FaCheck>
-                ) : (
-                  <FaTimes size={10} color="red"></FaTimes>
-                )}
-              </div>
-              <div className="flex items-center gap-1">
-                <FaMicrophone color="gray" size={30}></FaMicrophone>
-                {mic ? (
-                  <FaCheck size={10} color="green"></FaCheck>
-                ) : (
-                  <FaTimes size={10} color="red"></FaTimes>
-                )}
-              </div>
-            </div>
-            <div className="text-gray-600 mt-5">
-              {parsedDesc}
+            <div className="flex items-center gap-1">
+              <FaMicrophone color="gray" size={25}></FaMicrophone>
+              {mic ? (
+                <FaCheck color="green"></FaCheck>
+              ) : (
+                <FaTimes color="red"></FaTimes>
+              )}
             </div>
           </div>
-
-          {/* author info */}
-
-          <div className="mt-5 lg:absolute lg:bottom-28 lg:left-6">
-            <h4 className="font-bold text-sm text-gray-400">Author Info</h4>
-            <div className="flex items-center gap-3 mt-5">
-              <img
-                className="w-12 rounded-full"
-                src={userData?.img_profile}
-                alt="author-image" />
-              <div className="flex flex-col">
-                <h2 className="font-semibold text-gray-500">{userData?.name}</h2>
-                <h3 className="text-xs font-medium text-gray-500">{userData?.email}</h3>
-              </div>
-            </div>
+          <div className="flex items-center gap-2 text-lg text-gray-600 font-medium mt-3">
+            <FaAddressBook></FaAddressBook>
+            <h4>
+              Description : <span className="text-gray-400">{desc}</span>
+            </h4>
           </div>
-
-          <Link to={`/dashboard/updateEvent/${_id}`}>
-            <button
-              className='lg:absolute lg:bottom-4 lg:right-4  flex items-center gap-2 px-4 py-2 mt-5 border text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300'>
-              <FaPencilAlt></FaPencilAlt>
-              <p>Update</p>
-            </button>
-          </Link>
         </div>
 
         {/* calender area */}
-        <div className="sm:w-3/4 p-2 mt-2 md:mt-0">
-          <div className="min-h-full min-w-full">
-            <Calendar cellRender={cellRender} onPanelChange={onPanelChange} />
+        <div className="sm:w-3/4 px-6 py-4 mt-20 md:mt-0">
+          <div className="h-full md:max-h-[600px]  w-full md:overflow-y-scroll">
+            <Calendar onPanelChange={onPanelChange} />
+          </div>
+          <div className="mt-20 md:mt-5">
+            <h4 className="font-semibold mt-2">Time zone</h4>
+            <div className="flex items-center gap-2">
+              <FaGlobeAsia></FaGlobeAsia>
+              <p>Asia/Dhaka</p>
+            </div>
           </div>
         </div>
       </div>
 
       {/* participants area */}
-      <AllParticipants id={_id}></AllParticipants>
+      <div className="max-w-[1400px] shadow-xl shadow-[#ddd7ff] rounded-md mx-2 lg:mx-auto mt-20 pb-10">
+        <h1 className="text-center bg-gradient-to-r from-green-300 to-[#5038ED] my-5 bg-clip-text text-3xl font-extrabold text-transparent">
+          All Participants
+        </h1>
+        <div className="overflow-x-auto p-4">
+          {/* table area */}
+          <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+            {/* table heading */}
+            <thead>
+              <tr>
+                <th className="text-left px-4 py-2 font-medium text-gray-900">
+                  Index
+                </th>
+                <th className="text-left px-4 py-2 font-medium text-gray-900">
+                  Name
+                </th>
+                <th className="text-left px-4 py-2 font-medium text-gray-900">
+                  Email
+                </th>
+                <th className="text-left px-4 py-2 font-medium text-gray-900">
+                  Date
+                </th>
+                <th className="text-left px-4 py-2 font-medium text-gray-900">
+                  Time
+                </th>
+                <th className="text-left px-4 py-2 font-medium text-gray-900">
+                  Manage
+                </th>
+              </tr>
+            </thead>
+
+            {/* table body */}
+            <tbody className="divide-y divide-gray-200">
+              {allParticipants?.map((data: EventType, index: number) => {
+                const dateStr = Object.keys(data.slot).toString();
+                const date = dayjs(dateStr, "DDMMYY");
+                const formattedDate = date.format("DD/MM/YYYY");
+                return (
+                  <tr key={data._id}>
+                    <td className="px-4 py-2 font-medium text-gray-900">
+                      {index + 1}
+                    </td>
+                    <td className="px-4 py-2 font-medium text-gray-900 flex items-center gap-2">
+                      <img
+                        className="w-8 rounded-full"
+                        src="https://i.ibb.co/MgGM9ky/istockphoto-1337144146-612x612.jpg"
+                      />
+                      {data.name}
+                    </td>
+                    <td className="px-4 py-2 text-gray-700">{data.email}</td>
+                    <td className="px-4 py-2 text-gray-700">{formattedDate}</td>
+                    <td className="px-4 py-2 text-gray-700">
+                      {data.slot[dateStr][0]}
+                    </td>
+                    <td className="px-4 py-2">
+                      <button
+                        onClick={() => handleParticipantDelete(data._id)}
+                        className="rounded bg-gradient-to-r from-[#9181F4] to-[#5038ED] px-4 py-2 text-xs font-medium text-white hover:bg-gradient-to-r hover:from-[#5038ED] hover:to-[#9181F4]"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };
