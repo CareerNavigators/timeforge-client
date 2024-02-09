@@ -136,8 +136,7 @@ const Login = () => {
         variants={listVariants}
         initial="initial"
         animate="animate"
-        className="flex flex-col items-center overflow-hidden lg:flex-row lg:h-screen"
-      >
+        className="flex flex-col items-center overflow-hidden lg:flex-row lg:h-screen">
         <div className="p-4 lg:w-1/2 lg:p-8">
           <Link to="/">
             <FiHome
@@ -148,16 +147,14 @@ const Login = () => {
           <style>{sty}</style>
           <Link
             to="/signup"
-            className="absolute right-4 top-4 text-[#1C1C1C] text-xl cursor-pointer z-10 dark:text-dw"
-          >
+            className="absolute right-4 top-4 text-[#1C1C1C] text-xl cursor-pointer z-10 dark:text-dw">
             <BiUserPlus />
           </Link>
           <MouseParallaxContainer
             className="smooth-parallax"
             globalFactorX={0.7}
             globalFactorY={0.7}
-            resetOnLeave
-          >
+            resetOnLeave>
             <div className="flex flex-col items-center justify-center mb-6 pt-[72px]">
               <MouseParallaxChild factorX={0.7} factorY={0.8}>
                 <img
@@ -175,12 +172,10 @@ const Login = () => {
           <motion.div
             initial={{ opacity: 0, y: "-100%" }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-          >
+            exit={{ opacity: 0, x: "100%" }}>
             <form
               className="flex flex-col items-center justify-center"
-              onSubmit={handleLogin}
-            >
+              onSubmit={handleLogin}>
               <div className="relative mb-4">
                 <FiUser className=" absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
                 <input
@@ -188,7 +183,7 @@ const Login = () => {
                   required
                   className="bg-[#F0EDFFCC] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in dark:bg-dw"
                   type="email"
-                  placeholder="Username"
+                  placeholder="Email"
                   name="email"
                 />
               </div>
@@ -205,16 +200,14 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-4 text-[#1C1C1C]"
-                  >
+                    className="absolute right-4 top-4 text-[#1C1C1C]">
                     {showPassword ? <LuEyeOff /> : <LuEye />}
                   </button>
                 )}
               </div>
               <button
                 type="submit"
-                className="px-8 py-3 mt-8 font-bold text-white transition-transform transform rounded-md bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:scale-110"
-              >
+                className="px-8 py-3 mt-8 font-bold text-white transition-transform transform rounded-md bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:scale-110">
                 Login Now
               </button>
             </form>
@@ -227,8 +220,7 @@ const Login = () => {
           <div className="flex items-center justify-center">
             <div
               onClick={handleGoogle}
-              className="flex items-center justify-center gap-2 p-4 transition duration-300 ease-in-out transform bg-white border cursor-pointer rounded-2xl md:w-96 hover:scale-105 hover:shadow-lg"
-            >
+              className="flex items-center justify-center gap-2 p-4 transition duration-300 ease-in-out transform bg-white border cursor-pointer rounded-2xl md:w-96 hover:scale-105 hover:shadow-lg">
               <FcGoogle className="w-8 h-8" />
               <p className="text-[#1C1C1C]">
                 Login with <span className="font-bold">Google</span>
