@@ -61,6 +61,7 @@ const MobileDasbar: React.FC = () => {
               <HomeOutlined className="text-[28px] " />
             </NavLink>
           </li>
+          
           <li className="p-1 font-medium">
             <NavLink
               to="/dashboard/profile"
