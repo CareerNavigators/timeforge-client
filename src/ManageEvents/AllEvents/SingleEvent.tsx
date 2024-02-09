@@ -27,6 +27,7 @@ const SingleEvent: React.FC<SingleEventProps> = ({
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
+      whileHover={{ scale: 1.03 }}
       transition={{
         duration: 0.3,
         ease: [0, 0.71, 0.2, 1.01],
@@ -38,7 +39,7 @@ const SingleEvent: React.FC<SingleEventProps> = ({
         },
       }}
     >
-      <div className="w-full mx-auto rounded-lg border border-[#5E47EF] bg-{#161927} shadow-md p-4 hover:shadow-md">
+      <div className="w-full mx-auto rounded-lg border dark:border-[#5E47EF] bg-{#161927} shadow-sm p-4 hover:shadow-md transition-all ease-in-out">
         <div>
           <Link to={`/dashboard/eventDetails/${_id}`}>
             <div className="h-[15vh]">

@@ -57,7 +57,8 @@ const Hero = () => {
                 preRenderFirstString={false}
                 sequence={[`TimeForge`, 500, ""]}
                 speed={10}
-                repeat={Infinity}></TypeAnimation>{" "}
+                repeat={Infinity}
+              ></TypeAnimation>{" "}
             </span>
           </h1>
           <p className=" dark:text-dg text-[14px] font-[600] text-slate-800 w-[375px] mt-[20px]">
@@ -71,7 +72,8 @@ const Hero = () => {
             <div className="flex flex-col items-center gap-4 mt-5 lg:flex-row">
               <button
                 onClick={handleGoogle}
-                className="px-[5px] py-[5px] rounded-lg border-[1px] border-[#7c3aed] dark:border-none flex items-center gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out">
+                className="px-[5px] py-[5px] rounded-lg border-[1px] border-[#7c3aed] dark:border-none flex items-center gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out"
+              >
                 <div className="bg-white p-[4px] rounded-md">
                   <FcGoogle className="w-[20px] h-[20px]" />
                 </div>
@@ -81,7 +83,8 @@ const Hero = () => {
               </button>
               <Link
                 to={"/signup"}
-                className="px-[5px] py-[5px] rounded-lg border-[1px] border-[#7c3aed] dark:border-none flex items-center gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out">
+                className="px-[5px] py-[5px] rounded-lg border-[1px] border-[#7c3aed] dark:border-none flex items-center gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out"
+              >
                 <div className="bg-white p-[4px] rounded-md">
                   <MdEmail className="w-[20px] h-[20px] text-[#5038ED]" />
                 </div>
@@ -93,9 +96,9 @@ const Hero = () => {
           ) : (
             <Link
               to={"/createEvent"}
-              className="w-fit px-[5px] py-[5px] mt-5 rounded-lg border-2 border-[#7c3aed] flex items-center gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out"
+              className="w-fit px-[5px] py-[5px] mt-5 rounded-lg border-2 border-[#7c3aed] flex items-center gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-[#5d47ef54] transition-all ease-in-out"
             >
-              <div className="p-[4px] rounded-md">
+              <div className="p-[4px]">
                 <PlusCircleOutlined className="text-[#7c3aed]" />
               </div>
               <p className="pr-1 text-black font-semibold dark:text-white">
