@@ -13,10 +13,11 @@ import type { CalendarProps } from "antd";
 import { useLoaderData } from "react-router-dom";
 import { EventType } from "../../ManageEvents/AllEvents/AllEvents";
 import { Dayjs } from "dayjs";
+import { Link } from "react-router-dom";
 
 const EventSlot = () => {
   // hooks and states
-  const { title, duration, desc, eventType, events, camera, mic } =
+  const {_id, title, duration, desc, eventType, events, camera, mic } =
     useLoaderData() as EventType;
   const parsedDesc = parse(desc);
 
@@ -35,7 +36,7 @@ const EventSlot = () => {
       <ul className="events">
         {data?.map((item: any, index: any) => (
           <li key={index}>
-            <Badge status="success" text={item} />
+             <Link to={`/eventSlot/${_id}/newAttendee`}><Badge status="success"  text={item} /></Link>
           </li>
         ))}
       </ul>
@@ -62,11 +63,11 @@ const EventSlot = () => {
                   <h2 className="text-2xl text-[#7c3aed] font-bold">{title}</h2>
                   <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
                     <FaArchive size={30}></FaArchive>
-                    <span className="text-gray-500">{eventType}</span>
+                    <span className="text-gray-700 font-bold">{eventType}</span>
                   </div>
                   <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
                     <FaClock size={30}></FaClock>
-                    <span className="text-gray-500">{duration}</span>
+                    <span className="text-gray-700 font-bold">{duration} Minutes</span>
                   </div>
                   <div className="flex items-center gap-4 mt-5 text-lg font-medium">
                     <div className="flex items-center gap-1">
@@ -86,7 +87,7 @@ const EventSlot = () => {
                       )}
                     </div>
                   </div>
-                  <div className="text-gray-600 mt-5">{parsedDesc}</div>
+                  <div className="text-gray-700 mt-10 p-4 border-2 rounded-lg">{parsedDesc}</div>
                 </div>
               </div>
               {/* calender area */}

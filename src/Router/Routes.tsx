@@ -124,8 +124,12 @@ const router = createBrowserRouter([
       ),
   },
   {
-    path: "/eventSlot/newAttendee/",
+    path: "/eventSlot/:id/newAttendee/",
     element: <NewAttendee></NewAttendee>,
+    loader: ({ params }) =>
+      fetch(
+        `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
+      ),
   },
 ]);
 export default router;
