@@ -47,51 +47,48 @@ const EventSlot = () => {
     return info.originNode;
   };
 
-
   return (
     <>
-      <div className="bg-gradient-to-r from-[#9181F4] to-[#5038ED] pt-24 p-5 lg:p-20 min-h-screen">
-        <div className="lg:max-w-6xl bg-white mx-auto rounded-lg shadow-lg p-10 flex gap-10 lg:gap-0 flex-col lg:flex-row items-center lg:items-start justify-between">
+      <div className="bg-gradient-to-r from-[#9181F4] to-[#5038ED] pt-24 p-5  lg:p-20 min-h-screen">
+        <div className=" bg-white rounded-lg shadow-lg p-10 flex gap-10 lg:gap-0 flex-col lg:flex-row items-center justify-between">
           <div className="w-full">
             <div className="flex mb-5 items-center gap-4">
               <img className="h-10" src={Logo} alt="logo" />
               <h3 className="text-[#5E47EF] text-4xl font-bold">TimeForge</h3>
             </div>
-            <div className="max-w-[1400px] mx-2 lg:mx-auto  rounded-md mt-5 flex flex-col md:flex-row">
-            <div className="md:w-2/3 lg:w-1/3 p-2 border-r lg:relative">
-          <div>
-            <h2 className="text-2xl text-[#7c3aed] font-bold">{title}</h2>
-            <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
-              <FaArchive size={30}></FaArchive>
-              <span className="text-gray-500">{eventType}</span>
-            </div>
-            <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
-              <FaClock size={30}></FaClock>
-              <span className="text-gray-500">{duration}</span>
-            </div>
-            <div className="flex items-center gap-4 mt-5 text-lg font-medium">
-              <div className="flex items-center gap-1">
-                <FaCamera color="gray" size={30}></FaCamera>
-                {camera ? (
-                  <FaCheck size={10} color="green"></FaCheck>
-                ) : (
-                  <FaTimes size={10} color="red"></FaTimes>
-                )}
+            <div className=" mx-2 rounded-md mt-5 gap-10 flex flex-col md:flex-row">
+              <div className="md:w-2/3 lg:w-1/3 lg:relative">
+                <div>
+                  <h2 className="text-2xl text-[#7c3aed] font-bold">{title}</h2>
+                  <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
+                    <FaArchive size={30}></FaArchive>
+                    <span className="text-gray-500">{eventType}</span>
+                  </div>
+                  <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
+                    <FaClock size={30}></FaClock>
+                    <span className="text-gray-500">{duration}</span>
+                  </div>
+                  <div className="flex items-center gap-4 mt-5 text-lg font-medium">
+                    <div className="flex items-center gap-1">
+                      <FaCamera color="gray" size={30}></FaCamera>
+                      {camera ? (
+                        <FaCheck size={10} color="green"></FaCheck>
+                      ) : (
+                        <FaTimes size={10} color="red"></FaTimes>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <FaMicrophone color="gray" size={30}></FaMicrophone>
+                      {mic ? (
+                        <FaCheck size={10} color="green"></FaCheck>
+                      ) : (
+                        <FaTimes size={10} color="red"></FaTimes>
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-gray-600 mt-5">{parsedDesc}</div>
+                </div>
               </div>
-              <div className="flex items-center gap-1">
-                <FaMicrophone color="gray" size={30}></FaMicrophone>
-                {mic ? (
-                  <FaCheck size={10} color="green"></FaCheck>
-                ) : (
-                  <FaTimes size={10} color="red"></FaTimes>
-                )}
-              </div>
-            </div>
-            <div className="text-gray-600 mt-5">{parsedDesc}</div>
-          </div>
-
-          
-        </div>
               {/* calender area */}
               <div className="sm:w-3/4 p-2 mt-2 md:mt-0">
                 <div className="min-h-full min-w-full">
