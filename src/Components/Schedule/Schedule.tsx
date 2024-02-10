@@ -22,20 +22,18 @@ const Schedule = () => {
           <div className="flex items-center gap-5">
             <img className="h-10" src={Logo} alt="logo" />
             <div className="lg:w-1/2">
-              <h2 className="font-bold text-lg">Drive more revenue</h2>
+              <h2 className="font-bold text-lg">Speed up your sales cycle</h2>
               <p>
-                Book high-value meetings in seconds and turn scheduling into a
-                competitive advantage.
+              Keep your deal momentum high and remove scheduling friction at every stage of your sales cycle.
               </p>
             </div>
           </div>
           <div className="flex items-center gap-5">
             <img className="h-10" src={Logo} alt="logo" />
             <div className="lg:w-1/2">
-              <h2 className="font-bold text-lg">Drive more revenue</h2>
+              <h2 className="font-bold text-lg">Close more deals</h2>
               <p>
-                Book high-value meetings in seconds and turn scheduling into a
-                competitive advantage.
+              Customize reminder and follow-up workflows to move deals along, integrate with sales tools, and remove logistical tasks to focus on selling.
               </p>
             </div>
           </div>
