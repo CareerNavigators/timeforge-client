@@ -111,7 +111,7 @@ const TextNote: React.FC = () => {
         refetch();
       })
       .catch((error) => {
-        console.error(error); // Log any errors
+        console.error(error);
         showToast("error", "Failed to update note");
       });
 
@@ -122,45 +122,33 @@ const TextNote: React.FC = () => {
     setEventDesc(content);
   };
   return (
-    <div className="flex flex-col justify-center items-center gap-4 mx-auto mt-[70px]">
+    <div className="mx-auto mt-10">
       {/* 1st card */}
-
-      <h1 className="text-[30px] font-bold font-inter ">
-        {" "}
-        <span className="text-deep-purple-600">{userData?.name}</span> Recent
-        notes
+      <h1 className="text-3xl font-bold text-center font-inter">
+        <span className="text-[#5E47EF]">{userData?.name}'s</span> Recent notes
       </h1>
-      <div>
+      <div className="flex justify-center items-center gap-5">
         {data?.map((data: any) => (
           <Card
             key={data._id}
             placeholder={undefined}
-            className="mt-6 w-96 border-[1px] relative "
+            className="mt-12 w-80 border-2 relative rounded-md hover:border-[#5E47EF] transition-all ease-in-out"
           >
-            <button
-              onClick={handleDelete}
-              className="absolute right-[5px] top-[10px]"
-            >
-              <RxCross2 className="text-red-700 text-[20px] font-bold" />
+            <button onClick={handleDelete} className="absolute right-3 top-3">
+              <RxCross2 className="text-red-700 text-xl font-bold" />
             </button>
             <CardBody placeholder={undefined}>
               <img src="" alt="" />
-              <Typography
-                variant="h5"
-                color="blue-gray"
-                className="mb-2"
-                placeholder={undefined}
-              >
+              <Typography variant="h5" placeholder={undefined}>
                 {data?.title}
               </Typography>
               <Typography placeholder={undefined}>
                 {/* {userData?.email}  */}
                 <br></br>
                 <h1 className="font-semibold text-base">
-                  {" "}
-                  <h1 className="" color="purple">
+                  <h1 color="purple">
                     {dayjs.utc(data?.createdAt).format("MMM DD, YYYY")}
-                  </h1>{" "}
+                  </h1>
                 </h1>
               </Typography>
             </CardBody>
@@ -171,7 +159,7 @@ const TextNote: React.FC = () => {
                   onClick={() => setOpen(true)}
                   size="sm"
                   variant="text"
-                  className="flex items-center gap-2"
+                  className="flex justify-center items-center gap-1 px-2 bg-white hover:bg-[#5E47EF] text-[#5E47EF] hover:text-dw border-2 border-[#5E47EF] transition-all ease-in-out"
                 >
                   View Now
                   <svg
@@ -209,9 +197,15 @@ const TextNote: React.FC = () => {
                         
                       
                       </div> */}
-                      {data?.content.length === 0
-                        ? <p className="text-pink-400 font-semibold text-[25px]">No saved Data</p>
-                        : <p className=" font-semibold text-teal-700 text-[25px]">{data?.content}</p>}
+                      {data?.content.length === 0 ? (
+                        <p className="text-pink-400 font-semibold text-[25px]">
+                          No saved Data
+                        </p>
+                      ) : (
+                        <p className=" font-semibold text-teal-700 text-[25px]">
+                          {data?.content}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <button
