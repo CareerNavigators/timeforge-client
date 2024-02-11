@@ -13,15 +13,16 @@ import { Dayjs } from "dayjs";
 import { Badge, Calendar } from "antd";
 import type { CalendarProps } from "antd";
 import AllParticipants from "../AllParticipants/AllParticipants";
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
-import logo from "/logo.png"
+import logo from "/logo.png";
 import { TypeAnimation } from "react-type-animation";
 
 const EventDetails: React.FC = () => {
   // hooks and states
-  const { _id, title, duration, desc, eventType, events, camera, mic } = useLoaderData() as EventType;
+  const { _id, title, duration, desc, eventType, events, camera, mic } =
+    useLoaderData() as EventType;
   const parsedDesc = parse(desc);
   const { userData } = useContext(AuthContext);
   // console.log("user from database", userData);
@@ -33,9 +34,7 @@ const EventDetails: React.FC = () => {
 
   const dateCellRender = (value: any) => {
     // console.log(selectedTimes);
-    const data = events
-      ? events[value.format("DDMMYY")] || []
-      : [];
+    const data = events ? events[value.format("DDMMYY")] || [] : [];
 
     return (
       <ul className="events">
@@ -53,12 +52,11 @@ const EventDetails: React.FC = () => {
     return info.originNode;
   };
 
-
   return (
     <div className="mb-10">
       <h1 className="flex pl-2 my-5 items-center gap-2 ">
         <img className="w-12" src={logo} alt="logo" />
-        <br /> {" "}
+        <br />{" "}
         <span className="text-[#5E47EF] text-3xl font-bold">
           <TypeAnimation
             preRenderFirstString={false}
@@ -73,7 +71,6 @@ const EventDetails: React.FC = () => {
         <h3 className="text-[#5E47EF] text-4xl font-bold">TimeForge</h3>
       </div> */}
       <div className="max-w-full lg:px-2 lg:m-5 shadow-md rounded-md flex flex-col md:flex-row">
-
         {/* event information */}
         <div className="md:w-2/3 lg:w-1/3 p-2 border-r lg:relative">
           <div>
@@ -104,9 +101,7 @@ const EventDetails: React.FC = () => {
                 )}
               </div>
             </div>
-            <div className="text-gray-600 mt-5">
-              {parsedDesc}
-            </div>
+            <div className="text-gray-600 mt-5">{parsedDesc}</div>
           </div>
 
           {/* author info */}
@@ -117,17 +112,21 @@ const EventDetails: React.FC = () => {
               <img
                 className="w-12 rounded-full"
                 src={userData?.img_profile}
-                alt="author-image" />
+                alt="author-image"
+              />
               <div className="flex flex-col">
-                <h2 className="font-semibold text-gray-500">{userData?.name}</h2>
-                <h3 className="text-xs font-medium text-gray-500">{userData?.email}</h3>
+                <h2 className="font-semibold text-gray-500">
+                  {userData?.name}
+                </h2>
+                <h3 className="text-xs font-medium text-gray-500">
+                  {userData?.email}
+                </h3>
               </div>
             </div>
           </div>
 
           <Link to={`/dashboard/updateEvent/${_id}`}>
-            <button
-              className='lg:absolute lg:bottom-4 lg:right-4  flex items-center gap-2 px-4 py-2 mt-5 border text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300'>
+            <button className="lg:absolute lg:bottom-4 lg:right-4  flex items-center gap-2 px-4 py-2 mt-5 border text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300">
               <FaPencilAlt></FaPencilAlt>
               <p>Update</p>
             </button>

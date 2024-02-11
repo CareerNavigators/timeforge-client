@@ -22,6 +22,7 @@ import axios from "axios";
 import { motion, useAnimation } from "framer-motion";
 import { AiOutlineEdit } from "react-icons/ai";
 import showToast from "../../Hook/swalToast";
+import ChartComponent from "../Chart/Chart";
 
 interface UserProfile {
   id?: string;
@@ -79,7 +80,7 @@ export function Profile() {
     }
   }, [userData?.email]);
 
-  // hodleedit
+  // handleedit
   const handleEdit = () => {
     setIsEditing(true);
   };
@@ -225,7 +226,14 @@ export function Profile() {
 
   return (
     <>
-      <motion.div animate={controls} className="w-screen">
+      <motion.div
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+        animate={controls}
+        className="w-screen overflow-auto"
+      >
         {loadingProfile && (
           <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-white dark:bg-d">
             <div className="flex flex-col items-center">
@@ -317,7 +325,7 @@ export function Profile() {
                       className="font-normal text-blue-gray-600"
                       placeholder={undefined}
                     >
-                      User
+                      {userData.role}
                     </Typography>
                   </div>
                 </div>
@@ -500,6 +508,10 @@ export function Profile() {
                     </>
                   ) : null}
                 </div>
+                {/* chart */}
+              </div>
+              <div>
+                <ChartComponent></ChartComponent>
               </div>
             </CardBody>
           </Card>

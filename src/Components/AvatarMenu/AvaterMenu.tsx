@@ -55,7 +55,7 @@ export default function ProfileMenu() {
           <div className="w-11">
             <img
               alt={`${userData?.name}'s Picture`}
-              className=" border-d border-2 dark:border-dw p-0.5 rounded-full w-full object-fill"
+              className=" border-d border-2 dark:border-dw p-0.5 rounded-full w-11 h-11 object-cover"
               src={userData?.img_profile}
             />
           </div>
@@ -70,7 +70,7 @@ export default function ProfileMenu() {
         <Link to={"dashboard"}>
           <div
             onClick={closeMenu}
-            className="flex items-center gap-2 px-3 py-1 border-none rounded dark:text-dw hover:bg-slate-500/10"
+            className="flex items-center gap-2 px-3 py-1 border-none rounded dark:text-dw hover:dark:bg-d1 hover:bg-[#f0f2f4]"
           >
             <RxDashboard className="w-4 h-4" />
             <Typography className="font-normal" placeholder={undefined}>

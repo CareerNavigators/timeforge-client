@@ -180,7 +180,7 @@ const OneEvent = () => {
                   </div>
                 </div>
               </Form.Item>
-              
+
               <Form.Item
                 className="text-lg font-semibold"
                 rules={[
