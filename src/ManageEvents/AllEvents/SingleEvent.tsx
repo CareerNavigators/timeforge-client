@@ -93,7 +93,7 @@ const SingleEvent: React.FC<SingleEventProps> = ({
           {/* <hr className="mt-3" /> */}
           <Divider className="dark:bg-[#5E47EF]" />
           <div className="flex justify-between items-center mt-5 gap-2">
-            <Link to={`/eventslot/${_id}`}>
+            <Link to={`/eventSlot/${_id}`}>
               <div className="flex items-center gap-1 text-[#5E47EF] p-2 rounded">
                 <FaExternalLinkAlt></FaExternalLinkAlt>
                 <h3 className="hover:underline hover:cursor-pointer">

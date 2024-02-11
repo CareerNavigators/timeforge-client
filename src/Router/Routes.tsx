@@ -19,6 +19,7 @@ import About from "../Contacts/About";
 import { Profile } from "../Dashboard/Profile/Profile";
 import UpdateEvent from "../UpdateEvent/UpdateEvent";
 import AllUser from "../Components/AllUser/AllUser";
+import NewAttendee from "../Components/EventSlot/NewAttendee";
 
 const router = createBrowserRouter([
   {
@@ -115,8 +116,16 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/eventslot/:id",
+    path: "/eventSlot/:id",
     element: <EventSlot></EventSlot>,
+    loader: ({ params }) =>
+      fetch(
+        `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
+      ),
+  },
+  {
+    path: "/eventSlot/:id/newAttendee/",
+    element: <NewAttendee></NewAttendee>,
     loader: ({ params }) =>
       fetch(
         `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
