@@ -13,7 +13,7 @@ import Logo from "/logo.png";
 import { Link, NavLink } from "react-router-dom";
 import "./style.css";
 import { AuthContext } from "../../Provider/AuthContext";
-
+import { SlNote } from "react-icons/sl";
 const { Header, Sider } = Layout;
 const Dashbar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -92,6 +92,11 @@ const Dashbar = () => {
             <Menu.Item icon={<UserOutlined />}>
               <NavLink className="mt-auto" to="/dashboard/profile" end>
                 Profile
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item icon={<SlNote />}>
+              <NavLink className="mt-auto" to="/dashboard/textNote" end>
+              Note
               </NavLink>
             </Menu.Item>
           </Menu>
