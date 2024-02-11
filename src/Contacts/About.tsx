@@ -1,6 +1,6 @@
 const About = () => {
   return (
-    <div className="bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 pt-24 p-10 lg:px-40 min-h-screen">
+    <div className="bg-gradient-to-r from-[#9181F4] to-[#5038ED] pt-24 p-10 lg:px-40 min-h-screen">
       <div className="flex flex-col font-poppins lg:flex-row items-center justify-between">
         <section className="lg:w-1/2  text-center lg:text-left">
           <h1 className="text-4xl lg:text-5xl text-white font-semibold pb-10">
