@@ -22,6 +22,7 @@ import UpdateEvent from "../UpdateEvent/UpdateEvent";
 import Note from "../Dashboard/Page/Note";
 import AllUser from "../Components/AllUser/AllUser";
 import NewAttendee from "../Components/EventSlot/NewAttendee";
+import AllUser2 from "../Dashboard/Admin/AllUser2";
 
 const router = createBrowserRouter([
   {
@@ -141,5 +142,9 @@ const router = createBrowserRouter([
         `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
       ),
   },
+  {
+    path:"/admin",
+    element:<AllUser2></AllUser2>
+  }
 ]);
 export default router;
