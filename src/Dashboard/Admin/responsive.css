@@ -1,0 +1,129 @@
+td {
+	word-break: break-all;
+}
+
+@media screen and (max-width:1174px) {
+
+	th,
+	td,
+	tr {
+		width: 100%;
+	}
+
+	th:nth-child(3),
+	td:nth-child(3) {
+		display: none;
+	}
+
+
+}
+
+@media screen and (max-width:769px) {
+
+	th:nth-child(5),
+	td:nth-child(5) {
+		display: none;
+	}
+
+
+}
+
+@media screen and (max-width:426px) {
+
+	table {
+		width: 100%;
+	}
+
+	table,
+	thead,
+	tbody,
+	th,
+	td,
+	tr {
+		display: block;
+	}
+
+	thead tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+
+	tr {
+		border: 1px solid #ccc;
+	}
+
+	td {
+		border: none;
+		border-bottom: 1px solid #eee;
+		position: relative;
+		padding-left: 50%;
+	}
+	tr>td:nth-child(1)>div::before{
+		content: "Name: ";
+		font-weight: 700;
+	}
+	tr>td:nth-child(2)>div::before{
+		content: "Email: ";
+		font-weight: 700;
+	}
+	tr>td:nth-child(4)>p::before{
+		content: "Role: ";
+	}
+	
+	td:before {
+		position: absolute;
+		top: 6px;
+		left: 6px;
+		width: 45%;
+		padding-right: 10px;
+		white-space: nowrap;
+		content: attr(data-column);
+		color: #000;
+		font-weight: bold;
+	}
+
+
+}
+
+/* 
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	table { 
+	  	width: 100%; 
+	}
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { border: 1px solid #ccc; }
+	
+	td { 
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+	}
+
+	td:before { 
+		position: absolute;
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		content: attr(data-column);
+
+		color: #000;
+		font-weight: bold;
+	}
+
+} */

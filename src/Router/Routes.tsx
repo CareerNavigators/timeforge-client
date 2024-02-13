@@ -143,7 +143,7 @@ const router = createBrowserRouter([
       ),
   },
   {
-    path:"/admin",
+    path:"/alluser",
     element:<AllUser2></AllUser2>
   }
 ]);
