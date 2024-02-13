@@ -44,3 +44,18 @@ export interface Meeting {
     attendee: number;
     createdAt: string;
 }
+export interface SingleMeeting {
+    _id: string;
+    title: string;
+    duration: string;
+    desc: string;
+    createdBy: string;
+    events: Record<string, string[]>;
+    eventType: string;
+    camera: boolean;
+    mic: boolean;
+    attendee: number;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  }

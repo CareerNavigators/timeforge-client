@@ -2,27 +2,41 @@ import 'ka-table/style.css';
 import { Table } from 'ka-table';
 import { DataType, EditingMode, SortDirection, SortingMode } from 'ka-table/enums';
 import AxiosSecure from '../../Hook/useAxios';
-import { useQuery } from '@tanstack/react-query';
-import { Meeting, Column } from './AllTypes';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { Meeting, Column, SingleMeeting } from './AllTypes';
 import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { FaVideoSlash, FaVideo } from "react-icons/fa";
 import moment from 'moment';
-import { Button, Modal } from 'antd';
+import { Button, Input, Modal } from 'antd';
 import { useState } from 'react';
 const AllMeetings = () => {
     const caxios = AxiosSecure()
+
+
+
+    //for modal
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-
+    const singleMeetings = useMutation({
+        mutationFn: async (id: string) => {
+            const res = await caxios.get(`/meeting?id=${id}&type=single`)
+            return res.data as SingleMeeting
+        }
+    })
     const showModal = (id: string) => {
-        console.log(id);
+        singleMeetings.mutateAsync(id)
         setIsModalOpen(true);
+
     };
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-
-
+    async function UpdateUser(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const formObject = Object.fromEntries(formData);
+        console.log(formObject);
+    }
+    // for table 
     const allMeetings = useQuery({
         queryKey: ['allevents'],
         queryFn: async () => {
@@ -132,12 +146,39 @@ const AllMeetings = () => {
                 rowKeyField={'_id'}
                 sortingMode={SortingMode.Single}
             />
-            <Modal width={800} title="Meetings Modal" confirmLoading={allMeetings.isPending} destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >
+            <Modal width={800} title="Meetings Modal" confirmLoading={singleMeetings.isPending} destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >
+            <form onSubmit={UpdateUser}>
+                {
+                    singleMeetings.isSuccess ?
+                        
+                            <div>
+                            <p className='font-semibold'>Title</p>
+                            <Input name="title" defaultValue={singleMeetings.data.title}></Input>
+                            <p className='font-semibold'>Description</p>
+                            <Input.TextArea name='desc'  defaultValue={singleMeetings.data.desc}/>
+                            <p className='font-semibold'>Duration</p>
+                            <Input name='duration'  defaultValue={singleMeetings.data.duration}/>
+                            <p className='font-semibold'>Attendee</p>
+                            <Input name='attendee'  defaultValue={singleMeetings.data.attendee}/>
+                            <p className='font-semibold'>Event Type</p>
+                            <Input name='eventType'  defaultValue={singleMeetings.data.eventType}/>
+                            <p className='font-semibold'>Camera</p>
+                            <Input name='camera'  defaultValue={String(singleMeetings.data.camera)}/>
+                            <p className='font-semibold'>Microphone</p>
+                            <Input name='mic'  defaultValue={String(singleMeetings.data.mic)}/>
+                            <p className='font-semibold'>Events</p>
+                            <Input.TextArea name='events'  defaultValue={JSON.stringify(singleMeetings.data.events)}/>
+                            </div>
+                        
+                        :
+                        // @ts-expect-error noidea
+                        <p>{String(singleMeetings.error?.response.data.msg)}</p>
+                }
                 <div className='flex gap-4 justify-center'>
                     <Button className='bg-light-blue-500 text-white' htmlType='submit'>Update</Button>
                     <Button onClick={handleCancel}>Close</Button>
                 </div>
-
+                </form>
             </Modal>
         </div>
     );
