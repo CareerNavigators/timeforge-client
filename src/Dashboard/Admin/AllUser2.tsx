@@ -12,10 +12,7 @@ import { useState } from 'react';
 const AllUser2 = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [role, setRole] = useState("User")
-    // const [userid,setUserId]=useState(null)
     const caxios = AxiosSecure()
-
-
     // for modal
     const singleUser = useMutation({
         mutationFn: async (id: string) => {
@@ -38,7 +35,6 @@ const AllUser2 = () => {
             const res = await caxios.get("/admin/users")
             return res.data 
         },
-        gcTime:0
     })
 
     const columns = [
@@ -163,7 +159,9 @@ const AllUser2 = () => {
                     text: "Loading..."
                 }}
                 // @ts-expect-error noidea
+                
                 childComponents={childComponents}
+
                 columns={columns}
                 data={allUser.data}
                 editingMode={EditingMode.Cell}

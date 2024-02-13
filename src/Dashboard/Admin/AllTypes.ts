@@ -1,17 +1,17 @@
-export type Column={
-    key:string
-    title:string
-    dataType:string
+export type Column = {
+    key: string
+    title: string
+    dataType: string
 }
-export type Row={
-    createdAt:string
-    email:string
-    name:string
-    role:string
-    totalMeeting:string
-    _id:string
+export type Row = {
+    createdAt: string
+    email: string
+    name: string
+    role: string
+    totalMeeting: string
+    _id: string
 }
-export type User= {
+export type User = {
     _id: string
     name: string
     email: string
@@ -26,4 +26,21 @@ export type User= {
     phone: string
     role: string
     totalMeeting: number
-  }
+}
+
+interface CreatedBy {
+    _id: string;
+    name: string;
+}
+
+export interface Meeting {
+    _id: string;
+    title: string;
+    duration: string;
+    createdBy: CreatedBy;
+    eventType: string;
+    camera: boolean;
+    mic: boolean;
+    attendee: number;
+    createdAt: string;
+}

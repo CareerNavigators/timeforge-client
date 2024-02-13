@@ -23,6 +23,7 @@ import Note from "../Dashboard/Page/Note";
 import AllUser from "../Components/AllUser/AllUser";
 import NewAttendee from "../Components/EventSlot/NewAttendee";
 import AllUser2 from "../Dashboard/Admin/AllUser2";
+import AllMeetings from "../Dashboard/Admin/AllMeetings";
 
 const router = createBrowserRouter([
   {
@@ -145,6 +146,10 @@ const router = createBrowserRouter([
   {
     path:"/alluser",
     element:<AllUser2></AllUser2>
+  },
+  {
+    path:"/allevents",
+    element:<AllMeetings></AllMeetings>
   }
 ]);
 export default router;
