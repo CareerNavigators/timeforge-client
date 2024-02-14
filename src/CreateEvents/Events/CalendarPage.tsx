@@ -51,11 +51,23 @@ const CalendarPage = ({
     eventDuration: number
   ) => {
     const times: { time: string; checked: boolean }[] = [];
+    let minuteIncrement = eventDuration;
+    let hourIncrement = 0;
+
+    if (eventDuration > 60) {
+      hourIncrement = Math.floor(eventDuration / 60);
+      minuteIncrement = eventDuration % 60;
+    }
+
     for (let hour = startHour; hour <= endHour; hour++) {
-      for (let minute = 0; minute < 60; minute += eventDuration) {
-        const formattedTime = `${hour % 12 || 12}:${
-          minute === 0 ? "00" : minute
-        } ${hour >= 12 ? "PM" : "AM"}`;
+      for (let minute = 0; minute < 60; minute += minuteIncrement) {
+        const adjustedHour =
+          hour + Math.floor((minute + minuteIncrement) / 60) + hourIncrement;
+        const adjustedMinute = (minute + minuteIncrement) % 60;
+        const formattedHour = adjustedHour % 12 || 12;
+        const formattedMinute = adjustedMinute.toString().padStart(2, "0");
+        const period = adjustedHour >= 12 ? "PM" : "AM";
+        const formattedTime = `${formattedHour}:${formattedMinute} ${period}`;
         times.push({ time: formattedTime, checked: false });
       }
     }
@@ -165,22 +177,6 @@ const CalendarPage = ({
               </li>
             ))}
           </ul>
-          {/* <div>
-            <h3 className="font-semibold text-md mb-3">Selected Times:</h3>
-            <ul className="grid grid-cols-5 gap-2">
-              {selectedTimes &&
-                selectedTimes[selectedDate?.format("DDMMYY") || ""]?.map(
-                  (selectedTime: any) => (
-                    <li
-                      className="w-20 px-2 py-[2px] border-2 border-[#7c3aed] text-center rounded"
-                      key={selectedTime}
-                    >
-                      {selectedTime}
-                    </li>
-                  )
-                )}
-            </ul>
-          </div> */}
         </div>
       </Modal>
     </div>
