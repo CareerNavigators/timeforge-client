@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Dayjs } from "dayjs";
 import type { CalendarProps } from "antd";
-import { Badge, Calendar, Modal } from "antd";
+import { Badge, Button, Calendar, Modal } from "antd";
 import "./style.css";
 
 const CalendarPage = ({
@@ -151,18 +151,17 @@ const CalendarPage = ({
       <Modal
         title="Enter time"
         open={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
+        footer={null}
       >
         <div>
           <ul className="grid grid-cols-4 mb-5 mt-2">
             {modalTimes.map((timeData) => (
               <li key={timeData.time} className="py-1 mx-auto">
                 <label
-                  className={`flex w-20 justify-center border-2 px-2 py-[2px] rounded ${
+                  className={`flex w-20 justify-center border-2 px-2 py-[2px] cursor-pointer hover:shadow-lg transition-all ease-in-out rounded ${
                     timeData.checked
                       ? "border-[#7c3aed] bg-[#7c3aed] text-white text-bold"
-                      : "border-[#7c3aed]"
+                      : "border-[#7c3aed] hover:bg-[#7c3aed1a]"
                   }`}
                   onClick={() => handleTimeClick(timeData.time)}
                 >
@@ -177,6 +176,14 @@ const CalendarPage = ({
               </li>
             ))}
           </ul>
+        </div>
+        <div className="flex flex-row-reverse gap-3">
+          <Button onClick={handleOk} id="btn-confirm" className="px-6">
+            Confirm
+          </Button>
+          <Button onClick={handleCancel} id="btn-cancel" className="px-6">
+            Cancel
+          </Button>
         </div>
       </Modal>
     </div>
