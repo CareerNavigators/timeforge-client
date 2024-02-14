@@ -49,73 +49,73 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
 
     return (
         <div className="max-w-full shadow-md rounded-md p-2 lg:m-5 overflow-hidden">
-            <div className="text-[#7c3aed] my-2 text-xl font-extrabold">
-                <div className="flex flex-row items-center justify-center gap-2">
-                    <FaUsers></FaUsers>
-                    <h1> Participants</h1>
-                </div>
-            </div>
-            <div className="overflow-x-auto p-8">
-                {/* table area */}
-                {
-                    allParticipants?.length > 0 ? <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                        {/* table heading */}
-                        <thead>
-                            <tr>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900">
-                                    Index
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900">
-                                    Name
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900">
-                                    Email
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900">
-                                    Date
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900">
-                                    Time
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900">
-                                    Remove
-                                </th>
-                            </tr>
-                        </thead>
-
-                        {/* table body */}
-                        <tbody className="divide-y divide-gray-200">
-                            {allParticipants?.map((data: EventType, index: number) => {
-                                const dateStr = Object.keys(data.slot).toString();
-                                const date = dayjs(dateStr, "DDMMYY");
-                                const formattedDate = date.format("DD/MM/YYYY");
-                                return (
-                                    <tr key={data._id}>
-                                        <td className="px-4 py-2 font-medium text-gray-900">
-                                            {index + 1}
-                                        </td>
-                                        <td className="px-4 py-2 font-medium text-gray-900">{data.name}</td>
-                                        <td className="px-4 py-2 text-gray-700">{data.email}</td>
-                                        <td className="px-4 py-2 text-gray-700">{formattedDate}</td>
-                                        <td className="px-4 py-2 text-gray-700">
-                                            {data.slot[dateStr][0]}
-                                        </td>
-                                        <td className="px-4 py-2">
-                                            <button
-                                                onClick={() => handleParticipantDelete(data._id)}
-                                                className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300"
-                                            >
-                                                <FaRegTrashAlt></FaRegTrashAlt>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table> : <p className="text-center text-sm my-5 font-medium">No Participants Yet</p>
-                }
+        <div className="text-[#5038ED] my-2 text-xl font-extrabold">
+            <div className="flex flex-row items-center justify-center gap-2">
+                <FaUsers></FaUsers>
+                <h1> Participants</h1>
             </div>
         </div>
+        <div className="overflow-x-auto p-8 mb-10">
+            {/* table area */}
+            {
+                allParticipants?.length > 0 ? <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                    {/* table heading */}
+                    <thead>
+                        <tr>
+                            <th className="text-left px-4 py-2 font-medium text-gray-900">
+                                Index
+                            </th>
+                            <th className="text-left px-4 py-2 font-medium text-gray-900">
+                                Name
+                            </th>
+                            <th className="text-left px-4 py-2 font-medium text-gray-900">
+                                Email
+                            </th>
+                            <th className="text-left px-4 py-2 font-medium text-gray-900">
+                                Date
+                            </th>
+                            <th className="text-left px-4 py-2 font-medium text-gray-900">
+                                Time
+                            </th>
+                            <th className="text-left px-4 py-2 font-medium text-gray-900">
+                                Remove
+                            </th>
+                        </tr>
+                    </thead>
+
+                    {/* table body */}
+                    <tbody className="divide-y divide-gray-200">
+                        {allParticipants?.map((data: EventType, index: number) => {
+                            const dateStr = Object.keys(data.slot).toString();
+                            const date = dayjs(dateStr, "DDMMYY");
+                            const formattedDate = date.format("DD/MM/YYYY");
+                            return (
+                                <tr key={data._id}>
+                                    <td className="px-4 py-2 font-medium text-gray-900">
+                                        {index + 1}
+                                    </td>
+                                    <td className="px-4 py-2 font-medium text-gray-900">{data.name}</td>
+                                    <td className="px-4 py-2 text-gray-700">{data.email}</td>
+                                    <td className="px-4 py-2 text-gray-700">{formattedDate}</td>
+                                    <td className="px-4 py-2 text-gray-700">
+                                        {data.slot[dateStr][0]}
+                                    </td>
+                                    <td className="px-4 py-2">
+                                        <button
+                                            onClick={() => handleParticipantDelete(data._id)}
+                                            className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300"
+                                        >
+                                            <FaRegTrashAlt></FaRegTrashAlt>
+                                        </button>
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table> : <p className="text-center text-sm my-5 font-medium">No Participants Yet</p>
+            }
+        </div>
+    </div>
     );
 };
 

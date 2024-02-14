@@ -37,7 +37,7 @@ const SingleEvent: React.FC<SingleEventProps> = ({
         },
       }}
     >
-      <div className="w-full mx-auto rounded-lg border shadow-sm p-4 hover:shadow-md">
+      <div className="w-[300px] rounded-lg border shadow-sm p-4 hover:shadow-md">
         <div>
           <Link to={`/dashboard/eventDetails/${_id}`}>
             <div>
