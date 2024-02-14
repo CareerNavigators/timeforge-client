@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Dayjs } from "dayjs";
 import type { CalendarProps } from "antd";
-import { Badge, Calendar, Modal } from "antd";
+import { Badge, Button, Calendar, Modal } from "antd";
 import "./style.css";
 
 const CalendarPage = ({
@@ -51,11 +51,23 @@ const CalendarPage = ({
     eventDuration: number
   ) => {
     const times: { time: string; checked: boolean }[] = [];
+    let minuteIncrement = eventDuration;
+    let hourIncrement = 0;
+
+    if (eventDuration > 60) {
+      hourIncrement = Math.floor(eventDuration / 60);
+      minuteIncrement = eventDuration % 60;
+    }
+
     for (let hour = startHour; hour <= endHour; hour++) {
-      for (let minute = 0; minute < 60; minute += eventDuration) {
-        const formattedTime = `${hour % 12 || 12}:${
-          minute === 0 ? "00" : minute
-        } ${hour >= 12 ? "PM" : "AM"}`;
+      for (let minute = 0; minute < 60; minute += minuteIncrement) {
+        const adjustedHour =
+          hour + Math.floor((minute + minuteIncrement) / 60) + hourIncrement;
+        const adjustedMinute = (minute + minuteIncrement) % 60;
+        const formattedHour = adjustedHour % 12 || 12;
+        const formattedMinute = adjustedMinute.toString().padStart(2, "0");
+        const period = adjustedHour >= 12 ? "PM" : "AM";
+        const formattedTime = `${formattedHour}:${formattedMinute} ${period}`;
         times.push({ time: formattedTime, checked: false });
       }
     }
@@ -139,18 +151,17 @@ const CalendarPage = ({
       <Modal
         title="Enter time"
         open={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
+        footer={null}
       >
         <div>
           <ul className="grid grid-cols-4 mb-5 mt-2">
             {modalTimes.map((timeData) => (
               <li key={timeData.time} className="py-1 mx-auto">
                 <label
-                  className={`flex w-20 justify-center border-2 px-2 py-[2px] rounded ${
+                  className={`flex w-20 justify-center border-2 px-2 py-[2px] cursor-pointer hover:shadow-lg transition-all ease-in-out rounded ${
                     timeData.checked
                       ? "border-[#7c3aed] bg-[#7c3aed] text-white text-bold"
-                      : "border-[#7c3aed]"
+                      : "border-[#7c3aed] hover:bg-[#7c3aed1a]"
                   }`}
                   onClick={() => handleTimeClick(timeData.time)}
                 >
@@ -165,22 +176,14 @@ const CalendarPage = ({
               </li>
             ))}
           </ul>
-          {/* <div>
-            <h3 className="font-semibold text-md mb-3">Selected Times:</h3>
-            <ul className="grid grid-cols-5 gap-2">
-              {selectedTimes &&
-                selectedTimes[selectedDate?.format("DDMMYY") || ""]?.map(
-                  (selectedTime: any) => (
-                    <li
-                      className="w-20 px-2 py-[2px] border-2 border-[#7c3aed] text-center rounded"
-                      key={selectedTime}
-                    >
-                      {selectedTime}
-                    </li>
-                  )
-                )}
-            </ul>
-          </div> */}
+        </div>
+        <div className="flex flex-row-reverse gap-3">
+          <Button onClick={handleOk} id="btn-confirm" className="px-6">
+            Confirm
+          </Button>
+          <Button onClick={handleCancel} id="btn-cancel" className="px-6">
+            Cancel
+          </Button>
         </div>
       </Modal>
     </div>

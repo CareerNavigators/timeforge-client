@@ -1,25 +1,22 @@
 import {
   FaCamera,
   FaCheck,
-  FaExternalLinkAlt,
   FaMicrophone,
   FaRegTrashAlt,
   FaTimes,
-  FaUsers,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { EventType } from "./AllEvents";
 import { motion } from "framer-motion";
+import { BiLink } from "react-icons/bi";
+import { FaUserGroup } from "react-icons/fa6";
 
 interface SingleEventProps {
   item: EventType;
   handleEventDelete: (id: string) => void;
 }
 
-const SingleEvent: React.FC<SingleEventProps> = ({
-  item,
-  handleEventDelete,
-}) => {
+const SingleEvent: React.FC<SingleEventProps> = ({ item, handleEventDelete }) => {
   const { _id, title, duration, eventType, camera, mic, attendee } = item;
 
   return (
@@ -36,26 +33,28 @@ const SingleEvent: React.FC<SingleEventProps> = ({
           restDelta: 0.01,
         },
       }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.9 }}
     >
-      <div className="w-full mx-auto rounded-lg border shadow-sm p-4 hover:shadow-md">
+      <div className="w-[300px] max-h-[200px] select-none rounded-lg border-2 border-[#fafafa] shadow-sm p-4 hover:shadow-md hover:-hue-rotate-30 hover:border-[#5E47EF]">
         <div>
           <Link to={`/dashboard/eventDetails/${_id}`}>
             <div>
-              <h3 className="text-[#5E47EF] text-xl font-bold my-2">{title}</h3>
+              <div className="flex justify-between items-center">
+                <h3 className="text-[#5E47EF] text-lg font-bold my-2 truncate">{title}</h3>
+                <h4 className="text-xs text-[#5E47EF] bg-[#f1effa] font-semibold rounded-full px-3 py-1">{eventType}</h4>
+              </div>
               <h4 className="text-gray-500 font-medium">
-                Duration : {duration}
-              </h4>
-              <h4 className="text-gray-500 font-medium mt-2">
-                Event Type : {eventType}
+                Duration : {duration} minutes
               </h4>
               <div className="flex items-center justify-between mt-2">
-                <div className="flex items-center gap-3">
-                  <FaUsers color="gray" size={30}></FaUsers>
-                  <p className="text-2xl font-semibold">{attendee}</p>
+                <div className="flex items-center gap-3 border border-[#d6d1ff] px-3 py-1 rounded-lg">
+                  <FaUserGroup color="gray" size={17}></FaUserGroup>
+                  <p className="text-xs font-semibold">{attendee}</p>
                 </div>
-                <div className="flex items-center gap-4 text-lg font-medium">
+                <div className="flex items-center gap-4 text-lg font-medium border border-[#d6d1ff] px-3 py-1 rounded-lg">
                   <div className="flex items-center gap-1">
-                    <FaCamera color="gray" size={25}></FaCamera>
+                    <FaCamera color="gray" size={17}></FaCamera>
                     {camera ? (
                       <FaCheck size={10} color="green"></FaCheck>
                     ) : (
@@ -63,7 +62,7 @@ const SingleEvent: React.FC<SingleEventProps> = ({
                     )}
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaMicrophone color="gray" size={25}></FaMicrophone>
+                    <FaMicrophone color="gray" size={17}></FaMicrophone>
                     {mic ? (
                       <FaCheck size={10} color="green"></FaCheck>
                     ) : (
@@ -75,10 +74,10 @@ const SingleEvent: React.FC<SingleEventProps> = ({
             </div>
           </Link>
           <hr className="mt-3" />
-          <div className="flex justify-between items-center mt-5 gap-2">
+          <div className="flex justify-between items-center mt-3 gap-2">
             <Link to={`/eventslot/${_id}`}>
-              <div className="flex items-center gap-1 text-[#5E47EF] p-2 rounded">
-                <FaExternalLinkAlt></FaExternalLinkAlt>
+              <div className="flex items-center gap-1 text-[#5E47EF] rounded">
+                <BiLink></BiLink>
                 <h3 className="hover:underline hover:cursor-pointer">
                   Preview
                 </h3>
@@ -87,7 +86,7 @@ const SingleEvent: React.FC<SingleEventProps> = ({
 
             <button
               onClick={() => handleEventDelete(_id)}
-              className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300"
+              className="text-lg p-2 rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300"
             >
               <FaRegTrashAlt></FaRegTrashAlt>
             </button>

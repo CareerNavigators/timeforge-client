@@ -211,9 +211,9 @@ const TextNote: React.FC = () => {
                   <Dialog
                     placeholder={undefined}
                     open={size === "xl"}
-                    size={size || "lg"}
+                    size={size || "md"}
                     handler={handleOpen}
-                    className="border-2 bg-red-50"
+                    className="border-2"
                   >
                     <DialogHeader placeholder={undefined}>
                       Type your note here.
