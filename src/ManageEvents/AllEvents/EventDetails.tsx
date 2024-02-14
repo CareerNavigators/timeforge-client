@@ -126,10 +126,11 @@ const EventDetails: React.FC = () => {
         </div>
 
         {/* calender area */}
-        <div className="sm:w-3/4 p-2 mt-2 md:mt-0">
-          <div className="min-h-full min-w-full overflow-hidden">
-            <Calendar cellRender={cellRender} onPanelChange={onPanelChange} />
-          </div>
+        <div className="sm:w-3/4 p-2 mt-2 md:mt-0 overflow-hidden">
+          <Calendar
+            className="min-h-full min-w-full overflow-hidden"
+            cellRender={cellRender}
+            onPanelChange={onPanelChange} />
         </div>
       </div>
 
