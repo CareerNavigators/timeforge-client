@@ -21,19 +21,15 @@ import { TypeAnimation } from "react-type-animation";
 
 const EventDetails: React.FC = () => {
   // hooks and states
-  const { _id, title, duration, desc, eventType, events, camera, mic } =
-    useLoaderData() as EventType;
+  const { _id, title, duration, desc, eventType, events, camera, mic } = useLoaderData() as EventType;
   const parsedDesc = parse(desc);
   const { userData } = useContext(AuthContext);
-  // console.log("user from database", userData);
-  // console.log("events from details page", events);
 
   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
     console.log(value.format("YYYY-MM-DD"), mode);
   };
 
-  const dateCellRender = (value: any) => {
-    // console.log(selectedTimes);
+  const dateCellRender = (value: Dayjs) => {
     const data = events ? events[value.format("DDMMYY")] || [] : [];
 
     return (
@@ -66,13 +62,9 @@ const EventDetails: React.FC = () => {
           ></TypeAnimation>{" "}
         </span>
       </h1>
-      {/* <div className="flex pl-2 my-5 items-center gap-2">
-
-        <h3 className="text-[#5E47EF] text-4xl font-bold">TimeForge</h3>
-      </div> */}
       <div className="max-w-full lg:px-2 lg:m-5 shadow-md rounded-md flex flex-col md:flex-row">
         {/* event information */}
-        <div className="md:w-2/3 lg:w-1/3 p-2 border-r lg:relative">
+        <div className="md:w-2/3 lg:w-1/3 p-6 md:p-2 border-r lg:relative">
           <div>
             <h2 className="text-2xl text-[#7c3aed] font-bold">{title}</h2>
             <div className="flex items-center gap-4 text-lg text-gray-600 font-medium mt-5">
@@ -135,14 +127,16 @@ const EventDetails: React.FC = () => {
 
         {/* calender area */}
         <div className="sm:w-3/4 p-2 mt-2 md:mt-0">
-          <div className="min-h-full min-w-full">
+          <div className="min-h-full min-w-full overflow-hidden">
             <Calendar cellRender={cellRender} onPanelChange={onPanelChange} />
           </div>
         </div>
       </div>
 
       {/* participants area */}
-      <AllParticipants id={_id}></AllParticipants>
+      <div className="w-dvw sm:w-full">
+        <AllParticipants id={_id}></AllParticipants>
+      </div>
     </div>
   );
 };
