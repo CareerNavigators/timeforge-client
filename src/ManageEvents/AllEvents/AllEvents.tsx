@@ -84,7 +84,7 @@ const AllEvents: React.FC = () => {
         scrollbarWidth: "none",
         msOverflowStyle: "none",
       }}
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 px-6 xl:px-2 my-4 mt-10 mb- mx-auto overflow-auto"
+      className="flex flex-col md:flex-row md:flex-wrap justify-center gap-6 px-4 my-4 mx-auto overflow-auto"
     >
       {allEvents && allEvents.length > 0 ? (
         allEvents.map((item: EventType) => (
