@@ -10,7 +10,6 @@ import { EventType } from "./AllEvents";
 import { motion } from "framer-motion";
 import { BiLink } from "react-icons/bi";
 import { FaUserGroup } from "react-icons/fa6";
-import "aos/dist/aos.css";
 
 interface SingleEventProps {
   item: EventType;
