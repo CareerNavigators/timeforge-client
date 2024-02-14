@@ -1,0 +1,125 @@
+* {
+    width: auto;
+}
+
+td {
+    word-break: break-all;
+
+}
+
+.ka-cell {
+    padding: 4px 10px;
+}
+
+@media screen and (max-width:1450px) {
+
+    th,
+    td,
+    tr,
+    table {
+        width: 100%;
+    }
+
+    th:nth-child(8),
+    td:nth-child(8) {
+        display: none;
+    }
+
+
+
+
+}
+
+@media screen and (max-width:1190px) {
+
+    th:nth-child(5),
+    td:nth-child(5),
+    th:nth-child(6),
+    td:nth-child(6) {
+        display: none;
+    }
+
+    th:nth-child(3),
+    td:nth-child(3) {
+        display: table-cell;
+    }
+
+}
+
+@media screen and (max-width:769px) {
+
+    th:nth-child(7),
+    td:nth-child(7),
+    th:nth-child(2),
+    td:nth-child(2),
+    th:nth-child(4),
+    td:nth-child(4) {
+        display: none;
+    }
+}
+
+@media screen and (max-width:426px) {
+
+    table {
+        width: 100%;
+    }
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        border: 1px solid #ccc;
+    }
+
+    td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    } 
+    th:nth-child(4),
+    td:nth-child(4) {
+        display: block;
+    }
+
+    tr>td:nth-child(1)>div::before {
+        content: "Title: ";
+        font-weight: 700;
+    }
+
+    tr>td:nth-child(3)>div::before {
+        content: "CreatedBy: ";
+        font-weight: 700;
+    }
+
+    tr>td:nth-child(4)>div::before {
+        content: "Event Type: ";
+        font-weight: 700;
+    }
+
+    td:before {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        content: attr(data-column);
+        color: #000;
+        font-weight: bold;
+    }
+
+
+}

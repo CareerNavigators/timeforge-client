@@ -22,8 +22,8 @@ import UpdateEvent from "../UpdateEvent/UpdateEvent";
 import Note from "../Dashboard/Page/Note";
 import AllUser from "../Components/AllUser/AllUser";
 import NewAttendee from "../Components/EventSlot/NewAttendee";
-import AllUser2 from "../Dashboard/Admin/AllUser2";
-import AllMeetings from "../Dashboard/Admin/AllMeetings";
+import AllUser2 from "../Dashboard/Admin/AllUser/AllUser2";
+import AllMeetings from "../Dashboard/Admin/AllMeetings/AllMeetings";
 
 const router = createBrowserRouter([
   {

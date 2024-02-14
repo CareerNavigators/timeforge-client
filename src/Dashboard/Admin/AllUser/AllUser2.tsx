@@ -2,9 +2,9 @@ import { Table } from 'ka-table';
 import { DataType, EditingMode, SortDirection, SortingMode } from 'ka-table/enums';
 import "./responsive.css"
 import 'ka-table/style.css';
-import AxiosSecure from '../../Hook/useAxios';
+import AxiosSecure from '../../../Hook/useAxios';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Column, Row, User } from './AllTypes';
+import { Column, Row, User } from '../AllTypes';
 import moment from 'moment';
 import { Button, Modal, Spin, Input, Image, Select } from 'antd';
 import { useState } from 'react';

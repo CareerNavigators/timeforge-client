@@ -2,9 +2,9 @@
 import { Table } from 'ka-table';
 import 'ka-table/style.css';
 import { DataType, EditingMode, SortDirection, SortingMode } from 'ka-table/enums';
-import AxiosSecure from '../../Hook/useAxios';
+import AxiosSecure from '../../../Hook/useAxios';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { Meeting, Column, SingleMeeting } from './AllTypes';
+import { Meeting, Column, SingleMeeting } from '../AllTypes';
 import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { FaVideoSlash, FaVideo } from "react-icons/fa";
 import moment from 'moment';
@@ -18,6 +18,7 @@ import type { CalendarProps } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { SelectInfo } from 'antd/es/calendar/generateCalendar';
+import "./AllMeetings.css"
 dayjs.extend(customParseFormat);
 const AllMeetings = () => {
     const caxios = AxiosSecure()
@@ -25,7 +26,7 @@ const AllMeetings = () => {
     const [events, setEvents] = useState<Record<string, string[]>>()
     const [selectedTimes, setSelectedTimes] = useState<Dayjs[]>([])
     const [selectedTime, setSelectedTime] = useState<Dayjs | null>()
-    const [selectedDate, setSelectedDate] = useState<string>()
+    const [selectedDate, setSelectedDate] = useState<string>(dayjs().format("DDMMYY"))
     const [isAudioSelected, setIsAudioSelected] = useState(false);
     const [isVideoSelected, setIsVideoSelected] = useState(false);
     const handleAudioSelection = () => {
@@ -55,15 +56,25 @@ const AllMeetings = () => {
         setSelectedTimes([])
         setIsModalOpen(false);
     };
-    async function UpdateUser(e: React.FormEvent<HTMLFormElement>) {
+    const updateMutation = useMutation({
+        mutationFn: async (data:any) => {
+            const res = await caxios.patch(`/meeting/${singleMeetings.data?._id}`, data)
+            return res.data
+        },
+        onSuccess:()=>{
+            allMeetings.refetch()
+            setIsModalOpen(false)
+        }
+    })
+    async function UpdateEvent(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         formData.append("desc", value)
-        formData.append("events",JSON.stringify(events))
-        formData.append("mic",JSON.stringify(isAudioSelected))
-        formData.append("camera",JSON.stringify(isVideoSelected))
-        const formObject = Object.fromEntries(formData);
-        console.log("~ formObject user", formObject)
+        const formObject = Object(Object.fromEntries(formData));
+        formObject["camera"]=isVideoSelected
+        formObject["mic"]=isAudioSelected
+        formObject["events"]=events
+        updateMutation.mutateAsync(formObject)
     }
     // for table 
     const allMeetings = useQuery({
@@ -88,6 +99,7 @@ const AllMeetings = () => {
             title: "Duration",
             dataType: DataType.String,
             isEditable: false,
+            width:"100px"
         },
         {
             key: "createdBy",
@@ -99,24 +111,28 @@ const AllMeetings = () => {
             title: "Event Type",
             dataType: DataType.String,
             isEditable: false,
+            width:"120px"
         },
         {
             key: "camera",
             title: "Camera",
             dataType: DataType.Boolean,
             isEditable: false,
+            width:"100px"
         },
         {
             key: "mic",
             title: "Microphone",
             dataType: DataType.Boolean,
             isEditable: false,
+            width:"100px"
         },
         {
             key: "attendee",
             title: "Attendee",
             dataType: DataType.Number,
             isEditable: false,
+            width:"80px"
         },
         {
             key: "createdAt",
@@ -219,9 +235,10 @@ const AllMeetings = () => {
     };
     function addTime() {
         const timeInput = document.getElementById("time")
+        console.log("~ events", events)
+        console.log("~ selectedDate", selectedDate)
+        
         if (timeInput != null && timeInput.getAttribute("value") != "" && events && selectedDate) {
-            console.log(timeInput.getAttribute("value"));
-            console.log(events[selectedDate]);
             if (!events[selectedDate]?.includes(String(timeInput.getAttribute("value")))) {
                 const newTimes = [...selectedTimes, dayjs(timeInput.getAttribute("value"), "hh:mm A")]
                 const newEvents = events
@@ -267,8 +284,8 @@ const AllMeetings = () => {
                 rowKeyField={'_id'}
                 sortingMode={SortingMode.Single}
             />
-            <Modal width={1200} title="Meetings Modal" confirmLoading={singleMeetings.isPending} destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >
-                <form onSubmit={UpdateUser}>
+            <Modal width={1200} title="Meetings Modal" confirmLoading={singleMeetings.isPending || updateMutation.isPending} destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >
+                <form onSubmit={UpdateEvent}>
                     {
                         singleMeetings.isSuccess ?
                             <div className='flex gap-1 flex-col'>
