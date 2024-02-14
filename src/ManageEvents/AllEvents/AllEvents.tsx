@@ -69,7 +69,7 @@ const AllEvents: React.FC = () => {
 
   // show this loader if data is loading
   if (isLoading) {
-    return <div className="flex items-center justify-center fixed left-[40%] top-[50%]">
+    return <div className="flex items-center justify-center fixed left-[50%] top-[50%]">
       <Spin
         indicator={<LoadingOutlined></LoadingOutlined>}
         size="large"
@@ -79,26 +79,34 @@ const AllEvents: React.FC = () => {
   }
 
   return (
-    <div
-      style={{
-        scrollbarWidth: "none",
-        msOverflowStyle: "none",
-      }}
-      className="flex flex-col md:flex-row md:flex-wrap justify-center gap-6 px-4 my-4 mx-auto overflow-auto"
-    >
-      {allEvents && allEvents.length > 0 ? (
-        allEvents.map((item: EventType) => (
-          <SingleEvent
-            key={item._id}
-            item={item}
-            handleEventDelete={handleEventDelete}
-          />
-        ))
-      ) : (
-        <div className="lg:w-[85vw]">
-          <Empty className="flex flex-col items-center justify-center h-screen" />
-        </div>
-      )}
+    <div className="mx-auto">
+      <h2 className="text-center my-5 text-lg font-medium">
+        Event's of
+        <span className="text-[#5E47EF] ml-1 font-semibold">
+          {userData && userData?.name}
+        </span>
+      </h2>
+      <div
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+        className="flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-6 p-4 mx-auto overflow-auto"
+      >
+        {allEvents && allEvents.length > 0 ? (
+          allEvents.map((item: EventType) => (
+            <SingleEvent
+              key={item._id}
+              item={item}
+              handleEventDelete={handleEventDelete}
+            />
+          ))
+        ) : (
+          <div className="lg:w-[85vw]">
+            <Empty className="flex flex-col items-center justify-center h-screen" />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
