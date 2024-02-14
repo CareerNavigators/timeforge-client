@@ -1,5 +1,6 @@
-import 'ka-table/style.css';
+
 import { Table } from 'ka-table';
+import 'ka-table/style.css';
 import { DataType, EditingMode, SortDirection, SortingMode } from 'ka-table/enums';
 import AxiosSecure from '../../Hook/useAxios';
 import { useQuery, useMutation } from '@tanstack/react-query';
@@ -7,18 +8,26 @@ import { Meeting, Column, SingleMeeting } from './AllTypes';
 import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { FaVideoSlash, FaVideo } from "react-icons/fa";
 import moment from 'moment';
-import { Button, Input, Modal } from 'antd';
+import { Badge, Button, Input, Modal, TimePicker } from 'antd';
 import { useState } from 'react';
+import ReactQuill from 'react-quill';
+import { Dayjs } from 'dayjs';
+import React from 'react';
+import { Calendar } from 'antd';
+import type { CalendarProps } from 'antd';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { SelectInfo } from 'antd/es/calendar/generateCalendar';
+dayjs.extend(customParseFormat);
 const AllMeetings = () => {
     const caxios = AxiosSecure()
-
-
-
+    const [value, setValue] = useState('');
     //for modal
     const [isModalOpen, setIsModalOpen] = useState(false);
     const singleMeetings = useMutation({
         mutationFn: async (id: string) => {
             const res = await caxios.get(`/meeting?id=${id}&type=single`)
+            setValue(res.data.desc)
             return res.data as SingleMeeting
         }
     })
@@ -28,13 +37,14 @@ const AllMeetings = () => {
 
     };
     const handleCancel = () => {
+        setSelectedTimes([])
         setIsModalOpen(false);
     };
     async function UpdateUser(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const formObject = Object.fromEntries(formData);
-        console.log(formObject);
+        console.log("~ formObject user", formObject)
     }
     // for table 
     const allMeetings = useQuery({
@@ -128,6 +138,76 @@ const AllMeetings = () => {
             return rowData.createdBy?.name
         }
     }
+    //react quill
+    const modules = {
+        toolbar: [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+
+            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+            [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+            [{ 'direction': 'rtl' }],                         // text direction
+
+            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+            [{ 'header': [3, 4, 5, 6, false] }],
+
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+            ['clean'],
+        ]
+    };
+
+    //calendar section
+    const [selectedTimes, setSelectedTimes] = useState<Dayjs[]>([])
+    const [selectedTime, setSelectedTime] = useState<Dayjs | null>()
+
+    const onSelect = (value: Dayjs,selectInfo:SelectInfo) => {
+        if (selectInfo.source=="date") {
+            setSelectedTimes([])
+        const data = singleMeetings.data?.events
+            ? singleMeetings.data.events[value.format("DDMMYY")] || []
+            : [];
+        if (data.length != 0) {
+            setSelectedTimes(data.map(x => {
+                return dayjs(x, "hh:mm A")
+            }))
+        }
+        }
+        
+    };
+    const cellRender: CalendarProps<Dayjs>["cellRender"] = (current, info) => {
+        const data = singleMeetings.data?.events
+            ? singleMeetings.data.events[current.format("DDMMYY")] || []
+            : [];
+        if (data.length != 0 && info.type == "date") {
+            return (
+                <Badge status="success" text={""} />
+            );
+        } else if (info.type == "month") {
+            if (singleMeetings.data?.events) {
+                for (const key of Object.keys(singleMeetings.data.events)) {
+                    if (current.format("MM") == key.substring(2, 4)) {
+                        return (
+                            <Badge status="success" text={""} />
+                        );
+                    }
+                }
+            }
+
+        }
+
+
+    };
+    function addTime() {
+        const timeInput = document.getElementById("time")
+        if (timeInput != null && timeInput.getAttribute("value") != "") {
+            setSelectedTimes([...selectedTimes, dayjs(timeInput.getAttribute("value"), "hh:mm A")])
+        }
+        setSelectedTime(null)
+    }
     return (
         <div>
             <Table
@@ -146,38 +226,50 @@ const AllMeetings = () => {
                 rowKeyField={'_id'}
                 sortingMode={SortingMode.Single}
             />
-            <Modal width={800} title="Meetings Modal" confirmLoading={singleMeetings.isPending} destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >
-            <form onSubmit={UpdateUser}>
-                {
-                    singleMeetings.isSuccess ?
-                        
+            <Modal width={1200} title="Meetings Modal" confirmLoading={singleMeetings.isPending} destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >
+                <form onSubmit={UpdateUser}>
+                    {
+                        singleMeetings.isSuccess ?
                             <div>
-                            <p className='font-semibold'>Title</p>
-                            <Input name="title" defaultValue={singleMeetings.data.title}></Input>
-                            <p className='font-semibold'>Description</p>
-                            <Input.TextArea name='desc'  defaultValue={singleMeetings.data.desc}/>
-                            <p className='font-semibold'>Duration</p>
-                            <Input name='duration'  defaultValue={singleMeetings.data.duration}/>
-                            <p className='font-semibold'>Attendee</p>
-                            <Input name='attendee'  defaultValue={singleMeetings.data.attendee}/>
-                            <p className='font-semibold'>Event Type</p>
-                            <Input name='eventType'  defaultValue={singleMeetings.data.eventType}/>
-                            <p className='font-semibold'>Camera</p>
-                            <Input name='camera'  defaultValue={String(singleMeetings.data.camera)}/>
-                            <p className='font-semibold'>Microphone</p>
-                            <Input name='mic'  defaultValue={String(singleMeetings.data.mic)}/>
-                            <p className='font-semibold'>Events</p>
-                            <Input.TextArea name='events'  defaultValue={JSON.stringify(singleMeetings.data.events)}/>
+                                <p className='font-semibold'>Title</p>
+                                <Input name="title" defaultValue={singleMeetings.data.title}></Input>
+                                <p className='font-semibold'>Description</p>
+                                <ReactQuill theme="snow" modules={modules} value={value} onChange={setValue} />
+                                <p className='font-semibold'>Duration</p>
+                                <Input name='duration' defaultValue={singleMeetings.data.duration} />
+                                <p className='font-semibold'>Attendee</p>
+                                <Input name='attendee' defaultValue={singleMeetings.data.attendee} />
+                                <p className='font-semibold'>Event Type</p>
+                                <Input name='eventType' defaultValue={singleMeetings.data.eventType} />
+                                <p className='font-semibold'>Camera</p>
+                                <Input name='camera' defaultValue={String(singleMeetings.data.camera)} />
+                                <p className='font-semibold'>Microphone</p>
+                                <Input name='mic' defaultValue={String(singleMeetings.data.mic)} />
+                                <p className='font-semibold'>Events</p>
+                                {/* <Input.TextArea name='events' defaultValue={JSON.stringify(singleMeetings.data.events)} /> */}
+                                <div className='flex '>
+                                    <Calendar className='flex-1' cellRender={cellRender} onSelect={onSelect} fullscreen={false} />
+                                    <div className='flex-1 pt-12 flex flex-col gap-2'>
+                                        {
+                                            // @ts-expect-error noidea
+                                            <TimePicker use12Hours={true} multiple value={selectedTimes} format={"hh:mm A"} open={false} allowClear={false}></TimePicker>
+                                        }
+                                        <TimePicker id="time" needConfirm={false} value={selectedTime} use12Hours={true} format={"hh:mm A"} />
+                                        <Button onClick={addTime}  >Add</Button>
+
+
+                                    </div>
+                                </div>
                             </div>
-                        
-                        :
-                        // @ts-expect-error noidea
-                        <p>{String(singleMeetings.error?.response.data.msg)}</p>
-                }
-                <div className='flex gap-4 justify-center'>
-                    <Button className='bg-light-blue-500 text-white' htmlType='submit'>Update</Button>
-                    <Button onClick={handleCancel}>Close</Button>
-                </div>
+
+                            :
+                            // @ts-expect-error noidea
+                            <p>{String(singleMeetings.error?.response.data.msg)}</p>
+                    }
+                    <div className='flex gap-4 justify-center'>
+                        <Button className='bg-light-blue-500 text-white' htmlType='submit'>Update</Button>
+                        <Button onClick={handleCancel}>Close</Button>
+                    </div>
                 </form>
             </Modal>
         </div>

@@ -8,7 +8,7 @@ import { Column, Row, User } from './AllTypes';
 import moment from 'moment';
 import { Button, Modal, Spin, Input, Image, Select } from 'antd';
 import { useState } from 'react';
-
+import 'react-quill/dist/quill.snow.css';
 const AllUser2 = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [role, setRole] = useState("User")
@@ -46,8 +46,6 @@ const AllUser2 = () => {
             isHeaderFilterPopupShown: false,
             isFilterable: false,
             isEditable: false,
-            
-
         },
         {
             key: "email",
@@ -62,7 +60,6 @@ const AllUser2 = () => {
             title: "Created At",
             dataType: DataType.String,
             isEditable: false,
-            
         },
         {
             key: "role",
@@ -86,12 +83,8 @@ const AllUser2 = () => {
         }
     ]
     const childComponents = {
-        headCell: {
-            elementAttributes: () => ({
-                className: "bg-blue-500"
-            })
-        },
         cell: {
+            
             content: ({ column, rowData }: { column: Column, rowData: Row }) => {
                 if (column.key == "createdAt") {
                     return moment(rowData.createdAt).format("MMM Do YY, h:mm a").toString()
@@ -114,6 +107,7 @@ const AllUser2 = () => {
             }
         },
     }
+    
     //This below part is for modal select.
     const roleData = [
         {
