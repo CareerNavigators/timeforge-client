@@ -69,7 +69,7 @@ const AllEvents: React.FC = () => {
 
   // show this loader if data is loading
   if (isLoading) {
-    return <div className="flex items-center justify-center fixed left-[50%] top-[50%]">
+    return <div className="flex items-center justify-center fixed left-[45%] top-[50%]">
       <Spin
         indicator={<LoadingOutlined></LoadingOutlined>}
         size="large"

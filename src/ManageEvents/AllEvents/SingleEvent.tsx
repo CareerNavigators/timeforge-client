@@ -34,10 +34,10 @@ const SingleEvent: React.FC<SingleEventProps> = ({ item, handleEventDelete }) =>
           restDelta: 0.01,
         },
       }}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.8 }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.9 }}
     >
-      <div className="w-[300px] max-h-[200px]  rounded-lg border border-[#c6c5c7] shadow-sm p-4 hover:shadow-md hover:rotate-1 hover:border-[#5E47EF]">
+      <div className="w-[300px] max-h-[200px] select-none rounded-lg border-2 border-[#fafafa] shadow-sm p-4 hover:shadow-md hover:-hue-rotate-30 hover:border-[#5E47EF]">
         <div>
           <Link to={`/dashboard/eventDetails/${_id}`}>
             <div>
