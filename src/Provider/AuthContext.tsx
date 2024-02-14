@@ -89,9 +89,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
 
     return () => {
-      unSubscribe(); // Unsubscribe from the auth state change listener when the component unmounts
+      unSubscribe(); 
     };
-  }, []); // Empty dependency array to run this effect only once when the component mounts
+  }, []);
 
   const authInfo: AuthContextType = {
     user,

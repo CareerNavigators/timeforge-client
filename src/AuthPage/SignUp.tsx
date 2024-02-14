@@ -13,7 +13,6 @@ import { HiOutlineMail } from "react-icons/hi";
 import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthContext";
 import usePfp from "../Hook/getPfp";
-import axios from "axios";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -36,7 +35,6 @@ const SignUp = () => {
   const pfp = usePfp();
   const [timezone, setTimezone] = useState("");
   const caxios = AxiosSecure();
-
   interface FormEvent extends React.FormEvent<HTMLFormElement> {
     target: HTMLFormElement & {
       email: {
@@ -71,7 +69,7 @@ const SignUp = () => {
     }
 
     if (!password) {
-      showToast("error", "Please enter your Username");
+      showToast("error", "Please enter your Password");
       return;
     }
 
@@ -114,19 +112,9 @@ const SignUp = () => {
         timeZone: timezone,
         img_profile: imageLink,
       };
-      await axios
-        .post(`${import.meta.env.VITE_BACK_END_API}/user`, userData)
-        .then((res: any) => {
-          const userData = {
-            name: res?.user?.displayName,
-            email: res?.user?.email,
-            timeZone: timezone,
-            img_profile: res?.user?.photoURL,
-          };
-          caxios.post("/user", userData).then((res) => {
-            setUserData(res.data);
-          });
-        });
+      caxios.post("/user", userData).then((res) => {
+        setUserData(res.data);
+      });
       navigate(from, { replace: true });
       showToast("success", "Secure Access, Unlimited Smiles!");
       setLoading(false);
@@ -193,8 +181,7 @@ const SignUp = () => {
       variants={listVariants}
       initial="initial"
       animate="animate"
-      className="flex flex-col items-center overflow-hidden lg:flex-row lg:h-screen"
-    >
+      className="flex flex-col items-center overflow-hidden lg:flex-row lg:h-screen">
       <div className="p-4 lg:w-1/2 lg:p-8 ">
         <Link to="/">
           <FiHome
@@ -204,8 +191,7 @@ const SignUp = () => {
         </Link>
         <Link
           to="/login"
-          className="absolute right-4 top-4 text-[#1C1C1C] text-lg cursor-pointer z-10 dark:text-dw"
-        >
+          className="absolute right-4 top-4 text-[#1C1C1C] text-lg cursor-pointer z-10 dark:text-dw">
           <LuLogIn />
         </Link>
         <style>{sty}</style>
@@ -214,8 +200,7 @@ const SignUp = () => {
           className="smooth-parallax"
           globalFactorX={0.7}
           globalFactorY={0.7}
-          resetOnLeave
-        >
+          resetOnLeave>
           <div className="flex flex-col items-center justify-center mb-6 pt-[72px]">
             <MouseParallaxChild factorX={0.7} factorY={0.8}>
               <img
@@ -233,12 +218,10 @@ const SignUp = () => {
         <motion.div
           initial={{ opacity: 0, y: "-100%" }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, x: "100%" }}
-        >
+          exit={{ opacity: 0, x: "100%" }}>
           <form
             className="flex flex-col items-center justify-center"
-            onSubmit={handleLogin}
-          >
+            onSubmit={handleLogin}>
             <div className="relative mb-4">
               <FiUser className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
               <input
@@ -273,16 +256,14 @@ const SignUp = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-4 text-[#1C1C1C]"
-                >
+                  className="absolute right-4 top-4 text-[#1C1C1C]">
                   {showPassword ? <LuEyeOff /> : <LuEye />}
                 </button>
               )}
             </div>
             <button
               type="submit"
-              className="px-8 py-3 mt-8 font-bold text-white transition-transform transform rounded-md bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:scale-110"
-            >
+              className="px-8 py-3 mt-8 font-bold text-white transition-transform transform rounded-md bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:scale-110">
               Signup Now
             </button>
           </form>
@@ -295,8 +276,7 @@ const SignUp = () => {
         <div className="flex items-center justify-center">
           <div
             onClick={handleGoogle}
-            className="flex items-center justify-center gap-2 p-4 transition duration-300 ease-in-out transform bg-white border cursor-pointer select-none rounded-2xl md:w-96 hover:scale-105 hover:shadow-lg"
-          >
+            className="flex items-center justify-center gap-2 p-4 transition duration-300 ease-in-out transform bg-white border cursor-pointer select-none rounded-2xl md:w-96 hover:scale-105 hover:shadow-lg">
             <FcGoogle className="w-8 h-8" />
             <p className="text-[#1C1C1C]">
               Sign up with <span className="font-bold">Google</span>
