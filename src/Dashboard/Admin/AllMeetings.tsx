@@ -8,7 +8,7 @@ import { Meeting, Column, SingleMeeting } from './AllTypes';
 import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { FaVideoSlash, FaVideo } from "react-icons/fa";
 import moment from 'moment';
-import { Badge, Button, Input, Modal, TimePicker } from 'antd';
+import { Badge, Button, Input, Modal, Switch, TimePicker } from 'antd';
 import { useState } from 'react';
 import ReactQuill from 'react-quill';
 import { Dayjs } from 'dayjs';
@@ -22,12 +22,27 @@ dayjs.extend(customParseFormat);
 const AllMeetings = () => {
     const caxios = AxiosSecure()
     const [value, setValue] = useState('');
+    const [events, setEvents] = useState<Record<string, string[]>>()
+    const [selectedTimes, setSelectedTimes] = useState<Dayjs[]>([])
+    const [selectedTime, setSelectedTime] = useState<Dayjs | null>()
+    const [selectedDate, setSelectedDate] = useState<string>()
+    const [isAudioSelected, setIsAudioSelected] = useState(false);
+    const [isVideoSelected, setIsVideoSelected] = useState(false);
+    const handleAudioSelection = () => {
+        setIsAudioSelected(!isAudioSelected);
+    };
+    const handleVideoSelection = () => {
+        setIsVideoSelected(!isVideoSelected);
+    };
     //for modal
     const [isModalOpen, setIsModalOpen] = useState(false);
     const singleMeetings = useMutation({
         mutationFn: async (id: string) => {
             const res = await caxios.get(`/meeting?id=${id}&type=single`)
             setValue(res.data.desc)
+            setEvents(res.data.events)
+            setIsAudioSelected(res.data.mic)
+            setIsVideoSelected(res.data.camera)
             return res.data as SingleMeeting
         }
     })
@@ -43,6 +58,10 @@ const AllMeetings = () => {
     async function UpdateUser(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
+        formData.append("desc", value)
+        formData.append("events",JSON.stringify(events))
+        formData.append("mic",JSON.stringify(isAudioSelected))
+        formData.append("camera",JSON.stringify(isVideoSelected))
         const formObject = Object.fromEntries(formData);
         console.log("~ formObject user", formObject)
     }
@@ -161,34 +180,33 @@ const AllMeetings = () => {
     };
 
     //calendar section
-    const [selectedTimes, setSelectedTimes] = useState<Dayjs[]>([])
-    const [selectedTime, setSelectedTime] = useState<Dayjs | null>()
 
-    const onSelect = (value: Dayjs,selectInfo:SelectInfo) => {
-        if (selectInfo.source=="date") {
+    const onSelect = (value: Dayjs, selectInfo: SelectInfo) => {
+        setSelectedDate(value.format("DDMMYY"))
+        if (selectInfo.source == "date") {
             setSelectedTimes([])
-        const data = singleMeetings.data?.events
-            ? singleMeetings.data.events[value.format("DDMMYY")] || []
-            : [];
-        if (data.length != 0) {
-            setSelectedTimes(data.map(x => {
-                return dayjs(x, "hh:mm A")
-            }))
+            const data = events
+                ? events[value.format("DDMMYY")] || []
+                : [];
+            if (data.length != 0) {
+                setSelectedTimes(data.map(x => {
+                    return dayjs(x, "hh:mm A")
+                }))
+            }
         }
-        }
-        
+
     };
     const cellRender: CalendarProps<Dayjs>["cellRender"] = (current, info) => {
-        const data = singleMeetings.data?.events
-            ? singleMeetings.data.events[current.format("DDMMYY")] || []
+        const data = events
+            ? events[current.format("DDMMYY")] || []
             : [];
         if (data.length != 0 && info.type == "date") {
             return (
                 <Badge status="success" text={""} />
             );
         } else if (info.type == "month") {
-            if (singleMeetings.data?.events) {
-                for (const key of Object.keys(singleMeetings.data.events)) {
+            if (events) {
+                for (const key of Object.keys(events)) {
                     if (current.format("MM") == key.substring(2, 4)) {
                         return (
                             <Badge status="success" text={""} />
@@ -198,15 +216,38 @@ const AllMeetings = () => {
             }
 
         }
-
-
     };
     function addTime() {
         const timeInput = document.getElementById("time")
-        if (timeInput != null && timeInput.getAttribute("value") != "") {
-            setSelectedTimes([...selectedTimes, dayjs(timeInput.getAttribute("value"), "hh:mm A")])
+        if (timeInput != null && timeInput.getAttribute("value") != "" && events && selectedDate) {
+            console.log(timeInput.getAttribute("value"));
+            console.log(events[selectedDate]);
+            if (!events[selectedDate]?.includes(String(timeInput.getAttribute("value")))) {
+                const newTimes = [...selectedTimes, dayjs(timeInput.getAttribute("value"), "hh:mm A")]
+                const newEvents = events
+                newEvents[selectedDate] = []
+                newTimes.forEach(x => {
+                    newEvents[selectedDate].push(x.format("hh:mm A"))
+                })
+                setEvents(newEvents)
+                setSelectedTimes(newTimes)
+            }
+
+
         }
         setSelectedTime(null)
+    }
+    function timeChange(v: Dayjs[]) {
+        if (events && selectedDate) {
+            const newEvents = events
+            newEvents[selectedDate] = []
+            v.forEach(x => {
+                newEvents[selectedDate].push(x.format("hh:mm A"))
+            })
+            setEvents(newEvents)
+        }
+        setSelectedTimes(v)
+
     }
     return (
         <div>
@@ -230,7 +271,7 @@ const AllMeetings = () => {
                 <form onSubmit={UpdateUser}>
                     {
                         singleMeetings.isSuccess ?
-                            <div>
+                            <div className='flex gap-1 flex-col'>
                                 <p className='font-semibold'>Title</p>
                                 <Input name="title" defaultValue={singleMeetings.data.title}></Input>
                                 <p className='font-semibold'>Description</p>
@@ -238,21 +279,42 @@ const AllMeetings = () => {
                                 <p className='font-semibold'>Duration</p>
                                 <Input name='duration' defaultValue={singleMeetings.data.duration} />
                                 <p className='font-semibold'>Attendee</p>
-                                <Input name='attendee' defaultValue={singleMeetings.data.attendee} />
+                                <Input readOnly defaultValue={singleMeetings.data.attendee} />
                                 <p className='font-semibold'>Event Type</p>
                                 <Input name='eventType' defaultValue={singleMeetings.data.eventType} />
-                                <p className='font-semibold'>Camera</p>
-                                <Input name='camera' defaultValue={String(singleMeetings.data.camera)} />
-                                <p className='font-semibold'>Microphone</p>
-                                <Input name='mic' defaultValue={String(singleMeetings.data.mic)} />
+                                <div className="flex gap-5">
+                                    <div className="flex gap-2">
+                                        <AudioMutedOutlined />
+                                        <Switch
+                                            className="bg-gray-400"
+                                            size="default"
+                                            defaultChecked={singleMeetings.data.mic}
+                                            onClick={handleAudioSelection}
+                                        />
+                                        <AudioOutlined />
+                                    </div>
+
+                                    <div className="flex gap-2 items-center">
+                                        <FaVideoSlash />
+                                        <Switch
+                                            className="bg-gray-400"
+                                            size="default"
+                                            defaultChecked={singleMeetings.data.camera}
+                                            onClick={handleVideoSelection}
+                                        />
+                                        <FaVideo />
+                                    </div>
+                                </div>
                                 <p className='font-semibold'>Events</p>
                                 {/* <Input.TextArea name='events' defaultValue={JSON.stringify(singleMeetings.data.events)} /> */}
                                 <div className='flex '>
+
                                     <Calendar className='flex-1' cellRender={cellRender} onSelect={onSelect} fullscreen={false} />
+
                                     <div className='flex-1 pt-12 flex flex-col gap-2'>
                                         {
                                             // @ts-expect-error noidea
-                                            <TimePicker use12Hours={true} multiple value={selectedTimes} format={"hh:mm A"} open={false} allowClear={false}></TimePicker>
+                                            <TimePicker use12Hours={true} multiple value={selectedTimes} format={"hh:mm A"} open={false} allowClear={false} onChange={timeChange}></TimePicker>
                                         }
                                         <TimePicker id="time" needConfirm={false} value={selectedTime} use12Hours={true} format={"hh:mm A"} />
                                         <Button onClick={addTime}  >Add</Button>
