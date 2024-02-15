@@ -8,7 +8,7 @@ import { Meeting, Column, SingleMeeting } from '../AllTypes';
 import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { FaVideoSlash, FaVideo } from "react-icons/fa";
 import moment from 'moment';
-import { Badge, Button, Input, Modal, Switch, TimePicker } from 'antd';
+import { Badge, Button, Input, Modal, Spin, Switch, TimePicker, Tooltip } from 'antd';
 import { useState } from 'react';
 import ReactQuill from 'react-quill';
 import { Dayjs } from 'dayjs';
@@ -19,6 +19,7 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { SelectInfo } from 'antd/es/calendar/generateCalendar';
 import "./AllMeetings.css"
+import Swal from 'sweetalert2';
 dayjs.extend(customParseFormat);
 const AllMeetings = () => {
 
@@ -67,7 +68,9 @@ const AllMeetings = () => {
         onSuccess: () => {
             allMeetings.refetch()
             setIsModalOpen(false)
-        }
+        },
+        retry:2,
+
     })
     async function UpdateEvent(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -85,7 +88,9 @@ const AllMeetings = () => {
         queryFn: async () => {
             const res = await caxios.get("/admin/meetings")
             return res.data as Meeting[]
-        }
+        },
+        retry:2,
+
     })
     const columns = [
         {
@@ -173,7 +178,11 @@ const AllMeetings = () => {
             }}>See More </Button>
         } else if (column.key == "createdBy") {
             // you have the user _id. you can implement 
-            return rowData.createdBy?.name
+            return (
+                <Tooltip title={rowData.createdBy?._id} trigger="click" arrow={true}>
+                    <span>{rowData.createdBy?.name}</span>
+                </Tooltip>
+            )
         }
     }
     const childComponent = {
@@ -384,8 +393,63 @@ const AllMeetings = () => {
         setSelectedTimes(v)
 
     }
+    const deleteMutation = useMutation({
+        mutationFn: async () => {
+            const res = await caxios.delete(`/meeting/${singleMeetings.data?._id}`)
+            return res.data
+        },
+        onSuccess: () => {
+            handleCancel()
+            allMeetings.refetch()
+        },
+        retry:2,
+
+    })
+    function deleteAttendee() {
+        Swal.fire({
+            title: "Delete Confirmation",
+            text: `Do you want to Delete ${singleMeetings.data?.title}`,
+            icon: "warning",
+            showCloseButton: true,
+            showCancelButton: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteMutation.mutateAsync()
+            }
+        })
+    }
+    const [isModalOpen2, setIsModalOpen2] = useState(false)
+    const [note,setNote]=useState<string>()
+    const noteMutation=useMutation({
+        mutationFn: async ()=>{
+            const res=await caxios.get(`/note?meetingid=${singleMeetings.data?._id}`)
+            setNote(res.data?.content)
+            return res.data
+        }
+    })
+    const updateNote=useMutation({
+        mutationFn: async ()=>{
+            const res=await caxios.patch(`/note/${noteMutation.data?._id}`,{content:note})
+            return res.data
+        },
+        onSuccess:()=>{
+            handelCancel2()
+        },
+        retry:2,
+
+    })
+    const updateNoteContent=()=>{
+        updateNote.mutateAsync()
+    }
+    const handelOpen = () => {
+        noteMutation.mutateAsync()
+        setIsModalOpen2(!isModalOpen2)
+    }
+    const handelCancel2 = () => {
+        setIsModalOpen2(!isModalOpen2)
+    }
     return (
-        <div>
+        <div className='p-2'>
             <Table
                 noData={{
                     text: "No Meetings Found"
@@ -404,11 +468,11 @@ const AllMeetings = () => {
                 childComponents={childComponent}
                 sortingMode={SortingMode.Single}
             />
-            <Modal width={1200} title="Meetings Modal" confirmLoading={singleMeetings.isPending || updateMutation.isPending} destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >
+            <Modal width={1200} title="Meetings Modal" destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >
                 <form onSubmit={UpdateEvent}>
                     {
-                        singleMeetings.isSuccess ?
-
+                        singleMeetings.isPending || updateMutation.isPending ? <div className='flex justify-center'>
+                            <Spin size="large"></Spin> </div> : singleMeetings.isSuccess ?
                             <div className='flex gap-1 flex-col'>
                                 <p className='italic'>{moment(singleMeetings.data.createdAt).format("MMM Do YY, h:mm a").toString()}</p>
                                 <p className='font-semibold'>Title</p>
@@ -444,6 +508,26 @@ const AllMeetings = () => {
                                         <FaVideo />
                                     </div>
                                 </div>
+                                <Button onClick={handelOpen} className='bg-orange-400'>See Note</Button>
+                                <Modal width={800} title={noteMutation.data?.title} destroyOnClose={true} footer={null} onCancel={handelCancel2} open={isModalOpen2}>
+                                    {
+                                        noteMutation.isPending ||updateNote.isPending ? <div className='flex justify-center'>
+                                        <Spin size="large"></Spin> </div>: <>
+                                        <ReactQuill theme="snow" modules={modules} value={note} onChange={setNote} />
+                                        </>
+                                    }
+                                    
+                                    <div className='flex gap-4 justify-center'>
+                                        {
+                                            deleteMutation.isPending ? <div className='flex justify-center'>
+                                                <Spin size="large"></Spin> </div> : <>
+                                                <Button className='bg-light-blue-500 text-white' onClick={updateNoteContent}>Update</Button>
+                                                <Button onClick={handelCancel2}>Close</Button>
+                                            </>
+                                        }
+
+                                    </div>
+                                </Modal>
                                 <p className='font-semibold'>Events</p>
                                 {/* <Input.TextArea name='events' defaultValue={JSON.stringify(singleMeetings.data.events)} /> */}
                                 <div className='flex lg:flex-row flex-col-reverse'>
@@ -468,8 +552,15 @@ const AllMeetings = () => {
                             <p>{String(singleMeetings.error?.response.data.msg)}</p>
                     }
                     <div className='flex gap-4 justify-center'>
-                        <Button className='bg-light-blue-500 text-white' htmlType='submit'>Update</Button>
-                        <Button onClick={handleCancel}>Close</Button>
+                        {
+                            deleteMutation.isPending ? <div className='flex justify-center'>
+                                <Spin size="large"></Spin> </div> : <>
+                                <Button className='bg-light-blue-500 text-white' htmlType='submit'>Update</Button>
+                                <Button className='bg-red-600 text-white' onClick={deleteAttendee}>Delete</Button>
+                                <Button onClick={handleCancel}>Close</Button>
+                            </>
+                        }
+
                     </div>
                 </form>
             </Modal>

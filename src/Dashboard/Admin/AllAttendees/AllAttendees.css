@@ -10,38 +10,26 @@
     }
 }
 
-@media screen and (max-width:770px) {
-    .ka-thead {
+@media screen and (max-width:376px) {
+    .ka-thead{
         display: none;
-    }
-    *{
-        width: 100%;
-
     }
     .ka-table{
         display: block;
     }
-    .ka-tr {
-        border: 1px solid #ccc;
+    .name, .email,.action,.event{
         display: block;
     }
-    .ka-cell {
-        border: none;
-        border-bottom: 1px solid #eee;
-        position: relative;
-        padding-left: 50%;
-        display: block;
-        width: 100%;
+    .name>div::before{
+        content: "Name: ";
+        font-weight: 700;
     }
-    .ka-cell:before {
-        position: absolute;
-        top: 6px;
-        left: 6px;
-        width: 45%;
-        padding-right: 10px;
-        white-space: nowrap;
-        content: attr(data-column);
-        color: #000;
-        font-weight: bold;
+    .email>div::before{
+        content: "Email: ";
+        font-weight: 700;
+    }
+    .event>div::before{
+        content: "Event: ";
+        font-weight: 700;
     }
 }

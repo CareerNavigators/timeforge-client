@@ -9,6 +9,7 @@ import moment from 'moment';
 import { Button, Modal, Spin, Input, Image, Select } from 'antd';
 import { useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
+import Swal from 'sweetalert2';
 const AllUser2 = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [role, setRole] = useState("User")
@@ -19,7 +20,9 @@ const AllUser2 = () => {
             const res = await caxios.get(`/user?id=${id}`)
             setRole(res.data.role)
             return res.data as User
-        }
+        },
+        retry:2,
+
     })
     const showModal = (id: string) => {
         setIsModalOpen(true);
@@ -33,8 +36,10 @@ const AllUser2 = () => {
         queryKey: ['alluser'],
         queryFn: async () => {
             const res = await caxios.get("/admin/users")
-            return res.data 
+            return res.data
         },
+        retry:2,
+
     })
 
     const columns = [
@@ -72,7 +77,7 @@ const AllUser2 = () => {
             title: "Total Meeting",
             dataType: DataType.Number,
             isEditable: false,
-            
+
         },
         {
             key: "action",
@@ -84,7 +89,7 @@ const AllUser2 = () => {
     ]
     const childComponents = {
         cell: {
-            
+
             content: ({ column, rowData }: { column: Column, rowData: Row }) => {
                 if (column.key == "createdAt") {
                     return moment(rowData.createdAt).format("MMM Do YY, h:mm a").toString()
@@ -107,7 +112,7 @@ const AllUser2 = () => {
             }
         },
     }
-    
+
     //This below part is for modal select.
     const roleData = [
         {
@@ -124,26 +129,28 @@ const AllUser2 = () => {
         },
     ]
     // for update user from modal
-    const updateSingleUser=useMutation({
-        mutationFn:async (data:object)=>{
-            const res=await caxios.patch(`/user/${singleUser.data?._id}`,data)
+    const updateSingleUser = useMutation({
+        mutationFn: async (data: object) => {
+            const res = await caxios.patch(`/user/${singleUser.data?._id}`, data)
             return res.data
         },
-        onSuccess:()=>{
+        onSuccess: () => {
             handleCancel();
             allUser.refetch()
-            
-        }
+
+        },
+        retry:2,
+
     })
     async function UpdateUser(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         formData.append("role", role)
         const formObject = Object.fromEntries(formData);
-        await updateSingleUser.mutateAsync(formObject)   
+        await updateSingleUser.mutateAsync(formObject)
     }
-    const responsive=
-    `
+    const responsive =
+        `
     td {
         word-break: break-all;
     }
@@ -231,8 +238,33 @@ const AllUser2 = () => {
     }
     
     `
+    const deleteMutation = useMutation({
+        mutationFn: async () => {
+            const res = await caxios.delete(`/user/${singleUser.data?.email}`)
+            return res.data
+        },
+        onSuccess: () => {
+            allUser.refetch()
+            handleCancel()
+        },
+        retry:2,
+
+    })
+    function deleteUser() {
+        Swal.fire({
+            title: "Delete Confirmation",
+            text: `Do you want to Delete ${singleUser.data?.name}`,
+            icon: "warning",
+            showCloseButton: true,
+            showCancelButton: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteMutation.mutateAsync()
+            }
+        })
+    }
     return (
-        <div>
+        <div className='p-2'>
             <style>{responsive}</style>
             <Table
                 noData={{
@@ -243,7 +275,7 @@ const AllUser2 = () => {
                     text: "Loading..."
                 }}
                 // @ts-expect-error noidea
-                
+
                 childComponents={childComponents}
 
                 columns={columns}
@@ -252,7 +284,7 @@ const AllUser2 = () => {
                 rowKeyField={'_id'}
                 sortingMode={SortingMode.Single}
             />
-            <Modal width={800} title="User Modal" confirmLoading={singleUser.isPending} destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >
+            <Modal width={800} title="User Modal" destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >
                 {
 
                     singleUser.isPending ? <div className='flex justify-center'>
@@ -293,9 +325,16 @@ const AllUser2 = () => {
                                 <p className='font-semibold'>Role</p>
                                 <Select onChange={v => setRole(v)} options={roleData} defaultValue={role}></Select>
                             </div>
-                            <div className='flex gap-4 justify-center'>
-                                <Button className='bg-light-blue-500 text-white' htmlType='submit'>Update</Button>
-                                <Button onClick={handleCancel}>Close</Button>
+                            <div className='flex gap-4 justify-center mt-2'>
+                                {
+                                    deleteMutation.isPending ? <div className='flex justify-center'>
+                                        <Spin size="large"></Spin> </div> : <>
+                                        <Button className='bg-light-blue-500 text-white' htmlType='submit'>Update</Button>
+                                        <Button className='bg-red-600 text-white' onClick={deleteUser} >Delete</Button>
+                                        <Button onClick={handleCancel}>Close</Button>
+                                    </>
+                                }
+
                             </div>
 
                         </form>

@@ -6,7 +6,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import moment from 'moment';
 import { Attendess } from '../AllTypes';
 import { Column } from 'ka-table/models';
-import { Button, Input, Modal } from 'antd';
+import { Button, Input, Modal, Spin, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { FormatFunc } from 'ka-table/types';
@@ -24,7 +24,8 @@ const AllAttendess = () => {
         onSuccess: () => {
             allAttendes.refetch()
             setIsModalOpen(false);
-        }
+        },
+        retry:2,
     })
     const showModal = (id: string) => {
         const t_attendee = allAttendes.data?.filter(x => x._id == id)
@@ -43,7 +44,8 @@ const AllAttendess = () => {
         queryFn: async () => {
             const res = await caxios.get("/admin/attendee")
             return res.data as Attendess[]
-        }
+        },
+        retry:2,
     })
     const column = [
         {
@@ -76,7 +78,12 @@ const AllAttendess = () => {
             return moment(rowData.createdAt).format("MMM Do YY, h:mm a")
         } else if (column.key == "event") {
             if (rowData.event != null && rowData.event.title) {
-                return rowData.event?.title
+                return (
+                    <Tooltip title={rowData.event?._id} trigger="click" arrow={true}>
+                    <span>{rowData.event?.title}</span>
+                </Tooltip>
+                )
+                return 
             }
         } else if (column.key == "action") {
             return (
@@ -95,7 +102,8 @@ const AllAttendess = () => {
         onSuccess: () => {
             allAttendes.refetch()
             handleCancel()
-        }
+        },
+        retry:2,
     })
     function updateFormAttendee(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
@@ -123,6 +131,8 @@ const AllAttendess = () => {
                     return {className:"createdAt"}
                 }else if(column.key=="event"){
                     return {className:"event"}
+                }else{
+                    return {className:`${column.key}`}
                 }
             }
         },
@@ -132,12 +142,14 @@ const AllAttendess = () => {
                     return {className:"createdAt"}
                 }else if(field=="event"){
                     return {className:"event"}
+                }else{
+                    return {className:`${field}`}
                 }
             }
         }
     }
     return (
-        <div>
+        <div className='p-2'>
             <Table
                 noData={{
                     text: "No Attendees Found"
@@ -169,10 +181,15 @@ const AllAttendess = () => {
                                 </div>
                             </>
                         }
-                        <div className='flex gap-4 justify-center'>
-                            <Button className='bg-light-blue-500 text-white' htmlType='submit'>Update</Button>
+                        <div className='flex gap-4 justify-center mt-2'>
+                            {
+                                deleteMutation.isPending ? <div className='flex justify-center'>
+                                <Spin size="large"></Spin> </div>:<>
+                                <Button className='bg-light-blue-500 text-white' htmlType='submit'>Update</Button>
                             <Button className='bg-red-600 text-white' onClick={deleteAttendee}>Delete</Button>
-                            <Button onClick={handleCancel}>Close</Button>
+                            <Button onClick={handleCancel}>Close</Button></>
+                            }
+                            
                         </div>
                     </form>
                 </Modal>
