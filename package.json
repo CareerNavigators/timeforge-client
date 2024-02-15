@@ -43,7 +43,8 @@
     "react-type-animation": "^3.2.0",
     "reactflow": "^11.10.3",
     "sort-by": "^1.2.0",
-    "sweetalert2": "^11.10.5"
+    "sweetalert2": "^11.10.5",
+    "swiper": "^11.0.6"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
