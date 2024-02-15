@@ -10,7 +10,7 @@ const MarqueeElement = () => {
   return (
     <div className="py-10">
       <h1 className="font-extrabold text-[#7c3aed] text-center text-4xl md:text-5xl">
-        Our Sponsors
+        Business Partners
       </h1>
       <Marquee>
         <div className="flex px-5 md:p-5 lg:px-10 justify-evenly items-center gap-20">
