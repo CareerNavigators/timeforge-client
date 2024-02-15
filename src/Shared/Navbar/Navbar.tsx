@@ -33,12 +33,14 @@ const Navbar: React.FC = () => {
         <>
           <Link
             to="/login"
-            className="text-xs font-semibold py-2 px-5 border hover:text-white hover:transition-all hover:bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] duration-300">
+            className="text-xs font-semibold py-2 px-5 border hover:text-white hover:transition-all hover:bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] duration-300"
+          >
             Login
           </Link>
           <Link
             to="/signup"
-            className="text-xs font-semibold text-white py-2 px-5 border bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] cursor-pointer">
+            className="text-xs font-semibold text-white py-2 px-5 border bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] cursor-pointer"
+          >
             Register
           </Link>
         </>
@@ -47,7 +49,7 @@ const Navbar: React.FC = () => {
   );
   return (
     <section className="bg-white dark:bg-d1 tin">
-      <div className="max-w-screen-[1920px] shadow-lg px-4 mx-auto sm:px-6 lg:px-8">
+      <div className="max-w-[1400px] px-4 mx-auto sm:px-6">
         <div className="flex items-center justify-between h-16">
           <Link to="/">
             <div className="flex flex-row items-center gap-2">
@@ -70,7 +72,8 @@ const Navbar: React.FC = () => {
                 <ProfileMenu></ProfileMenu>
                 <button
                   onClick={showDrawer}
-                  className="rounded bg-gradient-to-r from-[#9181F4] to-[#5038ED] p-2 text-gray-200 transition hover:text-gray-600/75">
+                  className="rounded bg-gradient-to-r from-[#9181F4] to-[#5038ED] p-2 text-gray-200 transition hover:text-gray-600/75"
+                >
                   <FaAlignJustify></FaAlignJustify>
                 </button>
                 <Drawer
@@ -80,7 +83,8 @@ const Navbar: React.FC = () => {
                   closable={false}
                   onClose={onClose}
                   open={open}
-                  key={placement}>
+                  key={placement}
+                >
                   <ul className="flex flex-wrap items-center justify-center gap-4 text-sm">
                     {links} <DarkModeToggle />
                   </ul>
@@ -90,7 +94,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-      <hr className="max-w-screen-[1920px] mx-auto text-gray-600 transition-all duration-300 dark:hidden"></hr>
+      <hr className="max-w-[1400px] mx-auto text-gray-600 transition-all duration-300 dark:hidden"></hr>
     </section>
   );
 };

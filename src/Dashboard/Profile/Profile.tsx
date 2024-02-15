@@ -8,6 +8,7 @@ import {
   Input,
   CardHeader,
   Textarea,
+  Button,
 } from "@material-tailwind/react";
 import { BiPencil } from "react-icons/bi";
 import {
@@ -23,6 +24,8 @@ import { motion, useAnimation } from "framer-motion";
 import { AiOutlineEdit } from "react-icons/ai";
 import showToast from "../../Hook/swalToast";
 import ChartComponent from "../Chart/Chart";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 interface UserProfile {
   id?: string;
@@ -51,7 +54,9 @@ export function Profile() {
   const [editedTimeZone, setEditedTimeZone] = useState("");
   const [EditedDescription, setEditedDescription] = useState("");
   const [isChangesMade, setIsChangesMade] = useState(false);
-  const { userData, setUserData } = useContext(AuthContext);
+  const { userData, setUserData, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const from = "/";
   // fetch user data
   const fetchUserProfile = useCallback(async () => {
     const userEmail = userData?.email;
@@ -223,6 +228,40 @@ export function Profile() {
   background-image: url('${coverPhotoPreview}');
   background-position: center;
 }`;
+  const handleDeleteProfile = async () => {
+    try {
+      const confirmed = await Swal.fire({
+        title: "Are you sure?",
+        text: "Deleting your profile is irreversible. Are you sure you want to proceed?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete",
+        customClass: {
+          popup: "dark:bg-d2 dark:text-dw",
+        },
+      });
+
+      if (confirmed.isConfirmed) {
+        await axios.delete(
+          `${import.meta.env.VITE_BACK_END_API}/user/${userData?.email}`
+        );
+        logOut();
+        Swal.fire("Deleted!", "Your profile has been deleted.", "success");
+        navigate(from, { replace: true });
+      } else {
+        Swal.fire("Cancelled", "Your profile deletion was cancelled.", "info");
+      }
+    } catch (error: any) {
+      console.error("Error deleting profile:", error.message);
+      Swal.fire(
+        "Error",
+        "An error occurred while deleting your profile. Please try again later.",
+        "error"
+      );
+    }
+  };
 
   return (
     <>
@@ -232,8 +271,7 @@ export function Profile() {
           msOverflowStyle: "none",
         }}
         animate={controls}
-        className="w-screen overflow-auto"
-      >
+        className="w-screen overflow-auto">
         {loadingProfile && (
           <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-white dark:bg-d">
             <div className="flex flex-col items-center">
@@ -259,8 +297,7 @@ export function Profile() {
             {isEditing && (
               <label
                 htmlFor="coverPhoto"
-                className="absolute text-white cursor-pointer top-2 right-2"
-              >
+                className="absolute text-white cursor-pointer top-2 right-2">
                 <AiOutlineEdit size={24} />
               </label>
             )}
@@ -275,9 +312,8 @@ export function Profile() {
             )}
           </div>
           <Card
-            className="mx-3 mb-6 -mt-16 border lg:mx-4 border-blue-gray-100"
-            placeholder={undefined}
-          >
+            className="mx-3 mb-6 -mt-16 border lg:mx-4 border-blue-gray-100 dark:bg-d dark:border-transparent"
+            placeholder={undefined}>
             <CardBody className="p-4" placeholder={undefined}>
               <div className="flex flex-wrap items-center justify-between gap-6 mb-10">
                 <div className="flex items-center gap-6">
@@ -296,8 +332,7 @@ export function Profile() {
                     {isEditing && (
                       <label
                         htmlFor="profilePhoto"
-                        className="absolute cursor-pointer -right-2 -top-2"
-                      >
+                        className="absolute cursor-pointer -right-2 -top-2">
                         <AiOutlineEdit size={18} onClick={handleEdit} />
                       </label>
                     )}
@@ -315,17 +350,15 @@ export function Profile() {
                     <Typography
                       variant="h5"
                       color="blue-gray"
-                      className="mb-1"
-                      placeholder={undefined}
-                    >
+                      className="mb-1 dark:text-dw"
+                      placeholder={undefined}>
                       {userProfile?.name}
                     </Typography>
                     <Typography
                       variant="small"
-                      className="font-normal text-blue-gray-600"
-                      placeholder={undefined}
-                    >
-                      {userData.role}
+                      className="font-normal text-blue-gray-600 dark:text-dw"
+                      placeholder={undefined}>
+                      {userData?.role}
                     </Typography>
                   </div>
                 </div>
@@ -334,34 +367,31 @@ export function Profile() {
                 <Card
                   color="transparent"
                   shadow={false}
-                  placeholder={undefined}
-                >
+                  placeholder={undefined}>
                   <CardHeader
                     color="transparent"
                     shadow={false}
                     floated={false}
                     className="flex items-center justify-between gap-4 mx-0 mt-0 mb-4"
-                    placeholder={undefined}
-                  >
+                    placeholder={undefined}>
                     <Typography
                       variant="h6"
-                      color="blue-gray"
-                      placeholder={undefined}
-                    >
+                      className="dark:text-dw"
+                      placeholder={undefined}>
                       Profile Information
                     </Typography>
                     <Tooltip
-                      className="text-black bg-transparent"
+                      className="text-black bg-transparent dark:text-dw"
                       content="Edit Profile"
+                      placement="left"
                       animate={{
-                        mount: { scale: 1, y: 0 },
-                        unmount: { scale: 0, y: 25 },
-                      }}
-                    >
+                        mount: { scale: 1, x: 0 },
+                        unmount: { scale: 0, x: 30 },
+                      }}>
                       <div>
                         <BiPencil
                           onClick={handleEdit}
-                          className="w-4 h-4 cursor-pointer text-blue-gray-500"
+                          className="w-4 h-4 cursor-pointer text-blue-gray-500 dark:text-dw"
                         />
                       </div>
                     </Tooltip>
@@ -369,9 +399,8 @@ export function Profile() {
                   <CardBody className="p-0" placeholder={undefined}>
                     <Typography
                       variant="small"
-                      className="font-normal text-blue-gray-500"
-                      placeholder={undefined}
-                    >
+                      className="font-normal text-blue-gray-500 dark:text-dw"
+                      placeholder={undefined}>
                       {userData?.desc || "Edit to add description"}
                     </Typography>
 
@@ -382,16 +411,14 @@ export function Profile() {
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-semibold capitalize"
-                          placeholder={undefined}
-                        >
+                          className="font-semibold capitalize dark:text-dw"
+                          placeholder={undefined}>
                           Name:
                         </Typography>
                         <Typography
                           variant="small"
-                          className="font-normal text-blue-gray-500"
-                          placeholder={undefined}
-                        >
+                          className="font-normal text-blue-gray-500 dark:text-dw"
+                          placeholder={undefined}>
                           {userProfile?.name}
                         </Typography>
                       </li>
@@ -400,16 +427,14 @@ export function Profile() {
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-semibold capitalize"
-                          placeholder={undefined}
-                        >
+                          className="font-semibold capitalize dark:text-dw"
+                          placeholder={undefined}>
                           Mobile:
                         </Typography>
                         <Typography
                           variant="small"
-                          className="font-normal text-blue-gray-500"
-                          placeholder={undefined}
-                        >
+                          className="font-normal text-blue-gray-500 dark:text-dw"
+                          placeholder={undefined}>
                           {userProfile?.phone || "Edit to add phone Number"}
                         </Typography>
                       </li>
@@ -418,34 +443,30 @@ export function Profile() {
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-semibold capitalize"
-                          placeholder={undefined}
-                        >
+                          className="font-semibold capitalize dark:text-dw"
+                          placeholder={undefined}>
                           Email:
                         </Typography>
                         <Typography
                           variant="small"
-                          className="font-normal text-blue-gray-500"
-                          placeholder={undefined}
-                        >
+                          className="font-normal text-blue-gray-500 dark:text-dw"
+                          placeholder={undefined}>
                           {userProfile?.email}
                         </Typography>
                       </li>
 
-                      <li className="flex items-center gap-4">
+                      <li className="flex items-center gap-4 ">
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-semibold capitalize"
-                          placeholder={undefined}
-                        >
+                          className="font-semibold capitalize dark:text-dw"
+                          placeholder={undefined}>
                           Location:
                         </Typography>
                         <Typography
                           variant="small"
-                          className="font-normal text-blue-gray-500"
-                          placeholder={undefined}
-                        >
+                          className="font-normal text-blue-gray-500 dark:text-dw"
+                          placeholder={undefined}>
                           {userProfile?.location || "Edit to add Location"}
                         </Typography>
                       </li>
@@ -453,22 +474,23 @@ export function Profile() {
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-semibold capitalize"
-                          placeholder={undefined}
-                        >
+                          className="font-semibold capitalize dark:text-dw"
+                          placeholder={undefined}>
                           Time Zone:
                         </Typography>
                         <Typography
                           variant="small"
-                          className="font-normal text-blue-gray-500"
-                          placeholder={undefined}
-                        >
+                          className="font-normal text-blue-gray-500 dark:text-dw"
+                          placeholder={undefined}>
                           {userProfile?.timeZone}
                         </Typography>
                       </li>
                     </ul>
                   </CardBody>
                 </Card>
+
+                {/* TODO: need to fix dark mode here*/}
+
                 <div className="flex flex-col items-center justify-start gap-8">
                   {isEditing ? (
                     <>
@@ -479,6 +501,7 @@ export function Profile() {
                         variant="standard"
                         label="Location"
                         placeholder=""
+                        className="dark:text-dw"
                         crossOrigin={undefined}
                       />
                       <Input
@@ -515,24 +538,31 @@ export function Profile() {
               </div>
             </CardBody>
           </Card>
-        </div>{" "}
+        </div>
       </motion.div>
       {isEditing && (
-        <div className="absolute bottom-5 right-56">
-          <button
-            className="px-4 py-2 text-white rounded bg-dt"
+        <div className="absolute flex flex-col items-end gap-2 p-5 right-3 bottom-16 lg:bottom-1 lg:right-48 lg:flex-row">
+          <Button
+            color="blue"
             onClick={handleSave}
             disabled={loadingProfile || loadingImageUpload}
-          >
+            placeholder={undefined}>
             Save Changes
-          </button>
-          <button
-            className="px-4 py-2 ml-2 text-white bg-gray-500 rounded"
+          </Button>
+          <Button
+            variant="outlined"
+            className="mx-2 bg-white"
             onClick={handleCancel}
             disabled={loadingProfile || loadingImageUpload}
-          >
+            placeholder={undefined}>
             Cancel
-          </button>
+          </Button>
+          <Button
+            onClick={handleDeleteProfile}
+            color="red"
+            placeholder={undefined}>
+            delete My Account
+          </Button>
         </div>
       )}
     </>

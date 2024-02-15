@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Dashbar from "../Dashbar/Dashbar";
-import MobileDasbar from "../Dashbar/MobileDasbar";
+import MobileDashboard from "../Dashbar/MobileDashbar";
 
 const Dashboard = () => {
   return (
@@ -10,8 +10,7 @@ const Dashboard = () => {
       </div>
       <Outlet />
       <div className="fixed bottom-0 right-0 w-full mb-0 mr-0 lg:hidden">
-        {" "}
-        <MobileDasbar></MobileDasbar>
+        <MobileDashboard></MobileDashboard>
       </div>
     </div>
   );

@@ -1,0 +1,7 @@
+.ql-container:nth-child(1) {
+    border: none !important;
+  }
+
+.ql-container:nth-child(2){
+    height: 200px !important;
+}

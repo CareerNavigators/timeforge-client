@@ -3,7 +3,6 @@ import Main from "../Layout/Main";
 import Home from "../Home/Home";
 import SignUp from "../AuthPage/SignUp";
 import Login from "../AuthPage/Login";
-import Title from "../Components/Title/Title";
 import Dashboard from "../Dashboard/Layout/Dashboard";
 import CreateEvents from "../CreateEvents/CreateEvents";
 import OneEvent from "../CreateEvents/Events/OneEvent";
@@ -17,11 +16,15 @@ import ContactUs from "../Contacts/ContactUs";
 import AboutUs from "../AboutUs/AboutUs";
 import About from "../Contacts/About";
 import { Profile } from "../Dashboard/Profile/Profile";
-import TextNote from "../Dashboard/Page/TextNote";
+// import TextNote from "../Dashboard/Page/TextNote";
 import UpdateEvent from "../UpdateEvent/UpdateEvent";
 import Note from "../Dashboard/Page/Note";
-import AllUser from "../Components/AllUser/AllUser";
+// import AllUser from "../Components/AllUser/AllUser";
 import NewAttendee from "../Components/EventSlot/NewAttendee";
+import AllUser2 from "../Dashboard/Admin/AllUser/AllUser2";
+import AllMeetings from "../Dashboard/Admin/AllMeetings/AllMeetings";
+import AllAttendess from "../Dashboard/Admin/AllAttendees/AllAttendess";
+import Note2 from "../Dashboard/Note/Note2";
 
 const router = createBrowserRouter([
   {
@@ -46,8 +49,7 @@ const router = createBrowserRouter([
         element: (
           <CalendarPage
             selectedTimes={{}}
-            onSelectTime={function (): void {}}
-          ></CalendarPage>
+            onSelectTime={function (): void {}}></CalendarPage>
         ),
       },
       {
@@ -81,18 +83,14 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
-        element: <Title>TIME FORGE</Title>,
+        element: <Profile></Profile>,
       },
       {
         path: "/dashboard/createEvent",
         element: <CreateEvents></CreateEvents>,
       },
       {
-        path: "/dashboard/allUsers",
-        element: <AllUser></AllUser>,
-      },
-      {
-        path: "/dashboard/allEvents",
+        path: "/dashboard/userEvent",
         element: <AllEvents></AllEvents>,
       },
       {
@@ -112,16 +110,24 @@ const router = createBrowserRouter([
           ),
       },
       {
-        path: "/dashboard/profile",
-        element: <Profile></Profile>,
-      },
-      {
         path: "/dashboard/textNote",
-        element: <TextNote></TextNote>
+        element: <Note2></Note2>,
       },
       {
         path: "/dashboard/note",
         element: <Note></Note>
+      },
+      {
+        path:"/dashboard/alluser",
+        element:<AllUser2></AllUser2>
+      },
+      {
+        path:"/dashboard/allevents",
+        element:<AllMeetings></AllMeetings>
+      },
+      {
+        path:"/dashboard/allateendee",
+        element:<AllAttendess />
       }
     ],
   },
@@ -141,5 +147,6 @@ const router = createBrowserRouter([
         `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
       ),
   },
+  
 ]);
 export default router;

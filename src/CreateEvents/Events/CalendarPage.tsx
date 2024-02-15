@@ -139,9 +139,9 @@ const CalendarPage = ({
   };
 
   return (
-    <div className="flex justify-center items-center lg:h-[88vh] pt-5 rounded-md">
+    <div className="flex justify-center items-center">
       <Calendar
-        className="lg:w-[40vw] h-fit m-5 p-5 rounded-md shadow-xl border-2 border-violet-500"
+        className="lg:max-h-full max-h-[500px] lg:m-0 p-5 lg:mb-0 mb-10 rounded-md scroll-smooth lg:overflow-visible overflow-y-auto"
         onSelect={onSelect}
         cellRender={cellRender}
         mode={"month"}
