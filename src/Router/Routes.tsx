@@ -3,7 +3,6 @@ import Main from "../Layout/Main";
 import Home from "../Home/Home";
 import SignUp from "../AuthPage/SignUp";
 import Login from "../AuthPage/Login";
-import Title from "../Components/Title/Title";
 import Dashboard from "../Dashboard/Layout/Dashboard";
 import CreateEvents from "../CreateEvents/CreateEvents";
 import OneEvent from "../CreateEvents/Events/OneEvent";
@@ -46,8 +45,7 @@ const router = createBrowserRouter([
         element: (
           <CalendarPage
             selectedTimes={{}}
-            onSelectTime={function (): void {}}
-          ></CalendarPage>
+            onSelectTime={function (): void {}}></CalendarPage>
         ),
       },
       {
@@ -81,7 +79,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
-        element: <Title>TIME FORGE</Title>,
+        element: <Profile></Profile>,
       },
       {
         path: "/dashboard/createEvent",
@@ -112,17 +110,13 @@ const router = createBrowserRouter([
           ),
       },
       {
-        path: "/dashboard/profile",
-        element: <Profile></Profile>,
-      },
-      {
         path: "/dashboard/textNote",
-        element: <TextNote></TextNote>
+        element: <TextNote></TextNote>,
       },
       {
         path: "/dashboard/note",
-        element: <Note></Note>
-      }
+        element: <Note></Note>,
+      },
     ],
   },
   {
