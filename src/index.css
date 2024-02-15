@@ -18,6 +18,7 @@
   --dw: #f5f5f5;
   --dg: #bfc3c2;
 }
+
 /* toast fix for dark mode */
 .dark .swal2-success-circular-line-right,
 .dark .swal2-success-fix,
@@ -26,4 +27,8 @@
 }
 .dark .swal2-top-end.swal2-backdrop-show > div {
   background-color: var(--d2);
+}
+.dark .swal2-container.swal2-center.swal2-backdrop-show > div{
+background: var(--d2);
+color: var(--dw);
 }
