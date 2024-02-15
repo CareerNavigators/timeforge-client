@@ -4,7 +4,6 @@ import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { SelectValue } from "antd/es/select";
 import CalendarPage from "./CalendarPage";
-// import bgImg from "../../../public/bg.png";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import AxiosSecure from "../../Hook/useAxios";
@@ -16,7 +15,6 @@ const OneEvent = () => {
   const { userData } = useContext(AuthContext);
   console.log(userData);
 
-  const isLargeScreen = window.innerWidth > 768;
   const [isAudioSelected, setIsAudioSelected] = useState(false);
   const [isVideoSelected, setIsVideoSelected] = useState(false);
   const [eventName, setEventName] = useState<string>("");
@@ -90,21 +88,13 @@ const OneEvent = () => {
   }, [events]);
 
   return (
-    <div
-      className="w-full max-w-[1400px] mx-auto pt-10 mb-20 lg:mb-0 lg:p-10"
-
-    >
+    <div className="w-full max-w-[1400px] mx-auto pt-10 mb-20 lg:mb-0 lg:p-10">
       <div className="flex flex-col lg:flex-row items-center justify-center mx-5 lg:mx-auto rounded-md">
         {/* Input part */}
         <div className="lg:m-0 max-h-[100%] bg-white lg:border-r-2 border-[#7c3aed]">
           <Form
             form={form}
-            labelCol={{ span: 2 }}
             layout="horizontal"
-            style={{
-              minWidth: isLargeScreen ? 500 : "auto",
-              minHeight: isLargeScreen ? 850 : "auto",
-            }}
             className="p-10"
             onFinish={handleSubmit}
           >
@@ -116,7 +106,9 @@ const OneEvent = () => {
               </div>
               <Form.Item
                 name="Input"
-                rules={[{ required: true, message: "Please input!" }]}
+                rules={[
+                  { required: true, message: "Please input event name!" },
+                ]}
               >
                 <Input
                   placeholder="Event name"
@@ -127,13 +119,15 @@ const OneEvent = () => {
 
               <Form.Item
                 name="duration"
-                rules={[{ required: true, message: "Please input!" }]}
+                rules={[
+                  { required: true, message: "Please input duration minute!" },
+                ]}
               >
                 <InputNumber
-                  placeholder="Duration"
+                  placeholder="Duration minute"
                   min={1}
                   max={60}
-                  style={{ width: "100%" }}
+                  className="w-full"
                   onChange={handleEventDuration}
                 />
               </Form.Item>

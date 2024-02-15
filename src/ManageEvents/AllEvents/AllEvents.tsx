@@ -69,30 +69,31 @@ const AllEvents: React.FC = () => {
 
   // show this loader if data is loading
   if (isLoading) {
-    return <div className="flex items-center justify-center fixed left-[45%] top-[50%]">
-      <Spin
-        indicator={<LoadingOutlined></LoadingOutlined>}
-        size="large"
-      ></Spin>
-    </div>
-
+    return (
+      <div className="flex items-center justify-center fixed left-[45%] top-[50%]">
+        <Spin
+          indicator={<LoadingOutlined></LoadingOutlined>}
+          size="large"
+        ></Spin>
+      </div>
+    );
   }
 
   return (
-    <div className="mx-auto">
+    <div
+      className="mx-auto overflow-auto scroll-smooth"
+      style={{
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+      }}
+    >
       <h2 className="text-center my-5 text-lg font-medium">
         Event's of
         <span className="text-[#5E47EF] ml-1 font-semibold">
           {userData && userData?.name}
         </span>
       </h2>
-      <div
-        style={{
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-        }}
-        className="flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-6 p-4 mx-auto overflow-auto"
-      >
+      <div className="flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-6 p-4 mx-auto">
         {allEvents && allEvents.length > 0 ? (
           allEvents.map((item: EventType) => (
             <SingleEvent
