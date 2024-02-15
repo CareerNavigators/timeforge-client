@@ -25,6 +25,7 @@ const MobileDashboard: React.FC = () => {
         <ul className="my-2 flex py-[15px] mb-0 mr-0 m-auto justify-center items-center bg-black text-white w-full object-contain gap-[50px] lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 shadow-inner shadow-indigo-600 ">
           <li className="p-1 font-medium">
             <NavLink
+              draggable={false}
               to="/dashboard"
               className="flex items-center transition-colors hover:text-blue-500">
               {" "}
@@ -36,7 +37,8 @@ const MobileDashboard: React.FC = () => {
                 whileTap={{ cursor: "grabbing" }}
                 className="cursor-grab">
                 <img
-                  className="w-[30px] h-[30px] rounded-lg"
+                  className="w-[30px] h-[30px] rounded-lg object-cover object-top"
+                  draggable={false}
                   src={userData?.img_profile}
                 />
               </motion.div>
@@ -44,6 +46,7 @@ const MobileDashboard: React.FC = () => {
           </li>
           <li className="p-1 font-medium">
             <NavLink
+              draggable={false}
               to="/dashboard/createEvent"
               className="flex items-center transition-colors hover:text-blue-500">
               <PlusOutlined className="text-[28px] " />
@@ -51,6 +54,7 @@ const MobileDashboard: React.FC = () => {
           </li>
           <li className="p-1 font-medium">
             <NavLink
+              draggable={false}
               to="/dashboard/allEvents"
               className="flex items-center transition-colors hover:text-blue-500">
               <ScheduleOutlined className="text-[28px] " />
@@ -58,6 +62,7 @@ const MobileDashboard: React.FC = () => {
           </li>
           <li className="p-1 font-medium">
             <NavLink
+              draggable={false}
               to="/"
               className="flex items-center hover:text-blue-500 transition-colors w-[25px] h-[25px]">
               <HomeOutlined className="text-[28px] " />
