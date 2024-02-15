@@ -93,3 +93,58 @@ td {
 
 
 }
+:root {
+    --d: #161927;
+    --d1: #0f111a;
+    --d2: #2b314d;
+    --dt: #576ee0;
+    --dw: #f5f5f5;
+    --dg: #bfc3c2;
+  }
+
+.dark :where(.css-dev-only-do-not-override-1rqnfsa).ant-modal .ant-modal-content {
+   background-color: var(--d1) ;
+   color: var(--dw);
+}
+.dark :where(.css-dev-only-do-not-override-1rqnfsa).ant-input-outlined {
+    background-color: var(--d1) ;
+    color: var(--dw);
+}
+
+.dark :where(.css-dev-only-do-not-override-1rqnfsa).ant-modal .ant-modal-title{
+    background-color: var(--d1) ;
+    color: var(--dw);
+}
+.dark .anticon svg {
+    color: var(--dg);
+}
+.dark :where(.css-dev-only-do-not-override-1rqnfsa).ant-picker.ant-picker-multiple{
+    background-color: var(--d1) ;
+    color: var(--dw);
+}
+.dark :where(.css-dev-only-do-not-override-1rqnfsa).ant-picker-outlined{
+    background-color: var(--d1) ;
+    color: var(--dw);
+}
+.dark :where(.css-dev-only-do-not-override-1rqnfsa).ant-picker.ant-picker-multiple .ant-picker-selection-item{
+    background-color: var(--d2) ;
+    color: var(--dw);
+}
+.dark button, [type='button'], [type='reset'], [type='submit']{
+    background-color: var(--d2) ;
+    color: var(--dw);
+}
+.dark .bg-red-600{
+    background-color: red;
+}
+.dark .ant-picker-panel{
+    background-color: var(--d1) ;
+    color: var(--dw);
+    border: #eee 1px solid;
+}
+.dark .ant-picker-panel td{
+    color: var(--dw);
+}
+.dark :where(.css-dev-only-do-not-override-1rqnfsa).ant-picker-calendar .ant-picker-date-panel .ant-picker-content th{
+    color: var(--dw);
+}

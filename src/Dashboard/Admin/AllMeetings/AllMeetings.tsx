@@ -190,7 +190,7 @@ const AllMeetings = () => {
             elementAttributes: () => {
                 return (
                     {
-                        className: "screen-426px"
+                        className: "screen-426px dark:bg-d"
                     }
                 )
             }
@@ -199,7 +199,7 @@ const AllMeetings = () => {
             elementAttributes: () => {
                 return (
                     {
-                        className: "screen-426px"
+                        className: "screen-426px "
                     }
                 )
             }
@@ -208,7 +208,7 @@ const AllMeetings = () => {
             elementAttributes: () => {
                 return (
                     {
-                        className: ".thead"
+                        className: ".thead dark:bg-d"
                     }
                 )
             }
@@ -218,26 +218,26 @@ const AllMeetings = () => {
                 if (column.key == "createdAt") {
                     return (
                         {
-                            className: "screen-1450px"
+                            className: "screen-1450px dark:bg-d dark:text-dw"
                         }
                     )
                 } else if (['mic', 'camera'].includes(column.key)) {
                     return (
                         {
-                            className: "screen-1190px"
+                            className: "screen-1190px dark:bg-d dark:text-dw"
                         }
                     )
                 } else if (['attendee', 'duration', 'eventType'].includes(column.key)) {
                     return (
                         {
-                            className: "screen-769px"
+                            className: "screen-769px dark:bg-d dark:text-dw"
                         }
                     )
                 }
                 else {
                     return (
                         {
-                            className: ".th"
+                            className: ".th dark:bg-d dark:text-dw"
                         }
                     )
                 }
@@ -248,45 +248,45 @@ const AllMeetings = () => {
                 if (field == "createdAt") {
                     return (
                         {
-                            className: "screen-1450px"
+                            className: "screen-1450px dark:text-dw"
                         }
                     )
                 } else if (['mic', 'camera'].includes(field)) {
                     return (
                         {
-                            className: "screen-1190px"
+                            className: "screen-1190px dark:text-dw"
                         }
                     )
                 } else if (['attendee', 'duration'].includes(field)) {
                     return (
                         {
-                            className: "screen-769px"
+                            className: "screen-769px dark:text-dw"
                         }
                     )
                 }
                 else if ('eventType' == field) {
                     return (
                         {
-                            className: "screen-769px eventType"
+                            className: "screen-769px eventType dark:text-dw"
                         }
                     )
                 } else if ('title' == field) {
                     return (
                         {
-                            className: "title"
+                            className: "title dark:text-dw"
                         }
                     )
                 } else if ('createdBy' == field) {
                     return (
                         {
-                            className: "createdBy"
+                            className: "createdBy dark:text-dw"
                         }
                     )
                 }
                 else {
                     return (
                         {
-                            className: "screen-426px .td"
+                            className: "screen-426px .td dark:text-dw"
                         }
                     )
                 }
@@ -509,15 +509,18 @@ const AllMeetings = () => {
                                     </div>
                                 </div>
                                 <Button onClick={handelOpen} className='bg-orange-400'>See Note</Button>
-                                <Modal width={800} title={noteMutation.data?.title} destroyOnClose={true} footer={null} onCancel={handelCancel2} open={isModalOpen2}>
+                                <Modal width={800} title={noteMutation.data?.title} destroyOnClose={true} footer={null} onCancel={handelCancel2} open={isModalOpen2} classNames={{
+                                    header:"dark:bg-d dark:text-dw",
+                                    body:"dark:bg-d dark:text-dw"
+                                }}>
                                     {
                                         noteMutation.isPending ||updateNote.isPending ? <div className='flex justify-center'>
                                         <Spin size="large"></Spin> </div>: <>
-                                        <ReactQuill theme="snow" modules={modules} value={note} onChange={setNote} />
+                                        <ReactQuill className='dark:bg-d dark:text-dw' theme="snow" modules={modules} value={note} onChange={setNote} />
                                         </>
                                     }
                                     
-                                    <div className='flex gap-4 justify-center'>
+                                    <div className='flex gap-4 justify-center dark:bg-d dark:text-dw'>
                                         {
                                             deleteMutation.isPending ? <div className='flex justify-center'>
                                                 <Spin size="large"></Spin> </div> : <>
