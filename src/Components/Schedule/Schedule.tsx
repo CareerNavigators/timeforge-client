@@ -1,19 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   MouseParallaxChild,
   MouseParallaxContainer,
 } from "react-parallax-mouse";
+
 import CalenderImg from "/images/calender.svg";
 import Logo from "/logo.png";
 
 const Schedule = () => {
-  const smooth = `
-  .smooth-parallax{
-    width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  `;
   return (
     <div className="max-w-5xl px-10 lg:px-0 mx-auto py-20">
       <h1 className="font-bold text-[#7c3aed] text-center text-2xl md:text-4xl">
