@@ -75,7 +75,7 @@ const OneEvent = () => {
         console.log(res);
         setEvents((prevEvents) => [...prevEvents, newEvent]);
         showToast("success", `${eventName} is added to the Events.`);
-        navigate("/dashboard/allEvents");
+        navigate("/dashboard/userEvent");
       });
     } catch (error) {
       console.error("Error adding task:", error);
