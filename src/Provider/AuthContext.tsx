@@ -78,9 +78,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
             setUserData(res.data);
             setLoading(false);
           });
-        } else {
-          setLoading(false);
         }
+        setLoading(false);
       },
       (error) => {
         console.error("Auth state change error:", error.message);
@@ -89,7 +88,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
 
     return () => {
-      unSubscribe(); 
+      unSubscribe();
     };
   }, []);
 

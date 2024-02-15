@@ -96,9 +96,16 @@ const Login = () => {
   const handleGoogle = () => {
     googleSignIn()
       .then((res: any) => {
-        caxios.get(`/user?email=${res?.user?.email}`).then((res) => {
-          setUserData(res.data);
-        });
+        console.log(res);
+        caxios
+          .post("/user", {
+            name: res?.user?.displayName,
+            email: res?.user?.email,
+            img_profile: res?.user?.photoURL,
+          })
+          .then((res) => {
+            setUserData(res.data);
+          });
         showToast("success", "Secure Access, Unlimited Smiles!");
 
         navigate(from, { replace: true });
