@@ -18,6 +18,7 @@
   --dw: #f5f5f5;
   --dg: #bfc3c2;
 }
+
 /* toast fix for dark mode */
 .dark .swal2-success-circular-line-right,
 .dark .swal2-success-fix,
