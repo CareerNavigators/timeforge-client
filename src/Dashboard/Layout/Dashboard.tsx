@@ -10,7 +10,6 @@ const Dashboard = () => {
       </div>
       <Outlet />
       <div className="fixed bottom-0 right-0 w-full mb-0 mr-0 lg:hidden">
-        {" "}
         <MobileDashboard></MobileDashboard>
       </div>
     </div>
