@@ -20,96 +20,66 @@ td {
         width: 100%;
     }
 
-    th:nth-child(8),
-    td:nth-child(8) {
+    .screen-1450px {
         display: none;
     }
-
-
-
 
 }
 
 @media screen and (max-width:1190px) {
 
-    th:nth-child(5),
-    td:nth-child(5),
-    th:nth-child(6),
-    td:nth-child(6) {
+    .screen-1190px {
         display: none;
     }
 
-    th:nth-child(3),
-    td:nth-child(3) {
-        display: table-cell;
-    }
 
 }
 
 @media screen and (max-width:769px) {
 
-    th:nth-child(7),
-    td:nth-child(7),
-    th:nth-child(2),
-    td:nth-child(2),
-    th:nth-child(4),
-    td:nth-child(4) {
+    .screen-769px {
         display: none;
     }
 }
 
 @media screen and (max-width:426px) {
-
-    table {
-        width: 100%;
-    }
-
-    table,
-    thead,
-    tbody,
-    th,
-    td,
-    tr {
+    .screen-426px {
         display: block;
     }
-
-    thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
+    .ka-thead{
+        display: none;
     }
-
-    tr {
+    .tr {
         border: 1px solid #ccc;
     }
 
-    td {
+    .td {
         border: none;
         border-bottom: 1px solid #eee;
         position: relative;
         padding-left: 50%;
-    } 
-    th:nth-child(4),
-    td:nth-child(4) {
+    }
+
+    .eventType ,.createdBy{
         display: block;
     }
 
-    tr>td:nth-child(1)>div::before {
+    .title>div::before {
         content: "Title: ";
         font-weight: 700;
     }
 
-    tr>td:nth-child(3)>div::before {
+    .createdBy>div::before {
         content: "CreatedBy: ";
         font-weight: 700;
     }
 
-    tr>td:nth-child(4)>div::before {
+   .eventType>div::before {
         content: "Event Type: ";
         font-weight: 700;
     }
 
-    td:before {
+    .td:before {
         position: absolute;
         top: 6px;
         left: 6px;

@@ -58,4 +58,15 @@ export interface SingleMeeting {
     createdAt: string;
     updatedAt: string;
     __v: number;
-  }
+}
+type Event = {
+    _id: string;
+    title: string;
+};
+export type Attendess = {
+    _id: string;
+    name: string;
+    email: string;
+    event: Event | null;
+    createdAt: string;
+}

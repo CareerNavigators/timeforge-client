@@ -21,6 +21,7 @@ import { SelectInfo } from 'antd/es/calendar/generateCalendar';
 import "./AllMeetings.css"
 dayjs.extend(customParseFormat);
 const AllMeetings = () => {
+
     const caxios = AxiosSecure()
     const [value, setValue] = useState('');
     const [events, setEvents] = useState<Record<string, string[]>>()
@@ -29,6 +30,8 @@ const AllMeetings = () => {
     const [selectedDate, setSelectedDate] = useState<string>(dayjs().format("DDMMYY"))
     const [isAudioSelected, setIsAudioSelected] = useState(false);
     const [isVideoSelected, setIsVideoSelected] = useState(false);
+
+
     const handleAudioSelection = () => {
         setIsAudioSelected(!isAudioSelected);
     };
@@ -57,11 +60,11 @@ const AllMeetings = () => {
         setIsModalOpen(false);
     };
     const updateMutation = useMutation({
-        mutationFn: async (data:any) => {
+        mutationFn: async (data: any) => {
             const res = await caxios.patch(`/meeting/${singleMeetings.data?._id}`, data)
             return res.data
         },
-        onSuccess:()=>{
+        onSuccess: () => {
             allMeetings.refetch()
             setIsModalOpen(false)
         }
@@ -71,9 +74,9 @@ const AllMeetings = () => {
         const formData = new FormData(e.currentTarget);
         formData.append("desc", value)
         const formObject = Object(Object.fromEntries(formData));
-        formObject["camera"]=isVideoSelected
-        formObject["mic"]=isAudioSelected
-        formObject["events"]=events
+        formObject["camera"] = isVideoSelected
+        formObject["mic"] = isAudioSelected
+        formObject["events"] = events
         updateMutation.mutateAsync(formObject)
     }
     // for table 
@@ -99,7 +102,7 @@ const AllMeetings = () => {
             title: "Duration",
             dataType: DataType.String,
             isEditable: false,
-            width:"100px"
+            width: "100px"
         },
         {
             key: "createdBy",
@@ -111,28 +114,28 @@ const AllMeetings = () => {
             title: "Event Type",
             dataType: DataType.String,
             isEditable: false,
-            width:"120px"
+            width: "120px"
         },
         {
             key: "camera",
             title: "Camera",
             dataType: DataType.Boolean,
             isEditable: false,
-            width:"100px"
+            width: "100px"
         },
         {
             key: "mic",
             title: "Microphone",
             dataType: DataType.Boolean,
             isEditable: false,
-            width:"100px"
+            width: "100px"
         },
         {
             key: "attendee",
             title: "Attendee",
             dataType: DataType.Number,
             isEditable: false,
-            width:"80px"
+            width: "80px"
         },
         {
             key: "createdAt",
@@ -171,6 +174,123 @@ const AllMeetings = () => {
         } else if (column.key == "createdBy") {
             // you have the user _id. you can implement 
             return rowData.createdBy?.name
+        }
+    }
+    const childComponent = {
+        table: {//table
+            elementAttributes: () => {
+                return (
+                    {
+                        className: "screen-426px"
+                    }
+                )
+            }
+        },
+        tableBody: {//tbody
+            elementAttributes: () => {
+                return (
+                    {
+                        className: "screen-426px"
+                    }
+                )
+            }
+        },
+        tableHead: {//thead
+            elementAttributes: () => {
+                return (
+                    {
+                        className: ".thead"
+                    }
+                )
+            }
+        },
+        headCell: {//th
+            elementAttributes: ({ column }: { column: Column }) => {
+                if (column.key == "createdAt") {
+                    return (
+                        {
+                            className: "screen-1450px"
+                        }
+                    )
+                } else if (['mic', 'camera'].includes(column.key)) {
+                    return (
+                        {
+                            className: "screen-1190px"
+                        }
+                    )
+                } else if (['attendee', 'duration', 'eventType'].includes(column.key)) {
+                    return (
+                        {
+                            className: "screen-769px"
+                        }
+                    )
+                }
+                else {
+                    return (
+                        {
+                            className: ".th"
+                        }
+                    )
+                }
+            }
+        },
+        cell: {//td
+            elementAttributes: ({ field }: { field: string }) => {
+                if (field == "createdAt") {
+                    return (
+                        {
+                            className: "screen-1450px"
+                        }
+                    )
+                } else if (['mic', 'camera'].includes(field)) {
+                    return (
+                        {
+                            className: "screen-1190px"
+                        }
+                    )
+                } else if (['attendee', 'duration'].includes(field)) {
+                    return (
+                        {
+                            className: "screen-769px"
+                        }
+                    )
+                }
+                else if ('eventType' == field) {
+                    return (
+                        {
+                            className: "screen-769px eventType"
+                        }
+                    )
+                } else if ('title' == field) {
+                    return (
+                        {
+                            className: "title"
+                        }
+                    )
+                } else if ('createdBy' == field) {
+                    return (
+                        {
+                            className: "createdBy"
+                        }
+                    )
+                }
+                else {
+                    return (
+                        {
+                            className: "screen-426px .td"
+                        }
+                    )
+                }
+            }
+        },
+        dataRow: {//tr
+            elementAttributes: () => {
+                return (
+                    {
+                        className: "screen-426px .tr"
+                    }
+                )
+            }
         }
     }
     //react quill
@@ -235,9 +355,7 @@ const AllMeetings = () => {
     };
     function addTime() {
         const timeInput = document.getElementById("time")
-        console.log("~ events", events)
-        console.log("~ selectedDate", selectedDate)
-        
+
         if (timeInput != null && timeInput.getAttribute("value") != "" && events && selectedDate) {
             if (!events[selectedDate]?.includes(String(timeInput.getAttribute("value")))) {
                 const newTimes = [...selectedTimes, dayjs(timeInput.getAttribute("value"), "hh:mm A")]
@@ -282,13 +400,17 @@ const AllMeetings = () => {
                 data={allMeetings.data}
                 editingMode={EditingMode.Cell}
                 rowKeyField={'_id'}
+                // @ts-expect-error noidea
+                childComponents={childComponent}
                 sortingMode={SortingMode.Single}
             />
             <Modal width={1200} title="Meetings Modal" confirmLoading={singleMeetings.isPending || updateMutation.isPending} destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >
                 <form onSubmit={UpdateEvent}>
                     {
                         singleMeetings.isSuccess ?
+
                             <div className='flex gap-1 flex-col'>
+                                <p className='italic'>{moment(singleMeetings.data.createdAt).format("MMM Do YY, h:mm a").toString()}</p>
                                 <p className='font-semibold'>Title</p>
                                 <Input name="title" defaultValue={singleMeetings.data.title}></Input>
                                 <p className='font-semibold'>Description</p>
@@ -324,7 +446,7 @@ const AllMeetings = () => {
                                 </div>
                                 <p className='font-semibold'>Events</p>
                                 {/* <Input.TextArea name='events' defaultValue={JSON.stringify(singleMeetings.data.events)} /> */}
-                                <div className='flex '>
+                                <div className='flex lg:flex-row flex-col-reverse'>
 
                                     <Calendar className='flex-1' cellRender={cellRender} onSelect={onSelect} fullscreen={false} />
 

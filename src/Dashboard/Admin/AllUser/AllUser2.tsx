@@ -1,6 +1,6 @@
 import { Table } from 'ka-table';
 import { DataType, EditingMode, SortDirection, SortingMode } from 'ka-table/enums';
-import "./responsive.css"
+// import "./responsive.css"
 import 'ka-table/style.css';
 import AxiosSecure from '../../../Hook/useAxios';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -142,8 +142,98 @@ const AllUser2 = () => {
         const formObject = Object.fromEntries(formData);
         await updateSingleUser.mutateAsync(formObject)   
     }
+    const responsive=
+    `
+    td {
+        word-break: break-all;
+    }
+    
+    @media screen and (max-width:1174px) {
+    
+        th,
+        td,
+        tr {
+            width: 100%;
+        }
+    
+        th:nth-child(3),
+        td:nth-child(3) {
+            display: none;
+        }
+    
+    
+    }
+    
+    @media screen and (max-width:769px) {
+    
+        th:nth-child(5),
+        td:nth-child(5) {
+            display: none;
+        }
+    
+    
+    }
+    
+    @media screen and (max-width:426px) {
+    
+        table {
+            width: 100%;
+        }
+    
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
+            display: block;
+        }
+    
+        thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+    
+        tr {
+            border: 1px solid #ccc;
+        }
+    
+        td {
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+        }
+        tr>td:nth-child(1)>div::before{
+            content: "Name: ";
+            font-weight: 700;
+        }
+        tr>td:nth-child(2)>div::before{
+            content: "Email: ";
+            font-weight: 700;
+        }
+        tr>td:nth-child(4)>p::before{
+            content: "Role: ";
+        }
+        
+        td:before {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: 45%;
+            padding-right: 10px;
+            white-space: nowrap;
+            content: attr(data-column);
+            color: #000;
+            font-weight: bold;
+        }
+    }
+    
+    `
     return (
         <div>
+            <style>{responsive}</style>
             <Table
                 noData={{
                     text: "No User Found"
