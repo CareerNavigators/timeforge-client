@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Modal } from "antd";
+import { Empty, Modal } from "antd";
 import { CiEdit } from "react-icons/ci";
 import React from "react";
 import {
@@ -191,18 +191,11 @@ const TextNote: React.FC = () => {
               footer={
                 <>
                   <div className="">
-                    {/* <Note noteId={data?._id}/> */}
-                    <div className="flex justify-center items-center mx-auto mt-[50px]">
-                      {/* <div className="gap-10 text-black mx-auto flex flex-col w-[1000px] h-[600px] justify-center items-center rounded-xl">
-                        
-                      
-                      </div> */}
+                    <div className="flex justify-center items-center mx-auto max-w-[300px] h-[500px]">
                       {data?.content.length === 0 ? (
-                        <p className="text-pink-400 font-semibold text-[25px]">
-                          No saved Data
-                        </p>
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                       ) : (
-                        <p className=" font-semibold text-teal-700 text-[25px]">
+                        <p className=" font-semibold text-teal-700 text-2xl">
                           {data?.content}
                         </p>
                       )}
@@ -218,8 +211,9 @@ const TextNote: React.FC = () => {
                   <Dialog
                     placeholder={undefined}
                     open={size === "xl"}
-                    size={size || "lg"}
+                    size={size || "md"}
                     handler={handleOpen}
+                    className="border-2"
                   >
                     <DialogHeader placeholder={undefined}>
                       Type your note here.
@@ -237,12 +231,12 @@ const TextNote: React.FC = () => {
 
                       <div className="flex justify-center items-center gap-5">
                         {/* <Button
-              className="my-6 font-semibold font-inter text-[#7c3aed] border-2 border-[#7c3aed]"
-              onClick={handleSubmit}
-              placeholder={undefined}
-            >
-              Update Note
-            </Button> */}
+                          className="my-6 font-semibold font-inter text-[#7c3aed] border-2 border-[#7c3aed]"
+                          onClick={handleSubmit}
+                          placeholder={undefined}
+                        >
+                          Update Note
+                        </Button> */}
                       </div>
                       {showOutput && (
                         <div className="">
@@ -253,18 +247,17 @@ const TextNote: React.FC = () => {
                     <DialogFooter placeholder={undefined}>
                       <Button
                         placeholder={undefined}
-                        variant="text"
-                        color="red"
+                        variant="filled"
                         onClick={() => handleOpen(null)}
-                        className="mr-1"
+                        className="px-4 py-2 mr-1 text-[#5E47EF] border-2 hover:border-[#5E47EF] bg-dw hover:bg-[#5d47ef1f]"
                       >
                         <span>Cancel</span>
                       </Button>
                       <Button
-                        variant="gradient"
-                        color="green"
+                        variant="filled"
                         onClick={handleSubmit}
                         placeholder={undefined}
+                        className="px-4 py-2 mr-1 text-dw hover:text-[#5E47EF] border-2 border-[#5E47EF] bg-[#5d47ef] hover:bg-[#5d47ef1f]"
                       >
                         <span>Update</span>
                       </Button>

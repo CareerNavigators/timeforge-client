@@ -8,7 +8,6 @@ import {
 import { FaUsers } from "react-icons/fa";
 import { Layout, Menu, Button, theme } from "antd";
 import { useContext, useState } from "react";
-import Logo from "/logo.png";
 import { Link, NavLink } from "react-router-dom";
 import "./style.css";
 import { AuthContext } from "../../Provider/AuthContext";
@@ -44,14 +43,13 @@ const Dashbar = () => {
           />
         </Header>
       </Layout>
-
       <Layout className="h-screen">
         <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className="" />
           <Link to="/dashboard">
             <img
-              className="w-[50px] h-[50px] flex justify-center items-center mt-[80px] mx-auto"
-              src={Logo}
+              className="w-[50px] h-[50px] flex justify-center items-center mt-[80px] mx-auto rounded-lg"
+              src={userData?.img_profile}
               alt="Logo"
             />
           </Link>

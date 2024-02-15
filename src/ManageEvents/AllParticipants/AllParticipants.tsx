@@ -48,8 +48,8 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
     }
 
     return (
-        <div className="max-w-full shadow-md rounded-md p-2 lg:m-5 overflow-hidden">
-            <div className="text-[#7c3aed] my-2 text-xl font-extrabold">
+        <div className="max-w-full shadow-md rounded-md p-2 my-5 lg:m-5 overflow-hidden border border-[#d6d1ff]">
+            <div className="text-[#5038ED] my-2 text-xl font-extrabold">
                 <div className="flex flex-row items-center justify-center gap-2">
                     <FaUsers></FaUsers>
                     <h1> Participants</h1>
@@ -112,7 +112,7 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
                                 );
                             })}
                         </tbody>
-                    </table> : <p className="text-center text-sm my-5 font-medium">No Participants Yet</p>
+                    </table> : <p className="text-center text-sm my-2 font-medium">No Participants Yet</p>
                 }
             </div>
         </div>

@@ -10,7 +10,7 @@ import { AuthContext } from "../../Provider/AuthContext";
 export interface EventType {
   _id: string;
   title: string;
-  duration: string;
+  duration: number | null;
   eventType: string;
   attendee: string;
   camera: boolean;
@@ -66,7 +66,7 @@ const AllEvents: React.FC = () => {
   // show this loader if data is loading
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center fixed left-[40%] top-[50%]">
+      <div className="flex items-center justify-center fixed left-[45%] top-[50%]">
         <Spin
           indicator={<LoadingOutlined></LoadingOutlined>}
           size="large"
@@ -77,28 +77,33 @@ const AllEvents: React.FC = () => {
 
   return (
     <div
+      className="mx-auto overflow-auto scroll-smooth"
       style={{
         scrollbarWidth: "none",
         msOverflowStyle: "none",
       }}
-      className="grid gap-5 px-2 my-4 mt-10 mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-4 overflow-auto"
     >
-      {allEvents && allEvents.length > 0 ? (
-        allEvents.map((item: EventType) => (
-          <SingleEvent
-            key={item._id}
-            item={item}
-            handleEventDelete={handleEventDelete}
-          />
-        ))
-      ) : (
-        // <p className="flex items-center justify-center h-screen text-lg text-gray-500">
-        //   No Events Found
-        // </p>
-        <div className="lg:w-[85vw]">
-          <Empty className="flex flex-col items-center justify-center h-screen" />
-        </div>
-      )}
+      <h2 className="text-center my-5 text-lg font-medium">
+        Event's of
+        <span className="text-[#5E47EF] ml-1 font-semibold">
+          {userData && userData?.name}
+        </span>
+      </h2>
+      <div className="flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-6 p-4 mx-auto">
+        {allEvents && allEvents.length > 0 ? (
+          allEvents.map((item: EventType) => (
+            <SingleEvent
+              key={item._id}
+              item={item}
+              handleEventDelete={handleEventDelete}
+            />
+          ))
+        ) : (
+          <div className="lg:w-[85vw]">
+            <Empty className="flex flex-col items-center justify-center h-screen" />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
