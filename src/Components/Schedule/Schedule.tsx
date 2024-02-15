@@ -60,7 +60,7 @@ const Schedule = () => {
           resetOnLeave
         >
           <MouseParallaxChild factorX={0.2} factorY={0.2}>
-            <img className="lg:pt-10 p-5 md:w-[600px]" src={CalenderImg} alt="calender image" />
+            <img className="lg:pt-10 flex p-5 md:w-[600px]" src={CalenderImg} alt="calender image" />
           </MouseParallaxChild>
         </MouseParallaxContainer>
       </div>

@@ -13,23 +13,23 @@ const MarqueeElement = () => {
         Business Partners
       </h1>
       <Marquee>
-        <div className="flex px-5 md:p-5 lg:px-10 justify-evenly items-center gap-20">
-            <span className="w-60">
+        <div className="flex px-5 md:p-5 lg:px-10 justify-evenly items-center gap-10 lg:gap-20">
+            <span className="w-40 md:w-60">
             <img  src={Conoco} alt="Logo" />
             </span>
-            <span className="w-60">
+            <span className="w-40 md:w-60">
             <img  src={Waves} alt="Logo" />
             </span>
-            <span className="w-60">
+            <span className="w-40 md:w-60">
             <img  src={Digiclub} alt="Logo" />
             </span>
-            <span className="w-40">
+            <span className="w-40 md:w-60">
             <img  src={Anwb} alt="Logo" />
             </span>
-            <span className="w-60">
+            <span className="w-40 md:w-60">
             <img  src={Worth} alt="Logo" />
             </span>
-            <span className="w-60">
+            <span className="w-40 md:w-60">
             <img  src={Blackcrows} alt="Logo" />
             </span>
         </div>
