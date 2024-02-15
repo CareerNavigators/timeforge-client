@@ -47,7 +47,7 @@ const Hero = () => {
   };
   return (
     <>
-      <div className="flex flex-col-reverse items-center mt-0 lg:h-screen lg:pb-0 lg:flex-row lg:justify-between ">
+      <div className="max-w-[1400px] flex flex-col-reverse mx-auto items-center mt-0 lg:h-screen lg:pb-0 lg:flex-row lg:justify-between ">
         <div>
           <h1 className="font-inter text-[30px] lg:text-[50px] font-[600] ">
             Empowering Your Days
@@ -96,7 +96,7 @@ const Hero = () => {
           ) : (
             <Link
               to={"/createEvent"}
-              className="w-fit px-[5px] py-[5px] mt-5 rounded-lg border-2 border-[#7c3aed] flex items-center gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-[#5d47ef54] transition-all ease-in-out"
+              className="w-fit lg:mx-0 mx-auto px-[5px] py-[5px] mt-5 rounded-lg border-2 border-[#7c3aed] flex items-center gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-[#5d47ef54] transition-all ease-in-out"
             >
               <div className="p-[4px]">
                 <PlusCircleOutlined className="text-[#7c3aed]" />
