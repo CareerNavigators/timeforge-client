@@ -1,0 +1,95 @@
+* {
+    width: auto;
+}
+
+td {
+    word-break: break-all;
+
+}
+
+.ka-cell {
+    padding: 4px 10px;
+}
+
+@media screen and (max-width:1450px) {
+
+    th,
+    td,
+    tr,
+    table {
+        width: 100%;
+    }
+
+    .screen-1450px {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width:1190px) {
+
+    .screen-1190px {
+        display: none;
+    }
+
+
+}
+
+@media screen and (max-width:769px) {
+
+    .screen-769px {
+        display: none;
+    }
+}
+
+@media screen and (max-width:426px) {
+    .screen-426px {
+        display: block;
+    }
+    .ka-thead{
+        display: none;
+    }
+    .tr {
+        border: 1px solid #ccc;
+    }
+
+    .td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .eventType ,.createdBy{
+        display: block;
+    }
+
+    .title>div::before {
+        content: "Title: ";
+        font-weight: 700;
+    }
+
+    .createdBy>div::before {
+        content: "CreatedBy: ";
+        font-weight: 700;
+    }
+
+   .eventType>div::before {
+        content: "Event Type: ";
+        font-weight: 700;
+    }
+
+    .td:before {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        content: attr(data-column);
+        color: #000;
+        font-weight: bold;
+    }
+
+
+}
