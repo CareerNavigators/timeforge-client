@@ -8,6 +8,7 @@ import {
   Input,
   CardHeader,
   Textarea,
+  Button,
 } from "@material-tailwind/react";
 import { BiPencil } from "react-icons/bi";
 import {
@@ -23,6 +24,8 @@ import { motion, useAnimation } from "framer-motion";
 import { AiOutlineEdit } from "react-icons/ai";
 import showToast from "../../Hook/swalToast";
 import ChartComponent from "../Chart/Chart";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 interface UserProfile {
   id?: string;
@@ -51,7 +54,9 @@ export function Profile() {
   const [editedTimeZone, setEditedTimeZone] = useState("");
   const [EditedDescription, setEditedDescription] = useState("");
   const [isChangesMade, setIsChangesMade] = useState(false);
-  const { userData, setUserData } = useContext(AuthContext);
+  const { userData, setUserData, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const from = "/";
   // fetch user data
   const fetchUserProfile = useCallback(async () => {
     const userEmail = userData?.email;
@@ -223,6 +228,40 @@ export function Profile() {
   background-image: url('${coverPhotoPreview}');
   background-position: center;
 }`;
+  const handleDeleteProfile = async () => {
+    try {
+      const confirmed = await Swal.fire({
+        title: "Are you sure?",
+        text: "Deleting your profile is irreversible. Are you sure you want to proceed?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete",
+        customClass: {
+          popup: "dark:bg-d2 dark:text-dw",
+        },
+      });
+
+      if (confirmed.isConfirmed) {
+        await axios.delete(
+          `${import.meta.env.VITE_BACK_END_API}/user/${userData?.email}`
+        );
+        logOut();
+        Swal.fire("Deleted!", "Your profile has been deleted.", "success");
+        navigate(from, { replace: true });
+      } else {
+        Swal.fire("Cancelled", "Your profile deletion was cancelled.", "info");
+      }
+    } catch (error: any) {
+      console.error("Error deleting profile:", error.message);
+      Swal.fire(
+        "Error",
+        "An error occurred while deleting your profile. Please try again later.",
+        "error"
+      );
+    }
+  };
 
   return (
     <>
@@ -498,18 +537,27 @@ export function Profile() {
       </motion.div>
       {isEditing && (
         <div className="absolute bottom-5 right-56">
-          <button
-            className="px-4 py-2 text-white rounded bg-dt"
+          <Button
+            color="blue"
             onClick={handleSave}
-            disabled={loadingProfile || loadingImageUpload}>
+            disabled={loadingProfile || loadingImageUpload}
+            placeholder={undefined}>
             Save Changes
-          </button>
-          <button
-            className="px-4 py-2 ml-2 text-white bg-gray-500 rounded"
+          </Button>
+          <Button
+            variant="outlined"
+            className="mx-2 bg-white"
             onClick={handleCancel}
-            disabled={loadingProfile || loadingImageUpload}>
+            disabled={loadingProfile || loadingImageUpload}
+            placeholder={undefined}>
             Cancel
-          </button>
+          </Button>
+          <Button
+            onClick={handleDeleteProfile}
+            color="red"
+            placeholder={undefined}>
+            delete My Account
+          </Button>
         </div>
       )}
     </>
