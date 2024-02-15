@@ -1,0 +1,35 @@
+@media screen and (max-width:930px) {
+    .createdAt {
+        display: none;
+    }
+}
+
+@media screen and (max-width:770px) {
+    .event {
+        display: none;
+    }
+}
+
+@media screen and (max-width:376px) {
+    .ka-thead{
+        display: none;
+    }
+    .ka-table{
+        display: block;
+    }
+    .name, .email,.action,.event{
+        display: block;
+    }
+    .name>div::before{
+        content: "Name: ";
+        font-weight: 700;
+    }
+    .email>div::before{
+        content: "Email: ";
+        font-weight: 700;
+    }
+    .event>div::before{
+        content: "Event: ";
+        font-weight: 700;
+    }
+}
