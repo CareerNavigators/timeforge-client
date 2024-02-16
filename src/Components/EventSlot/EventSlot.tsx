@@ -55,7 +55,7 @@ const EventSlot = () => {
           <div className="w-full">
             <div className="flex mb-5 items-center gap-4">
               <img className="h-10" src={Logo} alt="logo" />
-              <h3 className="text-[#5E47EF] text-4xl font-bold">TimeForge</h3>
+              <h3 className="text-[#7c3aed] text-4xl font-bold">TimeForge</h3>
             </div>
             <div className=" mx-2 rounded-md mt-5 gap-10 flex flex-col md:flex-row">
               <div className="md:w-2/3 lg:w-1/3 lg:relative">

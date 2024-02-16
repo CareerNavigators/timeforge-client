@@ -226,7 +226,7 @@ const SignUp = () => {
               <FiUser className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
               <input
                 autoComplete="off"
-                className="bg-[#F0EDFFCC] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in  dark:bg-dw"
+                className="bg-[#F0EDFFCC] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#7c3aed] transition-all duration-300 ease-in  dark:bg-dw"
                 type="text"
                 placeholder="Username"
                 name="username"
@@ -236,7 +236,7 @@ const SignUp = () => {
               <HiOutlineMail className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
               <input
                 autoComplete="off"
-                className="bg-[#F0EDFFCC] dark:bg-dw pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in"
+                className="bg-[#F0EDFFCC] dark:bg-dw pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#7c3aed] transition-all duration-300 ease-in"
                 type="text"
                 placeholder="Email"
                 name="email"
@@ -246,7 +246,7 @@ const SignUp = () => {
             <div className="relative">
               <FiUnlock className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
               <input
-                className="bg-[#f0edffcc] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in  dark:bg-dw"
+                className="bg-[#f0edffcc] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#7c3aed] transition-all duration-300 ease-in  dark:bg-dw"
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
