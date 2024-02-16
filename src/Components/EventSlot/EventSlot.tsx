@@ -7,19 +7,18 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import Logo from "/logo.png";
-import parse from "html-react-parser";
 import { Badge, Calendar } from "antd";
 import type { CalendarProps } from "antd";
 import { useLoaderData } from "react-router-dom";
 import { EventType } from "../../ManageEvents/AllEvents/AllEvents";
 import { Dayjs } from "dayjs";
 import { Link } from "react-router-dom";
+import ReactQuill from "react-quill";
 
 const EventSlot = () => {
   // hooks and states
-  const {_id, title, duration, desc, eventType, events, camera, mic } =
+  const { _id, title, duration, desc, eventType, events, camera, mic } =
     useLoaderData() as EventType;
-  const parsedDesc = parse(desc);
 
   // console.log("user from database", userData);
   // console.log("events from details page", events);
@@ -36,7 +35,7 @@ const EventSlot = () => {
       <ul className="events">
         {data?.map((item: any, index: any) => (
           <li key={index}>
-             <Link to={`/eventSlot/${_id}/newAttendee`}><Badge status="success"  text={item} /></Link>
+            <Link to={`/eventSlot/${_id}/newAttendee`}><Badge status="success" text={item} /></Link>
           </li>
         ))}
       </ul>
@@ -87,7 +86,14 @@ const EventSlot = () => {
                       )}
                     </div>
                   </div>
-                  <div className="text-gray-700 mt-10 p-4 border-2 rounded-lg">{parsedDesc}</div>
+                  <div className="text-gray-700 mt-10 p-4 border-2 rounded-lg">
+                    <ReactQuill
+                      theme="snow"
+                      value={desc}
+                      modules={{ toolbar: false }}
+                      readOnly
+                    />
+                  </div>
                 </div>
               </div>
               {/* calender area */}

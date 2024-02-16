@@ -10,6 +10,7 @@ import { EventType } from "./AllEvents";
 import { motion } from "framer-motion";
 import { BiLink } from "react-icons/bi";
 import { FaUserGroup } from "react-icons/fa6";
+import { RiTimer2Fill } from "react-icons/ri";
 
 
 interface SingleEventProps {
@@ -50,10 +51,11 @@ const SingleEvent: React.FC<SingleEventProps> = ({
               {eventType}
             </h4>
           </div>
-          <h4 className="text-gray-500 text-sm my-5">
-            Duration : {duration} minutes
+          <h4 className="flex items-center gap-2 my-3">
+            <RiTimer2Fill color="gray" size={17}></RiTimer2Fill> 
+            <p className="text-gray-500 text-sm">{duration} minutes</p>
           </h4>
-          <div className="flex items-center justify-between mt-2">
+          <div className="flex items-center justify-between my-2">
             <div className="flex items-center gap-3 border border-[#d6d1ff] px-3 py-1 rounded-lg">
               <FaUserGroup color="gray" size={17}></FaUserGroup>
               <p className="text-xs font-semibold">{attendee}</p>
