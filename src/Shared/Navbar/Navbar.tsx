@@ -49,12 +49,12 @@ const Navbar: React.FC = () => {
   );
   return (
     <section className="bg-white dark:bg-d1 tin">
-      <div className="max-w-[1400px] px-4 mx-auto sm:px-6">
+      <div className="max-w-[1920px] px-4 mx-auto sm:px-6">
         <div className="flex items-center justify-between h-16">
           <Link to="/">
             <div className="flex flex-row items-center gap-2">
               <img className="h-10" src={Logo} alt="logo" />
-              <h3 className="text-[#5E47EF] dark:text-dw text-2xl font-bold">
+              <h3 className="text-[#7c3aed] dark:text-dw text-2xl font-bold">
                 TimeForge
               </h3>
             </div>
@@ -94,7 +94,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-      <hr className="max-w-[1400px] mx-auto text-gray-600 transition-all duration-300 dark:hidden"></hr>
+      <hr className="max-w-[1920px] mx-auto text-gray-600 transition-all duration-300 dark:hidden"></hr>
     </section>
   );
 };

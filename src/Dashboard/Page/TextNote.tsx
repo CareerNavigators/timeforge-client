@@ -125,14 +125,14 @@ const TextNote: React.FC = () => {
     <div className="mx-auto mt-10">
       {/* 1st card */}
       <h1 className="text-3xl font-bold text-center font-inter">
-        <span className="text-[#5E47EF]">{userData?.name}'s</span> Recent notes
+        <span className="text-[#7c3aed]">{userData?.name}'s</span> Recent notes
       </h1>
       <div className="flex justify-center items-center gap-5">
         {data?.map((data: any) => (
           <Card
             key={data._id}
             placeholder={undefined}
-            className="mt-12 w-80 border-2 relative rounded-md hover:border-[#5E47EF] transition-all ease-in-out"
+            className="mt-12 w-80 border-2 relative rounded-md hover:border-[#7c3aed] transition-all ease-in-out"
           >
             <button onClick={handleDelete} className="absolute right-3 top-3">
               <RxCross2 className="text-red-700 text-xl font-bold" />
@@ -159,7 +159,7 @@ const TextNote: React.FC = () => {
                   onClick={() => setOpen(true)}
                   size="sm"
                   variant="text"
-                  className="flex justify-center items-center gap-1 px-2 bg-white hover:bg-[#5E47EF] text-[#5E47EF] hover:text-dw border-2 border-[#5E47EF] transition-all ease-in-out"
+                  className="flex justify-center items-center gap-1 px-2 bg-white hover:bg-[#7c3aed] text-[#7c3aed] hover:text-dw border-2 border-[#7c3aed] transition-all ease-in-out"
                 >
                   View Now
                   <svg
@@ -249,7 +249,7 @@ const TextNote: React.FC = () => {
                         placeholder={undefined}
                         variant="filled"
                         onClick={() => handleOpen(null)}
-                        className="px-4 py-2 mr-1 text-[#5E47EF] border-2 hover:border-[#5E47EF] bg-dw hover:bg-[#5d47ef1f]"
+                        className="px-4 py-2 mr-1 text-[#7c3aed] border-2 hover:border-[#7c3aed] bg-dw hover:bg-[#5d47ef1f]"
                       >
                         <span>Cancel</span>
                       </Button>
@@ -257,7 +257,7 @@ const TextNote: React.FC = () => {
                         variant="filled"
                         onClick={handleSubmit}
                         placeholder={undefined}
-                        className="px-4 py-2 mr-1 text-dw hover:text-[#5E47EF] border-2 border-[#5E47EF] bg-[#5d47ef] hover:bg-[#5d47ef1f]"
+                        className="px-4 py-2 mr-1 text-dw hover:text-[#7c3aed] border-2 border-[#7c3aed] bg-[#5d47ef] hover:bg-[#5d47ef1f]"
                       >
                         <span>Update</span>
                       </Button>

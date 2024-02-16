@@ -6,7 +6,7 @@ export default function showToast(icon: SweetAlertIcon, title: string): void {
     toast: true,
     position: "top-end",
     showConfirmButton: false,
-    timer: 3000,
+    timer: 2000,
     showCloseButton: true,
     timerProgressBar: true,
     didOpen: (toast) => {

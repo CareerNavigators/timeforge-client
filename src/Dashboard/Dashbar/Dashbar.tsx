@@ -107,7 +107,7 @@ const Dashbar = () => {
             <>
               <div className="flex mt-5 mb-5">
                 <div className="flex-1 border-gray-800 rounded border"></div>
-                <div className="flex-1 text-center font-normal">Profile </div>
+                <div className="flex-1 text-center font-normal">User </div>
                 <div className="flex-1 border-gray-800 rounded border"></div>
               </div>
               <Menu.Item icon={<PlusOutlined />}>
