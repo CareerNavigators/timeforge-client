@@ -111,7 +111,6 @@ const NewAttendee = () => {
                 placeholder="Event"
                 defaultValue={title}
                 disabled
-               // value={eventName}
                 onChange={handleEventName}
               />
             </Form.Item>
@@ -122,7 +121,6 @@ const NewAttendee = () => {
               <Input placeholder="slot" onChange={handleEventSlot} />
             </Form.Item>
           </div>
-
           <Form.Item className="flex justify-center">
             <Button
               htmlType="submit"
