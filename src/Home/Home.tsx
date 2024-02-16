@@ -4,6 +4,7 @@ import Schedule from "../Components/Schedule/Schedule";
 import MarqueeElement from "../Components/Marquee/MarqueeElement";
 import HighlightedEvents from "../Components/HighlightedEvents/HighlightedEvents";
 import DemoEvent from "../Components/Demo/DemoEvent";
+import Footer from "./Footer";
 
 const Home = () => {
   return (
@@ -17,6 +18,7 @@ const Home = () => {
       <Schedule></Schedule>
       <HighlightedEvents></HighlightedEvents>
       <MarqueeElement></MarqueeElement>
+      <Footer />
     </div>
   );
 };
