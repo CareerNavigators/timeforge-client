@@ -92,19 +92,19 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
                                 const date = dayjs(dateStr, "DDMMYY");
                                 const formattedDate = date.format("DD/MM/YYYY");
                                 return (
-                                    <tr key={data._id}>
+                                    <tr key={data?._id}>
                                         <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
                                             {index + 1}
                                         </td>
-                                        <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">{data.name}</td>
-                                        <td className="px-4 py-2 text-gray-700">{data.email}</td>
+                                        <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">{data?.name}</td>
+                                        <td className="px-4 py-2 text-gray-700">{data?.email}</td>
                                         <td className="px-4 py-2 text-gray-700 hidden md:table-cell">{formattedDate}</td>
                                         <td className="px-4 py-2 text-gray-700 hidden md:table-cell">
-                                            {data.slot[dateStr][0]}
+                                            {data?.slot[dateStr][0]}
                                         </td>
                                         <td className="px-4 py-2">
                                             <button
-                                                onClick={() => handleParticipantDelete(data._id)}
+                                                onClick={() => handleParticipantDelete(data?._id)}
                                                 className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300"
                                             >
                                                 <FaRegTrashAlt></FaRegTrashAlt>
