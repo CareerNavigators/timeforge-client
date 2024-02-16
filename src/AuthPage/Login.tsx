@@ -193,7 +193,7 @@ const Login = () => {
                 <input
                   autoComplete="off"
                   required
-                  className="bg-[#F0EDFFCC] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in dark:bg-dw"
+                  className="bg-[#F0EDFFCC] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#7c3aed] transition-all duration-300 ease-in dark:bg-dw"
                   type="email"
                   placeholder="Username"
                   name="email"
@@ -202,7 +202,7 @@ const Login = () => {
               <div className="relative">
                 <FiUnlock className="absolute left-3 top-[14px] text-[#1C1C1C] text-lg " />
                 <input
-                  className="bg-[#f0edffcc] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#5E47EF] transition-all duration-300 ease-in dark:bg-dw"
+                  className="bg-[#f0edffcc] pl-10 pr-12 py-4 rounded-2xl text-xs text-[#1C1C1C] lg:w-96 outline-[#7c3aed] transition-all duration-300 ease-in dark:bg-dw"
                   type={showPassword ? "text" : "password"}
                   name="password"
                   placeholder="Password"

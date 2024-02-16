@@ -114,7 +114,7 @@ export default function ChartComponent() {
       enabled: false,
     },
     labels: data?.eventType || [],
-    colors: ["#176B87", "#B4D4FF", "#5e47ef", "#86B6F6", "#95dc8d"],
+    colors: ["#176B87", "#B4D4FF", "#7c3aed", "#86B6F6", "#95dc8d"],
     legend: {
       show: false,
     },
