@@ -8,29 +8,38 @@ import {
 import { useLoaderData } from "react-router-dom";
 import { EventType } from "../../ManageEvents/AllEvents/AllEvents";
 import { Dayjs } from "dayjs";
-import { Badge, Calendar } from "antd";
+import { Badge, Button, Calendar, Modal, Select } from "antd";
 import type { CalendarProps } from "antd";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
 import logo from "/logo.png";
 import { TypeAnimation } from "react-type-animation";
 import ReactQuill from "react-quill";
 import { RiTimer2Fill } from "react-icons/ri";
-
+import { SelectInfo } from "rc-menu/lib/interface";
+import Input from "rc-input";
+import showToast from "../../Hook/swalToast";
+import { useMutation } from "@tanstack/react-query";
+import AxiosSecure from "../../Hook/useAxios";
 
 const EventDetails: React.FC = () => {
   // hooks and states
-  const { title, duration, desc, eventType, events, camera, mic } =
+  const { title, duration, desc, eventType, events, camera, mic, _id } =
     useLoaderData() as EventType;
   const { userData } = useContext(AuthContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<string>()
+  const [slot, setSlot] = useState<string>()
+  const caxios=AxiosSecure()
+  const showModal = () => {
+    setIsModalOpen(true);
 
-  const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
-    console.log(value.format("YYYY-MM-DD"), mode);
   };
-
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const dateCellRender = (value: Dayjs) => {
     const data = events ? events[value.format("DDMMYY")] || [] : [];
-
     return (
       <ul className="events">
         {data?.map((item: any, index: any) => (
@@ -46,7 +55,47 @@ const EventDetails: React.FC = () => {
     if (info.type === "date") return dateCellRender(current);
     return info.originNode;
   };
+  const onSelect = (value: Dayjs, selectInfo: SelectInfo) => {
+    const data = events[value.format("DDMMYY")] || []
+    if (data.length != 0) {
+      setSelectedDate(value.format("DDMMYY"))
+      console.log(value);
+      console.log(selectInfo);
+      console.log(events[value.format("DDMMYY")].map((x: string) => ({ value: x, label: x })));
 
+      showModal()
+    } else {
+      showToast("error", "No Schedule Time Found")
+    }
+
+  };
+  const addAttendee= useMutation({
+    mutationFn:async (data:{[key:string]:any})=>{
+      const res= await caxios.post("/attendee",data)
+      return res.data
+    },
+    onSuccess:()=>{
+      handleCancel()
+      showToast("success", "You Reservation is done.")
+    }
+  })
+  async function UpdateEvent(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (selectedDate) {
+      const formData = new FormData(e.currentTarget);
+      const formObject:{[key:string]:any} = Object(Object.fromEntries(formData));
+      const t:{[key:string]:any}={}
+      t[selectedDate]=[slot]
+      formObject['slot']=t
+      formObject['event']=_id
+      addAttendee.mutateAsync(formObject)
+    }
+
+  }
+  function handelSelect(value:string){
+    console.log(value);
+    setSlot(value)
+  }
   return (
     <div className="mb-5 select-none">
       <h1 className="flex pl-2 my-5 items-center gap-2 ">
@@ -204,10 +253,31 @@ const EventDetails: React.FC = () => {
           <Calendar
             className="min-h-full min-w-full overflow-hidden"
             cellRender={cellRender}
-            onPanelChange={onPanelChange}
+            // @ts-expect-error noidea
+            onSelect={onSelect}
           />
         </div>
       </div>
+      <Modal width={500} title="Attendee Modal" destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >
+
+        <form onSubmit={UpdateEvent}>
+          <div className="flex flex-col gap-1">
+            <p className='font-semibold'>Name</p>
+            <Input name="name" className="border rounded"></Input>
+            <p className='font-semibold' >Email</p>
+            <Input name="email" className="border rounded"></Input>
+            <p className='font-semibold'>Time</p>
+            {
+              selectedDate &&
+              <Select onChange={handelSelect} options={events[selectedDate].map((x: string) => ({ value: x, label: x }))} placeholder="Select time...."></Select>
+            }
+          </div>
+          <div className='flex gap-4 mt-2 justify-center'>
+            <Button className='bg-light-blue-500 text-white' htmlType='submit'>Update</Button>
+            <Button onClick={handleCancel}>Close</Button>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 };
