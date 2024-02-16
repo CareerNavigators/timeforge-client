@@ -63,9 +63,9 @@ const EventDetails: React.FC = () => {
           ></TypeAnimation>{" "}
         </span>
       </h1>
-      <div className="lg:max-w-full mx-1 lg:px-2 lg:m-5 flex flex-col md:flex-row gap-2">
+      <div className="lg:max-w-full mx-1 my-1 lg:px-2 lg:m-5 flex flex-col md:flex-row gap-2">
         {/* event information */}
-        <div className="md:w-2/3 lg:w-1/3 max-h-full p-6 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
+        <div className="w-full lg:w-1/3 max-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
           <div className="p-2">
             <h2 className="text-2xl dark:text-dw w-full border border-[#d6d1ff] rounded-md px-3 py-2 text-[#7c3aed] font-bold mt-3">
               {title}
@@ -115,9 +115,9 @@ const EventDetails: React.FC = () => {
           </div>
 
           {/* timeline */}
-          <div className="dark:text-gray-100 border border-[#d6d1ff] rounded-md mx-2">
+          <div className="dark:text-gray-100 border border-[#d6d1ff] rounded-md mx-2 mt-3">
             <div className="container max-w-5xl lg:py-4 mx-auto">
-              <div className="grid lg:gap-16 gap-3 mx-5 sm:grid-cols-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-cols-12 lg:gap-16 gap-3 mx-5">
                 <div className="col-span-12 w-[300px] sm:col-span-3">
                   <div className="text-center sm:text-left lg:mb-14 before:block before:w-14 before:h-2 before:mb-3 before:rounded-md before:mx-auto sm:before:mx-0 before:dark:bg-[#7c3aed]">
                     <h3 className="text-xl font-semibold">Event Timeline</h3>
@@ -178,11 +178,11 @@ const EventDetails: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex flex-col lg:flex-row lg:items-end gap-3 lg:gap-5 mx-2 my-1">
+          <div className="flex flex-col md:flex-col lg:flex-row lg:items-end gap-3 lg:gap-5 mx-2 mt-3">
             {/* author info */}
-            <div className="w-fit lg:w-full">
+            <div className="w-full">
               <h4 className="font-bold text-sm text-gray-400 ml-1 my-1.5">Author Info</h4>
-              <div className="flex items-center gap-3 mt-1 border border-[#d6d1ff] w-full px-3 py-1.5 rounded-md">
+              <div className="flex items-center gap-3 border border-[#d6d1ff] w-full px-3 py-1.5 rounded-md">
                 <img
                   className="w-12 h-12 rounded-full object-cover"
                   src={userData?.img_profile}
@@ -200,7 +200,7 @@ const EventDetails: React.FC = () => {
             </div>
 
             <Link to={`/dashboard/updateEvent/${_id}`}>
-              <button className="flex items-center gap-2 px-4 py-2 border border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300">
+              <button className="w-full justify-center flex items-center gap-2 px-8 py-3 lg:py-4 border border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300">
                 <FaPencilAlt></FaPencilAlt>
                 <p>Update</p>
               </button>
@@ -209,7 +209,7 @@ const EventDetails: React.FC = () => {
         </div>
 
         {/* calender area */}
-        <div className="sm:w-3/4 p-2 mt-2 md:mt-0 overflow-hidden border border-[#d6d1ff] shadow-md rounded-md">
+        <div className="w-full p-2 mt-2 md:mt-0 overflow-hidden border border-[#d6d1ff] shadow-md rounded-md">
           <Calendar
             className="min-h-full min-w-full overflow-hidden"
             cellRender={cellRender}
