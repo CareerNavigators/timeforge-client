@@ -7,7 +7,6 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
 import AxiosSecure from "../../Hook/useAxios";
 import { useNavigate } from "react-router-dom";
-
 const NewAttendee = () => {
   const { _id, title, duration, eventType } = useLoaderData() as EventType;
   const { userData } = useContext(AuthContext);
