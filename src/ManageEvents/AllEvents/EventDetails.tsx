@@ -10,20 +10,20 @@ import {
 import { Link, useLoaderData } from "react-router-dom";
 import { EventType } from "./AllEvents";
 import { Dayjs } from "dayjs";
-import { Badge, Calendar, Spin } from "antd";
+import { Badge, Calendar } from "antd";
 import type { CalendarProps } from "antd";
 import AllParticipants from "../AllParticipants/AllParticipants";
 import parse from "html-react-parser";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
 import logo from "/logo.png";
 import { TypeAnimation } from "react-type-animation";
-import { LoadingOutlined } from "@ant-design/icons";
 
 const EventDetails: React.FC = () => {
   // hooks and states
-  const items = useLoaderData() as EventType;
-  const parsedDesc = parse(items?.desc);
+  const { _id, title, duration, desc, eventType, events, camera, mic } =
+    useLoaderData() as EventType;
+  const parsedDesc = parse(desc);
   const { userData } = useContext(AuthContext);
 
   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
@@ -31,7 +31,7 @@ const EventDetails: React.FC = () => {
   };
 
   const dateCellRender = (value: Dayjs) => {
-    const data = items?.events ? items?.events[value.format("DDMMYY")] || [] : [];
+    const data = events ? events[value.format("DDMMYY")] || [] : [];
 
     return (
       <ul className="events">
@@ -49,19 +49,8 @@ const EventDetails: React.FC = () => {
     return info.originNode;
   };
 
-  if (items === null || items === undefined) {
-    return <div className="flex items-center justify-center fixed left-[45%] top-[50%]">
-      <Spin
-        indicator={<LoadingOutlined></LoadingOutlined>}
-        size="large"
-      ></Spin>
-    </div>
-  }
-
-
-
   return (
-    <div className="select-none">
+    <div className="mb-5 select-none">
       <h1 className="flex pl-2 my-5 items-center gap-2 ">
         <img className="w-12" src={logo} alt="logo" />
         <br />{" "}
@@ -114,11 +103,26 @@ const EventDetails: React.FC = () => {
                 </div>
               </div>
             </div>
+            {/* <div className="flex items-center gap-4 mt-5 text-lg font-medium w-full px-3 rounded-md">
+              <div className="flex items-center gap-1">
+                <FaCamera color="gray" size={15}></FaCamera>
+                {camera ? (
+                  <FaCheck size={10} color="green"></FaCheck>
+                ) : (
+                  <FaTimes size={10} color="red"></FaTimes>
+                )}
+              </div>
+              <div className="flex items-center gap-1">
+                <FaMicrophone color="gray" size={15}></FaMicrophone>
+                {mic ? (
+                  <FaCheck size={10} color="green"></FaCheck>
+                ) : (
+                  <FaTimes size={10} color="red"></FaTimes>
+                )}
+              </div>
+            </div> */}
+
             <div className="text-gray-600 mt-5 p-2 border border-[#d6d1ff] lg:w-full min-h-40 px-3 rounded-md">
-              {parsedDesc}
-            </div>
-            <div
-              className="text-gray-600 mt-5 border border-[#d6d1ff] w-full min-h-80 px-3 py-1.5 rounded-md">
               {parsedDesc}
             </div>
           </div>
@@ -208,7 +212,7 @@ const EventDetails: React.FC = () => {
             </div>
           </div>
 
-          <Link to={`/dashboard/updateEvent/${items?._id}`}>
+          <Link to={`/dashboard/updateEvent/${_id}`}>
             <button className="lg:absolute lg:bottom-4 lg:right-4  flex items-center gap-2 px-4 py-2 mt-5 border border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300">
               <FaPencilAlt></FaPencilAlt>
               <p>Update</p>
