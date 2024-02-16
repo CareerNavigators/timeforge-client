@@ -4,7 +4,8 @@ import AxiosSecure from "../Hook/useAxios";
 import { Spin } from "antd";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { FaUserTie } from "react-icons/fa";
+import { FaUserTie } from "react-icons/fa6";
+
 dayjs.extend(utc);
 type CardType = {
   title: string;
@@ -29,15 +30,14 @@ const Card = () => {
         to companies all around the world
       </p>
       <div className="my-[35px] p-[20px] bg-gradient-to-r from-[#8c58e6] via-[#7c3aed] to-[#6e21f3] dark:from-d">
-        <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:flex lg:flex-wrap gap-4">
           {cards.isLoading ? (
             <Spin size="large" />
           ) : cards.isSuccess ? (
             cards.data.map((card: CardType, index: number) => (
               <div
                 key={index}
-                className="overflow-hidden rounded-lg has-shadow bg-[url('/cardbg.png')] bg-right bg-no-repeat bg-cover w-[300px] mx-auto p-4 flex flex-col gap-1 border-[1px] bg-white dark:bg-[#f3f1ff] dark:text-dt"
-              >
+                className="overflow-hidden rounded-lg has-shadow bg-[url('/cardbg.png')] bg-right bg-no-repeat bg-cover w-[300px] mx-auto p-4 flex flex-col gap-1 border-[1px] bg-white dark:bg-[#f3f1ff] dark:text-dt">
                 <div className="flex items-baseline justify-between">
                   <h3 className="text-[16px] font-semibold font-inter text-slate-400">
                     {dayjs.utc(card.createdAt).format("MMM DD, YYYY")}
@@ -53,7 +53,7 @@ const Card = () => {
                 <div>
                   <Divider />
                 </div>
-                <div className="flex gap-1 items-center">
+                <div className="flex items-center gap-1">
                   <FaUserTie />
                   <span>{card.attendee}</span>
                 </div>
