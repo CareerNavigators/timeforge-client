@@ -85,7 +85,7 @@ const AllEvents: React.FC = () => {
     >
       <h2 className="text-center my-5 text-lg font-medium">
         Event's of
-        <span className="text-[#5E47EF] ml-1 font-semibold">
+        <span className="text-[#7c3aed] ml-1 font-semibold">
           {userData && userData?.name}
         </span>
       </h2>
