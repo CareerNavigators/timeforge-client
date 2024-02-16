@@ -1,4 +1,4 @@
-import Card from "./Card";
+
 import Hero from "./Hero";
 import Schedule from "../Components/Schedule/Schedule";
 import MarqueeElement from "../Components/Marquee/MarqueeElement";
@@ -12,10 +12,10 @@ const Home = () => {
         <Hero></Hero>
       </div>
 
-      <Card></Card>
+      <HighlightedEvents></HighlightedEvents>
       <DemoEvent></DemoEvent>
       <Schedule></Schedule>
-      <HighlightedEvents></HighlightedEvents>
+      
       <MarqueeElement></MarqueeElement>
     </div>
   );
