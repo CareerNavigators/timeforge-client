@@ -39,10 +39,7 @@ const router = createBrowserRouter([
         path: "/createEvent",
         element: <CreateEvents></CreateEvents>,
       },
-      {
-        path: "/createEvent/oneEvent",
-        element: <OneEvent></OneEvent>,
-      },
+      
       {
         path: "/calendarPage",
         element: (
@@ -127,7 +124,11 @@ const router = createBrowserRouter([
       {
         path:"/dashboard/allateendee",
         element:<AllAttendess />
-      }
+      },
+        {
+          path: "dashboard/createEvent/oneEvent",
+          element: <OneEvent></OneEvent>,
+        },
     ],
   },
   {

@@ -271,7 +271,7 @@ export function Profile() {
           msOverflowStyle: "none",
         }}
         animate={controls}
-        className="w-screen overflow-auto">
+        className=" overflow-auto">
         {loadingProfile && (
           <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-white dark:bg-d">
             <div className="flex flex-col items-center">
