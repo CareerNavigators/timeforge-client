@@ -10,6 +10,8 @@ import { EventType } from "./AllEvents";
 import { motion } from "framer-motion";
 import { BiLink } from "react-icons/bi";
 import { FaUserGroup } from "react-icons/fa6";
+import { RiTimer2Fill } from "react-icons/ri";
+
 
 interface SingleEventProps {
   item: EventType;
@@ -36,7 +38,7 @@ const SingleEvent: React.FC<SingleEventProps> = ({ item, handleEventDelete }) =>
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.9 }}
     >
-      <div className="w-[300px] max-h-[200px] select-none rounded-lg border-2 border-[#fafafa] shadow-sm p-4 hover:shadow-md hover:-hue-rotate-30 hover:border-[#5E47EF]">
+      <div className="w-[300px] max-h-[200px] select-none rounded-lg border-2 border-[#fafafa] shadow-sm p-4 hover:shadow-md hover:border-[#5E47EF]">
         <div>
           <Link to={`/dashboard/eventDetails/${_id}`}>
             <div>
@@ -44,9 +46,10 @@ const SingleEvent: React.FC<SingleEventProps> = ({ item, handleEventDelete }) =>
                 <h3 className="text-[#5E47EF] text-lg font-bold my-2 truncate">{title}</h3>
                 <h4 className="text-xs text-[#5E47EF] bg-[#f1effa] font-semibold rounded-full px-3 py-1">{eventType}</h4>
               </div>
-              <h4 className="text-gray-500 font-medium">
-                Duration : {duration} minutes
-              </h4>
+              <div className="flex items-center gap-1 py-1.5">
+                <RiTimer2Fill color="gray" size={17}></RiTimer2Fill>
+                <p className="text-gray-500 text-sm font-medium">{duration} minutes</p>
+              </div>
               <div className="flex items-center justify-between mt-2">
                 <div className="flex items-center gap-3 border border-[#d6d1ff] px-3 py-1 rounded-lg">
                   <FaUserGroup color="gray" size={17}></FaUserGroup>
