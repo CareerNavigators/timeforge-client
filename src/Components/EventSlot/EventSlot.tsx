@@ -20,15 +20,12 @@ const EventSlot = () => {
   const { _id, title, duration, desc, eventType, events, camera, mic } =
     useLoaderData() as EventType;
 
-  // console.log("user from database", userData);
-  // console.log("events from details page", events);
 
   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
     console.log(value.format("YYYY-MM-DD"), mode);
   };
 
   const dateCellRender = (value: any) => {
-    // console.log(selectedTimes);
     const data = events ? events[value.format("DDMMYY")] || [] : [];
 
     return (
