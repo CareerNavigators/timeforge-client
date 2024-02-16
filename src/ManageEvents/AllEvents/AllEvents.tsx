@@ -33,11 +33,7 @@ const AllEvents: React.FC = () => {
 
   let apiURL: string;
   if (userData != null) {
-    if (userData.role == "Admin") {
-      apiURL = "/admin/meetings";
-    } else {
-      apiURL = `/meeting?id=${userData?._id}&type=all`;
-    }
+    apiURL = `/meeting?id=${userData?._id}&type=all`;
   }
 
   const {

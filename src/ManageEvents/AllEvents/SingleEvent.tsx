@@ -10,6 +10,8 @@ import { EventType } from "./AllEvents";
 import { motion } from "framer-motion";
 import { BiLink } from "react-icons/bi";
 import { FaUserGroup } from "react-icons/fa6";
+import { RiTimer2Fill } from "react-icons/ri";
+
 
 interface SingleEventProps {
   item: EventType;

@@ -58,7 +58,7 @@ export default function ChartComponent() {
       },
       labels: {
         style: {
-          colors: "#616161",
+          colors: "#020617",
           fontSize: "12px",
           fontFamily: "inherit",
           fontWeight: 400,
@@ -69,7 +69,7 @@ export default function ChartComponent() {
     yaxis: {
       labels: {
         style: {
-          colors: "#616161",
+          colors: "#020617",
           fontSize: "12px",
           fontFamily: "inherit",
           fontWeight: 400,
@@ -125,28 +125,33 @@ export default function ChartComponent() {
   return (
     <div>
       <Card
-        className="mb-8 border shadow-sm border-blue-gray-100"
+        className="mb-8 border shadow-sm border-blue-gray-100 dark:text-dw dark:bg-d2 dark:border-transparent"
         placeholder={undefined}>
         <CardHeader
+          className="dark:bg-d2 dark:text-dw"
           variant="gradient"
           floated={false}
           shadow={false}
           placeholder={undefined}>
           <Chart height={340} type="bar" series={series1} options={options1} />
         </CardHeader>
-        <CardBody className="px-6 pt-0" placeholder={undefined}>
-          <Typography variant="h6" color="blue-gray" placeholder={undefined}>
+        <CardBody className="px-6 pt-0 " placeholder={undefined}>
+          <Typography
+            variant="h6"
+            className="mt-2 dark:text-dw"
+            color="blue-gray"
+            placeholder={undefined}>
             Meeting Attendee Statistics
           </Typography>
           <Typography
             variant="small"
-            className="font-normal text-blue-gray-600"
+            className="font-normal text-blue-gray-600 dark:text-dw"
             placeholder={undefined}>
             Showing statistics for meeting attendees.
           </Typography>
         </CardBody>
         <CardFooter
-          className="px-6 py-5 border-t border-blue-gray-50"
+          className="px-6 py-5 border-t border-blue-gray-50 "
           placeholder={undefined}>
           <p className="flex items-center gap-1">
             <BsClockFill /> just updated
@@ -154,15 +159,16 @@ export default function ChartComponent() {
         </CardFooter>
       </Card>
       <Card
-        className="border shadow-sm border-blue-gray-100"
+        className="border shadow-sm border-blue-gray-100 dark:text-dw dark:bg-d2 dark:border-transparent "
         placeholder={undefined}>
         <CardHeader
-          className="flex items-center justify-center"
+          className="flex items-center justify-center dark:bg-d2"
           variant="gradient"
           floated={false}
           shadow={false}
           placeholder={undefined}>
           <Chart
+            className="dark:bg-d2"
             height={340}
             width={340}
             type="pie"
@@ -171,12 +177,16 @@ export default function ChartComponent() {
           />
         </CardHeader>
         <CardBody className="px-6 pt-0" placeholder={undefined}>
-          <Typography variant="h6" color="blue-gray" placeholder={undefined}>
+          <Typography
+            variant="h6"
+            className="mt-2 dark:text-dw"
+            color="blue-gray"
+            placeholder={undefined}>
             Event Type Distribution
           </Typography>
           <Typography
             variant="small"
-            className="font-normal text-blue-gray-600"
+            className="font-normal text-blue-gray-600 dark:text-dw"
             placeholder={undefined}>
             Showing distribution of event types.
           </Typography>

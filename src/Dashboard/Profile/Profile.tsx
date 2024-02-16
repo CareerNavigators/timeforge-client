@@ -312,7 +312,7 @@ export function Profile() {
             )}
           </div>
           <Card
-            className="mx-3 mb-6 -mt-16 border lg:mx-4 border-blue-gray-100"
+            className="mx-3 mb-6 -mt-16 border lg:mx-4 border-blue-gray-100 dark:bg-d dark:border-transparent"
             placeholder={undefined}>
             <CardBody className="p-4" placeholder={undefined}>
               <div className="flex flex-wrap items-center justify-between gap-6 mb-10">
@@ -350,13 +350,13 @@ export function Profile() {
                     <Typography
                       variant="h5"
                       color="blue-gray"
-                      className="mb-1"
+                      className="mb-1 dark:text-dw"
                       placeholder={undefined}>
                       {userProfile?.name}
                     </Typography>
                     <Typography
                       variant="small"
-                      className="font-normal text-blue-gray-600"
+                      className="font-normal text-blue-gray-600 dark:text-dw"
                       placeholder={undefined}>
                       {userData?.role}
                     </Typography>
@@ -376,21 +376,22 @@ export function Profile() {
                     placeholder={undefined}>
                     <Typography
                       variant="h6"
-                      color="blue-gray"
+                      className="dark:text-dw"
                       placeholder={undefined}>
                       Profile Information
                     </Typography>
                     <Tooltip
-                      className="text-black bg-transparent"
+                      className="text-black bg-transparent dark:text-dw"
                       content="Edit Profile"
+                      placement="left"
                       animate={{
-                        mount: { scale: 1, y: 0 },
-                        unmount: { scale: 0, y: 25 },
+                        mount: { scale: 1, x: 0 },
+                        unmount: { scale: 0, x: 30 },
                       }}>
                       <div>
                         <BiPencil
                           onClick={handleEdit}
-                          className="w-4 h-4 cursor-pointer text-blue-gray-500"
+                          className="w-4 h-4 cursor-pointer text-blue-gray-500 dark:text-dw"
                         />
                       </div>
                     </Tooltip>
@@ -398,7 +399,7 @@ export function Profile() {
                   <CardBody className="p-0" placeholder={undefined}>
                     <Typography
                       variant="small"
-                      className="font-normal text-blue-gray-500"
+                      className="font-normal text-blue-gray-500 dark:text-dw"
                       placeholder={undefined}>
                       {userData?.desc || "Edit to add description"}
                     </Typography>
@@ -410,13 +411,13 @@ export function Profile() {
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-semibold capitalize"
+                          className="font-semibold capitalize dark:text-dw"
                           placeholder={undefined}>
                           Name:
                         </Typography>
                         <Typography
                           variant="small"
-                          className="font-normal text-blue-gray-500"
+                          className="font-normal text-blue-gray-500 dark:text-dw"
                           placeholder={undefined}>
                           {userProfile?.name}
                         </Typography>
@@ -426,13 +427,13 @@ export function Profile() {
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-semibold capitalize"
+                          className="font-semibold capitalize dark:text-dw"
                           placeholder={undefined}>
                           Mobile:
                         </Typography>
                         <Typography
                           variant="small"
-                          className="font-normal text-blue-gray-500"
+                          className="font-normal text-blue-gray-500 dark:text-dw"
                           placeholder={undefined}>
                           {userProfile?.phone || "Edit to add phone Number"}
                         </Typography>
@@ -442,29 +443,29 @@ export function Profile() {
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-semibold capitalize"
+                          className="font-semibold capitalize dark:text-dw"
                           placeholder={undefined}>
                           Email:
                         </Typography>
                         <Typography
                           variant="small"
-                          className="font-normal text-blue-gray-500"
+                          className="font-normal text-blue-gray-500 dark:text-dw"
                           placeholder={undefined}>
                           {userProfile?.email}
                         </Typography>
                       </li>
 
-                      <li className="flex items-center gap-4">
+                      <li className="flex items-center gap-4 ">
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-semibold capitalize"
+                          className="font-semibold capitalize dark:text-dw"
                           placeholder={undefined}>
                           Location:
                         </Typography>
                         <Typography
                           variant="small"
-                          className="font-normal text-blue-gray-500"
+                          className="font-normal text-blue-gray-500 dark:text-dw"
                           placeholder={undefined}>
                           {userProfile?.location || "Edit to add Location"}
                         </Typography>
@@ -473,13 +474,13 @@ export function Profile() {
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-semibold capitalize"
+                          className="font-semibold capitalize dark:text-dw"
                           placeholder={undefined}>
                           Time Zone:
                         </Typography>
                         <Typography
                           variant="small"
-                          className="font-normal text-blue-gray-500"
+                          className="font-normal text-blue-gray-500 dark:text-dw"
                           placeholder={undefined}>
                           {userProfile?.timeZone}
                         </Typography>
@@ -487,6 +488,9 @@ export function Profile() {
                     </ul>
                   </CardBody>
                 </Card>
+
+                {/* TODO: need to fix dark mode here*/}
+
                 <div className="flex flex-col items-center justify-start gap-8">
                   {isEditing ? (
                     <>
@@ -497,6 +501,7 @@ export function Profile() {
                         variant="standard"
                         label="Location"
                         placeholder=""
+                        className="dark:text-dw"
                         crossOrigin={undefined}
                       />
                       <Input
@@ -533,10 +538,10 @@ export function Profile() {
               </div>
             </CardBody>
           </Card>
-        </div>{" "}
+        </div>
       </motion.div>
       {isEditing && (
-        <div className="absolute bottom-5 right-56">
+        <div className="absolute flex flex-col items-end gap-2 p-5 right-3 bottom-16 lg:bottom-1 lg:right-48 lg:flex-row">
           <Button
             color="blue"
             onClick={handleSave}
