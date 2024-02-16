@@ -13,17 +13,17 @@ import { Dayjs } from "dayjs";
 import { Badge, Calendar, Spin } from "antd";
 import type { CalendarProps } from "antd";
 import AllParticipants from "../AllParticipants/AllParticipants";
-import parse from "html-react-parser";
 import React, { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
 import logo from "/logo.png";
 import { TypeAnimation } from "react-type-animation";
 import { LoadingOutlined } from "@ant-design/icons";
+import ReactQuill from "react-quill";
+
 
 const EventDetails: React.FC = () => {
   // hooks and states
   const items = useLoaderData() as EventType;
-  const parsedDesc = parse(items?.desc);
   const { userData } = useContext(AuthContext);
 
   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
@@ -107,7 +107,12 @@ const EventDetails: React.FC = () => {
             </div>
             <div
               className="text-gray-600 mt-5 border border-[#d6d1ff] w-full min-h-80 px-3 py-1.5 rounded-md">
-              {parsedDesc}
+              <ReactQuill
+                theme="snow"
+                value={items?.desc}
+                modules={{ toolbar: false }}
+                readOnly
+              />
             </div>
           </div>
 
