@@ -10,6 +10,7 @@ import { Autoplay, EffectCube, Pagination } from "swiper/modules";
 import { Card } from "antd";
 import { FaCalendar, FaClock, FaUserTie } from "react-icons/fa";
 
+
 const HighlightedEvents = () => {
   return (
     <div id="partners" className="pt-10 mb-48 md:mb-60">
