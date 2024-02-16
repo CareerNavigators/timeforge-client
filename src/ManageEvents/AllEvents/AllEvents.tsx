@@ -10,7 +10,7 @@ import { AuthContext } from "../../Provider/AuthContext";
 export interface EventType {
   _id: string;
   title: string;
-  duration: number | null;
+  duration: number | undefined;
   eventType: string;
   attendee: string;
   camera: boolean;

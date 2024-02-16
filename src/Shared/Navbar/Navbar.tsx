@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
   );
   return (
     <section className="bg-white dark:bg-d1 tin">
-      <div className="max-w-[1400px] px-4 mx-auto sm:px-6">
+      <div className="max-w-[1920px] px-4 mx-auto sm:px-6">
         <div className="flex items-center justify-between h-16">
           <Link to="/">
             <div className="flex flex-row items-center gap-2">
@@ -94,7 +94,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-      <hr className="max-w-[1400px] mx-auto text-gray-600 transition-all duration-300 dark:hidden"></hr>
+      <hr className="max-w-[1920px] mx-auto text-gray-600 transition-all duration-300 dark:hidden"></hr>
     </section>
   );
 };
