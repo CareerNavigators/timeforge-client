@@ -18,7 +18,7 @@ import type { CalendarProps } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { SelectInfo } from 'antd/es/calendar/generateCalendar';
-import "./AllMeetings.css"
+// import "./AllMeetings.css"
 import Swal from 'sweetalert2';
 dayjs.extend(customParseFormat);
 const AllMeetings = () => {
