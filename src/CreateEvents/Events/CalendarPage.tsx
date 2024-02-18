@@ -148,11 +148,7 @@ const CalendarPage = ({
         fullscreen={true}
       />
 
-      <Modal
-        title="Enter time"
-        open={isModalVisible}
-        footer={null}
-      >
+      <Modal title="Enter time" open={isModalVisible} footer={null}>
         <div>
           <ul className="grid grid-cols-4 mb-5 mt-2">
             {modalTimes.map((timeData) => (
@@ -178,10 +174,19 @@ const CalendarPage = ({
           </ul>
         </div>
         <div className="flex flex-row-reverse gap-3">
-          <Button onClick={handleOk} id="btn-confirm" className="px-6">
+          <Button
+            onClick={handleOk}
+            id="btn-confirm"
+            className="px-6 font-semibold text-[#7c3aed] border-[#7c3aed]"
+          >
             Confirm
           </Button>
-          <Button onClick={handleCancel} id="btn-cancel" className="px-6">
+          <Button
+            onClick={handleCancel}
+            id="btn-cancel"
+            danger
+            className="px-6 font-semibold"
+          >
             Cancel
           </Button>
         </div>

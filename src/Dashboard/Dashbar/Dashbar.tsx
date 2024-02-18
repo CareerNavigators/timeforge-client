@@ -32,9 +32,8 @@ const Dashbar = () => {
       .catch((err: any) => {
         console.log(err.message);
       });
-      navigate("/login");
+    navigate("/login");
   };
-
 
   // const handleLogOut = async () => {
   //   const shouldLogOut = await Swal.fire({
@@ -134,62 +133,60 @@ const Dashbar = () => {
 
             {userData?.role === "Admin" && (
               <>
-               
-                  <div className="flex pt-[20px] pb-[15px]">
-                    <div className="flex-1 border-gray-800 rounded border"></div>
-                    <div className="flex-1 text-center font-normal">Admin</div>
-                    <div className="flex-1 border-gray-800 rounded border"></div>
+                <div className="flex pt-[20px] pb-[15px]">
+                  <div className="flex-1 border-gray-800 rounded border"></div>
+                  <div className="flex-1 text-center font-normal">Admin</div>
+                  <div className="flex-1 border-gray-800 rounded border"></div>
+                </div>
+                <Menu.Item icon={<FaUsers />}>
+                  <NavLink to="/dashboard/alluser" end>
+                    All users
+                  </NavLink>
+                </Menu.Item>
+                <Menu.Item icon={<ScheduleOutlined />}>
+                  <NavLink to="/dashboard/allevents" end>
+                    All Events
+                  </NavLink>
+                </Menu.Item>
+                <Menu.Item icon={<ScheduleOutlined />}>
+                  <NavLink to="/dashboard/allateendee" end>
+                    All Attendees
+                  </NavLink>
+                </Menu.Item>
+
+                <Tooltip
+                  placement={`${collapsed ? "left" : "top"}`}
+                  title={"Theme"}
+                  arrow={true}
+                >
+                  <div className=" mt-[250px] text-[30px] mx-auto flex justify-center items-center text-white">
+                    <DarkModeToggle />
                   </div>
-                  <Menu.Item icon={<FaUsers />}>
-                    <NavLink to="/dashboard/alluser" end>
-                      All users
-                    </NavLink>
-                  </Menu.Item>
-                  <Menu.Item icon={<ScheduleOutlined />}>
-                    <NavLink to="/dashboard/allevents" end>
-                      All Events
-                    </NavLink>
-                  </Menu.Item>
-                  <Menu.Item icon={<ScheduleOutlined />}>
-                    <NavLink to="/dashboard/allateendee" end>
-                      All Attendees
-                    </NavLink>
-                  </Menu.Item>
+                </Tooltip>
 
-                  <Tooltip
-                    placement={`${collapsed ? "left" : "top"}`}
-                    title={"Theme"}
-                    arrow={true}
-                  >
-                    <div className=" mt-[250px] text-[30px] mx-auto flex justify-center items-center text-white">
-                      <DarkModeToggle />
-                    </div>
-                  </Tooltip>
-
-                  <Tooltip
-                    placement={`${collapsed ? "left" : "top"}`}
-                    title={"logout"}
-                    arrow={true}
-                  >
-                    <div className=" mt-[50px] mx-auto flex justify-center items-center">
-                      {userData ? (
-                        <button
-                          onClick={handleLogOut}
-                          className=" text-red-500 text-[30px] "
-                        >
-                          <LogoutOutlined />
-                        </button>
-                      ) : (
-                        <button
-                          // onClick={handleLogin}
-                          className=" text-green-500 text-[30px] "
-                        >
-                          <LoginOutlined />
-                        </button>
-                      )}
-                    </div>
-                  </Tooltip>
-                
+                <Tooltip
+                  placement={`${collapsed ? "left" : "top"}`}
+                  title={"logout"}
+                  arrow={true}
+                >
+                  <div className=" mt-[50px] mx-auto flex justify-center items-center">
+                    {userData ? (
+                      <button
+                        onClick={handleLogOut}
+                        className=" text-red-500 text-[30px] "
+                      >
+                        <LogoutOutlined />
+                      </button>
+                    ) : (
+                      <button
+                        // onClick={handleLogin}
+                        className=" text-green-500 text-[30px] "
+                      >
+                        <LoginOutlined />
+                      </button>
+                    )}
+                  </div>
+                </Tooltip>
               </>
             )}
           </Menu>
