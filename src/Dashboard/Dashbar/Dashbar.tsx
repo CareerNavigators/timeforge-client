@@ -134,28 +134,28 @@ const Dashbar = () => {
 
             {userData?.role === "Admin" && (
               <>
-               
-                  <div className="flex pt-[20px] pb-[15px]">
-                    <div className="flex-1 border-gray-800 rounded border"></div>
-                    <div className="flex-1 text-center font-normal">Admin</div>
-                    <div className="flex-1 border-gray-800 rounded border"></div>
-                  </div>
-                  <Menu.Item icon={<FaUsers />}>
-                    <NavLink to="/dashboard/alluser" end>
-                      All users
-                    </NavLink>
-                  </Menu.Item>
-                  <Menu.Item icon={<ScheduleOutlined />}>
-                    <NavLink to="/dashboard/allevents" end>
-                      All Events
-                    </NavLink>
-                  </Menu.Item>
-                  <Menu.Item icon={<ScheduleOutlined />}>
-                    <NavLink to="/dashboard/allateendee" end>
-                      All Attendees
-                    </NavLink>
-                  </Menu.Item>
-
+                <div className="flex mt-5 mb-5">
+                  <div className="flex-1 border-gray-800 rounded border"></div>
+                  <div className="flex-1 text-center font-normal">Admin</div>
+                  <div className="flex-1 border-gray-800 rounded border"></div>
+                </div>
+                <Menu.Item icon={<FaUsers />}>
+                  <NavLink to="/dashboard/alluser" end>
+                    All users
+                  </NavLink>
+                </Menu.Item>
+                <Menu.Item icon={<ScheduleOutlined />}>
+                  <NavLink to="/dashboard/allevents" end>
+                    All Events
+                  </NavLink>
+                </Menu.Item>
+                <Menu.Item icon={<ScheduleOutlined />}>
+                  <NavLink to="/dashboard/allateendee" end>
+                    All Attendees
+                  </NavLink>
+                </Menu.Item>
+              </>
+            )}
                   <Tooltip
                     placement={`${collapsed ? "left" : "top"}`}
                     title={"Theme"}
