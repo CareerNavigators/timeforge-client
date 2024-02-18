@@ -6,11 +6,12 @@ import showToast from "../../Hook/swalToast";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
+import Swal from "sweetalert2";
 
 export interface EventType {
   _id: string;
   title: string;
-  duration: number | null;
+  duration: number | undefined;
   eventType: string;
   attendee: string;
   camera: boolean;
@@ -55,11 +56,23 @@ const AllEvents: React.FC = () => {
   // deleting a event
   const handleEventDelete = (id: string) => {
     console.log("event id", id);
-    customAxios.delete(`/meeting/${id}`).then((res) => {
-      const data = res.data;
-      console.log(data);
-      showToast("success", "Event Deleted");
-      refetch();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        customAxios.delete(`/meeting/${id}`).then((res) => {
+          const data = res.data;
+          refetch();
+          console.log(data);
+          showToast("success", "Event Deleted");
+        });
+      }
     });
   };
 

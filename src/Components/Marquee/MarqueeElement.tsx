@@ -8,12 +8,12 @@ import Blackcrows from "./SVGitems/blackcrows.svg"
 
 const MarqueeElement = () => {
   return (
-    <div className="py-10">
-      <h1 className="font-extrabold text-[#7c3aed] text-center text-4xl md:text-5xl">
+    <div className="my-10">
+      <h1 className="font-extrabold py-10 text-[#7c3aed] text-center text-4xl md:text-5xl">
         Business Partners
       </h1>
       <Marquee>
-        <div className="flex px-5 md:p-5 lg:px-10 justify-evenly items-center gap-10 lg:gap-20">
+        <div className="flex bg-white items-center gap-10 px-5 lg:px-10 justify-evenly lg:gap-20">
             <span className="w-40 md:w-60">
             <img  src={Conoco} alt="Logo" />
             </span>

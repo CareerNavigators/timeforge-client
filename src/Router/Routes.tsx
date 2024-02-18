@@ -20,7 +20,6 @@ import { Profile } from "../Dashboard/Profile/Profile";
 import UpdateEvent from "../UpdateEvent/UpdateEvent";
 import Note from "../Dashboard/Page/Note";
 // import AllUser from "../Components/AllUser/AllUser";
-import NewAttendee from "../Components/EventSlot/NewAttendee";
 import AllUser2 from "../Dashboard/Admin/AllUser/AllUser2";
 import AllMeetings from "../Dashboard/Admin/AllMeetings/AllMeetings";
 import AllAttendess from "../Dashboard/Admin/AllAttendees/AllAttendess";
@@ -40,10 +39,7 @@ const router = createBrowserRouter([
         path: "/createEvent",
         element: <CreateEvents></CreateEvents>,
       },
-      {
-        path: "/createEvent/oneEvent",
-        element: <OneEvent></OneEvent>,
-      },
+      
       {
         path: "/calendarPage",
         element: (
@@ -128,20 +124,16 @@ const router = createBrowserRouter([
       {
         path:"/dashboard/allateendee",
         element:<AllAttendess />
-      }
+      },
+        {
+          path: "dashboard/createEvent/oneEvent",
+          element: <OneEvent></OneEvent>,
+        },
     ],
   },
   {
     path: "/eventSlot/:id",
     element: <EventSlot></EventSlot>,
-    loader: ({ params }) =>
-      fetch(
-        `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
-      ),
-  },
-  {
-    path: "/eventSlot/:id/newAttendee/",
-    element: <NewAttendee></NewAttendee>,
     loader: ({ params }) =>
       fetch(
         `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`

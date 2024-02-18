@@ -3,7 +3,7 @@ const DemoEvent = () => {
 
   return (
     <div className="py-20">
-      <h1 className="font-extrabold text-[#7c3aed] pb-10 md:pb-20 text-center text-4xl md:text-5xl" >
+      <h1 className="font-extrabold text-[#7c3aed] pb-10 md:py-20 text-center text-4xl md:text-5xl" >
         Easy Event Creation
       </h1>
       <div className="flex px-5 lg:px-0 items-center justify-center">
