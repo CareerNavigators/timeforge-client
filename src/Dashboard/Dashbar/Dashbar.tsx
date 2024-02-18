@@ -66,7 +66,7 @@ const Dashbar = () => {
             defaultSelectedKeys={["1"]}
           >
             <>
-              <div className="flex">
+              <div className="flex mt-5 mb-5">
                 <div className="flex-1 border-gray-800 rounded border"></div>
                 <div className="flex-1 text-center font-normal">User </div>
                 <div className="flex-1 border-gray-800 rounded border"></div>
@@ -94,7 +94,7 @@ const Dashbar = () => {
             </>
             {userData?.role === "Admin" && (
               <>
-                <div className="flex">
+                <div className="flex mt-5 mb-5">
                   <div className="flex-1 border-gray-800 rounded border"></div>
                   <div className="flex-1 text-center font-normal">Admin</div>
                   <div className="flex-1 border-gray-800 rounded border"></div>
