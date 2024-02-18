@@ -28,12 +28,11 @@ const MobileDashboard: React.FC = () => {
     logOut()
       .then((result: any) => {
         console.log(result.user);
-        
       })
       .catch((err: any) => {
         console.log(err.message);
       });
-      navigate("/login");
+    navigate("/login");
   };
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -106,37 +105,51 @@ const MobileDashboard: React.FC = () => {
               type="primary"
               className=" "
               style={{ right: 24, bottom: 14, fontWeight: "20px" }}
-              icon={ <div className="font-bold"><MoreOutlined /></div>}
-            > 
-
-<FloatButton
+              icon={
+                <div className="font-bold">
+                  <MoreOutlined />
+                </div>
+              }
+            >
+              <FloatButton
                 type="primary"
-                icon={<div className="w-[100%] h-full flex justify-center items-center text-black"><DarkModeToggle/></div>}
+                icon={
+                  <div className="w-[100%] h-full flex justify-center items-center text-black">
+                    <DarkModeToggle />
+                  </div>
+                }
                 // style={{
                 //   background: "black",
                 //   display: "flex",
                 //   justifyContent: "center",
                 // }}
                 // onClick={handleClick}
-               
-                
               />
               <FloatButton
                 type="primary"
                 onClick={handleLogOut}
-                icon={<div className="w-[100%] h-full flex justify-center items-center text-black"><LogoutOutlined /></div>}
+                icon={
+                  <div className="w-[100%] h-full flex justify-center items-center text-black">
+                    <LogoutOutlined />
+                  </div>
+                }
                 // style={{
                 //   background: "black",
                 //   display: "flex",
                 //   justifyContent: "center",
                 // }}
                 // onClick={handleClick}
-               
-                
               />
               <Link to="/dashboard/textNote">
                 {" "}
-                <FloatButton icon={<div className="w-[100%] h-full flex justify-center items-center text-black"> <SlNote /></div>} />
+                <FloatButton
+                  icon={
+                    <div className="w-[100%] h-full flex justify-center items-center text-black">
+                      {" "}
+                      <SlNote />
+                    </div>
+                  }
+                />
               </Link>
               {/* <FloatButton  /> */}
             </FloatButton.Group>
