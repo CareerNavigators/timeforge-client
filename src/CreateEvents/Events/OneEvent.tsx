@@ -17,6 +17,7 @@ const OneEvent = () => {
 
   const [isAudioSelected, setIsAudioSelected] = useState(false);
   const [isVideoSelected, setIsVideoSelected] = useState(false);
+  const [isOffline, setIsOffline] = useState(false);
   const [eventName, setEventName] = useState<string>("");
   const [eventDuration, setEventDuration] = useState(15);
   const [eventType, setEventType] = useState<string>("");
@@ -76,6 +77,17 @@ const OneEvent = () => {
     setEventDesc(value);
   };
 
+  // handle online/offline toggle
+  const handleOfflineOnlineToggle = () => {
+    setIsOffline(!isOffline);
+    // setIsAudioSelected(!isAudioSelected);
+    // setIsVideoSelected(!isVideoSelected);
+  }
+
+  console.log("checking offline", isOffline);
+  // console.log("audio", isAudioSelected);
+  // console.log("video", isVideoSelected);
+
   const handleSubmit = async () => {
     try {
       const newEvent = {
@@ -123,6 +135,8 @@ const OneEvent = () => {
                   New Event Type
                 </h3>
               </div>
+
+              {/* Event name */}
               <Form.Item
                 name="Input"
                 rules={[
@@ -151,6 +165,7 @@ const OneEvent = () => {
                 />
               </Form.Item>
 
+              {/* Dynamic event type */}
               <Form.Item
                 name="eventType"
                 rules={[{ required: true, message: "Please input!" }]}
@@ -174,7 +189,7 @@ const OneEvent = () => {
                           onChange={onNameChange}
                           onKeyDown={(e) => e.stopPropagation()}
                         />
-                        <Button style={{border: '1px solid LightGray'}} type="text" icon={<PlusOutlined />} onClick={addItem}>
+                        <Button style={{ border: '1px solid LightGray' }} type="text" icon={<PlusOutlined />} onClick={addItem}>
                           Add Event
                         </Button>
                       </Space>
@@ -184,30 +199,50 @@ const OneEvent = () => {
                 />
               </Form.Item>
 
-              <Form.Item rules={[{ required: true, message: "Please input!" }]}>
-                <div className="flex gap-5">
-                  <div className="flex gap-2">
-                    <AudioMutedOutlined />
-                    <Switch
-                      className="bg-gray-400"
-                      size="small"
-                      onClick={handleAudioSelection}
-                    />
-                    <AudioOutlined />
-                  </div>
+              <Space direction="horizontal" className="flex justify-between px-1">
+                {/* online/offline meeting */}
+                <Form.Item
+                  rules={[
+                    { required: true, message: "Please select!" },
+                  ]}
+                >
+                  <Switch
+                    checkedChildren="Offline"
+                    unCheckedChildren="Online"
+                    className="bg-gray-400"
+                    onClick={handleOfflineOnlineToggle}
+                  />
+                </Form.Item>
 
-                  <div className="flex gap-2 items-center">
-                    <FaVideoSlash />
-                    <Switch
-                      className="bg-gray-400"
-                      size="small"
-                      onClick={handleVideoSelection}
-                    />
-                    <FaVideo />
-                  </div>
-                </div>
-              </Form.Item>
+                {/* Select audio/video */}
+                <Form.Item rules={[{ required: true, message: "Please input!" }]}>
+                  <div className="flex gap-5">
+                    <div className="flex gap-2">
+                      <AudioMutedOutlined />
+                      <Switch
+                        className="bg-gray-400"
+                        size="small"
+                        defaultChecked={isOffline ? true : false }
+                        onClick={handleAudioSelection}
+                      />
+                      <AudioOutlined />
+                    </div>
 
+                    <div className="flex gap-2 items-center">
+                      <FaVideoSlash />
+                      <Switch
+                        className="bg-gray-400"
+                        size="small"
+                        defaultChecked={isOffline ? true : false }
+                        onClick={handleVideoSelection}
+                      />
+                      <FaVideo />
+                    </div>
+                  </div>
+                </Form.Item>
+              </Space>
+
+              {/* add description */}
               <Form.Item
                 className="text-lg font-semibold"
                 rules={[
@@ -224,6 +259,7 @@ const OneEvent = () => {
               </Form.Item>
             </div>
 
+            {/* submit button */}
             <Form.Item className="flex justify-center">
               <Button
                 htmlType="submit"
