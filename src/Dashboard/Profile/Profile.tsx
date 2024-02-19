@@ -497,7 +497,10 @@ export function Profile() {
                       <Input
                         type="text"
                         defaultValue={userProfile?.location}
-                        onChange={(e) => setEditedLocation(e.target.value)}
+                        onChange={(e) => {
+                          setEditedLocation(e.target.value);
+                          setIsChangesMade(true);
+                        }}
                         variant="standard"
                         label="Location"
                         placeholder=""
@@ -511,7 +514,10 @@ export function Profile() {
                         placeholder=""
                         crossOrigin={undefined}
                         defaultValue={userProfile?.timeZone}
-                        onChange={(e) => setEditedTimeZone(e.target.value)}
+                        onChange={(e) => {
+                          setEditedTimeZone(e.target.value);
+                          setIsChangesMade(true);
+                        }}
                       />
                       <Input
                         type="tel"
@@ -520,11 +526,17 @@ export function Profile() {
                         placeholder=""
                         crossOrigin={undefined}
                         defaultValue={userProfile?.phone}
-                        onChange={(e) => setEditedPhone(e.target.value)}
+                        onChange={(e) => {
+                          setEditedPhone(e.target.value);
+                          setIsChangesMade(true);
+                        }}
                       />
                       <Textarea
                         defaultValue={userProfile?.desc}
-                        onChange={(e) => setEditedDescription(e.target.value)}
+                        onChange={(e) => {
+                          setEditedDescription(e.target.value);
+                          setIsChangesMade(true);
+                        }}
                         variant="outlined"
                         label="description"
                       />

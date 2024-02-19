@@ -1,9 +1,9 @@
 .lg\:h-\[88vh\] {
   scrollbar-width: none;
   -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+}
+.lg\:h-\[88vh\]::-webkit-scrollbar {
+  display: none;
 }
 
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-modal
