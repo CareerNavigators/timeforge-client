@@ -39,6 +39,8 @@ const OneEvent = () => {
   const axiosSecure = AxiosSecure();
   const duration = eventDurationHour + eventDurationMinute;
 
+  console.log(eventStartEnd);
+
   const onSelectTime = (times: any) => {
     setSelectedTimes(times);
   };
