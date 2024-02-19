@@ -191,7 +191,7 @@ const OneEvent = () => {
             <Form.Item className="flex justify-center">
               <Button
                 htmlType="submit"
-                className="px-3 py-1 rounded-md border-2 font-semibold transition-all ease-in-out hover:border-violet-600 hover:text-violet-600 dark:bg-[#ede9fe]"
+                className="px-3 py-1 rounded-md border-2 font-semibold transition-all ease-in-out border-[#7c3aed] text-[#7c3aed] dark:bg-[#ede9fe]"
               >
                 Continue
               </Button>

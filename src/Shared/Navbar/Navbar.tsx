@@ -33,14 +33,12 @@ const Navbar: React.FC = () => {
         <>
           <Link
             to="/login"
-            className="text-xs font-semibold py-2 px-5 border hover:text-white hover:transition-all hover:bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] duration-300"
-          >
+            className="text-xs font-semibold py-2 px-5 border hover:text-white hover:transition-all hover:bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] duration-300">
             Login
           </Link>
           <Link
             to="/signup"
-            className="text-xs font-semibold text-white py-2 px-5 border bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] cursor-pointer"
-          >
+            className="text-xs font-semibold text-white py-2 px-5 border bg-gradient-to-r from-[#9181F4] to-[#5038ED] rounded-[4px] cursor-pointer">
             Register
           </Link>
         </>
@@ -73,8 +71,7 @@ const Navbar: React.FC = () => {
                 <ProfileMenu></ProfileMenu>
                 <button
                   onClick={showDrawer}
-                  className="rounded bg-gradient-to-r from-[#9181F4] to-[#5038ED] p-2 text-gray-200 transition hover:text-gray-600/75"
-                >
+                  className="rounded bg-gradient-to-r from-[#9181F4] to-[#5038ED] p-2 text-gray-200 transition hover:text-gray-600/75">
                   <FaAlignJustify></FaAlignJustify>
                 </button>
                 <Drawer
@@ -84,8 +81,7 @@ const Navbar: React.FC = () => {
                   closable={false}
                   onClose={onClose}
                   open={open}
-                  key={placement}
-                >
+                  key={placement}>
                   <ul className="flex flex-wrap items-center justify-center gap-4 text-sm">
                     {links} <DarkModeToggle />
                   </ul>

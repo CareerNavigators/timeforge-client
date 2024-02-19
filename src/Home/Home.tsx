@@ -1,9 +1,10 @@
-import Card from "./Card";
+
 import Hero from "./Hero";
 import Schedule from "../Components/Schedule/Schedule";
 import MarqueeElement from "../Components/Marquee/MarqueeElement";
 import HighlightedEvents from "../Components/HighlightedEvents/HighlightedEvents";
 import DemoEvent from "../Components/Demo/DemoEvent";
+import Footer from "./Footer";
 
 const Home = () => {
   return (
@@ -12,11 +13,12 @@ const Home = () => {
         <Hero></Hero>
       </div>
 
-      <Card></Card>
+      <HighlightedEvents></HighlightedEvents>
       <DemoEvent></DemoEvent>
       <Schedule></Schedule>
-      <HighlightedEvents></HighlightedEvents>
+      
       <MarqueeElement></MarqueeElement>
+      <Footer />
     </div>
   );
 };
