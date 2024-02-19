@@ -24,6 +24,7 @@ import AllUser2 from "../Dashboard/Admin/AllUser/AllUser2";
 import AllMeetings from "../Dashboard/Admin/AllMeetings/AllMeetings";
 import AllAttendess from "../Dashboard/Admin/AllAttendees/AllAttendess";
 import Note2 from "../Dashboard/Note/Note2";
+import AttendeeSuccess from "../Components/EventSlot/AttendeeSuccess";
 
 const router = createBrowserRouter([
   {
@@ -137,6 +138,14 @@ const router = createBrowserRouter([
     loader: ({ params }) =>
       fetch(
         `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
+      ),
+  },
+  {
+    path: "/eventSlot/attendee/:id",
+    element: <AttendeeSuccess></AttendeeSuccess>,
+    loader: ({ params }) =>
+      fetch(
+        `https://timeforge-server.vercel.app/attendee?id=${params.id}`
       ),
   },
   
