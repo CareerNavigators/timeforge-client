@@ -21,7 +21,7 @@ const CalendarPage = ({
       setSelectedTimes({});
     }
   }, [modalOpen, setSelectedTimes]);
-
+  // console.log("Check event duration: ", eventDuration);
   useEffect(() => {
     setModalTimes(generateTimes(9, 16, eventDuration));
   }, [eventDuration]);
