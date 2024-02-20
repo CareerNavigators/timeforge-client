@@ -29,11 +29,9 @@ import { useNavigate } from "react-router-dom";
 const OneEvent = () => {
   const { userData } = useContext(AuthContext);
   console.log(userData);
-  console.log(userData);
 
   const [isAudioSelected, setIsAudioSelected] = useState(false);
   const [isVideoSelected, setIsVideoSelected] = useState(false);
-  const [isOffline, setIsOffline] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
   const [eventName, setEventName] = useState<string>("");
   const [eventDurationHour, setEventDurationHour] = useState(0);
@@ -84,10 +82,15 @@ const OneEvent = () => {
     setEventName(e.target.value);
   };
 
-  const handleEventDuration = (value: number | null) => {
+  const handleEventDurationHour = (value: number | null) => {
     if (value !== null) {
-      setEventDuration(value);
-      console.log("changed", value);
+      const min = value * 60;
+      setEventDurationHour(min);
+    }
+  };
+  const handleEventDurationMinute = (value: number | null) => {
+    if (value !== null) {
+      setEventDurationMinute(value);
     }
   };
 
@@ -126,31 +129,21 @@ const OneEvent = () => {
     setEventDesc(value);
   };
 
-  // handle online/offline toggle
-  const handleOfflineOnlineToggle = () => {
-    setIsOffline(!isOffline);
-    // setIsAudioSelected(!isAudioSelected);
-    // setIsVideoSelected(!isVideoSelected);
-  }
-
-  console.log("checking offline", isOffline);
-  // console.log("audio", isAudioSelected);
-  // console.log("video", isVideoSelected);
-
   const handleSubmit = async () => {
     try {
       const newEvent = {
         createdBy: userData?._id,
         title: eventName,
-        duration: eventDuration,
+        durationHour: eventDurationHour,
+        durationMinute: eventDurationMinute,
         mic: isAudioSelected,
         camera: isVideoSelected,
         eventType: eventType,
         desc: eventDesc,
       };
 
-      axiosSecure.post("/meeting", newEvent).then((res) => {
-        console.log(res);
+      axiosSecure.post("/meeting", newEvent).then(() => {
+        // console.log(res);
         setEvents((prevEvents) => [...prevEvents, newEvent]);
         showToast("success", `${eventName} is added to the Events.`);
         navigate("/dashboard/userEvent");
@@ -162,7 +155,7 @@ const OneEvent = () => {
   };
 
   useEffect(() => {
-    console.log("All Events:", events);
+    // console.log("All Events:", events);
   }, [events]);
 
   return (
@@ -182,8 +175,6 @@ const OneEvent = () => {
                   New Event Type
                 </h3>
               </div>
-
-              {/* Event name */}
               <Form.Item
                 name="Input"
                 rules={[
@@ -237,7 +228,6 @@ const OneEvent = () => {
                 </Form.Item>
               </div>
 
-              {/* Dynamic event type */}
               {/* Dynamic event type */}
               <Form.Item
                 name="eventType"
@@ -335,50 +325,30 @@ const OneEvent = () => {
                 />
               </Form.Item>
 
-              <Space direction="horizontal" className="flex justify-between px-1">
-                {/* online/offline meeting */}
-                <Form.Item
-                  rules={[
-                    { required: true, message: "Please select!" },
-                  ]}
-                >
-                  <Switch
-                    checkedChildren="Offline"
-                    unCheckedChildren="Online"
-                    className="bg-gray-400"
-                    onClick={handleOfflineOnlineToggle}
-                  />
-                </Form.Item>
-
-                {/* Select audio/video */}
-                <Form.Item rules={[{ required: true, message: "Please input!" }]}>
-                  <div className="flex gap-5">
-                    <div className="flex gap-2">
-                      <AudioMutedOutlined />
-                      <Switch
-                        className="bg-gray-400"
-                        size="small"
-                        defaultChecked={isOffline ? true : false }
-                        onClick={handleAudioSelection}
-                      />
-                      <AudioOutlined />
-                    </div>
-
-                    <div className="flex gap-2 items-center">
-                      <FaVideoSlash />
-                      <Switch
-                        className="bg-gray-400"
-                        size="small"
-                        defaultChecked={isOffline ? true : false }
-                        onClick={handleVideoSelection}
-                      />
-                      <FaVideo />
-                    </div>
+              <Form.Item rules={[{ required: true, message: "Please input!" }]}>
+                <div className="flex gap-5">
+                  <div className="flex gap-2">
+                    <AudioMutedOutlined />
+                    <Switch
+                      className="bg-gray-400"
+                      size="small"
+                      onClick={handleAudioSelection}
+                    />
+                    <AudioOutlined />
                   </div>
-                </Form.Item>
-              </Space>
 
-              {/* add description */}
+                  <div className="flex gap-2 items-center">
+                    <FaVideoSlash />
+                    <Switch
+                      className="bg-gray-400"
+                      size="small"
+                      onClick={handleVideoSelection}
+                    />
+                    <FaVideo />
+                  </div>
+                </div>
+              </Form.Item>
+
               <Form.Item
                 className="text-lg font-semibold"
                 rules={[
@@ -395,7 +365,6 @@ const OneEvent = () => {
               </Form.Item>
             </div>
 
-            {/* submit button */}
             <Form.Item className="flex justify-center">
               <Button
                 htmlType="submit"
