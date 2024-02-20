@@ -1,6 +1,21 @@
-import { Button, Divider, Form, Input, InputNumber, InputRef, Select, Space, Switch } from "antd";
+import {
+  Button,
+  Divider,
+  Form,
+  Input,
+  InputNumber,
+  InputRef,
+  Select,
+  Space,
+  Switch,
+  TimePicker,
+} from "antd";
 import { FaVideoSlash, FaVideo } from "react-icons/fa";
-import { AudioOutlined, AudioMutedOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  AudioOutlined,
+  AudioMutedOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import { SelectValue } from "antd/es/select";
 import CalendarPage from "./CalendarPage";
@@ -19,36 +34,45 @@ const OneEvent = () => {
   const [isVideoSelected, setIsVideoSelected] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
   const [eventName, setEventName] = useState<string>("");
-  const [eventDuration, setEventDuration] = useState(15);
+  const [eventDurationHour, setEventDurationHour] = useState(0);
+  const [eventDurationMinute, setEventDurationMinute] = useState(0);
   const [eventType, setEventType] = useState<string>("");
   const [eventDesc, setEventDesc] = useState<string>("");
   const [events, setEvents] = useState<Array<unknown>>([]);
+  const [eventTime, setEventTime] = useState<any>();
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [selectedTimes, setSelectedTimes] = useState(null);
   const axiosSecure = AxiosSecure();
+  const eventDuration = eventDurationHour + eventDurationMinute;
+  // console.log("Event Duration: ", eventDuration);
+
+  // const onSelectTime = (times: any) => {
+  //   setSelectedTimes(times);
+  // };
 
   // custom event types states and functions starts
-  const [items, setItems] = useState(['Interview', 'Meeting', 'Seminar', 'Webinar']);
-  const [name, setName] = useState('');
+  const [items, setItems] = useState([
+    "Interview",
+    "Meeting",
+    "Seminar",
+    "Webinar",
+  ]);
+  const [name, setName] = useState("");
   const inputRef = useRef<InputRef>(null);
 
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
 
-  const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+  const addItem = (
+    e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+  ) => {
     e.preventDefault();
     setItems([...items, name]);
-    setName('');
+    setName("");
     setTimeout(() => {
       inputRef.current?.focus();
     }, 0);
-  };
-  // custom event types states and functions ends
-
-  const onSelectTime = (times: any) => {
-    setSelectedTimes(times);
   };
 
   const handleAudioSelection = () => {
@@ -62,10 +86,15 @@ const OneEvent = () => {
     setEventName(e.target.value);
   };
 
-  const handleEventDuration = (value: number | null) => {
+  const handleEventDurationHour = (value: number | null) => {
     if (value !== null) {
-      setEventDuration(value);
-      console.log("changed", value);
+      const min = value * 60;
+      setEventDurationHour(min);
+    }
+  };
+  const handleEventDurationMinute = (value: number | null) => {
+    if (value !== null) {
+      setEventDurationMinute(value);
     }
   };
 
@@ -73,37 +102,46 @@ const OneEvent = () => {
     setEventType(value as string);
   };
 
+  const handleStartEndTime = (value: any) => {
+    const startHour = value[0].$H;
+    const startMin = value[0].$m;
+    const endHour = value[1].$H;
+    const endMin = value[1].$m;
+    const times = [
+      { $H: startHour, $m: startMin },
+      { $H: endHour, $m: endMin },
+    ];
+
+    const formattedTimes = times.map((time) => {
+      const paddedHours = String(time.$H).padStart(2, "0");
+      const paddedMinutes = String(time.$m).padStart(2, "0");
+
+      return `${paddedHours}:${paddedMinutes}`;
+    });
+    console.log("Formatted time: ", formattedTimes);
+    setEventTime(formattedTimes);
+  };
+  // console.log("EventTime: ", eventTime);
+
   const handleEventDesc = (value: string) => {
     setEventDesc(value);
   };
-
-  // handle online/offline toggle
-  const handleOfflineOnlineToggle = () => {
-    setIsOffline(!isOffline);
-    // setIsAudioSelected(!isAudioSelected);
-    // setIsVideoSelected(!isVideoSelected);
-  }
-
-  console.log("checking offline", isOffline);
-  // console.log("audio", isAudioSelected);
-  // console.log("video", isVideoSelected);
 
   const handleSubmit = async () => {
     try {
       const newEvent = {
         createdBy: userData?._id,
         title: eventName,
-        duration: eventDuration,
+        durationHour: eventDurationHour,
+        durationMinute: eventDurationMinute,
         mic: isAudioSelected,
         camera: isVideoSelected,
         eventType: eventType,
         desc: eventDesc,
-        events: selectedTimes,
       };
-      console.log(selectedTimes);
 
-      axiosSecure.post("/meeting", newEvent).then((res) => {
-        console.log(res);
+      axiosSecure.post("/meeting", newEvent).then(() => {
+        // console.log(res);
         setEvents((prevEvents) => [...prevEvents, newEvent]);
         showToast("success", `${eventName} is added to the Events.`);
         navigate("/dashboard/userEvent");
@@ -115,7 +153,7 @@ const OneEvent = () => {
   };
 
   useEffect(() => {
-    console.log("All Events:", events);
+    // console.log("All Events:", events);
   }, [events]);
 
   return (
@@ -135,8 +173,6 @@ const OneEvent = () => {
                   New Event Type
                 </h3>
               </div>
-
-              {/* Event name */}
               <Form.Item
                 name="Input"
                 rules={[
@@ -150,20 +186,45 @@ const OneEvent = () => {
                 />
               </Form.Item>
 
-              <Form.Item
-                name="duration"
-                rules={[
-                  { required: true, message: "Please input duration minute!" },
-                ]}
-              >
-                <InputNumber
-                  placeholder="Duration minute"
-                  min={1}
-                  max={60}
+              <div className="flex gap-2">
+                <Form.Item
                   className="w-full"
-                  onChange={handleEventDuration}
-                />
-              </Form.Item>
+                  name="durationHour"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input duration minute!",
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    placeholder="Duration hour"
+                    min={0}
+                    max={60}
+                    className="w-full"
+                    onChange={handleEventDurationHour}
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  className="w-full"
+                  name="durationMinute"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input duration minute!",
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    placeholder="Duration minute"
+                    min={0}
+                    max={60}
+                    className="w-full"
+                    onChange={handleEventDurationMinute}
+                  />
+                </Form.Item>
+              </div>
 
               {/* Dynamic event type */}
               <Form.Item
@@ -176,19 +237,28 @@ const OneEvent = () => {
                   onChange={handleEventType}
                   dropdownRender={(menu) => (
                     <>
-                      <div className="">
-                        {menu}
-                      </div>
-                      <Divider style={{ margin: '8px 0' }} />
-                      <Space className="flex flex-row justify-end" style={{ padding: '0 8px 4px' }}>
+                      <div className="w-full">{menu}</div>
+                      <Divider style={{ margin: "8px 0" }} />
+                      <Space
+                        className="w-full flex flex-row justify-end"
+                        style={{
+                          padding: "0 8px 4px",
+                        }}
+                      >
                         <Input
                           placeholder="Enter event type"
                           ref={inputRef}
                           value={name}
                           onChange={onNameChange}
                           onKeyDown={(e) => e.stopPropagation()}
+                          className="w-full"
                         />
-                        <Button style={{ border: '1px solid LightGray' }} type="text" icon={<PlusOutlined />} onClick={addItem}>
+                        <Button
+                          style={{ border: "1px solid LightGray" }}
+                          type="text"
+                          icon={<PlusOutlined />}
+                          onClick={addItem}
+                        >
                           Add Event
                         </Button>
                       </Space>
@@ -198,12 +268,13 @@ const OneEvent = () => {
                 />
               </Form.Item>
 
-              <Space direction="horizontal" className="flex justify-between px-1">
+              <Space
+                direction="horizontal"
+                className="flex justify-between px-1"
+              >
                 {/* online/offline meeting */}
                 <Form.Item
-                  rules={[
-                    { required: true, message: "Please select!" },
-                  ]}
+                  rules={[{ required: true, message: "Please select!" }]}
                 >
                   <Switch
                     checkedChildren="Offline"
@@ -214,14 +285,16 @@ const OneEvent = () => {
                 </Form.Item>
 
                 {/* Select audio/video */}
-                <Form.Item rules={[{ required: true, message: "Please input!" }]}>
+                <Form.Item
+                  rules={[{ required: true, message: "Please input!" }]}
+                >
                   <div className="flex gap-5">
                     <div className="flex gap-2">
                       <AudioMutedOutlined />
                       <Switch
                         className="bg-gray-400"
                         size="small"
-                        defaultChecked={isOffline ? true : false }
+                        defaultChecked={isOffline ? true : false}
                         onClick={handleAudioSelection}
                       />
                       <AudioOutlined />
@@ -232,7 +305,7 @@ const OneEvent = () => {
                       <Switch
                         className="bg-gray-400"
                         size="small"
-                        defaultChecked={isOffline ? true : false }
+                        defaultChecked={isOffline ? true : false}
                         onClick={handleVideoSelection}
                       />
                       <FaVideo />
@@ -241,7 +314,39 @@ const OneEvent = () => {
                 </Form.Item>
               </Space>
 
-              {/* add description */}
+              <Form.Item>
+                <TimePicker.RangePicker
+                  use12Hours
+                  format="h:mm a"
+                  onChange={handleStartEndTime}
+                  className="w-full"
+                />
+              </Form.Item>
+
+              <Form.Item rules={[{ required: true, message: "Please input!" }]}>
+                <div className="flex gap-5">
+                  <div className="flex gap-2">
+                    <AudioMutedOutlined />
+                    <Switch
+                      className="bg-gray-400"
+                      size="small"
+                      onClick={handleAudioSelection}
+                    />
+                    <AudioOutlined />
+                  </div>
+
+                  <div className="flex gap-2 items-center">
+                    <FaVideoSlash />
+                    <Switch
+                      className="bg-gray-400"
+                      size="small"
+                      onClick={handleVideoSelection}
+                    />
+                    <FaVideo />
+                  </div>
+                </div>
+              </Form.Item>
+
               <Form.Item
                 className="text-lg font-semibold"
                 rules={[
@@ -258,7 +363,6 @@ const OneEvent = () => {
               </Form.Item>
             </div>
 
-            {/* submit button */}
             <Form.Item className="flex justify-center">
               <Button
                 htmlType="submit"
@@ -273,10 +377,8 @@ const OneEvent = () => {
         {/* calendar part */}
         <div className="">
           <CalendarPage
-            selectedTimes={selectedTimes}
-            setSelectedTimes={setSelectedTimes}
-            onSelectTime={onSelectTime}
             eventDuration={eventDuration}
+            eventTime={eventTime}
           ></CalendarPage>
         </div>
       </div>
