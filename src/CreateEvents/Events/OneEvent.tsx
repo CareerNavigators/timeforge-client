@@ -161,7 +161,7 @@ const OneEvent = () => {
     <div className="w-full max-w-[1400px] mx-auto pt-10 mb-20 lg:mb-0 lg:p-10">
       <div className="flex flex-col lg:flex-row items-center justify-center mx-5 lg:mx-auto rounded-md">
         {/* Input part */}
-        <div className="lg:m-0 max-h-[100%] bg-white lg:border-r-2 border-[#7c3aed]">
+        <div className="lg:m-0 max-h-[100%] bg-white dark:bg-d lg:border-r-2 border-[#7c3aed]">
           <Form
             form={form}
             layout="horizontal"
@@ -170,7 +170,7 @@ const OneEvent = () => {
           >
             <div className="h-full">
               <div className="lg:mb-10 mb-5">
-                <h3 className="text-xl font-bold text-center">
+                <h3 className="text-xl font-bold text-center dark:text-dw">
                   New Event Type
                 </h3>
               </div>
@@ -194,7 +194,7 @@ const OneEvent = () => {
                   rules={[
                     {
                       required: true,
-                      message: "Please input duration minute!",
+                      message: "Please input duration hour!",
                     },
                   ]}
                 >
@@ -226,6 +226,17 @@ const OneEvent = () => {
                   />
                 </Form.Item>
               </div>
+
+              <Form.Item
+                rules={[{ required: true, message: "Please select!" }]}
+              >
+                <TimePicker.RangePicker
+                  use12Hours
+                  format="h:mm a"
+                  onChange={handleStartEndTime}
+                  className="w-full"
+                />
+              </Form.Item>
 
               {/* Dynamic event type */}
               <Form.Item
@@ -269,6 +280,20 @@ const OneEvent = () => {
                 />
               </Form.Item>
 
+              <Form.Item
+                rules={[{ required: true, message: "Please select!" }]}
+              >
+                <div className="flex gap-2">
+                  <Input></Input>
+                  <Button
+                    id="btn-timeline"
+                    className="bg-[#7c3aed] font-semibold text-dw"
+                  >
+                    Add event timeline
+                  </Button>
+                </div>
+              </Form.Item>
+
               <Space
                 direction="horizontal"
                 className="flex justify-between px-1"
@@ -284,64 +309,38 @@ const OneEvent = () => {
                   />
                 </Form.Item>
 
-                <Form.Item
-                  rules={[{ required: true, message: "Please input!" }]}
-                >
+                <Form.Item>
                   <div className="flex gap-5">
                     <div className="flex gap-2">
-                      <AudioMutedOutlined />
+                      <AudioMutedOutlined className="dark:text-dw" />
                       <Switch
                         className="bg-gray-400"
-                        size="small"
                         defaultChecked={isOffline ? true : false}
                         onClick={handleAudioSelection}
                       />
-                      <AudioOutlined />
+                      <AudioOutlined className="dark:text-dw" />
                     </div>
 
                     <div className="flex gap-2 items-center">
-                      <FaVideoSlash />
+                      <FaVideoSlash className="dark:text-dw" />
                       <Switch
                         className="bg-gray-400"
-                        size="small"
                         defaultChecked={isOffline ? true : false}
                         onClick={handleVideoSelection}
                       />
-                      <FaVideo />
+                      <FaVideo className="dark:text-dw" />
                     </div>
                   </div>
                 </Form.Item>
               </Space>
 
-              <Form.Item>
-                <TimePicker.RangePicker
-                  use12Hours
-                  format="h:mm a"
-                  onChange={handleStartEndTime}
-                  className="w-full"
-                />
-              </Form.Item>
-              <Form.Item className="">
-                <div className="flex gap-2">
-                  <Input></Input>
-                  <Button className="bg-[#7c3aed] font-semibold text-dw">
-                    Add event timeline
-                  </Button>
-                </div>
-              </Form.Item>
-
-              <Form.Item
-                className="text-lg font-semibold"
-                rules={[
-                  { required: true, message: "Please input the event name" },
-                ]}
-              >
+              <Form.Item className="text-lg font-semibold">
                 <ReactQuill
                   placeholder="Description"
                   theme="snow"
                   value={eventDesc}
                   onChange={handleEventDesc}
-                  className="h-[200px] lg:w-[25vw]"
+                  className="h-[150px] lg:w-[25vw] dark:text-dw"
                 />
               </Form.Item>
             </div>
