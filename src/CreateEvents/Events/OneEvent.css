@@ -1,4 +1,4 @@
-.dark
+/* .dark
   div.ant-col.ant-col-7.ant-form-item-label.css-dev-only-do-not-override-zl9ks2
   > label {
   color: #f5f5f5f5;
@@ -29,4 +29,13 @@
   > div
   > div {
   background-color: #ede9fe;
+} */
+
+#btn-continue {
+  background-color: #7c3aed;
+}
+#btn-continue:hover {
+  background-color: #6025c7;
+  color: white;
+  border: 0;
 }
