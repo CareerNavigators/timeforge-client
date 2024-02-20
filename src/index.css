@@ -28,7 +28,7 @@
 .dark .swal2-top-end.swal2-backdrop-show > div {
   background-color: var(--d2);
 }
-.dark .swal2-container.swal2-center.swal2-backdrop-show > div{
-background: var(--d2);
-color: var(--dw);
+.dark .swal2-container.swal2-center.swal2-backdrop-show > div {
+  background: var(--d2);
+  color: var(--dw);
 }

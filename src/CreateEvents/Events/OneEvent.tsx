@@ -25,6 +25,7 @@ import AxiosSecure from "../../Hook/useAxios";
 import { AuthContext } from "../../Provider/AuthContext";
 import showToast from "../../Hook/swalToast";
 import { useNavigate } from "react-router-dom";
+import "./OneEvent.css";
 
 const OneEvent = () => {
   const { userData } = useContext(AuthContext);
@@ -320,28 +321,12 @@ const OneEvent = () => {
                   className="w-full"
                 />
               </Form.Item>
-
-              <Form.Item rules={[{ required: true, message: "Please input!" }]}>
-                <div className="flex gap-5">
-                  <div className="flex gap-2">
-                    <AudioMutedOutlined />
-                    <Switch
-                      className="bg-gray-400"
-                      size="small"
-                      onClick={handleAudioSelection}
-                    />
-                    <AudioOutlined />
-                  </div>
-
-                  <div className="flex gap-2 items-center">
-                    <FaVideoSlash />
-                    <Switch
-                      className="bg-gray-400"
-                      size="small"
-                      onClick={handleVideoSelection}
-                    />
-                    <FaVideo />
-                  </div>
+              <Form.Item className="">
+                <div className="flex gap-2">
+                  <Input></Input>
+                  <Button className="bg-[#7c3aed] font-semibold text-dw">
+                    Add event timeline
+                  </Button>
                 </div>
               </Form.Item>
 
@@ -361,10 +346,12 @@ const OneEvent = () => {
               </Form.Item>
             </div>
 
-            <Form.Item className="flex justify-center mt-24 lg:mt-20">
+            <Form.Item className="mt-24 lg:mt-20">
               <Button
+                id="btn-continue"
                 htmlType="submit"
-                className="px-auto py-1 rounded-md border-2 font-semibold transition-all ease-in-out border-[#7c3aed] text-[#7c3aed] dark:bg-[#ede9fe]"
+                className="rounded-md font-semibold transition-all ease-in-out text-dw dark:bg-[#ede9fe]"
+                block
               >
                 Continue
               </Button>
