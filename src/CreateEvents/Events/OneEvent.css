@@ -1,32 +1,19 @@
-.dark
-  div.ant-col.ant-col-7.ant-form-item-label.css-dev-only-do-not-override-zl9ks2
-  > label {
-  color: #f5f5f5f5;
+#btn-continue {
+  background-color: #7c3aed;
+  border: 0;
 }
-.dark
-  .ant-col.ant-col-16.ant-form-item-control.css-dev-only-do-not-override-zl9ks2
-  > div
-  > div
-  input {
-  background-color: #ede9fe;
+#btn-continue:hover {
+  background-color: #6025c7;
+  color: white;
+  border: 0;
 }
 
-.dark
-  .ant-col.ant-col-16.ant-form-item-control.css-dev-only-do-not-override-zl9ks2
-  > div
-  > div
-  > div
-  > div {
-  background-color: #ede9fe;
+#btn-timeline {
+  background-color: #7c3aed;
+  border: 0;
 }
-.dark
-  form
-  > div.lg\:h-96
-  > div:nth-child(4)
-  > div
-  > div.ant-col.ant-col-16.ant-form-item-control.css-dev-only-do-not-override-zl9ks2
-  > div
-  > div
-  > div {
-  background-color: #ede9fe;
+#btn-timeline:hover {
+  background-color: #6025c7;
+  color: white;
+  border: 0;
 }
