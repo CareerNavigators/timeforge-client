@@ -20,6 +20,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { SelectInfo } from 'antd/es/calendar/generateCalendar';
 // import "./AllMeetings.css"
 import Swal from 'sweetalert2';
+import { PagingOptions } from 'ka-table/models';
 dayjs.extend(customParseFormat);
 const AllMeetings = () => {
 
@@ -90,6 +91,7 @@ const AllMeetings = () => {
             return res.data as Meeting[]
         },
         retry:2,
+        refetchOnWindowFocus:false
 
     })
     const columns = [
@@ -300,7 +302,17 @@ const AllMeetings = () => {
                     }
                 )
             }
-        }
+        },
+        pagingIndex:{
+            content:({pageIndex,isActive}:{pageIndex:number,isActive:boolean})=>{
+                if (isActive) {
+                    console.log("pagingIndex:",pageIndex);
+                }
+            }
+        },
+    }
+    const paging:PagingOptions={
+        enabled:true
     }
     //react quill
     const modules = {
@@ -461,6 +473,7 @@ const AllMeetings = () => {
                 // @ts-expect-error noidea
                 format={format}
                 columns={columns}
+                paging={paging}
                 data={allMeetings.data}
                 editingMode={EditingMode.Cell}
                 rowKeyField={'_id'}

@@ -21,6 +21,7 @@ const Card = () => {
       const res = await caxios.get("/home");
       return res.data;
     },
+    refetchOnWindowFocus:false
   });
   return (
     <div>

@@ -10,6 +10,7 @@ import { Button, Modal, Spin, Input, Image, Select } from 'antd';
 import { useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import Swal from 'sweetalert2';
+import { PagingOptions } from 'ka-table/models';
 const AllUser2 = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [role, setRole] = useState("User")
@@ -39,6 +40,7 @@ const AllUser2 = () => {
             return res.data
         },
         retry:2,
+        refetchOnWindowFocus:false
 
     })
 
@@ -111,6 +113,16 @@ const AllUser2 = () => {
 
             }
         },
+        pagingIndex:{
+            content:({pageIndex,isActive}:{pageIndex:number,isActive:boolean})=>{
+                if (isActive) {
+                    console.log("pagingIndex:",pageIndex);
+                }
+            }
+        },
+    }
+    const paging:PagingOptions={
+        enabled:true
     }
 
     //This below part is for modal select.
@@ -277,7 +289,7 @@ const AllUser2 = () => {
                 // @ts-expect-error noidea
 
                 childComponents={childComponents}
-
+                paging={paging}
                 columns={columns}
                 data={allUser.data}
                 editingMode={EditingMode.Cell}

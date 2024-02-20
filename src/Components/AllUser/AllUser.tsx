@@ -20,6 +20,7 @@ const AllUser = () => {
       return res.data;
     },
     retry: MAX_API_CALLS - 2,
+    refetchOnWindowFocus:false,
   });
 
   const handleUserUpdate = (id: string) => {

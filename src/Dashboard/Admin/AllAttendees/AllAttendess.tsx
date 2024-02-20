@@ -5,7 +5,7 @@ import AxiosSecure from '../../../Hook/useAxios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import moment from 'moment';
 import { Attendess } from '../AllTypes';
-import { Column } from 'ka-table/models';
+import { Column, PagingOptions } from 'ka-table/models';
 import { Button, Input, Modal, Spin, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
@@ -46,6 +46,7 @@ const AllAttendess = () => {
             return res.data as Attendess[]
         },
         retry:2,
+        refetchOnWindowFocus:false
     })
     const column = [
         {
@@ -146,7 +147,18 @@ const AllAttendess = () => {
                     return {className:`${field}`}
                 }
             }
-        }
+        },
+        pagingIndex:{
+            content:({pageIndex,isActive}:{pageIndex:number,isActive:boolean})=>{
+                if (isActive) {
+                    console.log("pagingIndex:",pageIndex);
+                }
+            }
+        },
+        
+    }
+    const paging:PagingOptions={
+        enabled:true
     }
     return (
         <div className='p-2'>
@@ -164,6 +176,7 @@ const AllAttendess = () => {
                 rowKeyField={'_id'}
                 childComponents={childComponent}
                 sortingMode={SortingMode.Single}
+                paging={paging}
             />
             <div>
                 <Modal width={1200} title="Attendee Modal" confirmLoading={allAttendes.isPending || deleteMutation.isPending} destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >

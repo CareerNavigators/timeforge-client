@@ -24,6 +24,7 @@ export default function ChartComponent() {
     },
     enabled: userData != null ? true : false,
     retry: 2,
+    refetchOnWindowFocus:false
   });
 
   if (isLoading) {
