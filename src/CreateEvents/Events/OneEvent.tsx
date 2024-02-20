@@ -1,15 +1,22 @@
 import {
   Button,
+  Divider,
   Form,
   Input,
   InputNumber,
+  InputRef,
   Select,
+  Space,
   Switch,
   TimePicker,
 } from "antd";
 import { FaVideoSlash, FaVideo } from "react-icons/fa";
-import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import {
+  AudioOutlined,
+  AudioMutedOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import { SelectValue } from "antd/es/select";
 import CalendarPage from "./CalendarPage";
 import ReactQuill from "react-quill";
@@ -21,10 +28,11 @@ import { useNavigate } from "react-router-dom";
 
 const OneEvent = () => {
   const { userData } = useContext(AuthContext);
-  // console.log(userData);
+  console.log(userData);
 
   const [isAudioSelected, setIsAudioSelected] = useState(false);
   const [isVideoSelected, setIsVideoSelected] = useState(false);
+  const [isOffline, setIsOffline] = useState(false);
   const [eventName, setEventName] = useState<string>("");
   const [eventDurationHour, setEventDurationHour] = useState(0);
   const [eventDurationMinute, setEventDurationMinute] = useState(0);
@@ -38,9 +46,30 @@ const OneEvent = () => {
   const eventDuration = eventDurationHour + eventDurationMinute;
   // console.log("Event Duration: ", eventDuration);
 
-  // const onSelectTime = (times: any) => {
-  //   setSelectedTimes(times);
-  // };
+  // custom event types states and functions starts
+  const [items, setItems] = useState([
+    "Interview",
+    "Meeting",
+    "Seminar",
+    "Webinar",
+  ]);
+  const [name, setName] = useState("");
+  const inputRef = useRef<InputRef>(null);
+
+  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+
+  const addItem = (
+    e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+  ) => {
+    e.preventDefault();
+    setItems([...items, name]);
+    setName("");
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  };
 
   const handleAudioSelection = () => {
     setIsAudioSelected(!isAudioSelected);
@@ -67,6 +96,12 @@ const OneEvent = () => {
 
   const handleEventType = (value: SelectValue) => {
     setEventType(value as string);
+  };
+
+  const handleOfflineOnlineToggle = () => {
+    setIsOffline(!isOffline);
+    // setIsAudioSelected(!isAudioSelected);
+    // setIsVideoSelected(!isVideoSelected);
   };
 
   const handleStartEndTime = (value: any) => {
@@ -193,6 +228,7 @@ const OneEvent = () => {
                 </Form.Item>
               </div>
 
+              {/* Dynamic event type */}
               <Form.Item
                 name="eventType"
                 rules={[{ required: true, message: "Please input!" }]}
@@ -201,13 +237,84 @@ const OneEvent = () => {
                   value={eventType}
                   placeholder="Event Type"
                   onChange={handleEventType}
-                >
-                  <Select.Option value="Interview">Interview</Select.Option>
-                  <Select.Option value="Meeting">Meeting</Select.Option>
-                  <Select.Option value="Seminar">Seminar</Select.Option>
-                  <Select.Option value="Webinar">Webinar</Select.Option>
-                </Select>
+                  dropdownRender={(menu) => (
+                    <>
+                      <div className="w-full">{menu}</div>
+                      <Divider style={{ margin: "8px 0" }} />
+                      <Space
+                        className="w-full flex flex-row justify-end"
+                        style={{
+                          padding: "0 8px 4px",
+                        }}
+                      >
+                        <Input
+                          placeholder="Enter event type"
+                          ref={inputRef}
+                          value={name}
+                          onChange={onNameChange}
+                          onKeyDown={(e) => e.stopPropagation()}
+                          className="w-full"
+                        />
+                        <Button
+                          style={{ border: "1px solid LightGray" }}
+                          type="text"
+                          icon={<PlusOutlined />}
+                          onClick={addItem}
+                        >
+                          Add Event
+                        </Button>
+                      </Space>
+                    </>
+                  )}
+                  options={items.map((item) => ({ label: item, value: item }))}
+                />
               </Form.Item>
+
+              <Space
+                direction="horizontal"
+                className="flex justify-between px-1"
+              >
+                {/* online/offline meeting */}
+                <Form.Item
+                  rules={[{ required: true, message: "Please select!" }]}
+                >
+                  <Switch
+                    checkedChildren="Offline"
+                    unCheckedChildren="Online"
+                    className="bg-gray-400"
+                    onClick={handleOfflineOnlineToggle}
+                  />
+                </Form.Item>
+
+                {/* Select audio/video */}
+                <Form.Item
+                  rules={[{ required: true, message: "Please input!" }]}
+                >
+                  <div className="flex gap-5">
+                    <div className="flex gap-2">
+                      <AudioMutedOutlined />
+                      <Switch
+                        className="bg-gray-400"
+                        size="small"
+                        defaultChecked={isOffline ? true : false}
+                        onClick={handleAudioSelection}
+                      />
+                      <AudioOutlined />
+                    </div>
+
+                    <div className="flex gap-2 items-center">
+                      <FaVideoSlash />
+                      <Switch
+                        className="bg-gray-400"
+                        size="small"
+                        defaultChecked={isOffline ? true : false}
+                        onClick={handleVideoSelection}
+                      />
+                      <FaVideo />
+                    </div>
+                  </div>
+                </Form.Item>
+              </Space>
 
               <Form.Item>
                 <TimePicker.RangePicker
