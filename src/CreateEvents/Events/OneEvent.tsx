@@ -46,6 +46,10 @@ const OneEvent = () => {
   const eventDuration = eventDurationHour + eventDurationMinute;
   // console.log("Event Duration: ", eventDuration);
 
+  // const onSelectTime = (times: any) => {
+  //   setSelectedTimes(times);
+  // };
+
   // custom event types states and functions starts
   const [items, setItems] = useState([
     "Interview",
@@ -96,12 +100,6 @@ const OneEvent = () => {
 
   const handleEventType = (value: SelectValue) => {
     setEventType(value as string);
-  };
-
-  const handleOfflineOnlineToggle = () => {
-    setIsOffline(!isOffline);
-    // setIsAudioSelected(!isAudioSelected);
-    // setIsVideoSelected(!isVideoSelected);
   };
 
   const handleStartEndTime = (value: any) => {
