@@ -18,7 +18,6 @@ import AxiosSecure from "../../Hook/useAxios";
 import { AuthContext } from "../../Provider/AuthContext";
 import showToast from "../../Hook/swalToast";
 import { useNavigate } from "react-router-dom";
-// import { duration } from "moment";
 
 const OneEvent = () => {
   const { userData } = useContext(AuthContext);
@@ -28,22 +27,20 @@ const OneEvent = () => {
   const [isVideoSelected, setIsVideoSelected] = useState(false);
   const [eventName, setEventName] = useState<string>("");
   const [eventDurationHour, setEventDurationHour] = useState(0);
-  const [eventDurationMinute, setEventDurationMinute] = useState(15);
-  const [eventStartEnd, setEventStarEnd] = useState("");
+  const [eventDurationMinute, setEventDurationMinute] = useState(0);
   const [eventType, setEventType] = useState<string>("");
   const [eventDesc, setEventDesc] = useState<string>("");
   const [events, setEvents] = useState<Array<unknown>>([]);
+  const [eventTime, setEventTime] = useState<any>();
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [selectedTimes, setSelectedTimes] = useState(null);
   const axiosSecure = AxiosSecure();
-  const duration = eventDurationHour + eventDurationMinute;
+  const eventDuration = eventDurationHour + eventDurationMinute;
+  // console.log("Event Duration: ", eventDuration);
 
-  console.log(eventStartEnd);
-
-  const onSelectTime = (times: any) => {
-    setSelectedTimes(times);
-  };
+  // const onSelectTime = (times: any) => {
+  //   setSelectedTimes(times);
+  // };
 
   const handleAudioSelection = () => {
     setIsAudioSelected(!isAudioSelected);
@@ -77,16 +74,21 @@ const OneEvent = () => {
     const startMin = value[0].$m;
     const endHour = value[1].$H;
     const endMin = value[1].$m;
-    const hourStartToMin = startHour * 60 + startMin;
-    const hourEndToMin = endHour * 60 + endMin;
-    console.log("Start time ", hourStartToMin);
-    console.log("End time ", hourEndToMin);
+    const times = [
+      { $H: startHour, $m: startMin },
+      { $H: endHour, $m: endMin },
+    ];
 
-    const something = hourEndToMin - hourStartToMin;
-    const slotCount = Math.floor(something / duration);
-    console.log("Slot count: ", slotCount);
-    setEventStarEnd(value);
+    const formattedTimes = times.map((time) => {
+      const paddedHours = String(time.$H).padStart(2, "0");
+      const paddedMinutes = String(time.$m).padStart(2, "0");
+
+      return `${paddedHours}:${paddedMinutes}`;
+    });
+    console.log("Formatted time: ", formattedTimes);
+    setEventTime(formattedTimes);
   };
+  // console.log("EventTime: ", eventTime);
 
   const handleEventDesc = (value: string) => {
     setEventDesc(value);
@@ -103,9 +105,7 @@ const OneEvent = () => {
         camera: isVideoSelected,
         eventType: eventType,
         desc: eventDesc,
-        events: selectedTimes,
       };
-      console.log(selectedTimes);
 
       axiosSecure.post("/meeting", newEvent).then(() => {
         // console.log(res);
@@ -185,7 +185,7 @@ const OneEvent = () => {
                 >
                   <InputNumber
                     placeholder="Duration minute"
-                    min={1}
+                    min={0}
                     max={60}
                     className="w-full"
                     onChange={handleEventDurationMinute}
@@ -211,6 +211,8 @@ const OneEvent = () => {
 
               <Form.Item>
                 <TimePicker.RangePicker
+                  use12Hours
+                  format="h:mm a"
                   onChange={handleStartEndTime}
                   className="w-full"
                 />
@@ -270,10 +272,8 @@ const OneEvent = () => {
         {/* calendar part */}
         <div className="">
           <CalendarPage
-            selectedTimes={selectedTimes}
-            setSelectedTimes={setSelectedTimes}
-            onSelectTime={onSelectTime}
-            eventDuration={eventDurationHour + eventDurationMinute}
+            eventDuration={eventDuration}
+            eventTime={eventTime}
           ></CalendarPage>
         </div>
       </div>
