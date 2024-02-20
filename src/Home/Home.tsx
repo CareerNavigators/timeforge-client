@@ -5,7 +5,6 @@ import MarqueeElement from "../Components/Marquee/MarqueeElement";
 import HighlightedEvents from "../Components/HighlightedEvents/HighlightedEvents";
 import DemoEvent from "../Components/Demo/DemoEvent";
 import Footer from "./Footer";
-
 const Home = () => {
   return (
     <div id="take-a-look" className="max-w-full mx-auto">
