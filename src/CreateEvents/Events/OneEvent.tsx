@@ -31,9 +31,9 @@ const OneEvent = () => {
   const { userData } = useContext(AuthContext);
   console.log(userData);
 
-  const [isAudioSelected, setIsAudioSelected] = useState(false);
-  const [isVideoSelected, setIsVideoSelected] = useState(false);
-  const [isOffline, setIsOffline] = useState(false);
+  const [isAudioSelected, setIsAudioSelected] = useState(true);
+  const [isVideoSelected, setIsVideoSelected] = useState(true);
+  const [isOffline, setIsOffline] = useState(true);
   const [eventName, setEventName] = useState<string>("");
   const [eventDurationHour, setEventDurationHour] = useState(0);
   const [eventDurationMinute, setEventDurationMinute] = useState(0);
@@ -124,9 +124,18 @@ const OneEvent = () => {
 
   const handleOfflineOnlineToggle = () => {
     setIsOffline(!isOffline);
-    // setIsAudioSelected(!isAudioSelected);
-    // setIsVideoSelected(!isVideoSelected);
+    if (isOffline) {
+      setIsAudioSelected(false);
+      setIsVideoSelected(false);
+    } else {
+      setIsAudioSelected(true);
+      setIsVideoSelected(true);
+    }
   };
+
+  console.log("checking offline", isOffline);
+  console.log("audio", isAudioSelected);
+  console.log("video", isVideoSelected);
 
   const handleSubmit = async () => {
     try {
@@ -139,6 +148,7 @@ const OneEvent = () => {
         camera: isVideoSelected,
         eventType: eventType,
         desc: eventDesc,
+        offline : isOffline
       };
 
       axiosSecure.post("/meeting", newEvent).then(() => {
@@ -302,8 +312,8 @@ const OneEvent = () => {
                   rules={[{ required: true, message: "Please select!" }]}
                 >
                   <Switch
-                    checkedChildren="Offline"
-                    unCheckedChildren="Online"
+                    checkedChildren="Online"
+                    unCheckedChildren="Offline"
                     className="bg-gray-400"
                     onClick={handleOfflineOnlineToggle}
                   />
@@ -315,8 +325,9 @@ const OneEvent = () => {
                       <AudioMutedOutlined className="dark:text-dw" />
                       <Switch
                         className="bg-gray-400"
-                        defaultChecked={isOffline ? true : false}
-                        onClick={handleAudioSelection}
+                        size="small"
+                        checked={isAudioSelected}
+                        onChange={handleAudioSelection}
                       />
                       <AudioOutlined className="dark:text-dw" />
                     </div>
@@ -325,8 +336,9 @@ const OneEvent = () => {
                       <FaVideoSlash className="dark:text-dw" />
                       <Switch
                         className="bg-gray-400"
-                        defaultChecked={isOffline ? true : false}
-                        onClick={handleVideoSelection}
+                        size="small"
+                        checked={isVideoSelected}
+                        onChange={handleVideoSelection}
                       />
                       <FaVideo className="dark:text-dw" />
                     </div>
@@ -345,7 +357,7 @@ const OneEvent = () => {
               </Form.Item>
             </div>
 
-            <Form.Item className="mt-24 lg:mt-20">
+            <Form.Item className="mt-24 lg:mt-28">
               <Button
                 id="btn-continue"
                 htmlType="submit"
