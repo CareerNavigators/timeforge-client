@@ -44,11 +44,6 @@ const OneEvent = () => {
   const [form] = Form.useForm();
   const axiosSecure = AxiosSecure();
   const eventDuration = eventDurationHour + eventDurationMinute;
-  // console.log("Event Duration: ", eventDuration);
-
-  // const onSelectTime = (times: any) => {
-  //   setSelectedTimes(times);
-  // };
 
   // custom event types states and functions starts
   const [items, setItems] = useState([
@@ -121,10 +116,15 @@ const OneEvent = () => {
     console.log("Formatted time: ", formattedTimes);
     setEventTime(formattedTimes);
   };
-  // console.log("EventTime: ", eventTime);
 
   const handleEventDesc = (value: string) => {
     setEventDesc(value);
+  };
+
+  const handleOfflineOnlineToggle = () => {
+    setIsOffline(!isOffline);
+    // setIsAudioSelected(!isAudioSelected);
+    // setIsVideoSelected(!isVideoSelected);
   };
 
   const handleSubmit = async () => {
@@ -167,7 +167,7 @@ const OneEvent = () => {
             className="p-10"
             onFinish={handleSubmit}
           >
-            <div className="lg:h-[65vh] h-full">
+            <div className="h-full">
               <div className="lg:mb-10 mb-5">
                 <h3 className="text-xl font-bold text-center">
                   New Event Type
@@ -272,7 +272,6 @@ const OneEvent = () => {
                 direction="horizontal"
                 className="flex justify-between px-1"
               >
-                {/* online/offline meeting */}
                 <Form.Item
                   rules={[{ required: true, message: "Please select!" }]}
                 >
@@ -284,7 +283,6 @@ const OneEvent = () => {
                   />
                 </Form.Item>
 
-                {/* Select audio/video */}
                 <Form.Item
                   rules={[{ required: true, message: "Please input!" }]}
                 >
@@ -363,10 +361,10 @@ const OneEvent = () => {
               </Form.Item>
             </div>
 
-            <Form.Item className="flex justify-center">
+            <Form.Item className="flex justify-center mt-24 lg:mt-20">
               <Button
                 htmlType="submit"
-                className="px-3 py-1 rounded-md border-2 font-semibold transition-all ease-in-out border-[#7c3aed] text-[#7c3aed] dark:bg-[#ede9fe]"
+                className="px-auto py-1 rounded-md border-2 font-semibold transition-all ease-in-out border-[#7c3aed] text-[#7c3aed] dark:bg-[#ede9fe]"
               >
                 Continue
               </Button>
