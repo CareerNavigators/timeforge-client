@@ -125,7 +125,7 @@ const CalendarPage = ({ eventDuration, eventTime }: any) => {
   return (
     <div className="flex justify-center items-center">
       <Calendar
-        className="lg:max-h-full max-h-[500px] lg:m-0 p-5 lg:mb-0 mb-10 rounded-md scroll-smooth lg:overflow-visible overflow-y-auto"
+        className="lg:max-h-full max-h-[500px] lg:m-0 p-5 lg:mb-0 mb-10 dark:bg-d scroll-smooth lg:overflow-visible overflow-y-auto"
         onSelect={onSelect}
         cellRender={cellRender}
         mode={"month"}
