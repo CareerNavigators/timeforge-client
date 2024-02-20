@@ -122,7 +122,8 @@ const AllUser2 = () => {
         },
     }
     const paging:PagingOptions={
-        enabled:true
+        enabled:true,
+        pageSize:15,
     }
 
     //This below part is for modal select.

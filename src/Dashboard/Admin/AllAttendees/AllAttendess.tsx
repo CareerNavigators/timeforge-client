@@ -158,7 +158,8 @@ const AllAttendess = () => {
         
     }
     const paging:PagingOptions={
-        enabled:true
+        enabled:true,
+        pageSize:15,
     }
     return (
         <div className='p-2'>

@@ -312,7 +312,8 @@ const AllMeetings = () => {
         },
     }
     const paging:PagingOptions={
-        enabled:true
+        enabled:true,
+        pageSize:15,
     }
     //react quill
     const modules = {
