@@ -62,6 +62,7 @@ const Navbar: React.FC = () => {
               <ul className="flex items-center gap-4 text-sm">
                 {links} <DarkModeToggle />
                 <ProfileMenu />
+                
               </ul>
             </nav>
 

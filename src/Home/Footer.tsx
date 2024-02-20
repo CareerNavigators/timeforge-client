@@ -57,7 +57,7 @@ export default function Footer() {
           <ul className="flex flex-wrap justify-center gap-6 mt-12 md:gap-8 lg:mt-0 lg:justify-end lg:gap-12">
             <li>
               <Link
-                to={"/aboutUs"}
+                to={"/about"}
                 className="text-gray-700 transition hover:text-gray-700/75 dark:text-dw">
                 {" "}
                 About Us{" "}
@@ -75,9 +75,9 @@ export default function Footer() {
 
             <li>
               <Link
-                to={"https://discord.gg/VpCuU5zAfm"}
+                to={"/contactus"}
                 className="text-gray-700 transition hover:text-gray-700/75 dark:text-dw">
-                Conduct us
+                Contact us
               </Link>
             </li>
 

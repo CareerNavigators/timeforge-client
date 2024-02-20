@@ -21,12 +21,14 @@ import Input from "rc-input";
 import showToast from "../../Hook/swalToast";
 import { useMutation } from "@tanstack/react-query";
 import AxiosSecure from "../../Hook/useAxios";
+import { useNavigate } from "react-router-dom";
 
 const EventDetails: React.FC = () => {
   // hooks and states
   const { title, duration, desc, eventType, events, camera, mic, _id } =
     useLoaderData() as EventType;
   const { userData } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string>()
   const [slot, setSlot] = useState<string>()
@@ -77,6 +79,7 @@ const EventDetails: React.FC = () => {
     onSuccess:()=>{
       handleCancel()
       showToast("success", "You Reservation is done.")
+      navigate(`/eventSlot/attendee/${_id}`);
     }
   })
   async function UpdateEvent(e: React.FormEvent<HTMLFormElement>) {
