@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 
 const OneEvent = () => {
   const { userData } = useContext(AuthContext);
-  console.log(userData);
 
   const [isAudioSelected, setIsAudioSelected] = useState(false);
   const [isVideoSelected, setIsVideoSelected] = useState(false);
@@ -87,7 +86,6 @@ const OneEvent = () => {
   console.log("checking offline", isOffline);
   // console.log("audio", isAudioSelected);
   // console.log("video", isVideoSelected);
-
   const handleSubmit = async () => {
     try {
       const newEvent = {
@@ -99,6 +97,7 @@ const OneEvent = () => {
         eventType: eventType,
         desc: eventDesc,
         events: selectedTimes,
+        offline:isOffline
       };
       console.log(selectedTimes);
 
