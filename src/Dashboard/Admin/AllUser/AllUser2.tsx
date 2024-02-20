@@ -1,5 +1,5 @@
 import { Table } from 'ka-table';
-import { DataType, EditingMode, SortDirection, SortingMode } from 'ka-table/enums';
+import { DataType, EditingMode, PagingPosition, SortDirection, SortingMode } from 'ka-table/enums';
 // import "./responsive.css"
 import 'ka-table/style.css';
 import AxiosSecure from '../../../Hook/useAxios';
@@ -14,6 +14,8 @@ import { PagingOptions } from 'ka-table/models';
 const AllUser2 = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [role, setRole] = useState("User")
+    const [numberOfPage,setNumberOfPage]=useState<number>()
+    const [page,setPage]=useState<number>()
     const caxios = AxiosSecure()
     // for modal
     const singleUser = useMutation({
@@ -36,12 +38,12 @@ const AllUser2 = () => {
     const allUser = useQuery({
         queryKey: ['alluser'],
         queryFn: async () => {
-            const res = await caxios.get("/admin/users")
+            const res = await caxios.get(`/admin/users?page=${page}`)
+            setNumberOfPage(res.data?.totalPages)
             return res.data
         },
         retry:2,
-        refetchOnWindowFocus:false
-
+        refetchOnWindowFocus:false,
     })
 
     const columns = [
@@ -89,6 +91,12 @@ const AllUser2 = () => {
 
         }
     ]
+    const handlePageChange = async (pageIndex: number) => {
+        if (page !== pageIndex +  1) {
+            await setPage(pageIndex +  1);
+            allUser.refetch();
+        }
+    }
     const childComponents = {
         cell: {
 
@@ -116,14 +124,16 @@ const AllUser2 = () => {
         pagingIndex:{
             content:({pageIndex,isActive}:{pageIndex:number,isActive:boolean})=>{
                 if (isActive) {
-                    console.log("pagingIndex:",pageIndex);
+                    handlePageChange(pageIndex)
                 }
             }
         },
     }
     const paging:PagingOptions={
         enabled:true,
+        pagesCount:numberOfPage,
         pageSize:15,
+        position:PagingPosition.Top
     }
 
     //This below part is for modal select.
@@ -292,7 +302,7 @@ const AllUser2 = () => {
                 childComponents={childComponents}
                 paging={paging}
                 columns={columns}
-                data={allUser.data}
+                data={allUser.data?.docs}
                 editingMode={EditingMode.Cell}
                 rowKeyField={'_id'}
                 sortingMode={SortingMode.Single}

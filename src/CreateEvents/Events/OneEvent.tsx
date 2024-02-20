@@ -138,7 +138,7 @@ const OneEvent = () => {
         camera: isVideoSelected,
         eventType: eventType,
         desc: eventDesc,
-        events: selectedTimes,
+        events: events, 
         offline:isOffline
       };
 
