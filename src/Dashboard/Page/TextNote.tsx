@@ -60,6 +60,7 @@ const TextNote: React.FC = () => {
       return res.data;
     },
     enabled: userData != null ? true : false,
+    refetchOnWindowFocus:false
   });
   console.log(data);
 

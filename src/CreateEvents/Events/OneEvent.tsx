@@ -29,7 +29,6 @@ import "./OneEvent.css";
 
 const OneEvent = () => {
   const { userData } = useContext(AuthContext);
-  console.log(userData);
 
   const [isAudioSelected, setIsAudioSelected] = useState(true);
   const [isVideoSelected, setIsVideoSelected] = useState(true);
@@ -148,7 +147,8 @@ const OneEvent = () => {
         camera: isVideoSelected,
         eventType: eventType,
         desc: eventDesc,
-        offline : isOffline
+        events: events, 
+        offline:isOffline
       };
 
       axiosSecure.post("/meeting", newEvent).then(() => {
