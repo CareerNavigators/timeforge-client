@@ -15,9 +15,9 @@ const OneEvent = () => {
   const { userData } = useContext(AuthContext);
   console.log(userData);
 
-  const [isAudioSelected, setIsAudioSelected] = useState(false);
-  const [isVideoSelected, setIsVideoSelected] = useState(false);
-  const [isOffline, setIsOffline] = useState(false);
+  const [isAudioSelected, setIsAudioSelected] = useState(true);
+  const [isVideoSelected, setIsVideoSelected] = useState(true);
+  const [isOffline, setIsOffline] = useState(true);
   const [eventName, setEventName] = useState<string>("");
   const [eventDuration, setEventDuration] = useState(15);
   const [eventType, setEventType] = useState<string>("");
@@ -80,13 +80,18 @@ const OneEvent = () => {
   // handle online/offline toggle
   const handleOfflineOnlineToggle = () => {
     setIsOffline(!isOffline);
-    // setIsAudioSelected(!isAudioSelected);
-    // setIsVideoSelected(!isVideoSelected);
-  }
+    if (isOffline) {
+      setIsAudioSelected(false);
+      setIsVideoSelected(false);
+    } else {
+      setIsAudioSelected(true);
+      setIsVideoSelected(true);
+    }
+  };
 
   console.log("checking offline", isOffline);
-  // console.log("audio", isAudioSelected);
-  // console.log("video", isVideoSelected);
+  console.log("audio", isAudioSelected);
+  console.log("video", isVideoSelected);
 
   const handleSubmit = async () => {
     try {
@@ -99,6 +104,7 @@ const OneEvent = () => {
         eventType: eventType,
         desc: eventDesc,
         events: selectedTimes,
+        offline : isOffline
       };
       console.log(selectedTimes);
 
@@ -206,8 +212,8 @@ const OneEvent = () => {
                   ]}
                 >
                   <Switch
-                    checkedChildren="Offline"
-                    unCheckedChildren="Online"
+                    checkedChildren="Online"
+                    unCheckedChildren="Offline"
                     className="bg-gray-400"
                     onClick={handleOfflineOnlineToggle}
                   />
@@ -221,8 +227,8 @@ const OneEvent = () => {
                       <Switch
                         className="bg-gray-400"
                         size="small"
-                        defaultChecked={isOffline ? true : false }
-                        onClick={handleAudioSelection}
+                        checked={isAudioSelected}
+                        onChange={handleAudioSelection}
                       />
                       <AudioOutlined />
                     </div>
@@ -232,8 +238,8 @@ const OneEvent = () => {
                       <Switch
                         className="bg-gray-400"
                         size="small"
-                        defaultChecked={isOffline ? true : false }
-                        onClick={handleVideoSelection}
+                        checked={isVideoSelected}
+                        onChange={handleVideoSelection}
                       />
                       <FaVideo />
                     </div>
