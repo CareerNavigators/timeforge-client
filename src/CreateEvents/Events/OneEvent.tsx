@@ -182,7 +182,6 @@ const OneEvent = () => {
                       <Divider style={{ margin: '8px 0' }} />
                       <Space className="flex flex-row justify-end" style={{ padding: '0 8px 4px' }}>
                         <Input
-                          className="w-[330px]"
                           placeholder="Enter event type"
                           ref={inputRef}
                           value={name}
