@@ -26,6 +26,8 @@ import { AuthContext } from "../../Provider/AuthContext";
 import showToast from "../../Hook/swalToast";
 import { useNavigate } from "react-router-dom";
 import "./OneEvent.css";
+import { Dayjs } from "dayjs";
+import { NoUndefinedRangeValueType } from "rc-picker/lib/PickerInput/RangePicker";
 
 const OneEvent = () => {
   const { userData } = useContext(AuthContext);
@@ -42,6 +44,8 @@ const OneEvent = () => {
   const [eventDesc, setEventDesc] = useState<string>("");
   const [events, setEvents] = useState<Array<unknown>>([]);
   const [eventTime, setEventTime] = useState<any>();
+  const [startTime,setStartTime]=useState<string>()
+  const [endTime,setEndTime]=useState<string>()
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const axiosSecure = AxiosSecure();
@@ -99,11 +103,13 @@ const OneEvent = () => {
     setEventType(value as string);
   };
 
-  const handleStartEndTime = (value: any) => {
-    const startHour = value[0].$H;
-    const startMin = value[0].$m;
-    const endHour = value[1].$H;
-    const endMin = value[1].$m;
+  const handleStartEndTime = (value:NoUndefinedRangeValueType<Dayjs>,dateString:string[]) => {
+    setStartTime(dateString[0])
+    setEndTime(dateString[1])
+    const startHour = value[0]?.hour();
+    const startMin = value[0]?.minute();
+    const endHour = value[1]?.hour();
+    const endMin = value[1]?.minute();
     const times = [
       { $H: startHour, $m: startMin },
       { $H: endHour, $m: endMin },
@@ -112,10 +118,8 @@ const OneEvent = () => {
     const formattedTimes = times.map((time) => {
       const paddedHours = String(time.$H).padStart(2, "0");
       const paddedMinutes = String(time.$m).padStart(2, "0");
-
       return `${paddedHours}:${paddedMinutes}`;
     });
-    console.log("Formatted time: ", formattedTimes);
     setEventTime(formattedTimes);
   };
 
@@ -144,7 +148,9 @@ const OneEvent = () => {
         eventType: eventType,
         desc: eventDesc,
         events: selectedTimes, 
-        offline:isOffline
+        offline:isOffline,
+        startTime:startTime,
+        endTime:endTime,
       };
 
       axiosSecure.post("/meeting", newEvent).then(() => {
