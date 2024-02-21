@@ -1,10 +1,10 @@
 
 import { Table } from 'ka-table';
 import 'ka-table/style.css';
-import { DataType, EditingMode, SortDirection, SortingMode } from 'ka-table/enums';
+import { DataType, EditingMode, PagingPosition, SortDirection, SortingMode } from 'ka-table/enums';
 import AxiosSecure from '../../../Hook/useAxios';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { Meeting, Column, SingleMeeting } from '../AllTypes';
+import { Meeting, Column, SingleMeeting, EventResponse } from '../AllTypes';
 import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
 import { FaVideoSlash, FaVideo } from "react-icons/fa";
 import moment from 'moment';
@@ -20,6 +20,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { SelectInfo } from 'antd/es/calendar/generateCalendar';
 // import "./AllMeetings.css"
 import Swal from 'sweetalert2';
+import { PagingOptions } from 'ka-table/models';
 dayjs.extend(customParseFormat);
 const AllMeetings = () => {
 
@@ -31,7 +32,7 @@ const AllMeetings = () => {
     const [selectedDate, setSelectedDate] = useState<string>(dayjs().format("DDMMYY"))
     const [isAudioSelected, setIsAudioSelected] = useState(false);
     const [isVideoSelected, setIsVideoSelected] = useState(false);
-
+    const [page,setPage]=useState<number>()
 
     const handleAudioSelection = () => {
         setIsAudioSelected(!isAudioSelected);
@@ -86,10 +87,11 @@ const AllMeetings = () => {
     const allMeetings = useQuery({
         queryKey: ['allevents'],
         queryFn: async () => {
-            const res = await caxios.get("/admin/meetings")
-            return res.data as Meeting[]
+            const res = await caxios.get(`/admin/meetings?page=${page}`)
+            return res.data as EventResponse
         },
         retry:2,
+        refetchOnWindowFocus:false
 
     })
     const columns = [
@@ -183,6 +185,12 @@ const AllMeetings = () => {
                     <span>{rowData.createdBy?.name}</span>
                 </Tooltip>
             )
+        }
+    }
+    const handlePageChange = async (pageIndex: number) => {
+        if (page !== pageIndex +  1) {
+            await setPage(pageIndex +  1);
+            allMeetings.refetch();
         }
     }
     const childComponent = {
@@ -300,7 +308,21 @@ const AllMeetings = () => {
                     }
                 )
             }
-        }
+        },
+        
+        pagingIndex:{
+            content:({pageIndex,isActive}:{pageIndex:number,isActive:boolean})=>{
+                if (isActive) {
+                    handlePageChange(pageIndex)
+                }
+            }
+        },
+    }
+    const paging:PagingOptions={
+        enabled:true,
+        pagesCount: allMeetings.data?.totalPages,
+        pageSize:15,
+        position:PagingPosition.Top
     }
     //react quill
     const modules = {
@@ -461,7 +483,8 @@ const AllMeetings = () => {
                 // @ts-expect-error noidea
                 format={format}
                 columns={columns}
-                data={allMeetings.data}
+                paging={paging}
+                data={allMeetings.data?.docs}
                 editingMode={EditingMode.Cell}
                 rowKeyField={'_id'}
                 // @ts-expect-error noidea

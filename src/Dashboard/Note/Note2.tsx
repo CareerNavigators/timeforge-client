@@ -29,6 +29,7 @@ const Note2 = () => {
     },
     enabled: userData != null,
     retry: 2,
+    refetchOnWindowFocus:false
   });
   const selectSingleNote = (id: string) => {
     const t_singleNote = userNotes.data?.filter((x) => x._id == id);

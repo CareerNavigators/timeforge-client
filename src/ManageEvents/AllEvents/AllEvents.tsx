@@ -49,6 +49,7 @@ const AllEvents: React.FC = () => {
     },
     enabled: userData != null ? true : false,
     retry: MAX_API_CALLS - 1,
+    refetchOnWindowFocus:false
   });
 
   // console.log(allEvents);

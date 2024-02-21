@@ -29,8 +29,9 @@ import "./OneEvent.css";
 
 const OneEvent = () => {
   const { userData } = useContext(AuthContext);
-  console.log(userData);
-
+  const [selectedTimes, setSelectedTimes] = useState<{
+    [key: string]: string[];
+  }>({});
   const [isAudioSelected, setIsAudioSelected] = useState(true);
   const [isVideoSelected, setIsVideoSelected] = useState(true);
   const [isOffline, setIsOffline] = useState(true);
@@ -132,27 +133,21 @@ const OneEvent = () => {
       setIsVideoSelected(true);
     }
   };
-
-  console.log("checking offline", isOffline);
-  console.log("audio", isAudioSelected);
-  console.log("video", isVideoSelected);
-
   const handleSubmit = async () => {
     try {
       const newEvent = {
         createdBy: userData?._id,
         title: eventName,
-        durationHour: eventDurationHour,
-        durationMinute: eventDurationMinute,
+        duration:eventDurationHour+eventDurationMinute,
         mic: isAudioSelected,
         camera: isVideoSelected,
         eventType: eventType,
         desc: eventDesc,
-        offline : isOffline
+        events: selectedTimes, 
+        offline:isOffline
       };
 
       axiosSecure.post("/meeting", newEvent).then(() => {
-        // console.log(res);
         setEvents((prevEvents) => [...prevEvents, newEvent]);
         showToast("success", `${eventName} is added to the Events.`);
         navigate("/dashboard/userEvent");
@@ -375,6 +370,8 @@ const OneEvent = () => {
           <CalendarPage
             eventDuration={eventDuration}
             eventTime={eventTime}
+            setSelectedTimes={setSelectedTimes}
+            selectedTimes={selectedTimes}
           ></CalendarPage>
         </div>
       </div>
