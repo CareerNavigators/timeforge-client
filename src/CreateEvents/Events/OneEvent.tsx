@@ -138,7 +138,7 @@ const OneEvent = () => {
       const newEvent = {
         createdBy: userData?._id,
         title: eventName,
-        duration:eventDurationHour+eventDurationMinute,
+        duration:eventDuration,
         mic: isAudioSelected,
         camera: isVideoSelected,
         eventType: eventType,
