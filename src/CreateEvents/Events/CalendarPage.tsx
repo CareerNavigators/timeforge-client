@@ -4,15 +4,15 @@ import type { CalendarProps } from "antd";
 import { Badge, Button, Calendar, Modal } from "antd";
 import "./style.css";
 
-const CalendarPage = ({ eventDuration, eventTime }: any) => {
+const CalendarPage = ({ eventDuration, eventTime,selectedTimes,setSelectedTimes }: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [modalTimes, setModalTimes] = useState<
     { time: string; checked: boolean }[]
   >([]);
-  const [selectedTimes, setSelectedTimes] = useState<{
-    [key: string]: string[];
-  }>({});
+  // const [selectedTimes, setSelectedTimes] = useState<{
+  //   [key: string]: string[];
+  // }>({});
 
   const handleCheckboxChange = (time: string) => {
     setModalTimes((prevModalTimes) =>
