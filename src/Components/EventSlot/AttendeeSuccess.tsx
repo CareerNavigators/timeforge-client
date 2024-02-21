@@ -68,7 +68,7 @@ const AttendeeSuccess = () => {
         </h1>
       </div>
       <div className="text-center pt-3 flex justify-center">
-        <button className="bg-[#7c3aed] font-bold rounded-lg text-white py-2 px-5">
+        <button className="bg-[#7c3aed] text-lg font-bold rounded-lg tracking-widest text-white py-2 px-5">
             <Link to="/">Go to Homepage</Link>
         </button>
       </div>
