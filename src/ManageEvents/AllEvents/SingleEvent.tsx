@@ -11,8 +11,9 @@ import { motion } from "framer-motion";
 import { BiLink } from "react-icons/bi";
 import { FaUserGroup } from "react-icons/fa6";
 import { RiTimer2Fill } from "react-icons/ri";
-
-
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration"
+dayjs.extend(duration)
 interface SingleEventProps {
   item: EventType;
   handleEventDelete: (id: string) => void;
@@ -23,7 +24,14 @@ const SingleEvent: React.FC<SingleEventProps> = ({
   handleEventDelete,
 }) => {
   const { _id, title, duration, eventType, camera, mic, attendee } = item;
-
+  let durationMsg:string="";
+  if (duration) {
+    if (duration<60) {
+      durationMsg=dayjs.duration(parseInt(String(duration)),"minutes").format("m [minutes]")
+    }else{
+      durationMsg=dayjs.duration(parseInt(String(duration)),"minutes").format("H [hours] m [minutes]")
+    }
+  }
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
@@ -53,7 +61,7 @@ const SingleEvent: React.FC<SingleEventProps> = ({
           </div>
           <h4 className="flex items-center gap-2 my-3">
             <RiTimer2Fill color="gray" size={17}></RiTimer2Fill> 
-            <p className="text-gray-500 text-sm">{duration} minutes</p>
+            <p className="text-gray-500 text-sm">{durationMsg}</p>
           </h4>
           <div className="flex items-center justify-between my-2">
             <div className="flex items-center gap-3 border border-[#d6d1ff] px-3 py-1 rounded-lg">
