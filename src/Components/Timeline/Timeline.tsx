@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Card, Input, Modal, TimePicker } from "antd";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import "./Timeline.css";
 
 export interface Guest {
@@ -48,7 +48,9 @@ const Timeline = ({ item }: TimelineProps) => {
         key={index}
         className="flex flex-col my-3 sm:relative sm:before:absolute sm:before:top-2 sm:before:w-3 sm:before:h-3 sm:before:rounded-full sm:before:left-[-33px] sm:before:z-[1] before:bg-[#7c3aed]"
       >
-        <h3 className="text-lg font-semibold tracki text-[#6739b6]">{guest.position}</h3>
+        <h3 className="text-lg font-semibold tracki text-[#6739b6]">
+          {guest.position}
+        </h3>
         <time className="text-xs tracki uppercase dark:text-gray-400">
           {guest.email}
         </time>
@@ -94,13 +96,13 @@ const Timeline = ({ item }: TimelineProps) => {
           </div>
         </section>
 
-        <Link
+        {/* <Link
           id="btn-details"
           className="bg-[#7c3aed] px-2 py-1 mt-5 rounded text-dw w-full flex justify-center"
           to={"/singleTimeline"}
         >
           Details
-        </Link>
+        </Link> */}
       </Card>
       <Modal
         title="Timeline Details"
@@ -108,10 +110,13 @@ const Timeline = ({ item }: TimelineProps) => {
         onCancel={closeModal}
         footer={null}
       >
-        <div className="space-y-3 flex flex-col">
-          <Input placeholder="Title" className="" />
-          <Input placeholder="Email" className="" />
+        <div className="flex flex-col gap-3">
+          <div className="flex gap-3">
+            <Input placeholder="Title" size="small" className="" />
+            <Input placeholder="Email" className="" />
+          </div>
           <TimePicker.RangePicker use12Hours format="h:mm a" />
+
           <Button id="btn-add" className="">
             Add
           </Button>
