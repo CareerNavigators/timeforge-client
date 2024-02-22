@@ -62,7 +62,7 @@ const AllTimeline = () => {
         )}
       </div> */}
 
-      <div className="grid grid-cols-4 max-w-7xl mx-auto">
+      <div className="mx-auto flex gap-5 max-w-7xl">
         {dataLog?.map((item: TimelineData) => (
           <Timeline key={item._id} item={item} />
         ))}
