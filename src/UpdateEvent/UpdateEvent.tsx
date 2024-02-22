@@ -22,6 +22,8 @@ const UpdateEvent = () => {
     const { userData } = useContext(AuthContext);
     const { _id, title, duration, desc, eventType: eventTypes, events: event, camera, mic, offline, startTime, endTime } = useLoaderData() as EventType;
 
+    console.log(event);
+
     // converting total hours into hour and minutes
     const durations = moment.duration(duration, 'minutes');
     const hours = Math.floor(durations.asHours());
