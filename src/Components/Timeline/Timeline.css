@@ -1,0 +1,19 @@
+#btn-details {
+  background-color: rgb(124 58 237);
+  color: rgb(255, 255, 255);
+  border-color: rgb(124 58 237);
+}
+#btn-details:hover {
+  background-color: rgb(138, 72, 252);
+  color: rgb(255, 255, 255);
+}
+
+#btn-add {
+  background-color: rgb(124 58 237);
+  color: rgb(255, 255, 255);
+  border-color: rgb(124 58 237);
+}
+#btn-add:hover {
+  background-color: rgb(138, 72, 252);
+  color: rgb(255, 255, 255);
+}

@@ -4,7 +4,12 @@ import type { CalendarProps } from "antd";
 import { Badge, Button, Calendar, Modal } from "antd";
 import "./style.css";
 
-const CalendarPage = ({ eventDuration, eventTime,selectedTimes,setSelectedTimes }: any) => {
+const CalendarPage = ({
+  eventDuration,
+  eventTime,
+  selectedTimes,
+  setSelectedTimes,
+}: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [modalTimes, setModalTimes] = useState<
