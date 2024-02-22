@@ -24,6 +24,9 @@ import AllUser2 from "../Dashboard/Admin/AllUser/AllUser2";
 import AllMeetings from "../Dashboard/Admin/AllMeetings/AllMeetings";
 import AllAttendess from "../Dashboard/Admin/AllAttendees/AllAttendess";
 import Note2 from "../Dashboard/Note/Note2";
+import Shop from "../Pages/Inventory/Shop";
+import Product from "../Pages/Inventory/Product";
+import Cart from "../Pages/Inventory/Cart";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +67,18 @@ const router = createBrowserRouter([
         path: "/about",
         element: <About></About>,
       },
+      {
+        path: "/merch",
+        element:<Shop/>
+      },
+      {
+        path: "/product",
+        element: <Product/>
+      },
+      {
+        path: "/cart",
+        element: <Cart/>
+      }
     ],
   },
   {
