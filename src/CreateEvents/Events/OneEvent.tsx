@@ -138,13 +138,13 @@ const OneEvent = () => {
       const newEvent = {
         createdBy: userData?._id,
         title: eventName,
-        duration:eventDurationHour+eventDurationMinute,
+        duration: eventDurationHour + eventDurationMinute,
         mic: isAudioSelected,
         camera: isVideoSelected,
         eventType: eventType,
         desc: eventDesc,
-        events: selectedTimes, 
-        offline:isOffline
+        events: selectedTimes,
+        offline: isOffline,
       };
 
       axiosSecure.post("/meeting", newEvent).then(() => {
@@ -283,20 +283,6 @@ const OneEvent = () => {
                   )}
                   options={items.map((item) => ({ label: item, value: item }))}
                 />
-              </Form.Item>
-
-              <Form.Item
-                rules={[{ required: true, message: "Please select!" }]}
-              >
-                <div className="flex gap-2">
-                  <Input></Input>
-                  <Button
-                    id="btn-timeline"
-                    className="bg-[#7c3aed] font-semibold text-dw"
-                  >
-                    Add event timeline
-                  </Button>
-                </div>
               </Form.Item>
 
               <Space

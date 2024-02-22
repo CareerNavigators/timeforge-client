@@ -25,6 +25,7 @@ import AllMeetings from "../Dashboard/Admin/AllMeetings/AllMeetings";
 import AllAttendess from "../Dashboard/Admin/AllAttendees/AllAttendess";
 import Note2 from "../Dashboard/Note/Note2";
 import AttendeeSuccess from "../Components/EventSlot/AttendeeSuccess";
+import AllTimeline from "../Components/Timeline/AllTimeline";
 
 const router = createBrowserRouter([
   {
@@ -40,13 +41,14 @@ const router = createBrowserRouter([
         path: "/createEvent",
         element: <CreateEvents></CreateEvents>,
       },
-      
+
       {
         path: "/calendarPage",
         element: (
           <CalendarPage
             selectedTimes={{}}
-            onSelectTime={function (): void {}}></CalendarPage>
+            onSelectTime={function (): void {}}
+          ></CalendarPage>
         ),
       },
       {
@@ -112,24 +114,28 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/note",
-        element: <Note></Note>
+        element: <Note></Note>,
       },
       {
-        path:"/dashboard/alluser",
-        element:<AllUser2></AllUser2>
+        path: "/dashboard/timeline",
+        element: <AllTimeline></AllTimeline>,
       },
       {
-        path:"/dashboard/allevents",
-        element:<AllMeetings></AllMeetings>
+        path: "/dashboard/alluser",
+        element: <AllUser2></AllUser2>,
       },
       {
-        path:"/dashboard/allateendee",
-        element:<AllAttendess />
+        path: "/dashboard/allevents",
+        element: <AllMeetings></AllMeetings>,
       },
-        {
-          path: "dashboard/createEvent/oneEvent",
-          element: <OneEvent></OneEvent>,
-        },
+      {
+        path: "/dashboard/allattendee",
+        element: <AllAttendess />,
+      },
+      {
+        path: "dashboard/createEvent/oneEvent",
+        element: <OneEvent></OneEvent>,
+      },
     ],
   },
   {
@@ -144,10 +150,7 @@ const router = createBrowserRouter([
     path: "/eventSlot/attendee/:id",
     element: <AttendeeSuccess></AttendeeSuccess>,
     loader: ({ params }) =>
-      fetch(
-        `https://timeforge-server.vercel.app/attendee?id=${params.id}`
-      ),
+      fetch(`https://timeforge-server.vercel.app/attendee?id=${params.id}`),
   },
-  
 ]);
 export default router;
