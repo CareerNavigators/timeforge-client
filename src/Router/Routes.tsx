@@ -97,7 +97,7 @@ const router = createBrowserRouter([
         element: <EventDetails></EventDetails>,
         loader: ({ params }) =>
           fetch(
-            `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
+            `${import.meta.env.VITE_BACK_END_API}/meeting?id=${params.id}&type=single`
           ),
       },
       {
@@ -105,7 +105,7 @@ const router = createBrowserRouter([
         element: <UpdateEvent></UpdateEvent>,
         loader: ({ params }) =>
           fetch(
-            `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
+            `${import.meta.env.VITE_BACK_END_API}/meeting?id=${params.id}&type=single`
           ),
       },
       {
@@ -143,14 +143,14 @@ const router = createBrowserRouter([
     element: <EventSlot></EventSlot>,
     loader: ({ params }) =>
       fetch(
-        `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
+        `${import.meta.env.VITE_BACK_END_API}/meeting?id=${params.id}&type=single`
       ),
   },
   {
     path: "/eventSlot/attendee/:id",
     element: <AttendeeSuccess></AttendeeSuccess>,
     loader: ({ params }) =>
-      fetch(`https://timeforge-server.vercel.app/attendee?id=${params.id}`),
+      fetch(`${import.meta.env.VITE_BACK_END_API}/attendee?id=${params.id}`),
   },
 ]);
 export default router;

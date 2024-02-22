@@ -257,7 +257,7 @@ const UpdateEvent = () => {
                                     format="h:mm a"
                                     onChange={handleStartEndTime}
                                     className="w-full"
-                                    value={[startDayjs, endDayjs]} />
+                                    defaultValue={[startDayjs, endDayjs]} />
                             </Form.Item>
 
                             {/* Dynamic event type */}
@@ -303,20 +303,6 @@ const UpdateEvent = () => {
                                     )}
                                     options={items.map((item) => ({ label: item, value: item }))}
                                 />
-                            </Form.Item>
-
-                            <Form.Item
-                                rules={[{ required: true, message: "Please select!" }]}
-                            >
-                                <div className="flex gap-2">
-                                    <Input></Input>
-                                    <Button
-                                        id="btn-timeline"
-                                        className="bg-[#7c3aed] font-semibold text-dw"
-                                    >
-                                        Add event timeline
-                                    </Button>
-                                </div>
                             </Form.Item>
 
                             <Space
