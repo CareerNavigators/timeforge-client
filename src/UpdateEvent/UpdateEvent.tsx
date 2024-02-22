@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber, InputRef, Select, Space, Switch, TimePicker } from "antd";
+import { Button, Form, Input, InputNumber, InputRef, Menu, Select, Space, Switch, TimePicker } from "antd";
 import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import { FaVideo, FaVideoSlash } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
@@ -13,17 +13,29 @@ import { EventType } from "../ManageEvents/AllEvents/AllEvents";
 import { AudioMutedOutlined, AudioOutlined, PlusOutlined } from "@ant-design/icons";
 import { Divider } from "rc-menu";
 import moment from "moment";
+import dayjs from 'dayjs';
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
 
 
 const UpdateEvent = () => {
     const { userData } = useContext(AuthContext);
-    const { _id, title, duration, desc, eventType: eventTypes, events: event, camera, mic, offline } = useLoaderData() as EventType;
+    const { _id, title, duration, desc, eventType: eventTypes, events: event, camera, mic, offline, startTime, endTime } = useLoaderData() as EventType;
+
+    // converting total hours into hour and minutes
     const durations = moment.duration(duration, 'minutes');
     const hours = Math.floor(durations.asHours());
     const minutes = durations.minutes();
+    console.log("startstring", startTime);
+    console.log("endstring", startTime);
 
-    console.log("h", hours);
-    console.log("m", minutes);
+
+    // converting start/end hour from string in time picker with momentJs
+    dayjs.extend(customParseFormat);
+    const startDayjs = dayjs(startTime, 'h:mm a');
+    const endDayjs = dayjs(endTime, 'h:mm a');
+    console.log("start", startDayjs);
+    console.log("end", endDayjs);
 
     const [selectedTimes, setSelectedTimes] = useState<{
         [key: string]: string[];
@@ -51,11 +63,10 @@ const UpdateEvent = () => {
         "Webinar",
     ]);
 
-    if(!items.includes(eventTypes)){
+    if (!items.includes(eventTypes)) {
         setItems([...items, eventTypes])
     }
-    console.log(items);
-    
+
     const [name, setName] = useState("");
     const inputRef = useRef<InputRef>(null);
 
@@ -238,6 +249,7 @@ const UpdateEvent = () => {
                             </div>
 
                             <Form.Item
+                                initialValue={startTime}
                                 rules={[{ required: true, message: "Please select!" }]}
                             >
                                 <TimePicker.RangePicker
@@ -245,7 +257,7 @@ const UpdateEvent = () => {
                                     format="h:mm a"
                                     onChange={handleStartEndTime}
                                     className="w-full"
-                                />
+                                    value={[startDayjs, endDayjs]} />
                             </Form.Item>
 
                             {/* Dynamic event type */}
@@ -260,31 +272,33 @@ const UpdateEvent = () => {
                                     onChange={handleEventType}
                                     dropdownRender={(menu) => (
                                         <>
-                                            {menu && <div className="w-full">{menu}</div>}
-                                            <Divider style={{ margin: "8px  0" }} />
-                                            <Space
-                                                className="w-full flex flex-row justify-end"
-                                                style={{
-                                                    padding: "0  8px  4px",
-                                                }}
-                                            >
-                                                <Input
-                                                    placeholder="Enter event type"
-                                                    ref={inputRef}
-                                                    value={name}
-                                                    onChange={onNameChange}
-                                                    onKeyDown={(e) => e.stopPropagation()}
-                                                    className="w-full"
-                                                />
-                                                <Button
-                                                    style={{ border: "1px solid LightGray" }}
-                                                    type="text"
-                                                    icon={<PlusOutlined />}
-                                                    onClick={addItem}
+                                            <div className="w-full">{menu}</div>
+                                            <Menu>
+                                                <Divider style={{ margin: "8px  0" }} />
+                                                <Space
+                                                    className="w-full flex flex-row justify-end"
+                                                    style={{
+                                                        padding: "0  8px  4px",
+                                                    }}
                                                 >
-                                                    Add Event
-                                                </Button>
-                                            </Space>
+                                                    <Input
+                                                        placeholder="Enter event type"
+                                                        ref={inputRef}
+                                                        value={name}
+                                                        onChange={onNameChange}
+                                                        onKeyDown={(e) => e.stopPropagation()}
+                                                        className="w-full"
+                                                    />
+                                                    <Button
+                                                        style={{ border: "1px solid LightGray" }}
+                                                        type="text"
+                                                        icon={<PlusOutlined />}
+                                                        onClick={addItem}
+                                                    >
+                                                        Add Event
+                                                    </Button>
+                                                </Space>
+                                            </Menu>
                                         </>
                                     )}
                                     options={items.map((item) => ({ label: item, value: item }))}
