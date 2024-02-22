@@ -1,0 +1,98 @@
+[
+    {
+        "eventTitle": "New Product Launch",
+        "eventDate": "2024-04-20",
+        "eventTime": "11:00 AM - 1:00 PM",
+        "guests": [
+            {
+                "position": "CEO",
+                "email": "ceo@company.com",
+                "speechTime": "11:15 AM - 11:30 AM"
+            },
+            {
+                "position": "Product Manager",
+                "email": "productmanager@company.com",
+                "speechTime": "11:30 AM - 11:45 AM"
+            },
+            {
+                "position": "Keynote Speaker",
+                "email": "industryexpert@example.com",
+                "speechTime": "11:45 AM - 12:15 PM"
+            },
+            {
+                "position": "Press",
+                "email": "journalist1@example.com",
+                "speechTime": null
+            },
+            {
+                "position": "Press",
+                "email": "journalist2@example.com",
+                "speechTime": null
+            }
+        ]
+    },
+    {
+        "eventTitle": "Team Building Workshop",
+        "eventDate": "2024-05-10",
+        "eventTime": "9:00 AM - 4:00 PM",
+        "guests": [
+            {
+                "position": "Team Lead",
+                "email": "teamlead1@company.com",
+                "speechTime": "10:00 AM - 10:15 AM"
+            },
+            {
+                "position": "Team Lead",
+                "email": "teamlead2@company.com",
+                "speechTime": "10:15 AM - 10:30 AM"
+            },
+            {
+                "position": "Facilitator",
+                "email": "facilitator@example.com",
+                "speechTime": "10:30 AM - 12:00 PM"
+            },
+            {
+                "position": "Team Member",
+                "email": "teammember1@company.com",
+                "speechTime": null
+            },
+            {
+                "position": "Team Member",
+                "email": "teammember2@company.com",
+                "speechTime": null
+            }
+        ]
+    },
+    {
+        "eventTitle": "Board Meeting",
+        "eventDate": "2024-06-21",
+        "eventTime": "2:00 PM - 4:00 PM",
+        "guests": [
+            {
+                "position": "CEO",
+                "email": "ceo@company.com",
+                "speechTime": "2:15 PM - 2:30 PM"
+            },
+            {
+                "position": "CFO",
+                "email": "cfo@company.com",
+                "speechTime": "2:30 PM - 2:45 PM"
+            },
+            {
+                "position": "Board Member",
+                "email": "boardmember1@example.com",
+                "speechTime": null
+            },
+            {
+                "position": "Board Member",
+                "email": "boardmember2@example.com",
+                "speechTime": null
+            },
+            {
+                "position": "Board Member",
+                "email": "boardmember3@example.com",
+                "speechTime": null
+            }
+        ]
+    }
+]
