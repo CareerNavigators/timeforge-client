@@ -21,6 +21,9 @@ export interface EventType {
   name: string;
   email: string;
   slot: keyof object;
+  offline: boolean;
+  startTime: string;
+  endTime: string
 }
 
 const AllEvents: React.FC = () => {
