@@ -106,3 +106,37 @@ export type EventResponse = {
 export type Attendee ={
     docs:Attendess[];
 } & PaginationInfo;
+
+
+interface Eventt {
+  _id: string;
+  title: string;
+}
+export interface TimelineItem {
+  startTime: string;
+  endTime: string;
+  content: string;
+  _id?:string;
+}
+interface MainObject {
+  _id: string;
+  event: Eventt;
+  createdAt: string;
+}
+
+export type TimelineType ={
+  docs:MainObject[];
+} & PaginationInfo;
+
+type UserType2={
+  _id:string
+  name:string
+  email:string
+}
+export type SingleTimeLine={
+  _id:string
+  createdBy:UserType2
+  guest:UserType2[]
+  timeline:TimelineItem[]
+  createdAt:string
+}
