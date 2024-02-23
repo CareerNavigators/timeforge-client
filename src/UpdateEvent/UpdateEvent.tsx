@@ -13,49 +13,59 @@ import { EventType } from "../ManageEvents/AllEvents/AllEvents";
 import { AudioMutedOutlined, AudioOutlined, PlusOutlined } from "@ant-design/icons";
 import { Divider } from "rc-menu";
 import moment from "moment";
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { NoUndefinedRangeValueType } from "rc-picker/lib/PickerInput/RangePicker";
 
 
 
 const UpdateEvent = () => {
     const { userData } = useContext(AuthContext);
-    const { _id, title, duration, desc, eventType: eventTypes, events: event, camera, mic, offline, startTime, endTime } = useLoaderData() as EventType;
-
-    console.log(event);
+    const { _id, title, duration, desc, eventType: eventTypes, events: event, camera, mic, offline, startTime: startTimes, endTime: endTimes } = useLoaderData() as EventType;
 
     // converting total hours into hour and minutes
     const durations = moment.duration(duration, 'minutes');
     const hours = Math.floor(durations.asHours());
     const minutes = durations.minutes();
-    console.log("startstring", startTime);
-    console.log("endstring", startTime);
-
 
     // converting start/end hour from string in time picker with momentJs
     dayjs.extend(customParseFormat);
-    const startDayjs = dayjs(startTime, 'h:mm a');
-    const endDayjs = dayjs(endTime, 'h:mm a');
-    console.log("start", startDayjs);
-    console.log("end", endDayjs);
+    const startDayjs = dayjs(startTimes, 'h:mm a');
+    const endDayjs = dayjs(endTimes, 'h:mm a');
+
+    // converting duration into number
+    const durationInNumber = parseFloat(String(duration));
+
+    // start and end time formatting for state
+    // dayjs.extend(customParseFormat);
+    const formattedStartTimes = dayjs(startTimes, 'h:mm a').format('HH:mm');
+    const formattedEndTimes = dayjs(endTimes, 'h:mm a').format('HH:mm');
 
     const [selectedTimes, setSelectedTimes] = useState<{
         [key: string]: string[];
-    }>({});
+    }>(event);
     const [isAudioSelected, setIsAudioSelected] = useState(mic);
     const [isVideoSelected, setIsVideoSelected] = useState(camera);
     const [isOffline, setIsOffline] = useState(offline);
     const [eventName, setEventName] = useState<string>("");
-    const [eventDurationHour, setEventDurationHour] = useState(hours);
-    const [eventDurationMinute, setEventDurationMinute] = useState(minutes);
+    const [eventDurationHour, setEventDurationHour] = useState(0);
+    const [eventDurationMinute, setEventDurationMinute] = useState(0);
     const [eventType, setEventType] = useState<string>("");
     const [eventDesc, setEventDesc] = useState<string>(desc);
     const [events, setEvents] = useState<Array<unknown>>([]);
-    const [eventTime, setEventTime] = useState<any>();
+    const [eventTime, setEventTime] = useState<any>([formattedStartTimes, formattedEndTimes]);
+    const [startTime, setStartTime] = useState<string>()
+    const [endTime, setEndTime] = useState<string>()
+    const [eventDuration, setEventDuration] = useState<number>(durationInNumber)
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const axiosSecure = AxiosSecure();
-    const eventDuration = eventDurationHour + eventDurationMinute;
+
+    useEffect(() => {
+        setEventDuration(eventDurationHour + eventDurationMinute)
+    }, [])
+    // const eventDuration = eventDurationHour + eventDurationMinute;
+    // console.log("eventTime", eventTime);
 
     // custom event types states and functions starts
     const [items, setItems] = useState([
@@ -114,11 +124,13 @@ const UpdateEvent = () => {
         setEventType(value as string);
     };
 
-    const handleStartEndTime = (value: any) => {
-        const startHour = value[0].$H;
-        const startMin = value[0].$m;
-        const endHour = value[1].$H;
-        const endMin = value[1].$m;
+    const handleStartEndTime = (value: NoUndefinedRangeValueType<Dayjs>, dateString: string[]) => {
+        setStartTime(dateString[0])
+        setEndTime(dateString[1])
+        const startHour = value[0]?.hour();
+        const startMin = value[0]?.minute();
+        const endHour = value[1]?.hour();
+        const endMin = value[1]?.minute();
         const times = [
             { $H: startHour, $m: startMin },
             { $H: endHour, $m: endMin },
@@ -127,10 +139,8 @@ const UpdateEvent = () => {
         const formattedTimes = times.map((time) => {
             const paddedHours = String(time.$H).padStart(2, "0");
             const paddedMinutes = String(time.$m).padStart(2, "0");
-
             return `${paddedHours}:${paddedMinutes}`;
         });
-        console.log("Formatted time: ", formattedTimes);
         setEventTime(formattedTimes);
     };
 
@@ -153,13 +163,15 @@ const UpdateEvent = () => {
             const newEvent = {
                 createdBy: userData?._id,
                 title: eventName || title,
-                duration: eventDuration,
+                duration: eventDuration || duration,
                 mic: isAudioSelected,
                 camera: isVideoSelected,
                 eventType: eventType || eventTypes,
                 desc: eventDesc,
                 events: selectedTimes,
-                offline: isOffline
+                offline: isOffline,
+                startTime: startTime || startTimes,
+                endTime: endTime || endTimes
             };
 
             axiosSecure.patch(`/meeting/${_id}`, newEvent).then((res) => {
@@ -251,7 +263,6 @@ const UpdateEvent = () => {
                             </div>
 
                             <Form.Item
-                                initialValue={startTime}
                                 rules={[{ required: true, message: "Please select!" }]}
                             >
                                 <TimePicker.RangePicker
@@ -315,6 +326,7 @@ const UpdateEvent = () => {
                                     rules={[{ required: true, message: "Please select!" }]}
                                 >
                                     <Switch
+                                        checked={isOffline}
                                         checkedChildren="Online"
                                         unCheckedChildren="Offline"
                                         className="bg-gray-400"
@@ -376,7 +388,7 @@ const UpdateEvent = () => {
                 {/* calendar part */}
                 <div className="">
                     <CalendarPage
-                        eventDuration={eventDuration}
+                        eventDuration={duration}
                         eventTime={eventTime}
                         setSelectedTimes={setSelectedTimes}
                         selectedTimes={selectedTimes}
