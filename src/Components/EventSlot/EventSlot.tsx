@@ -28,7 +28,7 @@ import ConfirmationEmail from "./ConfirmationEmail";
 
 const EventDetails: React.FC = () => {
   // hooks and states
-  const { title, duration, desc, eventType, events, camera, mic, _id } =
+  const { title, duration, desc, eventType, events, camera, mic, _id, offline } =
     useLoaderData() as EventType;
   const { userData } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -142,7 +142,7 @@ const EventDetails: React.FC = () => {
       <ConfirmationEmail
         eventId={eventId}
         eventName={eventName}
-        eventDesc= {eventDesc}
+        eventDesc={eventDesc}
         eventDate={eventDate}
         eventTime={eventTime}
         attendeeEmail={attendeeEmail}
@@ -189,8 +189,15 @@ const EventDetails: React.FC = () => {
         {/* event information */}
         <div className="w-full lg:w-1/3 max-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
           <div className="p-2">
-            <h2 className="text-2xl dark:text-dw w-full border border-[#d6d1ff] rounded-md px-3 py-2 text-[#7c3aed] font-bold mt-3">
+            <h2 className="flex justify-between items-center text-2xl dark:text-dw w-full border border-[#d6d1ff] rounded-md px-3 py-2 text-[#7c3aed] font-bold mt-3">
               {title}
+              {
+                offline ? <h4 className="text-xs px-2 py-[2px] rounded-md bg-gray-500 text-white">
+                  Offline
+                </h4> : <h4 className="text-xs px-2 py-[2px] rounded-md bg-green-500 text-white">
+                  Online
+                </h4>
+              }
             </h2>
             <div className="flex justify-between border border-[#d6d1ff] rounded-md mt-5 items-center px-3 py-1.5">
               <div className="flex items-center gap-2 text-lg text-gray-600 font-medium rounded-md">

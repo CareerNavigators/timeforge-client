@@ -23,13 +23,13 @@ const SingleEvent: React.FC<SingleEventProps> = ({
   item,
   handleEventDelete,
 }) => {
-  const { _id, title, duration, eventType, camera, mic, attendee } = item;
-  let durationMsg:string="";
+  const { _id, title, duration, eventType, camera, mic, attendee, offline } = item;
+  let durationMsg: string = "";
   if (duration) {
-    if (duration<60) {
-      durationMsg=dayjs.duration(parseInt(String(duration)),"minutes").format("m [minutes]")
-    }else{
-      durationMsg=dayjs.duration(parseInt(String(duration)),"minutes").format("H [hours] m [minutes]")
+    if (duration < 60) {
+      durationMsg = dayjs.duration(parseInt(String(duration)), "minutes").format("m [minutes]")
+    } else {
+      durationMsg = dayjs.duration(parseInt(String(duration)), "minutes").format("H [hours] m [minutes]")
     }
   }
   return (
@@ -49,20 +49,29 @@ const SingleEvent: React.FC<SingleEventProps> = ({
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.9 }}
     >
-      <div className="w-[300px] max-h-[300px] select-none rounded-lg bg-white dark:bg-d shadow-md border-2 border-white dark:border-dw dark:border-[1px] p-4 hover:shadow-md hover:-hue-rotate-50 hover:border-[#7c3aed]">
+      <div className={`w-[300px] max-h-[300px] select-none rounded-lg dark:bg-d shadow-md border-2 border-white dark:border-dw dark:border-[1px] p-4 hover:bg-[#f9f6ff] hover:border-[#7c3aed] hover:shadow-md hover:-hue-rotate-50`}>
         <Link to={`/dashboard/eventDetails/${_id}`}>
           <div className="flex justify-between items-center">
             <h3 className="text-[#7c3aed] dark:text-dw text-lg font-bold my-2 truncate">
               {title}
             </h3>
-            <h4 className="text-xs text-[#7c3aed] bg-[#f1effa] font-semibold rounded-full px-3 py-1">
+            <h4 className={`text-xs text-[#7c3aed] ${offline ? "bg-[#f1effa]" : "bg-[#e5e0f8]"} font-semibold rounded-md px-3 py-1`}>
               {eventType}
             </h4>
           </div>
-          <h4 className="flex items-center gap-2 my-3">
-            <RiTimer2Fill color="gray" size={17}></RiTimer2Fill> 
-            <p className="text-gray-500 text-sm">{durationMsg}</p>
-          </h4>
+          <div className="flex justify-between items-center">
+            <h4 className="flex items-center gap-2 my-3 border border-[#d6d1ff] px-2 py-[2px] rounded-lg">
+              <RiTimer2Fill color="gray" size={17}></RiTimer2Fill>
+              <p className="text-gray-500 text-sm">{durationMsg}</p>
+            </h4>
+            {
+              offline ? <h4 className="text-xs px-2 py-[2px] rounded-md bg-gray-500 text-white">
+              Offline
+            </h4> : <h4 className="text-xs px-2 py-[2px] rounded-md bg-green-500 text-white">
+              Online
+            </h4>
+            }
+          </div>
           <div className="flex items-center justify-between my-2">
             <div className="flex items-center gap-3 border border-[#d6d1ff] px-3 py-1 rounded-lg">
               <FaUserGroup color="gray" size={17}></FaUserGroup>

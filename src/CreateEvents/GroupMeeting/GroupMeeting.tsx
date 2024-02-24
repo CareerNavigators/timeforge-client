@@ -1,72 +1,53 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Form, Input, InputNumber, InputRef, Menu, Select, Space, Switch, TimePicker } from "antd";
+
+import {
+    Button,
+    Divider,
+    Form,
+    Input,
+    InputNumber,
+    InputRef,
+    Select,
+    Space,
+    Switch,
+    TimePicker,
+} from "antd";
+import { FaVideoSlash, FaVideo } from "react-icons/fa";
+import {
+    AudioOutlined,
+    AudioMutedOutlined,
+    PlusOutlined,
+} from "@ant-design/icons";
 import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
-import { FaVideo, FaVideoSlash } from "react-icons/fa";
 import { SelectValue } from "antd/es/select";
-import CalendarPage from "../CreateEvents/Events/CalendarPage";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import AxiosSecure from "../Hook/useAxios";
-import { AuthContext } from "../Provider/AuthContext";
-import showToast from "../Hook/swalToast";
-import { useLoaderData, useNavigate } from "react-router-dom";
-import { EventType } from "../ManageEvents/AllEvents/AllEvents";
-import { AudioMutedOutlined, AudioOutlined, PlusOutlined } from "@ant-design/icons";
-import { Divider } from "rc-menu";
-import moment from "moment";
-import dayjs, { Dayjs } from 'dayjs';
-import customParseFormat from "dayjs/plugin/customParseFormat";
+import AxiosSecure from "../../Hook/useAxios";
+import { AuthContext } from "../../Provider/AuthContext";
+import showToast from "../../Hook/swalToast";
+import { useNavigate } from "react-router-dom";
+import "../Events/OneEvent.css";
+import { Dayjs } from "dayjs";
 import { NoUndefinedRangeValueType } from "rc-picker/lib/PickerInput/RangePicker";
 
-
-
-const UpdateEvent = () => {
+const GroupMeeting = () => {
     const { userData } = useContext(AuthContext);
-    const { _id, title, duration, desc, eventType: eventTypes, events: event, camera, mic, offline, startTime: startTimes, endTime: endTimes } = useLoaderData() as EventType;
 
-    // converting total hours into hour and minutes
-    const durations = moment.duration(duration, 'minutes');
-    const hours = Math.floor(durations.asHours());
-    const minutes = durations.minutes();
-
-    // converting start/end hour from string in time picker with momentJs
-    dayjs.extend(customParseFormat);
-    const startDayjs = dayjs(startTimes, 'h:mm a');
-    const endDayjs = dayjs(endTimes, 'h:mm a');
-
-    // converting duration into number
-    const durationInNumber = parseFloat(String(duration));
-
-    // start and end time formatting for state
-    // dayjs.extend(customParseFormat);
-    const formattedStartTimes = dayjs(startTimes, 'h:mm a').format('HH:mm');
-    const formattedEndTimes = dayjs(endTimes, 'h:mm a').format('HH:mm');
-
-    const [selectedTimes, setSelectedTimes] = useState<{
-        [key: string]: string[];
-    }>(event);
-    const [isAudioSelected, setIsAudioSelected] = useState(mic);
-    const [isVideoSelected, setIsVideoSelected] = useState(camera);
-    const [isOffline, setIsOffline] = useState(offline);
+    const [isAudioSelected, setIsAudioSelected] = useState(true);
+    const [isVideoSelected, setIsVideoSelected] = useState(true);
+    const [isOffline, setIsOffline] = useState(true);
     const [eventName, setEventName] = useState<string>("");
     const [eventDurationHour, setEventDurationHour] = useState(0);
     const [eventDurationMinute, setEventDurationMinute] = useState(0);
     const [eventType, setEventType] = useState<string>("");
-    const [eventDesc, setEventDesc] = useState<string>(desc);
+    const [eventDesc, setEventDesc] = useState<string>("");
     const [events, setEvents] = useState<Array<unknown>>([]);
-    const [eventTime, setEventTime] = useState<any>([formattedStartTimes, formattedEndTimes]);
+    const [eventTime, setEventTime] = useState<any>();
     const [startTime, setStartTime] = useState<string>()
     const [endTime, setEndTime] = useState<string>()
-    const [eventDuration, setEventDuration] = useState<number>(durationInNumber)
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const axiosSecure = AxiosSecure();
-
-    useEffect(() => {
-        setEventDuration(eventDurationHour + eventDurationMinute)
-    }, [])
-    // const eventDuration = eventDurationHour + eventDurationMinute;
-    // console.log("eventTime", eventTime);
+    const eventDuration = eventDurationHour + eventDurationMinute;
 
     // custom event types states and functions starts
     const [items, setItems] = useState([
@@ -75,11 +56,6 @@ const UpdateEvent = () => {
         "Seminar",
         "Webinar",
     ]);
-
-    if (!items.includes(eventTypes)) {
-        setItems([...items, eventTypes])
-    }
-
     const [name, setName] = useState("");
     const inputRef = useRef<InputRef>(null);
 
@@ -159,30 +135,30 @@ const UpdateEvent = () => {
             setIsVideoSelected(true);
         }
     };
+
     const handleSubmit = async () => {
         try {
             const newEvent = {
                 createdBy: userData?._id,
-                title: eventName || title,
-                duration: eventDuration || duration,
+                title: eventName,
+                duration: eventDuration,
                 mic: isAudioSelected,
                 camera: isVideoSelected,
-                eventType: eventType || eventTypes,
+                eventType: eventType,
                 desc: eventDesc,
-                events: selectedTimes,
+                events: eventTime,
                 offline: isOffline,
-                startTime: startTime || startTimes,
-                endTime: endTime || endTimes
+                startTime: startTime,
+                endTime: endTime,
             };
 
-            axiosSecure.patch(`/meeting/${_id}`, newEvent).then((res) => {
-                console.log(res.data);
+            axiosSecure.post("/meeting", newEvent).then(() => {
                 setEvents((prevEvents) => [...prevEvents, newEvent]);
-                showToast("success", `${eventName} is updated.`);
-                navigate(`/dashboard/eventDetails/${_id}`);
+                showToast("success", `${eventName} is added to the Events.`);
+                navigate("/dashboard/userEvent");
             });
         } catch (error) {
-            console.error("Error updating task:", error);
+            console.error("Error adding task:", error);
             showToast("error", "Please fill in all required fields.");
         }
     };
@@ -190,11 +166,13 @@ const UpdateEvent = () => {
     useEffect(() => {
         // console.log("All Events:", events);
     }, [events]);
+
     return (
         <div className="w-full max-w-[1400px] mx-auto pt-10 mb-20 lg:mb-0 lg:p-10">
             <div className="flex flex-col lg:flex-row items-center justify-center mx-5 lg:mx-auto rounded-md">
                 {/* Input part */}
-                <div className="lg:m-0 max-h-[100%] bg-white dark:bg-d lg:border-r-2 border-[#7c3aed]">
+                {/* <div className="lg:m-0 max-h-[100%] bg-white dark:bg-d lg:border-r-2 border-[#7c3aed]"></div> */}
+                <div className="lg:m-0 max-h-[100%] bg-white dark:bg-d">
                     <Form
                         form={form}
                         layout="horizontal"
@@ -204,12 +182,11 @@ const UpdateEvent = () => {
                         <div className="h-full">
                             <div className="lg:mb-10 mb-5">
                                 <h3 className="text-xl font-bold text-center dark:text-dw">
-                                    Update Event
+                                    Group Meeting
                                 </h3>
                             </div>
                             <Form.Item
                                 name="Input"
-                                initialValue={title}
                                 rules={[
                                     { required: true, message: "Please input event name!" },
                                 ]}
@@ -223,7 +200,6 @@ const UpdateEvent = () => {
 
                             <div className="flex gap-2">
                                 <Form.Item
-                                    initialValue={hours}
                                     className="w-full"
                                     name="durationHour"
                                     rules={[
@@ -244,7 +220,6 @@ const UpdateEvent = () => {
 
                                 <Form.Item
                                     className="w-full"
-                                    initialValue={minutes}
                                     name="durationMinute"
                                     rules={[
                                         {
@@ -271,12 +246,11 @@ const UpdateEvent = () => {
                                     format="h:mm a"
                                     onChange={handleStartEndTime}
                                     className="w-full"
-                                    defaultValue={[startDayjs, endDayjs]} />
+                                />
                             </Form.Item>
 
                             {/* Dynamic event type */}
                             <Form.Item
-                                initialValue={eventTypes}
                                 name="eventType"
                                 rules={[{ required: true, message: "Please input!" }]}
                             >
@@ -287,32 +261,30 @@ const UpdateEvent = () => {
                                     dropdownRender={(menu) => (
                                         <>
                                             <div className="w-full">{menu}</div>
-                                            <Menu>
-                                                <Divider style={{ margin: "8px  0" }} />
-                                                <Space
-                                                    className="w-full flex flex-row justify-end"
-                                                    style={{
-                                                        padding: "0  8px  4px",
-                                                    }}
+                                            <Divider style={{ margin: "8px 0" }} />
+                                            <Space
+                                                className="w-full flex flex-row justify-end"
+                                                style={{
+                                                    padding: "0 8px 4px",
+                                                }}
+                                            >
+                                                <Input
+                                                    placeholder="Enter event type"
+                                                    ref={inputRef}
+                                                    value={name}
+                                                    onChange={onNameChange}
+                                                    onKeyDown={(e) => e.stopPropagation()}
+                                                    className="w-full"
+                                                />
+                                                <Button
+                                                    style={{ border: "1px solid LightGray" }}
+                                                    type="text"
+                                                    icon={<PlusOutlined />}
+                                                    onClick={addItem}
                                                 >
-                                                    <Input
-                                                        placeholder="Enter event type"
-                                                        ref={inputRef}
-                                                        value={name}
-                                                        onChange={onNameChange}
-                                                        onKeyDown={(e) => e.stopPropagation()}
-                                                        className="w-full"
-                                                    />
-                                                    <Button
-                                                        style={{ border: "1px solid LightGray" }}
-                                                        type="text"
-                                                        icon={<PlusOutlined />}
-                                                        onClick={addItem}
-                                                    >
-                                                        Add Event
-                                                    </Button>
-                                                </Space>
-                                            </Menu>
+                                                    Add Event
+                                                </Button>
+                                            </Space>
                                         </>
                                     )}
                                     options={items.map((item) => ({ label: item, value: item }))}
@@ -327,7 +299,6 @@ const UpdateEvent = () => {
                                     rules={[{ required: true, message: "Please select!" }]}
                                 >
                                     <Switch
-                                        checked={!isOffline}
                                         checkedChildren="Online"
                                         unCheckedChildren="Offline"
                                         className="bg-gray-400"
@@ -373,7 +344,7 @@ const UpdateEvent = () => {
                             </Form.Item>
                         </div>
 
-                        <Form.Item className="mt-24 lg:mt-28">
+                        <Form.Item className="mt-24 lg:mt-36">
                             <Button
                                 id="btn-continue"
                                 htmlType="submit"
@@ -385,19 +356,12 @@ const UpdateEvent = () => {
                         </Form.Item>
                     </Form>
                 </div>
-
-                {/* calendar part */}
                 <div className="">
-                    <CalendarPage
-                        eventDuration={duration}
-                        eventTime={eventTime}
-                        setSelectedTimes={setSelectedTimes}
-                        selectedTimes={selectedTimes}
-                    ></CalendarPage>
+                    
                 </div>
             </div>
         </div>
     );
 };
 
-export default UpdateEvent;
+export default GroupMeeting;
