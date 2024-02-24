@@ -15,7 +15,7 @@ import { SingleTimeLine, TimelineType, TimelineItem } from "../AllTypes";
 import { FormatFunc } from "ka-table/types";
 import { Button, Input, Modal, Spin, TimePicker, Timeline } from "antd";
 import showToast from "../../../Hook/swalToast";
-
+import Guest from "../../../Components/Guest/Guest";
 const MyTimline = () => {
   const caxios = AxiosSecure();
   const [page, setPage] = useState<number>(1);
@@ -237,6 +237,7 @@ const MyTimline = () => {
 
   return (
     <div>
+      <Guest></Guest>
       <Table
         noData={{
           text: "No Meetings Found",
@@ -397,6 +398,7 @@ const MyTimline = () => {
           )}
         </form>
       </Modal>
+      
     </div>
   );
 };
