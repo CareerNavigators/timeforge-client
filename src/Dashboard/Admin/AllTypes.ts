@@ -126,10 +126,11 @@ export type TimelineType = {
   docs: MainObject[];
 } & PaginationInfo;
 
-type UserType2 = {
-  _id: string;
+export type UserType2 = {
+  _id?: string;
   name: string;
   email: string;
+  img_profile:string
 };
 export type SingleTimeLine = {
   _id: string;
