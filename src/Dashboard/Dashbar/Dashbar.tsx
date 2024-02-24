@@ -159,6 +159,11 @@ const Dashbar = () => {
                     All Attendees
                   </NavLink>
                 </Menu.Item>
+                <Menu.Item icon={<ScheduleOutlined />}>
+                  <NavLink to="/dashboard/alltimeline" end>
+                    All Timeline
+                  </NavLink>
+                </Menu.Item>
 
                 <Tooltip
                   placement={`${collapsed ? "left" : "top"}`}

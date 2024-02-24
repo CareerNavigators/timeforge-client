@@ -26,6 +26,7 @@ import AllAttendess from "../Dashboard/Admin/AllAttendees/AllAttendess";
 import Note2 from "../Dashboard/Note/Note2";
 import AttendeeSuccess from "../Components/EventSlot/AttendeeSuccess";
 import AllTimeline from "../Components/Timeline/AllTimeline";
+import MyTimline from "../Dashboard/Admin/Timeline/MyTimline";
 
 const router = createBrowserRouter([
   {
@@ -135,6 +136,10 @@ const router = createBrowserRouter([
       {
         path: "dashboard/createEvent/oneEvent",
         element: <OneEvent></OneEvent>,
+      },
+      {
+        path: "/dashboard/alltimeline",
+        element: <MyTimline></MyTimline>,
       },
     ],
   },
