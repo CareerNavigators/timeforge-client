@@ -23,7 +23,6 @@ import Swal from 'sweetalert2';
 import { PagingOptions } from 'ka-table/models';
 dayjs.extend(customParseFormat);
 const AllMeetings = () => {
-
     const caxios = AxiosSecure()
     const [value, setValue] = useState('');
     const [events, setEvents] = useState<Record<string, string[]>>()
@@ -32,6 +31,7 @@ const AllMeetings = () => {
     const [selectedDate, setSelectedDate] = useState<string>(dayjs().format("DDMMYY"))
     const [isAudioSelected, setIsAudioSelected] = useState(false);
     const [isVideoSelected, setIsVideoSelected] = useState(false);
+    const [isModalOpen2, setIsModalOpen2] = useState(false)
     const [page,setPage]=useState<number>()
 
     const handleAudioSelection = () => {
@@ -440,7 +440,7 @@ const AllMeetings = () => {
             }
         })
     }
-    const [isModalOpen2, setIsModalOpen2] = useState(false)
+    
     const [note,setNote]=useState<string>()
     const noteMutation=useMutation({
         mutationFn: async ()=>{
@@ -590,6 +590,7 @@ const AllMeetings = () => {
                     </div>
                 </form>
             </Modal>
+            
         </div>
     );
 };
