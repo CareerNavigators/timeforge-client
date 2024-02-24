@@ -15,6 +15,7 @@ import { SingleTimeLine, TimelineType, TimelineItem } from "../AllTypes";
 import { FormatFunc } from "ka-table/types";
 import { Button, Input, Modal, Spin, TimePicker, Timeline } from "antd";
 import showToast from "../../../Hook/swalToast";
+
 const MyTimline = () => {
   const caxios = AxiosSecure();
   const [page, setPage] = useState<number>(1);
@@ -43,6 +44,7 @@ const MyTimline = () => {
   const selectedTimeline = useMutation({
     mutationFn: async (id: string) => {
       const res = await caxios.get(`/timeline?type=single&id=${id}`);
+      
       return res.data as SingleTimeLine;
     },
   });
@@ -54,6 +56,54 @@ const MyTimline = () => {
     },
     retry: 2,
     refetchOnWindowFocus: false,
+  });
+  const contentMutation = useMutation({
+    mutationFn: async function (data: any) {
+      const result = await caxios.patch(
+        `/timeline/${selectedTimeline.data?._id}?type=content`,
+        data
+      ); // sending timeline id with updated content here
+      return result.data;
+    },
+    onSuccess: () => {
+      if (selectedTimeline.data?._id) {
+        selectedTimeline.mutate(selectedTimeline.data?._id);
+        showToast("success", `Content updated`);
+      }
+      handleCancel2();
+    },
+  });
+  const updateTimeline = useMutation({
+    mutationFn: async (data: TimelineItem) => {
+      const res = await caxios.patch(
+        `/timeline/${selectedTimeline.data?._id}?type=add`,
+        data
+      );
+      return res.data;
+    },
+    onSuccess: () => {
+      if (selectedTimeline.data?._id) {
+        selectedTimeline.mutate(selectedTimeline.data?._id);
+      }
+    },
+  });
+  const resetMutation = useMutation({
+    mutationFn: async () => {
+      const result = await caxios.delete(
+        `/timeline/${selectedTimeline?.data?._id}`
+      );
+      return result.data;
+    },
+    onSuccess: () => {
+      handleCancel2();
+      handleCancel();
+      showToast("success", "Timeline Reset");
+    },
+    onError: () => {
+      handleCancel2();
+      handleCancel();
+      showToast("error", "Reset Failed");
+    },
   });
   const paging: PagingOptions = {
     enabled: true,
@@ -123,20 +173,6 @@ const MyTimline = () => {
     }
   };
 
-  const updateTimeline = useMutation({
-    mutationFn: async (data: TimelineItem) => {
-      const res = await caxios.patch(
-        `/timeline/${selectedTimeline.data?._id}?type=add`,
-        data
-      );
-      return res.data;
-    },
-    onSuccess: () => {
-      if (selectedTimeline.data?._id) {
-        selectedTimeline.mutate(selectedTimeline.data?._id);
-      }
-    },
-  });
   async function onsubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formdata = new FormData(e.currentTarget);
@@ -147,26 +183,49 @@ const MyTimline = () => {
       endTime: String(time[1]),
       content: String(formdata.get("content")),
     };
-    await updateTimeline.mutateAsync(data);
+    console.log();
+    if (
+      moment(data.startTime, "hh:mm a").isSameOrAfter(
+        moment(selectedTimeline.data?.event.startTime, "hh:mm a")
+      ) &&
+      moment(data.startTime, "hh:mm a").isSameOrBefore(
+        moment(selectedTimeline.data?.event.endTime, "hh:mm a")
+      )
+    ) {
+      if (
+        moment(data.endTime, "hh:mm a").isSameOrAfter(
+          moment(selectedTimeline.data?.event.startTime, "hh:mm a")
+        ) &&
+        moment(data.endTime, "hh:mm a").isSameOrBefore(
+          moment(selectedTimeline.data?.event.endTime, "hh:mm a")
+        )
+      ) {
+        let error=false
+        selectedTimeline.data?.timeline.forEach(x=>{
+          if (x.startTime==data.startTime) {
+            showToast("error","This startTime already exist")
+            error=true
+            return
+          }else if(x.endTime==data.endTime){
+            showToast("error","This endtime already exist")
+            error=true
+            return
+          }
+        })
+        if (!error) {
+          await updateTimeline.mutateAsync(data);
+        }
+      }else{
+        showToast("error","This Endtime should be lower then event's endtime and bigger then event's starttime")
+      }
+    }else{
+      showToast("error","This Starttime should be bigger then event's starttime and lower then event's starttime")
+    }
+    console.log();
     setTwoTime(null);
     setContent("");
   }
-  const contentMutation = useMutation({
-    mutationFn: async function (data: any) {
-      const result = await caxios.patch(
-        `/timeline/${selectedTimeline.data?._id}?type=content`,
-        data
-      ); // sending timeline id with updated content here
-      return result.data;
-    },
-    onSuccess: () => {
-      if (selectedTimeline.data?._id) {
-        selectedTimeline.mutate(selectedTimeline.data?._id);
-        showToast("success", `Content updated`);
-      }
-      handleCancel2();
-    },
-  });
+
   function handelContentUpdate(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formdata = new FormData(e.currentTarget);
@@ -175,22 +234,7 @@ const MyTimline = () => {
       content: String(formdata.get("content")),
     });
   }
-  const resetMutation = useMutation({
-    mutationFn: async () => {
-      const result = await caxios.delete(`/timeline/${selectedTimeline?.data?._id}`);
-      return result.data;
-    },
-    onSuccess: () => {
-      handleCancel2();
-      handleCancel();
-      showToast("success", "Timeline Reset");
-    },
-    onError: () => {
-      handleCancel2();
-      handleCancel();
-      showToast("error", "Reset Failed");
-    },
-  });
+
   return (
     <div>
       <Table
@@ -224,44 +268,51 @@ const MyTimline = () => {
             <Spin size="large"></Spin>{" "}
           </div>
         ) : selectedTimeline.isSuccess ? (
-          selectedTimeline.data.timeline.length != 0 ? (
-            <>
-              <p className=" text-red-500 italic text-right">
-                *Click each item for delete or edit
-              </p>
-              <p className="italic">
-                {moment(selectedTimeline.data.createdAt).format(
-                  "MMM Do YY, h:mm a"
-                )}
-              </p>
-              <Timeline
-                mode="alternate"
-                items={selectedTimeline.data.timeline.map((x) => {
-                  return {
-                    label: (
-                      <p
-                        className="font-semibold cursor-pointer"
-                        onClick={() => handelOpen2(x._id)}
-                      >{`${x.startTime}-${x.endTime}`}</p>
-                    ),
-                    children: (
-                      <p
-                        className="cursor-pointer"
-                        onClick={() => handelOpen2(x._id)}
-                      >
-                        {" "}
-                        {x.content}
-                      </p>
-                    ),
-                  };
-                })}
-              ></Timeline>
-            </>
-          ) : (
-            <p className="text-gray-600 text-center font-semibold">
-              No Timeline added
+          <>
+            <p className="italic">
+              {moment(selectedTimeline.data.createdAt).format(
+                "MMM Do YY, h:mm a"
+              )}
             </p>
-          )
+
+            {selectedTimeline.data.timeline.length != 0 ? (
+              <>
+                <p className=" text-red-500 italic text-right">
+                  *Click each item for delete or edit
+                </p>
+
+                <Timeline
+                  mode="alternate"
+                  items={selectedTimeline.data?.timeline.sort((a, b) => {
+                    return moment(a.startTime, 'h:mm a').isBefore(moment(b.startTime, 'h:mm a')) ? -1 :  1;
+                  }).map((x) => {
+                    return {
+                      label: (
+                        <p
+                          className="font-semibold cursor-pointer"
+                          onClick={() => handelOpen2(x._id)}
+                        >{`${x.startTime}-${x.endTime}`}</p>
+                      ),
+                      children: (
+                        <p
+                          className="cursor-pointer"
+                          onClick={() => handelOpen2(x._id)}
+                        >
+                          {" "}
+                          {x.content}
+                        </p>
+                      ),
+                    };
+                  })}
+                ></Timeline>
+              </>
+            ) : (
+              <p className="text-gray-600 text-center font-semibold">
+                No Timeline added
+              </p>
+            )}
+            <p className="text-center font-semibold">{`${selectedTimeline.data.event.startTime}-${selectedTimeline.data.event.endTime}`}</p>
+          </>
         ) : (
           <p className="text-center text-lg text-red-500 font-semibold">
             Something Error
@@ -287,8 +338,7 @@ const MyTimline = () => {
             name="content"
             value={content}
             onChange={(v) => {
-              // @ts-expect-error noidea
-              setContent(v);
+              setContent(v.currentTarget.value);
             }}
             rows={3}
           />
