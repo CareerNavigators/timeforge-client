@@ -234,10 +234,26 @@ const MyTimline = () => {
       content: String(formdata.get("content")),
     });
   }
-
+  const demoGuest=[
+    {
+      name:"Huzaifa",
+      email:"saadhuzaifa2497@gmail.com",
+      img_profile:"https://lh3.googleusercontent.com/a/ACg8ocLo6_Vj-VciEzmI7TdjEKxVQzgeUnZ-0c_NPei106Vtuw"
+    },
+    {
+      name:"Huzaifa",
+      email:"saadhuzaifa2497@gmail.com",
+      img_profile:"https://lh3.googleusercontent.com/a/ACg8ocLo6_Vj-VciEzmI7TdjEKxVQzgeUnZ-0c_NPei106Vtuw"
+    },
+    {
+      name:"Huzaifa",
+      email:"saadhuzaifa2497@gmail.com",
+      img_profile:"https://lh3.googleusercontent.com/a/ACg8ocLo6_Vj-VciEzmI7TdjEKxVQzgeUnZ-0c_NPei106Vtuw"
+    }
+  ]
   return (
     <div>
-      <Guest></Guest>
+      <Guest guestList={demoGuest} eventid=""></Guest>
       <Table
         noData={{
           text: "No Meetings Found",
