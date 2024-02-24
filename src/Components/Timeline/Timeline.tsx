@@ -1,13 +1,20 @@
 import {
+  ChangeEvent,
   JSXElementConstructor,
   Key,
   ReactElement,
   ReactNode,
   ReactPortal,
+  useContext,
   useState,
 } from "react";
 import { Button, Card, Input, Modal, TimePicker } from "antd";
 import "./Timeline.css";
+import showToast from "../../Hook/swalToast";
+import { NoUndefinedRangeValueType } from "rc-picker/lib/PickerInput/RangePicker";
+import { Dayjs } from "dayjs";
+import AxiosSecure from "../../Hook/useAxios";
+import { AuthContext } from "../../Provider/AuthContext";
 
 export interface Guest {
   position: string;
@@ -32,7 +39,15 @@ interface TimelineProps {
 }
 
 const Timeline = ({ item }: TimelineProps) => {
+  const { userData } = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
+  const [eventTime, setEventTime] = useState<any>();
+  const [timelineTitle, setTimelineTitle] = useState<any>();
+  const [content, setContent] = useState<any>();
+  const [timeline, setTimeline] = useState<Array<unknown>>([]);
+  const [startTime, setStartTime] = useState<string>();
+  const [endTime, setEndTime] = useState<string>();
+  const axiosSecure = AxiosSecure();
 
   const handleCardClick = () => {
     setModalVisible(true);
@@ -48,13 +63,9 @@ const Timeline = ({ item }: TimelineProps) => {
         event: {
           content:
             | string
-            | number
-            | boolean
             | ReactElement<any, string | JSXElementConstructor<any>>
             | Iterable<ReactNode>
-            | ReactPortal
-            | null
-            | undefined;
+            | ReactPortal;
           startTime: any;
           endTime: any;
         },
@@ -68,12 +79,62 @@ const Timeline = ({ item }: TimelineProps) => {
             {`${event.startTime} - ${event.endTime}`}
           </h3>
           <time className="text-xs tracki uppercase dark:text-gray-400">
-            {" "}
             {event.content}
           </time>
         </div>
       )
     );
+  };
+
+  const handleTimelineTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    setTimelineTitle(e.target.value);
+  };
+  const handleContent = (e: ChangeEvent<HTMLInputElement>) => {
+    setContent(e.target.value);
+  };
+
+  const handleStartEndTime = (
+    value: NoUndefinedRangeValueType<Dayjs>,
+    dateString: string[]
+  ) => {
+    setStartTime(dateString[0]);
+    setEndTime(dateString[1]);
+    const startHour = value[0]?.hour();
+    const startMin = value[0]?.minute();
+    const endHour = value[1]?.hour();
+    const endMin = value[1]?.minute();
+    const times = [
+      { $H: startHour, $m: startMin },
+      { $H: endHour, $m: endMin },
+    ];
+
+    const formattedTimes = times.map((time) => {
+      const paddedHours = String(time.$H).padStart(2, "0");
+      const paddedMinutes = String(time.$m).padStart(2, "0");
+      return `${paddedHours}:${paddedMinutes}`;
+    });
+    setEventTime(formattedTimes);
+    console.log(eventTime);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const newTimeline = {
+        createdBy: userData?._id,
+        title: timelineTitle,
+        content: content,
+        startTime: startTime,
+        endTime: endTime,
+      };
+
+      axiosSecure.post("/timeline", newTimeline).then(() => {
+        setTimeline((prevTimeline) => [...prevTimeline, newTimeline]);
+        showToast("success", "Timeline added.");
+      });
+    } catch (error) {
+      console.error("Error adding task:", error);
+      showToast("error", "Please fill in all required fields.");
+    }
   };
 
   return (
@@ -82,12 +143,12 @@ const Timeline = ({ item }: TimelineProps) => {
         className="w-[400px] mt-5 hover:shadow-md mx-auto"
         onClick={handleCardClick}
       >
-        <section className="h-[25vh] dark:bg-gray-800 dark:text-gray-100">
+        <section className="h-fit dark:bg-gray-800 dark:text-gray-100">
           <div className="container max-w-5xl px-4 py-2 mx-auto">
             <div className="grid gap-2 sm:grid-cols-12">
               <div className="col-span-12 mx-2 sm:col-span-4">
                 <div className="text-center sm:text-left mb-14 before:block before:w-16 before:h-2 before:mb-5 before:rounded-md before:mx-auto sm:before:mx-0 before:bg-[#7c3aed]">
-                  <h3 className="text-lg font-semibold">Metting with CEO</h3>
+                  <h3 className="text-lg font-semibold">Meeting with CEO</h3>
                   <span className="text-sm font-semibold tracki uppercase text-gray-600">
                     {item.eventDate}
                   </span>
@@ -111,12 +172,28 @@ const Timeline = ({ item }: TimelineProps) => {
       >
         <div className="flex flex-col gap-3">
           <div className="flex gap-3">
-            <Input placeholder="Title" size="small" className="" />
-            <Input placeholder="Email" className="" />
+            <Input
+              value={timelineTitle}
+              onChange={handleTimelineTitle}
+              name="title"
+              placeholder="Title"
+              size="small"
+              className=""
+            />
+            <Input
+              name="content"
+              onChange={handleContent}
+              placeholder="Email"
+              className=""
+            />
           </div>
-          <TimePicker.RangePicker use12Hours format="h:mm a" />
+          <TimePicker.RangePicker
+            use12Hours
+            format="h:mm a"
+            onChange={handleStartEndTime}
+          />
 
-          <Button id="btn-add" className="">
+          <Button onClick={handleSubmit} id="btn-add" className="">
             Add
           </Button>
         </div>
