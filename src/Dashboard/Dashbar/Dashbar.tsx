@@ -170,7 +170,7 @@ const Dashbar = () => {
                   title={"Theme"}
                   arrow={true}
                 >
-                  <div className=" mt-[200px] text-[30px] mx-auto flex justify-center items-center text-white">
+                  <div className=" mt-[150px] text-[30px] mx-auto flex justify-center items-center text-white">
                     <DarkModeToggle />
                   </div>
                 </Tooltip>
@@ -208,7 +208,7 @@ const Dashbar = () => {
                 title={"Theme"}
                 arrow={true}
               >
-                <div className=" mt-[400px] text-[30px] mx-auto flex justify-center items-center text-white">
+                <div className=" mt-[300px] text-[30px] mx-auto flex justify-center items-center text-white">
                   <DarkModeToggle />
                 </div>
               </Tooltip>
