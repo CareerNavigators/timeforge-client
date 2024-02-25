@@ -1,6 +1,7 @@
 // import { Tilt } from "react-tilt";
 // import tShirt from "../assets/clock_tshirt-preview.png";
-
+import { useEffect } from "react";
+import AOS from "aos"
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
@@ -29,6 +30,10 @@ import Footer from "../../Home/Footer";
 // import Slider from "react-slick";
 
 const Shop = () => {
+
+  useEffect(()=>{
+    AOS.init()
+  },[])
   const navigate = useNavigate();
   const handleShopping = () => {
     navigate("/product");
@@ -50,25 +55,29 @@ const Shop = () => {
   // };
 
   const slideData = [
-    {
+    { 
+      id:1,
       title: "Timeforge Essentials",
       subtitle1: "Elevate Your Style with Our Essential Wear",
       subtitle2: "Timeforge",
       img: image1,
     },
     {
+      id:2,
       title: "Timeforge Fashion Forward",
       subtitle1: "Where Style Meets Functionality",
       subtitle2: "Timeforge",
       img: image2,
     },
     {
+      id:3,
       title: "Timeforge Chic Collection",
       subtitle1: "Refined and Trendy for Every Occasion",
       subtitle2: "Timeforge",
       img: image3,
     },
     {
+      id:4,
       title: "Timeforge Casual Couture",
       subtitle1: "Combining Comfort with Chic",
       subtitle2: "Timeforge",
@@ -98,10 +107,10 @@ const Shop = () => {
             <div className="">
               {slideData.map((data) => (
                 <SwiperSlide>
-                  <div className="flex justify-between items-center px-[200px] bg-gradient-to-r from-gray-300/80 to-gray-100 h-full  ">
+                  <div className="flex justify-between items-center px-[200px] bg-gradient-to-r from-gray-300/80 to-gray-100 h-full  " key={data.id}>
                     <div className="flex flex-col gap-4  z-10">
-                      <h1 className="text-2xl font-bold">{data.title} </h1>
-                      <h1 className="text-5xl font-bold">{data.subtitle1} </h1>
+                      <h1 className="text-2xl text-black font-bold">{data.title} </h1>
+                      <h1 className="text-5xl text-black font-bold">{data.subtitle1} </h1>
                       <h1 className="text-white text-[150px] uppercase ">
                         {data.subtitle2}{" "}
                       </h1>
@@ -134,7 +143,7 @@ const Shop = () => {
           <FloatButton.Group shape="circle">
             <FloatButton
               onClick={handleCart}
-              badge={{ count: 12 }}
+              // badge={{ count: 12 }}
               icon={<ShoppingCartOutlined />}
             />
             <FloatButton.BackTop visibilityHeight={0} />
