@@ -25,7 +25,7 @@ const Navbar: React.FC = () => {
         <NavLink to="/aboutUs">About Us</NavLink>
       </li>
       <li className="text-sm font-semibold hover:text-dt">
-        <NavLink to="/pricing">Pricing</NavLink>
+        <NavLink to="/merch">Merchandise</NavLink>
       </li>
       {loading ? (
         <li className="text-sm font-semibold hover:text-dt">Loading...</li>

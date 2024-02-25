@@ -1,0 +1,28 @@
+.swiper{
+ width:1920px;
+ min-height: 65vh;
+ margin: auto;
+ left: 0%;
+ top:0%;
+ position:static;
+ display:flex;
+}
+.swiper-slide img{
+ width:400px;
+}
+
+.swiper-button-next:after {
+    content: '';
+}
+.swiper-button-prev:after {
+    content: '';
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
