@@ -28,6 +28,8 @@ const EventDetails: React.FC = () => {
   const customAxios = useAxios();
   const { id } = useParams();
 
+  
+
   const { data: eventDetails, isLoading } = useQuery({
     queryKey: ["EventDetails"],
     queryFn: async () => {
