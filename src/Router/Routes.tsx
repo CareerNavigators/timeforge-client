@@ -28,6 +28,9 @@ import AttendeeSuccess from "../Components/EventSlot/AttendeeSuccess";
 import AllTimeline from "../Components/Timeline/AllTimeline";
 import GroupMeeting from "../CreateEvents/GroupMeeting/GroupMeeting";
 import MyTimline from "../Dashboard/Admin/Timeline/MyTimline";
+import Shop from "../Pages/Inventory/Shop";
+import Product from "../Pages/Inventory/Product";
+import Cart from "../Pages/Inventory/Cart";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +72,18 @@ const router = createBrowserRouter([
         path: "/about",
         element: <About></About>,
       },
+      {
+        path: "/merch",
+        element:<Shop/>
+      },
+      {
+        path: "/product",
+        element: <Product/>
+      },
+      {
+        path: "/cart",
+        element: <Cart/>
+      }
     ],
   },
   {
