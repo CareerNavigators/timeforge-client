@@ -6,10 +6,9 @@ import {
   FaPencilAlt,
   FaTimes,
 } from "react-icons/fa";
-import { Link, useLoaderData } from "react-router-dom";
-import { EventType } from "./AllEvents";
+import { Link, useParams } from "react-router-dom";
 import { Dayjs } from "dayjs";
-import { Badge, Calendar } from "antd";
+import { Badge, Calendar, Spin } from "antd";
 import type { CalendarProps } from "antd";
 import AllParticipants from "../AllParticipants/AllParticipants";
 import { useContext } from "react";
@@ -18,20 +17,31 @@ import logo from "/logo.png";
 import { TypeAnimation } from "react-type-animation";
 import ReactQuill from "react-quill";
 import { RiTimer2Fill } from "react-icons/ri";
+import { useQuery } from "@tanstack/react-query";
+import useAxios from "../../Hook/useAxios"
+import { LoadingOutlined } from "@ant-design/icons";
 
 
 const EventDetails: React.FC = () => {
   // hooks and states
-  const { _id, title, duration, desc, eventType, events, camera, mic } =
-    useLoaderData() as EventType;
   const { userData } = useContext(AuthContext);
+  const customAxios = useAxios();
+  const { id } = useParams();
+
+  const { data: eventDetails, isLoading } = useQuery({
+    queryKey: ["EventDetails"],
+    queryFn: async () => {
+      const res = await customAxios.get(`${import.meta.env.VITE_BACK_END_API}/meeting?id=${id}&type=single`)
+      return res.data;
+    }
+  })
 
   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
     console.log(value.format("YYYY-MM-DD"), mode);
   };
 
   const dateCellRender = (value: Dayjs) => {
-    const data = events ? events[value.format("DDMMYY")] || [] : [];
+    const data = eventDetails?.events ? eventDetails?.events[value.format("DDMMYY")] || [] : [];
 
     return (
       <ul className="events">
@@ -48,6 +58,18 @@ const EventDetails: React.FC = () => {
     if (info.type === "date") return dateCellRender(current);
     return info.originNode;
   };
+
+  // show this loader if data is loading
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center fixed left-[45%] top-[50%]">
+        <Spin
+          indicator={<LoadingOutlined></LoadingOutlined>}
+          size="large"
+        ></Spin>
+      </div>
+    );
+  }
 
   return (
     <div className="mb-5 select-none">
@@ -67,27 +89,35 @@ const EventDetails: React.FC = () => {
         {/* event information */}
         <div className="w-full lg:w-1/3 max-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
           <div className="p-2">
-            <h2 className="text-2xl dark:text-dw w-full border border-[#d6d1ff] rounded-md px-3 py-2 text-[#7c3aed] font-bold mt-3">
-              {title}
+            <h2 className="flex justify-between items-center text-2xl dark:text-dw w-full border border-[#d6d1ff] rounded-md px-3 py-2 text-[#7c3aed] font-bold mt-3">
+              {eventDetails?.title}
+              {
+                eventDetails?.offline ? <h4 className="text-xs px-2 py-[2px] rounded-md bg-gray-500 text-white">
+                  Offline
+                </h4> : <h4 className="text-xs px-2 py-[2px] rounded-md bg-green-500 text-white">
+                  Online
+                </h4>
+              }
             </h2>
+
             <div className="flex justify-between border border-[#d6d1ff] rounded-md mt-5 items-center px-3 py-1.5">
               <div className="flex items-center gap-2 text-lg text-gray-600 font-medium rounded-md">
                 <FaArchive size={15}></FaArchive>
                 <span className="text-gray-500 dark:text-dw text-sm">
-                  {eventType}
+                  {eventDetails?.eventType}
                 </span>
               </div>
               <div className="flex items-center gap-2 text-lg text-gray-600 font-medium rounded-md">
                 <RiTimer2Fill size={15}></RiTimer2Fill>
                 <span className="text-gray-500 dark:text-dw text-sm">
-                  {duration} minutes
+                  {eventDetails?.duration} minutes
                 </span>
               </div>
 
               <div className="flex items-center gap-4 text-lg font-medium">
                 <div className="flex items-center gap-1">
                   <FaCamera color="gray" size={15}></FaCamera>
-                  {camera ? (
+                  {eventDetails?.camera ? (
                     <FaCheck size={10} color="green"></FaCheck>
                   ) : (
                     <FaTimes size={10} color="red"></FaTimes>
@@ -95,7 +125,7 @@ const EventDetails: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-1">
                   <FaMicrophone color="gray" size={15}></FaMicrophone>
-                  {mic ? (
+                  {eventDetails?.mic ? (
                     <FaCheck size={10} color="green"></FaCheck>
                   ) : (
                     <FaTimes size={10} color="red"></FaTimes>
@@ -107,7 +137,7 @@ const EventDetails: React.FC = () => {
             <div className="text-gray-600 mt-5 border border-[#d6d1ff] lg:w-full min-h-40 rounded-md">
               <ReactQuill
                 theme="snow"
-                value={desc}
+                value={eventDetails?.desc}
                 modules={{ toolbar: false }}
                 readOnly
               />
@@ -199,7 +229,7 @@ const EventDetails: React.FC = () => {
               </div>
             </div>
 
-            <Link to={`/dashboard/updateEvent/${_id}`}>
+            <Link to={`/dashboard/updateEvent/${id}`}>
               <button className="w-full justify-center flex items-center gap-2 px-8 py-3 lg:py-4 border border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300">
                 <FaPencilAlt></FaPencilAlt>
                 <p>Update</p>
@@ -220,7 +250,7 @@ const EventDetails: React.FC = () => {
 
       {/* participants area */}
       <div className="w-dvw sm:w-full lg:mx-2 lg:pr-3 pb-16 lg:pb-2 bg-white">
-        <AllParticipants id={_id}></AllParticipants>
+        <AllParticipants id={id}></AllParticipants>
       </div>
     </div>
   );

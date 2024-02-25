@@ -44,8 +44,8 @@ const OneEvent = () => {
   const [eventDesc, setEventDesc] = useState<string>("");
   const [events, setEvents] = useState<Array<unknown>>([]);
   const [eventTime, setEventTime] = useState<any>();
-  const [startTime,setStartTime]=useState<string>()
-  const [endTime,setEndTime]=useState<string>()
+  const [startTime, setStartTime] = useState<string>()
+  const [endTime, setEndTime] = useState<string>()
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const axiosSecure = AxiosSecure();
@@ -103,7 +103,7 @@ const OneEvent = () => {
     setEventType(value as string);
   };
 
-  const handleStartEndTime = (value:NoUndefinedRangeValueType<Dayjs>,dateString:string[]) => {
+  const handleStartEndTime = (value: NoUndefinedRangeValueType<Dayjs>, dateString: string[]) => {
     setStartTime(dateString[0])
     setEndTime(dateString[1])
     const startHour = value[0]?.hour();
@@ -137,20 +137,21 @@ const OneEvent = () => {
       setIsVideoSelected(true);
     }
   };
+
   const handleSubmit = async () => {
     try {
       const newEvent = {
         createdBy: userData?._id,
         title: eventName,
-        duration:eventDuration,
+        duration: eventDuration,
         mic: isAudioSelected,
         camera: isVideoSelected,
         eventType: eventType,
         desc: eventDesc,
-        events: selectedTimes, 
-        offline:isOffline,
-        startTime:startTime,
-        endTime:endTime,
+        events: selectedTimes,
+        offline: isOffline,
+        startTime: startTime,
+        endTime: endTime,
       };
 
       axiosSecure.post("/meeting", newEvent).then(() => {
@@ -344,7 +345,7 @@ const OneEvent = () => {
               </Form.Item>
             </div>
 
-            <Form.Item className="mt-24 lg:mt-28">
+            <Form.Item className="mt-24 lg:mt-36">
               <Button
                 id="btn-continue"
                 htmlType="submit"

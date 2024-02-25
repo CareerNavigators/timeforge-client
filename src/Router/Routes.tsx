@@ -26,6 +26,7 @@ import AllAttendess from "../Dashboard/Admin/AllAttendees/AllAttendess";
 import Note2 from "../Dashboard/Note/Note2";
 import AttendeeSuccess from "../Components/EventSlot/AttendeeSuccess";
 import AllTimeline from "../Components/Timeline/AllTimeline";
+import GroupMeeting from "../CreateEvents/GroupMeeting/GroupMeeting";
 import MyTimline from "../Dashboard/Admin/Timeline/MyTimline";
 
 const router = createBrowserRouter([
@@ -96,10 +97,6 @@ const router = createBrowserRouter([
       {
         path: "dashboard/eventDetails/:id",
         element: <EventDetails></EventDetails>,
-        loader: ({ params }) =>
-          fetch(
-            `${import.meta.env.VITE_BACK_END_API}/meeting?id=${params.id}&type=single`
-          ),
       },
       {
         path: "dashboard/updateEvent/:id",
@@ -136,6 +133,10 @@ const router = createBrowserRouter([
       {
         path: "dashboard/createEvent/oneEvent",
         element: <OneEvent></OneEvent>,
+      },
+      {
+        path: "dashboard/createEvent/groupMeeting",
+        element: <GroupMeeting></GroupMeeting>
       },
       {
         path: "/dashboard/alltimeline",
