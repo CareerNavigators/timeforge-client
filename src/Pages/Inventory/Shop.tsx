@@ -103,10 +103,13 @@ const Shop = () => {
             navigation={true}
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper"
+            id="swiper-merch"
           >
             <div className="">
               {slideData.map((data) => (
-                <SwiperSlide>
+                <SwiperSlide
+                 id="swiper-slide-merch"
+                >
                   <div className="flex justify-between items-center px-[200px] bg-gradient-to-r from-gray-300/80 to-gray-100 h-full  " key={data.id}>
                     <div className="flex flex-col gap-4  z-10">
                       <h1 className="text-2xl text-black font-bold">{data.title} </h1>
