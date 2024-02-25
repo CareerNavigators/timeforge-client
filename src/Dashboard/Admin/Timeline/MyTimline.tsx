@@ -13,9 +13,9 @@ import moment from "moment";
 import { useState } from "react";
 import { SingleTimeLine, TimelineType, TimelineItem } from "../AllTypes";
 import { FormatFunc } from "ka-table/types";
-import { Button, Input, Modal, Spin, TimePicker, Timeline } from "antd";
+import { Button, Divider, Input, Modal, Spin, TimePicker, Timeline } from "antd";
 import showToast from "../../../Hook/swalToast";
-
+import Guest from "../../../Components/Guest/Guest";
 const MyTimline = () => {
   const caxios = AxiosSecure();
   const [page, setPage] = useState<number>(1);
@@ -234,9 +234,10 @@ const MyTimline = () => {
       content: String(formdata.get("content")),
     });
   }
-
+  
   return (
     <div>
+      
       <Table
         noData={{
           text: "No Meetings Found",
@@ -255,7 +256,7 @@ const MyTimline = () => {
         childComponents={childComponent}
       />
       <Modal
-        width={800}
+        width={1000}
         title="Timeline Modal"
         confirmLoading={allTimeline.isLoading || allTimeline.isRefetching}
         destroyOnClose={true}
@@ -312,6 +313,7 @@ const MyTimline = () => {
               </p>
             )}
             <p className="text-center font-semibold">{`${selectedTimeline.data.event.startTime}-${selectedTimeline.data.event.endTime}`}</p>
+            
           </>
         ) : (
           <p className="text-center text-lg text-red-500 font-semibold">
@@ -373,6 +375,11 @@ const MyTimline = () => {
             </>
           )}
         </form>
+        <Divider className="mx-1 " orientation="left">Guest Section</Divider>
+        <div className="mt-3">
+        <Guest eventid={selectedTimeline.data?._id}></Guest>
+
+        </div>
       </Modal>
       <Modal
         width={500}
@@ -397,6 +404,7 @@ const MyTimline = () => {
           )}
         </form>
       </Modal>
+      
     </div>
   );
 };
