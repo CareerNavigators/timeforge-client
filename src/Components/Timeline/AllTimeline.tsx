@@ -51,15 +51,21 @@ const AllTimeline = () => {
       return res.data as SingleTimeLine;
     },
   });
+
+  console.log(userData?._id);
+
   const allTimeline = useQuery({
-    queryKey: ["allTimeline"],
+    queryKey: ["allTimeline", userData?._id],
     queryFn: async () => {
-      const res = await caxios(`/admin/timeline?page=${page}`);
+      const res = await caxios(
+        `/timeline?page=${page}&userId=${userData?._id}`
+      );
       return res.data as TimelineType;
     },
     retry: 2,
     refetchOnWindowFocus: false,
   });
+
   const contentMutation = useMutation({
     mutationFn: async function (data: any) {
       const result = await caxios.patch(
@@ -170,7 +176,7 @@ const AllTimeline = () => {
             showModal(rowData._id);
           }}
         >
-          See More{" "}
+          See More
         </Button>
       );
     }
@@ -287,7 +293,7 @@ const AllTimeline = () => {
       >
         {selectedTimeline.isPending ? (
           <div className="flex justify-center">
-            <Spin size="large"></Spin>{" "}
+            <Spin size="large"></Spin>
           </div>
         ) : selectedTimeline.isSuccess ? (
           <>
