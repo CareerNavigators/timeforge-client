@@ -16,7 +16,7 @@ interface AllParticipantsProps {
 }
 
 const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
-    const customAxios = useAxios()
+    const customAxios = useAxios();
     dayjs.extend(customParseFormat);
 
     const MAX_API_CALLS = 2;
@@ -29,8 +29,7 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
             return res.data;
         },
         enabled: id != undefined ? true : false,
-        retry: MAX_API_CALLS - 1,
-        refetchOnWindowFocus: false
+        retry: MAX_API_CALLS - 1
     });
 
     // deleting a participant

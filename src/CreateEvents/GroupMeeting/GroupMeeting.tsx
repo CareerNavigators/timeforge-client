@@ -17,7 +17,7 @@ import {
     AudioMutedOutlined,
     PlusOutlined,
 } from "@ant-design/icons";
-import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useContext, useRef, useState } from "react";
 import { SelectValue } from "antd/es/select";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -40,7 +40,6 @@ const GroupMeeting = () => {
     const [eventDurationMinute, setEventDurationMinute] = useState(0);
     const [eventType, setEventType] = useState<string>("");
     const [eventDesc, setEventDesc] = useState<string>("");
-    const [events, setEvents] = useState<Array<unknown>>([]);
     const [eventTime, setEventTime] = useState<any>();
     const [startTime, setStartTime] = useState<string>()
     const [endTime, setEndTime] = useState<string>()
@@ -153,7 +152,6 @@ const GroupMeeting = () => {
             };
 
             axiosSecure.post("/meeting", newEvent).then(() => {
-                setEvents((prevEvents) => [...prevEvents, newEvent]);
                 showToast("success", `${eventName} is added to the Events.`);
                 navigate("/dashboard/userEvent");
             });
@@ -163,16 +161,11 @@ const GroupMeeting = () => {
         }
     };
 
-    useEffect(() => {
-        // console.log("All Events:", events);
-    }, [events]);
-
     return (
         <div className="w-full max-w-[1400px] mx-auto pt-10 mb-20 lg:mb-0 lg:p-10">
             <div className="flex flex-col lg:flex-row items-center justify-center mx-5 lg:mx-auto rounded-md">
                 {/* Input part */}
-                {/* <div className="lg:m-0 max-h-[100%] bg-white dark:bg-d lg:border-r-2 border-[#7c3aed]"></div> */}
-                <div className="lg:m-0 max-h-[100%] bg-white dark:bg-d">
+                 <div className="lg:m-0 max-h-[100%] bg-white dark:bg-d "> {/*lg:border-r-2 border-[#7c3aed] */}
                     <Form
                         form={form}
                         layout="horizontal"
@@ -356,7 +349,7 @@ const GroupMeeting = () => {
                         </Form.Item>
                     </Form>
                 </div>
-                <div className="">
+                <div className="p-10">
                     
                 </div>
             </div>

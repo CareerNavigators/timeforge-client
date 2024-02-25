@@ -62,7 +62,7 @@ const SingleEvent: React.FC<SingleEventProps> = ({
           <div className="flex justify-between items-center">
             <h4 className="flex items-center gap-2 my-3 border border-[#d6d1ff] px-2 py-[2px] rounded-lg">
               <RiTimer2Fill color="gray" size={17}></RiTimer2Fill>
-              <p className="text-gray-500 text-sm">{durationMsg}</p>
+              <p className="text-gray-500 text-xs">{durationMsg}</p>
             </h4>
             {
               offline ? <h4 className="text-xs px-2 py-[2px] rounded-md bg-gray-500 text-white">
