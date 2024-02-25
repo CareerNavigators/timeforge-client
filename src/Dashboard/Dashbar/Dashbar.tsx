@@ -15,6 +15,7 @@ import "./style.css";
 import { AuthContext } from "../../Provider/AuthContext";
 import { SlNote } from "react-icons/sl";
 import DarkModeToggle from "../../Components/DarkModeToggle/DarkModeToggle";
+import { FaTimeline } from "react-icons/fa6";
 
 const { Header, Sider } = Layout;
 const Dashbar = () => {
@@ -100,7 +101,7 @@ const Dashbar = () => {
           </Link>
           <Menu
             theme="dark"
-            className="relative px-1  py-5 font-bold lg:w-full font-inter"
+            className="relative px-1 py-5 font-bold lg:w-full font-inter"
             defaultSelectedKeys={["1"]}
           >
             <>
@@ -129,6 +130,11 @@ const Dashbar = () => {
                   Note
                 </NavLink>
               </Menu.Item>
+              <Menu.Item icon={<FaTimeline />}>
+                <NavLink className="mt-auto" to="/dashboard/timeline" end>
+                  Timelines
+                </NavLink>
+              </Menu.Item>
             </>
 
             {userData?.role === "Admin" && (
@@ -149,8 +155,13 @@ const Dashbar = () => {
                   </NavLink>
                 </Menu.Item>
                 <Menu.Item icon={<ScheduleOutlined />}>
-                  <NavLink to="/dashboard/allateendee" end>
+                  <NavLink to="/dashboard/allattendee" end>
                     All Attendees
+                  </NavLink>
+                </Menu.Item>
+                <Menu.Item icon={<ScheduleOutlined />}>
+                  <NavLink to="/dashboard/alltimeline" end>
+                    All Timeline
                   </NavLink>
                 </Menu.Item>
 
@@ -159,7 +170,7 @@ const Dashbar = () => {
                   title={"Theme"}
                   arrow={true}
                 >
-                  <div className=" mt-[250px] text-[30px] mx-auto flex justify-center items-center text-white">
+                  <div className=" mt-[150px] text-[30px] mx-auto flex justify-center items-center text-white">
                     <DarkModeToggle />
                   </div>
                 </Tooltip>
@@ -197,7 +208,7 @@ const Dashbar = () => {
                 title={"Theme"}
                 arrow={true}
               >
-                <div className=" mt-[400px] text-[30px] mx-auto flex justify-center items-center text-white">
+                <div className=" mt-[300px] text-[30px] mx-auto flex justify-center items-center text-white">
                   <DarkModeToggle />
                 </div>
               </Tooltip>

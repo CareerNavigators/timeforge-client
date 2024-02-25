@@ -29,6 +29,7 @@ const Note2 = () => {
     },
     enabled: userData != null,
     retry: 2,
+    refetchOnWindowFocus: false,
   });
   const selectSingleNote = (id: string) => {
     const t_singleNote = userNotes.data?.filter((x) => x._id == id);
@@ -79,7 +80,7 @@ const Note2 = () => {
   return (
     <div className="p-3 w-full ">
       <h1 className="text-3xl font-bold text-center font-inter">
-        <span className="text-[#5E47EF]">{userData?.name}'s</span> Recent notes
+        <span className="text-[#7c3aed]">{userData?.name}'s</span> Recent notes
       </h1>
       <div className="grid  px-3 lg:gap-x-[200px] gap-y-10 grid-cols-1 lg:grid-cols-4 max-w-7xl mt-[50px] mx-auto">
         {userData == null ||

@@ -1,30 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Dayjs } from "dayjs";
 import type { CalendarProps } from "antd";
 import { Badge, Button, Calendar, Modal } from "antd";
 import "./style.css";
 
 const CalendarPage = ({
+  eventDuration,
+  eventTime,
   selectedTimes,
   setSelectedTimes,
-  eventDuration,
 }: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [modalTimes, setModalTimes] = useState<
     { time: string; checked: boolean }[]
   >([]);
-  const [modalOpen, setModalOpen] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (modalOpen) {
-      setSelectedTimes({});
-    }
-  }, [modalOpen, setSelectedTimes]);
-
-  useEffect(() => {
-    setModalTimes(generateTimes(9, 16, eventDuration));
-  }, [eventDuration]);
+  // const [selectedTimes, setSelectedTimes] = useState<{
+  //   [key: string]: string[];
+  // }>({});
 
   const handleCheckboxChange = (time: string) => {
     setModalTimes((prevModalTimes) =>
@@ -45,32 +38,38 @@ const CalendarPage = ({
     setModalTimes(updatedModalTimes);
   };
 
-  const generateTimes = (
-    startHour: number,
-    endHour: number,
-    eventDuration: number
-  ) => {
-    const times: { time: string; checked: boolean }[] = [];
-    let minuteIncrement = eventDuration;
-    let hourIncrement = 0;
+  const generateTimes = () => {
+    const [startTime, endTime] = eventTime;
+    const [startHour, startMinute] = startTime.split(":").map(Number);
+    const [endHour, endMinute] = endTime.split(":").map(Number);
 
-    if (eventDuration > 60) {
-      hourIncrement = Math.floor(eventDuration / 60);
-      minuteIncrement = eventDuration % 60;
+    const times = [];
+
+    const startDate: any = new Date();
+    startDate.setHours(startHour, startMinute, 0, 0);
+    const endDate: any = new Date();
+    endDate.setHours(endHour, endMinute, 0, 0);
+
+    const durationInMinutes = eventDuration;
+    const slotCount = Math.ceil(
+      (endDate - startDate) / (durationInMinutes * 60000)
+    );
+
+    const currentTime = new Date(startDate);
+    for (let i = 0; i < slotCount; i++) {
+      const formattedHour = currentTime.getHours();
+      const formattedMinute = currentTime
+        .getMinutes()
+        .toString()
+        .padStart(2, "0");
+      const period = formattedHour >= 12 ? "PM" : "AM";
+      const formattedHour12 = formattedHour % 12 || 12;
+      const formattedTime = `${formattedHour12}:${formattedMinute} ${period}`;
+      times.push({ time: formattedTime, checked: false });
+
+      currentTime.setMinutes(currentTime.getMinutes() + durationInMinutes);
     }
 
-    for (let hour = startHour; hour <= endHour; hour++) {
-      for (let minute = 0; minute < 60; minute += minuteIncrement) {
-        const adjustedHour =
-          hour + Math.floor((minute + minuteIncrement) / 60) + hourIncrement;
-        const adjustedMinute = (minute + minuteIncrement) % 60;
-        const formattedHour = adjustedHour % 12 || 12;
-        const formattedMinute = adjustedMinute.toString().padStart(2, "0");
-        const period = adjustedHour >= 12 ? "PM" : "AM";
-        const formattedTime = `${formattedHour}:${formattedMinute} ${period}`;
-        times.push({ time: formattedTime, checked: false });
-      }
-    }
     return times;
   };
 
@@ -79,21 +78,14 @@ const CalendarPage = ({
       .filter((time) => time.checked)
       .map((time) => time.time);
     onSelectTime(selectedTimesForDate);
-    setModalOpen(false);
     setIsModalVisible(false);
     setModalTimes(modalTimes.map((time) => ({ ...time, checked: false })));
   };
 
   const showModal = (date: Dayjs) => {
-    const timesForSelectedDate = selectedTimes[date.format("DDMMYY")] || [];
-    const preCheckedTimes = modalTimes.map((modalTime) => ({
-      ...modalTime,
-      checked: timesForSelectedDate.includes(modalTime.time),
-    }));
-
-    setModalTimes(preCheckedTimes);
     setSelectedDate(date);
     setIsModalVisible(true);
+    setModalTimes(generateTimes());
   };
 
   const handleCancel = () => {
@@ -114,17 +106,14 @@ const CalendarPage = ({
       [dateKey]: times,
     };
     setSelectedTimes(updatedSelectedTimes);
-    setIsModalVisible(false);
   };
 
   const dateCellRender = (value: Dayjs) => {
-    const data = selectedTimes
-      ? selectedTimes[value.format("DDMMYY")] || []
-      : [];
+    const data = selectedTimes[value.format("DDMMYY")] || [];
 
     return (
       <ul className="events">
-        {data?.map((item: any, index: any) => (
+        {data.map((item: any, index: any) => (
           <li key={index}>
             <Badge status="success" text={item} />
           </li>
@@ -141,7 +130,7 @@ const CalendarPage = ({
   return (
     <div className="flex justify-center items-center">
       <Calendar
-        className="lg:max-h-full max-h-[500px] lg:m-0 p-5 lg:mb-0 mb-10 rounded-md scroll-smooth lg:overflow-visible overflow-y-auto"
+        className="lg:max-h-full max-h-[500px] lg:m-0 p-5 lg:mb-0 mb-10 dark:bg-d scroll-smooth lg:overflow-visible overflow-y-auto"
         onSelect={onSelect}
         cellRender={cellRender}
         mode={"month"}

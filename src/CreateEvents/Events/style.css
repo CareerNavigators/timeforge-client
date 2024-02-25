@@ -1,9 +1,9 @@
 .lg\:h-\[88vh\] {
   scrollbar-width: none;
   -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+}
+.lg\:h-\[88vh\]::-webkit-scrollbar {
+  display: none;
 }
 
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-modal
@@ -14,18 +14,24 @@
   transition: all 0.1s;
 }
 
-#btn-confirm.ant-btn.css-dev-only-do-not-override-1qhpsh8.ant-btn-default {
+#btn-confirm {
   background-color: rgb(124 58 237);
   color: rgb(255, 255, 255);
   border-color: rgb(124 58 237);
 }
-#btn-confirm.ant-btn.css-dev-only-do-not-override-1qhpsh8.ant-btn-default:hover {
+#btn-confirm:hover {
   background-color: rgb(138, 72, 252);
   color: rgb(255, 255, 255);
 }
 
-#btn-cancel.ant-btn.css-dev-only-do-not-override-1qhpsh8.ant-btn-default:hover {
+#btn-cancel {
   background-color: rgb(237, 58, 58);
+  color: rgb(255, 255, 255);
+  border-color: rgb(237, 58, 58);
+}
+
+#btn-cancel:hover {
+  background-color: rgb(224, 37, 37);
   color: rgb(255, 255, 255);
   border-color: rgb(237, 58, 58);
 }

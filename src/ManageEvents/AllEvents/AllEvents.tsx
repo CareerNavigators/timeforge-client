@@ -21,6 +21,9 @@ export interface EventType {
   name: string;
   email: string;
   slot: keyof object;
+  offline: boolean;
+  startTime: string;
+  endTime: string
 }
 
 const AllEvents: React.FC = () => {
@@ -49,6 +52,7 @@ const AllEvents: React.FC = () => {
     },
     enabled: userData != null ? true : false,
     retry: MAX_API_CALLS - 1,
+    refetchOnWindowFocus: false
   });
 
   // console.log(allEvents);
@@ -90,7 +94,7 @@ const AllEvents: React.FC = () => {
 
   return (
     <div
-      className="mx-auto overflow-auto scroll-smooth"
+      className="mx-auto overflow-auto scroll-smooth mb-20 lg:mb-5"
       style={{
         scrollbarWidth: "none",
         msOverflowStyle: "none",

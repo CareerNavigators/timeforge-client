@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   FaArchive,
   FaCamera,
@@ -21,19 +22,22 @@ import Input from "rc-input";
 import showToast from "../../Hook/swalToast";
 import { useMutation } from "@tanstack/react-query";
 import AxiosSecure from "../../Hook/useAxios";
+import { useNavigate } from "react-router-dom";
+import { renderToStaticMarkup } from "react-dom/server";
+import ConfirmationEmail from "./ConfirmationEmail";
 
 const EventDetails: React.FC = () => {
   // hooks and states
-  const { title, duration, desc, eventType, events, camera, mic, _id } =
+  const { title, duration, desc, eventType, events, camera, mic, _id, offline } =
     useLoaderData() as EventType;
   const { userData } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<string>()
-  const [slot, setSlot] = useState<string>()
-  const caxios=AxiosSecure()
+  const [selectedDate, setSelectedDate] = useState<string>();
+  const [slot, setSlot] = useState<string>();
+  const caxios = AxiosSecure();
   const showModal = () => {
     setIsModalOpen(true);
-
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -56,45 +60,116 @@ const EventDetails: React.FC = () => {
     return info.originNode;
   };
   const onSelect = (value: Dayjs, selectInfo: SelectInfo) => {
-    const data = events[value.format("DDMMYY")] || []
+    const data = events[value.format("DDMMYY")] || [];
     if (data.length != 0) {
-      setSelectedDate(value.format("DDMMYY"))
+      setSelectedDate(value.format("DDMMYY"));
       console.log(value);
       console.log(selectInfo);
-      console.log(events[value.format("DDMMYY")].map((x: string) => ({ value: x, label: x })));
+      console.log(
+        events[value.format("DDMMYY")].map((x: string) => ({
+          value: x,
+          label: x,
+        }))
+      );
 
-      showModal()
+      showModal();
     } else {
-      showToast("error", "No Schedule Time Found")
+      showToast("error", "No Schedule Time Found");
     }
-
   };
-  const addAttendee= useMutation({
-    mutationFn:async (data:{[key:string]:any})=>{
-      const res= await caxios.post("/attendee",data)
-      return res.data
+
+  const addAttendee = useMutation({
+    mutationFn: async (data: { [key: string]: any }) => {
+      const res = await caxios.post("/attendee", data);
+
+      const confirmationEmail = (
+        <ConfirmationEmail
+          eventId={_id}
+          eventName={title}
+          eventDate={selectedDate}
+          eventTime={slot}
+          eventDesc={desc}
+          attendeeEmail={data.email}
+        />
+      );
+      const htmlContent = renderToStaticMarkup(confirmationEmail);
+
+      const sendMailData = {
+        attendeeEmail: data.email,
+        subject: `${title} Event Reservation Confirmation`,
+        html: htmlContent,
+      };
+
+      try {
+        await caxios.post("/sendmail", sendMailData);
+        console.log("Email sent successfully");
+      } catch (error) {
+        console.error("Error sending email:", error);
+      }
+
+      return res.data;
     },
-    onSuccess:()=>{
-      handleCancel()
-      showToast("success", "You Reservation is done.")
-    }
-  })
+    onSuccess: (data) => {
+      handleCancel();
+      showToast("success", "Your Reservation is done.");
+      if (selectedDate && slot) {
+        sendConfirmationEmail(data.email, title, selectedDate, slot, _id, desc);
+        navigate(`/eventSlot/attendee/${_id}`);
+      } else {
+        console.error("Selected date & Slot is undefined");
+      }
+    },
+  });
+
+  const sendConfirmationEmail = (
+    eventId: string,
+    attendeeEmail: string,
+    eventName: string,
+    eventDesc: string,
+    eventDate: string,
+    eventTime: string
+  ) => {
+    console.log(
+      "Sending confirmation email:",
+      eventId,
+      attendeeEmail,
+      eventName,
+      eventDesc,
+      eventDate,
+      eventTime
+    );
+    const confirmationEmail = (
+      <ConfirmationEmail
+        eventId={eventId}
+        eventName={eventName}
+        eventDesc={eventDesc}
+        eventDate={eventDate}
+        eventTime={eventTime}
+        attendeeEmail={attendeeEmail}
+      />
+    );
+
+    const htmlContent = renderToStaticMarkup(confirmationEmail);
+    console.log(htmlContent);
+  };
+
   async function UpdateEvent(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (selectedDate) {
       const formData = new FormData(e.currentTarget);
-      const formObject:{[key:string]:any} = Object(Object.fromEntries(formData));
-      const t:{[key:string]:any}={}
-      t[selectedDate]=[slot]
-      formObject['slot']=t
-      formObject['event']=_id
-      addAttendee.mutateAsync(formObject)
+      const formObject: { [key: string]: any } = Object(
+        Object.fromEntries(formData)
+      );
+      const t: { [key: string]: any } = {};
+      t[selectedDate] = [slot];
+      formObject["slot"] = t;
+      formObject["event"] = _id;
+      addAttendee.mutateAsync(formObject);
     }
-
   }
-  function handelSelect(value:string){
+  function handelSelect(value: string) {
     console.log(value);
-    setSlot(value)
+    setSlot(value);
   }
   return (
     <div className="mb-5 select-none">
@@ -114,8 +189,15 @@ const EventDetails: React.FC = () => {
         {/* event information */}
         <div className="w-full lg:w-1/3 max-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
           <div className="p-2">
-            <h2 className="text-2xl dark:text-dw w-full border border-[#d6d1ff] rounded-md px-3 py-2 text-[#7c3aed] font-bold mt-3">
+            <h2 className="flex justify-between items-center text-2xl dark:text-dw w-full border border-[#d6d1ff] rounded-md px-3 py-2 text-[#7c3aed] font-bold mt-3">
               {title}
+              {
+                offline ? <h4 className="text-xs px-2 py-[2px] rounded-md bg-gray-500 text-white">
+                  Offline
+                </h4> : <h4 className="text-xs px-2 py-[2px] rounded-md bg-green-500 text-white">
+                  Online
+                </h4>
+              }
             </h2>
             <div className="flex justify-between border border-[#d6d1ff] rounded-md mt-5 items-center px-3 py-1.5">
               <div className="flex items-center gap-2 text-lg text-gray-600 font-medium rounded-md">
@@ -228,7 +310,9 @@ const EventDetails: React.FC = () => {
           <div className="flex flex-col md:flex-col lg:flex-row lg:items-end gap-3 lg:gap-5 mx-2 mt-3">
             {/* author info */}
             <div className="w-full">
-              <h4 className="font-bold text-sm text-gray-400 ml-1 my-1.5">Author Info</h4>
+              <h4 className="font-bold text-sm text-gray-400 ml-1 my-1.5">
+                Author Info
+              </h4>
               <div className="flex items-center gap-3 border border-[#d6d1ff] w-full px-3 py-1.5 rounded-md">
                 <img
                   className="w-12 h-12 rounded-full object-cover"
@@ -258,22 +342,36 @@ const EventDetails: React.FC = () => {
           />
         </div>
       </div>
-      <Modal width={500} title="Attendee Modal" destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >
-
+      <Modal
+        width={500}
+        title="Attendee Modal"
+        destroyOnClose={true}
+        onCancel={handleCancel}
+        footer={null}
+        open={isModalOpen}
+      >
         <form onSubmit={UpdateEvent}>
           <div className="flex flex-col gap-1">
-            <p className='font-semibold'>Name</p>
+            <p className="font-semibold">Name</p>
             <Input name="name" className="border rounded"></Input>
-            <p className='font-semibold' >Email</p>
+            <p className="font-semibold">Email</p>
             <Input name="email" className="border rounded"></Input>
-            <p className='font-semibold'>Time</p>
-            {
-              selectedDate &&
-              <Select onChange={handelSelect} options={events[selectedDate].map((x: string) => ({ value: x, label: x }))} placeholder="Select time...."></Select>
-            }
+            <p className="font-semibold">Time</p>
+            {selectedDate && (
+              <Select
+                onChange={handelSelect}
+                options={events[selectedDate].map((x: string) => ({
+                  value: x,
+                  label: x,
+                }))}
+                placeholder="Select time...."
+              ></Select>
+            )}
           </div>
-          <div className='flex gap-4 mt-2 justify-center'>
-            <Button className='bg-light-blue-500 text-white' htmlType='submit'>Update</Button>
+          <div className="flex gap-4 mt-2 justify-center">
+            <Button className="bg-light-blue-500 text-white" htmlType="submit">
+              Update
+            </Button>
             <Button onClick={handleCancel}>Close</Button>
           </div>
         </form>

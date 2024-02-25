@@ -1,11 +1,11 @@
 import { Table } from 'ka-table';
 import 'ka-table/style.css';
-import { DataType, SortingMode } from 'ka-table/enums';
+import { DataType, PagingPosition, SortingMode } from 'ka-table/enums';
 import AxiosSecure from '../../../Hook/useAxios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import moment from 'moment';
-import { Attendess } from '../AllTypes';
-import { Column } from 'ka-table/models';
+import { Attendee, Attendess } from '../AllTypes';
+import { Column, PagingOptions } from 'ka-table/models';
 import { Button, Input, Modal, Spin, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
@@ -15,6 +15,7 @@ const AllAttendess = () => {
     const caxios = AxiosSecure()
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [singleAttendee, setSingleAttendee] = useState<Attendess>()
+    const [page,SetPage]=useState<number>(1)
     //modal
     const updateAttendee = useMutation({
         mutationFn: async (data) => {
@@ -28,7 +29,7 @@ const AllAttendess = () => {
         retry:2,
     })
     const showModal = (id: string) => {
-        const t_attendee = allAttendes.data?.filter(x => x._id == id)
+        const t_attendee = allAttendes.data?.docs?.filter(x => x._id == id)
         if (t_attendee && t_attendee?.length != 0) {
             setSingleAttendee(t_attendee[0])
             setIsModalOpen(true);
@@ -42,10 +43,11 @@ const AllAttendess = () => {
     const allAttendes = useQuery({
         queryKey: ['allAttendes'],
         queryFn: async () => {
-            const res = await caxios.get("/admin/attendee")
-            return res.data as Attendess[]
+            const res = await caxios.get(`/admin/attendee?page=${page}`)
+            return res.data as Attendee
         },
         retry:2,
+        refetchOnWindowFocus:false
     })
     const column = [
         {
@@ -124,6 +126,12 @@ const AllAttendess = () => {
             }
         })
     }
+    const handlePageChange = async (pageIndex: number) => {
+        if (page !== pageIndex +  1) {
+            await SetPage(pageIndex +  1);
+            allAttendes.refetch();
+        }
+    }
     const childComponent= {
         headCell: {//th
             elementAttributes: ({ column }: { column: Column }) => {
@@ -146,7 +154,22 @@ const AllAttendess = () => {
                     return {className:`${field}`}
                 }
             }
-        }
+        },
+        pagingIndex:{
+            content:({pageIndex,isActive}:{pageIndex:number,isActive:boolean})=>{
+                if (isActive) {
+                    handlePageChange(pageIndex)
+                }
+            }
+        },
+        
+    }
+    const paging:PagingOptions={
+        enabled:true,
+        pageSize:15,
+        pagesCount: allAttendes.data?.totalPages,
+        position:PagingPosition.Top
+
     }
     return (
         <div className='p-2'>
@@ -159,11 +182,12 @@ const AllAttendess = () => {
                     text: "Loading..."
                 }}
                 columns={column}
-                data={allAttendes.data}
+                data={allAttendes.data?.docs}
                 format={format}
                 rowKeyField={'_id'}
                 childComponents={childComponent}
                 sortingMode={SortingMode.Single}
+                paging={paging}
             />
             <div>
                 <Modal width={1200} title="Attendee Modal" confirmLoading={allAttendes.isPending || deleteMutation.isPending} destroyOnClose={true} onCancel={handleCancel} footer={null} open={isModalOpen} >

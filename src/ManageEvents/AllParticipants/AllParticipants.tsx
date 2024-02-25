@@ -8,14 +8,15 @@ import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { FaUserGroup } from "react-icons/fa6";
+import Swal from "sweetalert2";
 
 
 interface AllParticipantsProps {
-    id: string;
+    id: string | undefined;
 }
 
 const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
-    const customAxios = useAxios()
+    const customAxios = useAxios();
     dayjs.extend(customParseFormat);
 
     const MAX_API_CALLS = 2;
@@ -28,17 +29,29 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
             return res.data;
         },
         enabled: id != undefined ? true : false,
-        retry: MAX_API_CALLS - 2
+        retry: MAX_API_CALLS - 1
     });
 
     // deleting a participant
     const handleParticipantDelete = (id: string) => {
         console.log("id", id);
-        customAxios.delete(`/attendee/${id}`).then((res) => {
-            const data = res.data;
-            console.log("deleted", data);
-            showToast("success", "Attendee removed");
-            refetch();
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                customAxios.delete(`/attendee/${id}`).then((res) => {
+                    const data = res.data;
+                    refetch();
+                    console.log("deleted", data);
+                    showToast("success", "Attendee removed");
+                });
+            }
         });
     };
 

@@ -24,6 +24,10 @@ import AllUser2 from "../Dashboard/Admin/AllUser/AllUser2";
 import AllMeetings from "../Dashboard/Admin/AllMeetings/AllMeetings";
 import AllAttendess from "../Dashboard/Admin/AllAttendees/AllAttendess";
 import Note2 from "../Dashboard/Note/Note2";
+import AttendeeSuccess from "../Components/EventSlot/AttendeeSuccess";
+import AllTimeline from "../Components/Timeline/AllTimeline";
+import GroupMeeting from "../CreateEvents/GroupMeeting/GroupMeeting";
+import MyTimline from "../Dashboard/Admin/Timeline/MyTimline";
 import Shop from "../Pages/Inventory/Shop";
 import Product from "../Pages/Inventory/Product";
 import Cart from "../Pages/Inventory/Cart";
@@ -42,13 +46,14 @@ const router = createBrowserRouter([
         path: "/createEvent",
         element: <CreateEvents></CreateEvents>,
       },
-      
+
       {
         path: "/calendarPage",
         element: (
           <CalendarPage
             selectedTimes={{}}
-            onSelectTime={function (): void {}}></CalendarPage>
+            onSelectTime={function (): void {}}
+          ></CalendarPage>
         ),
       },
       {
@@ -107,17 +112,13 @@ const router = createBrowserRouter([
       {
         path: "dashboard/eventDetails/:id",
         element: <EventDetails></EventDetails>,
-        loader: ({ params }) =>
-          fetch(
-            `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
-          ),
       },
       {
         path: "dashboard/updateEvent/:id",
         element: <UpdateEvent></UpdateEvent>,
         loader: ({ params }) =>
           fetch(
-            `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
+            `${import.meta.env.VITE_BACK_END_API}/meeting?id=${params.id}&type=single`
           ),
       },
       {
@@ -126,24 +127,36 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/note",
-        element: <Note></Note>
+        element: <Note></Note>,
       },
       {
-        path:"/dashboard/alluser",
-        element:<AllUser2></AllUser2>
+        path: "/dashboard/timeline",
+        element: <AllTimeline></AllTimeline>,
       },
       {
-        path:"/dashboard/allevents",
-        element:<AllMeetings></AllMeetings>
+        path: "/dashboard/alluser",
+        element: <AllUser2></AllUser2>,
       },
       {
-        path:"/dashboard/allateendee",
-        element:<AllAttendess />
+        path: "/dashboard/allevents",
+        element: <AllMeetings></AllMeetings>,
       },
-        {
-          path: "dashboard/createEvent/oneEvent",
-          element: <OneEvent></OneEvent>,
-        },
+      {
+        path: "/dashboard/allattendee",
+        element: <AllAttendess />,
+      },
+      {
+        path: "dashboard/createEvent/oneEvent",
+        element: <OneEvent></OneEvent>,
+      },
+      {
+        path: "dashboard/createEvent/groupMeeting",
+        element: <GroupMeeting></GroupMeeting>
+      },
+      {
+        path: "/dashboard/alltimeline",
+        element: <MyTimline></MyTimline>,
+      },
     ],
   },
   {
@@ -151,9 +164,14 @@ const router = createBrowserRouter([
     element: <EventSlot></EventSlot>,
     loader: ({ params }) =>
       fetch(
-        `https://timeforge-server.vercel.app/meeting?id=${params.id}&type=single`
+        `${import.meta.env.VITE_BACK_END_API}/meeting?id=${params.id}&type=single`
       ),
   },
-  
+  {
+    path: "/eventSlot/attendee/:id",
+    element: <AttendeeSuccess></AttendeeSuccess>,
+    loader: ({ params }) =>
+      fetch(`${import.meta.env.VITE_BACK_END_API}/attendee?id=${params.id}`),
+  },
 ]);
 export default router;
