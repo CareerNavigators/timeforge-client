@@ -1,7 +1,7 @@
 #btn-details {
-  background-color: rgb(124 58 237);
+  background-color: rgb(124, 58, 237);
   color: rgb(255, 255, 255);
-  border-color: rgb(124 58 237);
+  border-color: rgb(124, 58, 237);
 }
 #btn-details:hover {
   background-color: rgb(138, 72, 252);
@@ -9,11 +9,32 @@
 }
 
 #btn-add {
-  background-color: rgb(124 58 237);
+  background-color: rgb(124, 58, 237);
   color: rgb(255, 255, 255);
-  border-color: rgb(124 58 237);
+  border-color: rgb(124, 58, 237);
 }
 #btn-add:hover {
   background-color: rgb(138, 72, 252);
   color: rgb(255, 255, 255);
+}
+
+#btn-submit {
+  background-color: rgb(124, 58, 237);
+  color: rgb(255, 255, 255);
+  border: 0;
+}
+#btn-submit:hover {
+  background-color: rgb(138, 72, 252);
+  color: rgb(255, 255, 255);
+  border: 0;
+}
+#btn-reset {
+  background-color: rgba(255, 12, 12, 0.795);
+  color: rgb(255, 255, 255);
+  border: 0;
+}
+#btn-reset:hover {
+  background-color: rgba(197, 3, 3, 0.795);
+  color: rgb(255, 255, 255);
+  border: 0;
 }
