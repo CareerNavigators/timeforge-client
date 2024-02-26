@@ -1,11 +1,8 @@
 import {
   Button,
-  Divider,
   Form,
   Input,
   InputNumber,
-  InputRef,
-  Select,
   Space,
   Switch,
   TimePicker,
@@ -14,10 +11,8 @@ import { FaVideoSlash, FaVideo } from "react-icons/fa";
 import {
   AudioOutlined,
   AudioMutedOutlined,
-  PlusOutlined,
 } from "@ant-design/icons";
-import { ChangeEvent, useContext, useRef, useState } from "react";
-import { SelectValue } from "antd/es/select";
+import { ChangeEvent, useContext, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import AxiosSecure from "../../Hook/useAxios";
@@ -37,7 +32,6 @@ const GroupMeeting = () => {
   const [eventName, setEventName] = useState<string>("");
   const [eventDurationHour, setEventDurationHour] = useState(0);
   const [eventDurationMinute, setEventDurationMinute] = useState(0);
-  const [eventType, setEventType] = useState<string>("");
   const [eventDesc, setEventDesc] = useState<string>("");
   const [eventTime, setEventTime] = useState<any>();
   const [startTime, setStartTime] = useState<string>();
@@ -47,30 +41,6 @@ const GroupMeeting = () => {
   const axiosSecure = AxiosSecure();
   const eventDuration = eventDurationHour + eventDurationMinute;
 
-  // custom event types states and functions starts
-  const [items, setItems] = useState([
-    "Interview",
-    "Meeting",
-    "Seminar",
-    "Webinar",
-  ]);
-  const [name, setName] = useState("");
-  const inputRef = useRef<InputRef>(null);
-
-  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
-
-  const addItem = (
-    e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
-  ) => {
-    e.preventDefault();
-    setItems([...items, name]);
-    setName("");
-    setTimeout(() => {
-      inputRef.current?.focus();
-    }, 0);
-  };
 
   const handleAudioSelection = () => {
     setIsAudioSelected(!isAudioSelected);
@@ -95,9 +65,6 @@ const GroupMeeting = () => {
     }
   };
 
-  const handleEventType = (value: SelectValue) => {
-    setEventType(value as string);
-  };
 
   const handleStartEndTime = (
     value: NoUndefinedRangeValueType<Dayjs>,
@@ -145,7 +112,7 @@ const GroupMeeting = () => {
         duration: eventDuration,
         mic: isAudioSelected,
         camera: isVideoSelected,
-        eventType: eventType,
+        eventType: "Group Meeting",
         desc: eventDesc,
         events: eventTime,
         offline: isOffline,
@@ -246,48 +213,6 @@ const GroupMeeting = () => {
                 />
               </Form.Item>
 
-              {/* Dynamic event type */}
-              <Form.Item
-                name="eventType"
-                rules={[{ required: true, message: "Please input!" }]}
-              >
-                <Select
-                  value={eventType}
-                  placeholder="Event Type"
-                  onChange={handleEventType}
-                  dropdownRender={(menu) => (
-                    <>
-                      <div className="w-full">{menu}</div>
-                      <Divider style={{ margin: "8px 0" }} />
-                      <Space
-                        className="w-full flex flex-row justify-end"
-                        style={{
-                          padding: "0 8px 4px",
-                        }}
-                      >
-                        <Input
-                          placeholder="Enter event type"
-                          ref={inputRef}
-                          value={name}
-                          onChange={onNameChange}
-                          onKeyDown={(e) => e.stopPropagation()}
-                          className="w-full"
-                        />
-                        <Button
-                          style={{ border: "1px solid LightGray" }}
-                          type="text"
-                          icon={<PlusOutlined />}
-                          onClick={addItem}
-                        >
-                          Add Event
-                        </Button>
-                      </Space>
-                    </>
-                  )}
-                  options={items.map((item) => ({ label: item, value: item }))}
-                />
-              </Form.Item>
-
               <Space
                 direction="horizontal"
                 className="flex justify-between px-1"
@@ -341,7 +266,7 @@ const GroupMeeting = () => {
               </Form.Item>
             </div>
 
-            <Form.Item className="mt-24 lg:mt-36">
+            <Form.Item className="mt-36">
               <Button
                 id="btn-continue"
                 htmlType="submit"

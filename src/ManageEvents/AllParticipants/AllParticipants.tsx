@@ -23,7 +23,7 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
 
     // fetching all participants
     const { data: allParticipants = [], isLoading, refetch } = useQuery({
-        queryKey: ["AllParticipants"],
+        queryKey: ["AllParticipants", id],
         queryFn: async () => {
             const res = await customAxios.get(`attendee?id=${id}`);
             return res.data;
