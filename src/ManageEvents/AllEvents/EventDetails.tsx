@@ -31,7 +31,7 @@ const EventDetails: React.FC = () => {
   
 
   const { data: eventDetails, isLoading } = useQuery({
-    queryKey: ["EventDetails"],
+    queryKey: ["EventDetails", id],
     queryFn: async () => {
       const res = await customAxios.get(`${import.meta.env.VITE_BACK_END_API}/meeting?id=${id}&type=single`)
       return res.data;

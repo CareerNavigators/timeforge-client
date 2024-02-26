@@ -51,11 +51,11 @@ const SingleEvent: React.FC<SingleEventProps> = ({
     >
       <div className={`w-[300px] max-h-[300px] select-none rounded-lg dark:bg-d shadow-md border-2 border-white dark:border-dw dark:border-[1px] p-4 hover:bg-[#f9f6ff] hover:border-[#7c3aed] hover:shadow-md hover:-hue-rotate-50`}>
         <Link to={`/dashboard/eventDetails/${_id}`}>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center gap-2">
             <h3 className="text-[#7c3aed] dark:text-dw text-lg font-bold my-2 truncate">
               {title}
             </h3>
-            <h4 className={`text-xs text-[#7c3aed] ${offline ? "bg-[#f1effa]" : "bg-[#e5e0f8]"} font-semibold rounded-md px-3 py-1`}>
+            <h4 className={`text-xs text-[#7c3aed] bg-[#f1effa] truncate font-semibold rounded-md px-3 py-1`}>
               {eventType}
             </h4>
           </div>
