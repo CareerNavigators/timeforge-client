@@ -43,9 +43,11 @@ const AllEvents: React.FC = () => {
   const {
     data: allEvents = [],
     isLoading,
+    isFetching,
+    isPending,
     refetch,
   } = useQuery({
-    queryKey: ["AllEvents"],
+    queryKey: ["AllEvents", userData?._id],
     queryFn: async () => {
       const res = await customAxios.get(apiURL);
       return res.data;
@@ -81,15 +83,14 @@ const AllEvents: React.FC = () => {
   };
 
   // show this loader if data is loading
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center fixed left-[45%] top-[50%]">
-        <Spin
-          indicator={<LoadingOutlined></LoadingOutlined>}
-          size="large"
-        ></Spin>
-      </div>
-    );
+  if (isLoading || isFetching ||isPending) {
+    return <div className="flex items-center justify-center fixed left-[45%] top-[50%]">
+      <Spin
+        indicator={<LoadingOutlined></LoadingOutlined>}
+        size="large"
+      ></Spin>
+    </div>
+
   }
 
   return (
@@ -107,7 +108,7 @@ const AllEvents: React.FC = () => {
         </span>
       </h2>
       <div className="flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-6 p-4 mx-auto">
-        {allEvents && allEvents.length > 0 ? (
+        {allEvents?.length > 0 ? (
           allEvents.map((item: EventType) => (
             <SingleEvent
               key={item._id}
@@ -116,9 +117,9 @@ const AllEvents: React.FC = () => {
             />
           ))
         ) : (
-          <div className="lg:w-[85vw]">
-            <Empty className="flex flex-col items-center justify-center h-screen" />
-          </div>
+
+          <Empty className="flex flex-col items-center justify-center h-screen" />
+
         )}
       </div>
     </div>
