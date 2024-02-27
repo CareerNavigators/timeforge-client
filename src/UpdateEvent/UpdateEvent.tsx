@@ -276,6 +276,7 @@ const UpdateEvent = () => {
 
                             {/* Dynamic event type */}
                             <Form.Item
+                                hidden={eventTypes === "Group Meeting" || eventTypes === "Board Meeting" ? true : false}
                                 initialValue={eventTypes}
                                 name="eventType"
                                 rules={[{ required: true, message: "Please input!" }]}
@@ -284,7 +285,6 @@ const UpdateEvent = () => {
                                     value={eventType}
                                     placeholder="Event Type"
                                     onChange={handleEventType}
-                                    disabled={eventTypes === "Group Meeting" || eventTypes === "Board Meeting" ? true : false}
                                     dropdownRender={(menu) => (
                                         <>
                                             <div className="w-full">{menu}</div>

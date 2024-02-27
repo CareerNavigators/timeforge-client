@@ -11,7 +11,7 @@ export default function Footer() {
   };
   return (
     <footer className="bg-gray-100 select-none dark:bg-d1">
-      <div className="relative max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8 lg:pt-24 dark:text-dw">
+      <div className="relative max-w-[1920px] px-4 py-16 mx-auto sm:px-6 lg:px-16 lg:pt-24 dark:text-dw">
         <div className="absolute end-4 top-4 sm:end-6 sm:top-6 lg:end-8 lg:top-8">
           <button
             onClick={scrollToSection}
