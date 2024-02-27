@@ -28,9 +28,9 @@ const EventDetails: React.FC = () => {
   const customAxios = useAxios();
   const { id } = useParams();
 
-  
 
-  const { data: eventDetails, isLoading } = useQuery({
+
+  const { data: eventDetails, isLoading, isFetching, isPending } = useQuery({
     queryKey: ["EventDetails", id],
     queryFn: async () => {
       const res = await customAxios.get(`${import.meta.env.VITE_BACK_END_API}/meeting?id=${id}&type=single`)
@@ -62,7 +62,7 @@ const EventDetails: React.FC = () => {
   };
 
   // show this loader if data is loading
-  if (isLoading) {
+  if (isLoading || isFetching || isPending) {
     return (
       <div className="flex items-center justify-center fixed left-[45%] top-[50%]">
         <Spin
@@ -89,7 +89,7 @@ const EventDetails: React.FC = () => {
       </h1>
       <div className="lg:max-w-full mx-1 my-1 lg:px-2 lg:m-5 flex flex-col md:flex-row gap-2">
         {/* event information */}
-        <div className="w-full lg:w-1/3 max-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
+        <div className="relative w-full lg:w-1/3 max-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
           <div className="p-2">
             <h2 className="flex justify-between items-center text-2xl dark:text-dw w-full border border-[#d6d1ff] rounded-md px-3 py-2 text-[#7c3aed] font-bold mt-3">
               {eventDetails?.title}
@@ -147,7 +147,7 @@ const EventDetails: React.FC = () => {
           </div>
 
           {/* timeline */}
-          <div className="dark:text-gray-100 border border-[#d6d1ff] rounded-md mx-2 mt-3">
+          {/* <div className="dark:text-gray-100 border border-[#d6d1ff] rounded-md mx-2 mt-3">
             <div className="container max-w-5xl lg:py-4 mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-cols-12 lg:gap-16 gap-3 mx-5">
                 <div className="col-span-12 w-[300px] sm:col-span-3">
@@ -208,19 +208,19 @@ const EventDetails: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <div className="flex flex-col md:flex-col lg:flex-row lg:items-end gap-3 lg:gap-5 mx-2 mt-3">
+          <div className="md:absolute md:bottom-6 xl:w-[370px] flex flex-row items-end gap-2 mx-2 mt-3">
             {/* author info */}
             <div className="w-full">
               <h4 className="font-bold text-sm text-gray-400 ml-1 my-1.5">Author Info</h4>
-              <div className="flex items-center gap-3 border border-[#d6d1ff] w-full px-3 py-1.5 rounded-md">
+              <div className="flex items-center gap-3 border border-[#d6d1ff] px-3 py-1.5 rounded-md">
                 <img
                   className="w-12 h-12 rounded-full object-cover"
                   src={userData?.img_profile}
                   alt="author-image"
                 />
-                <div className="flex flex-col">
+                <div className="flex flex-col truncate">
                   <h2 className="font-semibold dark:text-dw text-gray-600">
                     {userData?.name}
                   </h2>
@@ -232,9 +232,8 @@ const EventDetails: React.FC = () => {
             </div>
 
             <Link to={`/dashboard/updateEvent/${id}`}>
-              <button className="w-full justify-center flex items-center gap-2 px-8 py-3 lg:py-4 border border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300">
+              <button className="w-full px-5 py-5 border border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300">
                 <FaPencilAlt></FaPencilAlt>
-                <p>Update</p>
               </button>
             </Link>
           </div>
