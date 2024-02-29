@@ -60,7 +60,7 @@ export default function Footer() {
                 to={"/about"}
                 className="text-gray-700 transition hover:text-gray-700/75 dark:text-dw">
                 {" "}
-                About Us{" "}
+                About{" "}
               </Link>
             </li>
 
@@ -75,7 +75,7 @@ export default function Footer() {
 
             <li>
               <Link
-                to={"/contactus"}
+                to={"/contactUs"}
                 className="text-gray-700 transition hover:text-gray-700/75 dark:text-dw">
                 Contact us
               </Link>

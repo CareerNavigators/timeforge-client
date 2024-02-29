@@ -1,10 +1,5 @@
-import {
-  MouseParallaxChild,
-  MouseParallaxContainer,
-} from "react-parallax-mouse";
-
-import CalenderImg from "/images/calender.svg";
 import Logo from "/logo.png";
+import ScheduleCalendar from "./ScheduleCalendar";
 
 const Schedule = () => {
   return (
@@ -46,16 +41,9 @@ const Schedule = () => {
             </div>
           </div>
         </div>
-        <MouseParallaxContainer
-          className="smooth-parallax"
-          globalFactorX={0.5}
-          globalFactorY={0.5}
-          resetOnLeave
-        >
-          <MouseParallaxChild factorX={0.2} factorY={0.2}>
-            <img className="lg:pt-10 flex p-5 md:w-[600px]" src={CalenderImg} alt="calender image" />
-          </MouseParallaxChild>
-        </MouseParallaxContainer>
+        <section>
+          <ScheduleCalendar />
+        </section>
       </div>
     </div>
   );
