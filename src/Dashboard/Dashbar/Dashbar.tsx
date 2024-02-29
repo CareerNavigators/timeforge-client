@@ -164,6 +164,11 @@ const Dashbar = () => {
                     All Timeline
                   </NavLink>
                 </Menu.Item>
+                <Menu.Item icon={<ScheduleOutlined />}>
+                  <NavLink to="/dashboard/allecommerce" end>
+                    All E-Commerce
+                  </NavLink>
+                </Menu.Item>
 
                 <Tooltip
                   placement={`${collapsed ? "left" : "top"}`}
