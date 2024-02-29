@@ -13,7 +13,7 @@ import { FaCalendar, FaClock, FaUserTie } from "react-icons/fa";
 
 const HighlightedEvents = () => {
   return (
-    <div id="partners" className="pt-10 mb-48 md:mb-60">
+    <div id="partners" className="mb-60">
       <h1 className="font-extrabold text-[#7c3aed] pb-52 text-center text-4xl md:text-5xl">
         Trending Events
       </h1>
