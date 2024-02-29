@@ -8,14 +8,12 @@ import Footer from "./Footer";
 const Home = () => {
   return (
     <div id="take-a-look" className="max-w-full mx-auto">
-      <div className="mb-[100px] lg:mb-0">
+      <div className="mb-0 lg:mb-20">
         <Hero></Hero>
       </div>
-
       <HighlightedEvents></HighlightedEvents>
       <DemoEvent></DemoEvent>
       <Schedule></Schedule>
-      
       <MarqueeElement></MarqueeElement>
       <Footer />
     </div>
