@@ -23,6 +23,7 @@ import {
 import { TbBoxOff, TbBox } from "react-icons/tb";
 import { PlusOutlined } from "@ant-design/icons";
 import useCloudinary from "../../../Hook/useCloudinary";
+import Authorization from "../../../Components/GoogleCalendar/Authorization";
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 const getBase64 = (file: FileType): Promise<string> =>
@@ -361,6 +362,7 @@ const AllEcommerce = () => {
           </Form>
         </Modal>
       </div>
+      <Authorization/>
     </div>
   );
 };
