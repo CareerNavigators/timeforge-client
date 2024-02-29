@@ -144,3 +144,14 @@ export type SingleTimeLine = {
     endTime:string
   }
 };
+
+export type SingleItem={
+  _id?:string
+  title:string
+  img:string
+  price:number
+  isSoldOut:boolean
+}
+export type AllItem={
+  docs:SingleItem[];
+} &PaginationInfo;

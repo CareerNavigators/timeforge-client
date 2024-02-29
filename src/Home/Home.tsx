@@ -1,4 +1,3 @@
-
 import Hero from "./Hero";
 import Schedule from "../Components/Schedule/Schedule";
 import MarqueeElement from "../Components/Marquee/MarqueeElement";
@@ -8,14 +7,10 @@ import Footer from "./Footer";
 const Home = () => {
   return (
     <div id="take-a-look" className="max-w-full mx-auto">
-      <div className="mb-[100px] lg:mb-0">
-        <Hero></Hero>
-      </div>
-
+      <Hero></Hero>
       <HighlightedEvents></HighlightedEvents>
       <DemoEvent></DemoEvent>
       <Schedule></Schedule>
-      
       <MarqueeElement></MarqueeElement>
       <Footer />
     </div>

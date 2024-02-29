@@ -226,26 +226,26 @@ const AllMeetings = () => {
                 if (column.key == "createdAt") {
                     return (
                         {
-                            className: "screen-1450px dark:bg-d dark:text-dw"
+                            className: "screen-1450px dark:bg-d2 dark:text-dw"
                         }
                     )
                 } else if (['mic', 'camera'].includes(column.key)) {
                     return (
                         {
-                            className: "screen-1190px dark:bg-d dark:text-dw"
+                            className: "screen-1190px dark:bg-d2 dark:text-dw"
                         }
                     )
                 } else if (['attendee', 'duration', 'eventType'].includes(column.key)) {
                     return (
                         {
-                            className: "screen-769px dark:bg-d dark:text-dw"
+                            className: "screen-769px dark:bg-d2 dark:text-dw"
                         }
                     )
                 }
                 else {
                     return (
                         {
-                            className: ".th dark:bg-d dark:text-dw"
+                            className: ".th dark:bg-d2 dark:text-dw"
                         }
                     )
                 }
@@ -309,7 +309,6 @@ const AllMeetings = () => {
                 )
             }
         },
-        
         pagingIndex:{
             content:({pageIndex,isActive}:{pageIndex:number,isActive:boolean})=>{
                 if (isActive) {
@@ -317,6 +316,15 @@ const AllMeetings = () => {
                 }
             }
         },
+        pagingPages:{
+            elementAttributes: () => {
+                return (
+                    {
+                        className: "dark:text-dw dark:bg-d1 "
+                    }
+                )
+            }
+        }
     }
     const paging:PagingOptions={
         enabled:true,
