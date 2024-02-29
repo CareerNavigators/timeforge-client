@@ -187,7 +187,7 @@ const EventDetails: React.FC = () => {
       </h1>
       <div className="lg:max-w-full mx-1 my-1 lg:px-2 lg:m-5 flex flex-col md:flex-row gap-2">
         {/* event information */}
-        <div className="w-full lg:w-1/3 max-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
+        <div className="relative w-full lg:w-1/3 max-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
           <div className="p-2">
             <h2 className="flex justify-between items-center text-2xl dark:text-dw w-full border border-[#d6d1ff] rounded-md px-3 py-2 text-[#7c3aed] font-bold mt-3">
               {title}
@@ -244,7 +244,7 @@ const EventDetails: React.FC = () => {
           </div>
 
           {/* timeline */}
-          <div className="dark:text-gray-100 border border-[#d6d1ff] rounded-md mx-2 mt-3">
+          {/* <div className="dark:text-gray-100 border border-[#d6d1ff] rounded-md mx-2 mt-3">
             <div className="container max-w-5xl lg:py-4 mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-cols-12 lg:gap-16 gap-3 mx-5">
                 <div className="col-span-12 w-[300px] sm:col-span-3">
@@ -305,9 +305,9 @@ const EventDetails: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <div className="flex flex-col md:flex-col lg:flex-row lg:items-end gap-3 lg:gap-5 mx-2 mt-3">
+          <div className="md:absolute md:bottom-6 xl:w-[415px] flex flex-col md:flex-col lg:flex-row lg:items-end gap-3 lg:gap-5 mx-2 mt-3">
             {/* author info */}
             <div className="w-full">
               <h4 className="font-bold text-sm text-gray-400 ml-1 my-1.5">

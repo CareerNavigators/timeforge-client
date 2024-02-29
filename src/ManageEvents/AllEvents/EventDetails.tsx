@@ -89,7 +89,7 @@ const EventDetails: React.FC = () => {
       </h1>
       <div className="lg:max-w-full mx-1 my-1 lg:px-2 lg:m-5 flex flex-col md:flex-row gap-2">
         {/* event information */}
-        <div className="relative w-full lg:w-1/3 max-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
+        <div className="relative w-full lg:w-1/3 min-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
           <div className="p-2">
             <h2 className="flex justify-between items-center text-2xl dark:text-dw w-full border border-[#d6d1ff] rounded-md px-3 py-2 text-[#7c3aed] font-bold mt-3">
               {eventDetails?.title}
