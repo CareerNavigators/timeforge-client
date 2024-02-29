@@ -79,7 +79,7 @@ const Hero = () => {
                 <div className="flex flex-col items-center justify-center gap-4 text-xs lg:text-lg font-medium lg:pt-0 lg:flex-row">
                   <button
                     onClick={handleGoogle}
-                    className="md:p-2 rounded-lg border-[1px] border-[#7c3aed] dark:border-none flex items-center md:gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out"
+                    className="md:p-2 rounded-lg border-[1px] border-[#7c3aed] dark:border-none flex items-center gap-1 md:gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out"
                   >
                     <div className="bg-white p-[4px] rounded-md">
                       <FcGoogle className="w-[20px] h-[20px]" />
@@ -90,7 +90,7 @@ const Hero = () => {
                   </button>
                   <Link
                     to={"/signup"}
-                    className="md:p-2 rounded-lg border-[1px] border-[#7c3aed] dark:border-none flex items-center md:gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out"
+                    className="md:p-2 rounded-lg border-[1px] border-[#7c3aed] dark:border-none flex items-center gap-1 md:gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out"
                   >
                     <div className="bg-white p-[4px] rounded-md">
                       <MdEmail className="w-[20px] h-[20px] text-[#5038ED]" />
@@ -103,7 +103,7 @@ const Hero = () => {
               ) : (
                 <Link
                   to={"/dashboard/createEvent"}
-                  className="w-fit lg:mx-0 mx-auto md:p-2 mt-5 rounded-lg border-2 border-[#7c3aed] flex items-center md:gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-[#5d47ef54] transition-all ease-in-out"
+                  className="w-fit lg:mx-0 mx-auto md:p-2 mt-5 rounded-lg border-2 border-[#7c3aed] flex items-center gap-1 md:gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-[#5d47ef54] transition-all ease-in-out"
                 >
                   <div className="p-[4px]">
                     <PlusCircleOutlined className="text-[#7c3aed]" />
