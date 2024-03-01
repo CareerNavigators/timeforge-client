@@ -6,6 +6,7 @@ import { AuthContext } from "../../Provider/AuthContext";
 import dayjs from "dayjs";
 type Props = {
   type?: string;
+  eventId?: string;
 };
 interface Event {
   summary: string;
@@ -31,70 +32,98 @@ interface Event {
       minutes: number;
     }>;
   };
+  conferenceData?: {
+    createRequest?: {
+      requestId: string; // Replace with a unique identifier for the request
+      conferenceSolutionKey: {
+        type: "hangoutsMeet";
+      };
+    };
+  };
 }
 
-const event: Event = {
-  summary: "Meeting with the team",
-  location: "Conference Room 1",
-  description: `
-  <p>Discuss project updates and next steps.</p>
-  <ul>
-    <li><strong>Agenda:</strong></li>
-    <li>Project status update</li>
-    <li>Discussion on next steps</li>
-  </ul>
-  <p>Please bring your laptop.</p>
-`, // Adding a description here
-  start: {
-    dateTime: dayjs().format(),
-    timeZone: "Asia/Dhaka",
-  },
-  end: {
-    dateTime:  dayjs().format(),
-    timeZone: "Asia/Dhaka",
-  },
-  attendees: [
-    {
-      email: "attendee1@example.com",
-      displayName: "Attendee One",
-      responseStatus: "accepted",
-    },
-    {
-      email: "attendee2@example.com",
-      displayName: "Attendee Two",
-    },
-  ],
-  reminders: {
-    useDefault: false,
-    overrides: [
-      {
-        method: "popup",
-        minutes: 10,
-      },
-    ],
-  },
-};
 type SendData = {
   event: Event;
   userId?: string;
+  eventId: string;
 };
-const AddToCalendar = ({ type = "owner" }: Props) => {
+const AddToCalendar = ({
+  type = "owner",
+  eventId = "65cb3109f856923078cd7bf7",
+}: Props) => {
+  const event: Event = {
+    summary: "Meeting with the team",
+    location: "Conference Room 1",
+    description: `
+        <p>Discuss project updates and next steps.</p>
+        <ul>
+          <li><strong>Agenda:</strong></li>
+          <li>Project status update</li>
+          <li>Discussion on next steps</li>
+        </ul>
+        <p>Please bring your laptop.</p>
+      `, 
+    start: {
+      dateTime: dayjs().format(),
+      timeZone: "Asia/Dhaka",
+    },
+    end: {
+      dateTime: dayjs().format(),
+      timeZone: "Asia/Dhaka",
+    },
+    conferenceData: {
+      createRequest: {
+        requestId: eventId, // Replace with a unique identifier for the request
+        conferenceSolutionKey: {
+          type: "hangoutsMeet",
+        },
+      },
+    },
+    attendees: [
+      {
+        email: "attendee1@example.com",
+        displayName: "Attendee One",
+        responseStatus: "accepted",
+      },
+      {
+        email: "attendee2@example.com",
+        displayName: "Attendee Two",
+      },
+    ],
+    reminders: {
+      useDefault: false,
+      overrides: [
+        {
+          method: "popup",
+          minutes: 10,
+        },
+      ],
+    },
+  };
   const { userData, loading } = useContext(AuthContext);
   const caxios = AxiosSecure();
   const mutationAddCalendar = useMutation({
     mutationFn: async () => {
-      const packet: SendData = { event: event };
+      const packet: SendData = { event: event, eventId: eventId };
       if (type == "owner") {
         packet.userId = userData._id;
       }
-      const res = await caxios.post("/insertocalendar", packet);
+      const res = await caxios.post("/insertcalendar", packet);
       return res.data;
     },
   });
 
   return (
     <div>
-      <Button type="primary" disabled={loading} onClick={()=>{mutationAddCalendar.mutate()}}>Add to Calendar</Button>
+      <Button
+        type="primary"
+        disabled={loading}
+        onClick={() => {
+          mutationAddCalendar.mutate();
+        }}
+      >
+        Add to Calendar
+      </Button>
     </div>
   );
 };

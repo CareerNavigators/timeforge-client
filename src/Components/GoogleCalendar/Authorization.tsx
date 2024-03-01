@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 type Props = {
   access_type?: string;
 };
-const Authorization = ({ access_type = "online" }: Props) => {
+const Authorization = ({ access_type = "offline" }: Props) => {
   const location = useLocation();
   const { userData, loading } = useContext(AuthContext);
   const caxios = AxiosSecure();
@@ -29,7 +29,7 @@ const Authorization = ({ access_type = "online" }: Props) => {
       showToast("error", "Something Error");
     },
   });
-
+  
   return (
     <div>
       {loading ? (
