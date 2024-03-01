@@ -7,6 +7,9 @@ import { useContext, useState } from "react";
 import DarkModeToggle from "../../Components/DarkModeToggle/DarkModeToggle";
 import ProfileMenu from "../../Components/AvatarMenu/AvaterMenu";
 import { AuthContext } from "../../Provider/AuthContext";
+import "./Navbar.css"
+
+
 const Navbar: React.FC = () => {
   const { userData, loading } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
@@ -21,6 +24,9 @@ const Navbar: React.FC = () => {
   // common links
   const links = (
     <>
+      <li className="text-sm font-semibold hover:text-dt">
+        <NavLink to="/">Home</NavLink>
+      </li>
       <li className="text-sm font-semibold hover:text-dt">
         <NavLink to="/merch">Merchandise</NavLink>
       </li>
@@ -62,7 +68,7 @@ const Navbar: React.FC = () => {
           </Link>
           <div className="md:flex md:items-center md:gap-12">
             <nav className="hidden md:block">
-              <ul className="flex items-center gap-4 text-sm">
+              <ul id="link2" className="flex items-center gap-4 text-sm">
                 {links}
                 <DarkModeToggle />
                 <ProfileMenu />
@@ -78,14 +84,14 @@ const Navbar: React.FC = () => {
                   <FaAlignJustify></FaAlignJustify>
                 </button>
                 <Drawer
-                  className="dark:bg-d1 dark:text-dw"
-                  height={135}
+                  className="dark:bg-d1 dark:text-dw flex items-center justify-center my-auto"
+                  height={125}
                   placement={placement}
                   closable={false}
                   onClose={onClose}
                   open={open}
                   key={placement}>
-                  <ul className="flex flex-wrap items-center justify-center gap-4 text-sm">
+                  <ul id="link1" className="flex flex-wrap items-center justify-center gap-4 my-auto text-sm">
                     {links} <DarkModeToggle />
                   </ul>
                 </Drawer>
