@@ -1,13 +1,7 @@
-// import { Tilt } from "react-tilt";
-// import tShirt from "../assets/clock_tshirt-preview.png";
+
 import { useEffect } from "react";
 import AOS from "aos"
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
-// import 'swiper/css';
-// import 'swiper/css/pagination';
-// import 'swiper/css/navigation';
 import image1 from "../../assets/tshirt/white.png";
 import image2 from "../../assets/tshirt/2 piece.png";
 import image3 from "../../assets/tshirt/black.png";
@@ -42,17 +36,6 @@ const Shop = () => {
   const handleCart = ()=>{
     navigate("/cart");
   }
-  // const defaultOptions = {
-  //   // reverse: false, // reverse the tilt direction
-  //   max: 35, // max tilt rotation (degrees)
-  //   // perspective: 1000, // Transform perspective, the lower the more extreme the tilt gets.
-  //   scale: 1.1, // 2 = 200%, 1.5 = 150%, etc..
-  //   speed: 1000, // Speed of the enter/exit transition
-  //   // transition: true, // Set a transition on enter/exit.
-  //   // axis: null, // What axis should be disabled. Can be X or Y.
-  //   // reset: true, // If the tilt effect has to be reset on exit.
-  //   // easing: "cubic-bezier(.03,.98,.52,.99)", // Easing on enter/exit.
-  // };
 
   const slideData = [
     { 
@@ -84,9 +67,8 @@ const Shop = () => {
       img: image4,
     },
   ];
-
   return (
-    <div className="overflow-x-hidden   hide-scrollbar">
+    <div className="overflow-x-hidden   hide-scrollbar relative">
       {/* hero */}
       <div className="w-full ">
         <div>
@@ -97,9 +79,6 @@ const Shop = () => {
               delay: 2500,
               disableOnInteraction: false,
             }}
-            // pagination={{
-            //   clickable: true,
-            // }}
             navigation={true}
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper"
@@ -110,11 +89,11 @@ const Shop = () => {
                 <SwiperSlide
                  id="swiper-slide-merch"
                 >
-                  <div className="flex justify-between items-center px-[200px] bg-gradient-to-r from-gray-300/80 to-gray-100 h-full  " key={data.id}>
-                    <div className="flex flex-col gap-4  z-10">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 lg:justify-between items-center px-0 lg:px-[200px] bg-gradient-to-r  from-gray-300/80 to-gray-100 h-full lg:gap-[100px]  " key={data.id}>
+                    <div className="flex flex-col gap-4  z-10 p-[50px] lg:p-0">
                       <h1 className="text-2xl text-black font-bold">{data.title} </h1>
-                      <h1 className="text-5xl text-black font-bold">{data.subtitle1} </h1>
-                      <h1 className="text-white text-[150px] uppercase ">
+                      <h1 className="lg:text-5xl text-black font-bold">{data.subtitle1} </h1>
+                      <h1 className="text-white lg:text-[150px] uppercase ">
                         {data.subtitle2}{" "}
                       </h1>
                       <button
@@ -125,7 +104,7 @@ const Shop = () => {
                       </button>
                     </div>
                     <img
-                      className="w-[800px]  object-contain  drop-shadow-[-8px_4px_6px_rgba(0,0,0,0.4)]"
+                      className="w-[400px] lg:w-[800px] pb-[50px] lg:pb-0 object-contain  drop-shadow-[-8px_4px_6px_rgba(0,0,0,0.4)]"
                       src={data.img}
                       alt=""
                     />
@@ -140,10 +119,10 @@ const Shop = () => {
       <Banner />
       <Product />
       
-      <div className="flex">
+      <div className="flex ">
         <Banner1 />
         <div>
-          <FloatButton.Group shape="circle">
+          <FloatButton.Group shape="circle" className="fixed bottom-[180px]">
             <FloatButton
               onClick={handleCart}
               // badge={{ count: 12 }}

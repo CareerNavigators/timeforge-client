@@ -8,6 +8,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 // const { Column, ColumnGroup } = Table;
 import { Card, Typography, Avatar } from "@material-tailwind/react";
 import { useState } from "react";
+import showToast from "../../Hook/swalToast";
  
 const TABLE_HEAD = ["title", "price", "Action", ""];
 // interface ecommerce {
@@ -26,63 +27,9 @@ interface CartItem {
 
 
 const Cart = () => {
-
-  // const [buyItem, setBuyItem]  = useState(false);
+  const [soldStatus, setSoldStatus] = useState<{ [key: string]: boolean }>({});
   
-
-
   
-  // const handleBuyItem = ()=>{
-  //   setBuyItem(!buyItem);
-    
-  // }
-  // const {userData} = useContext(AuthContext);
-  
-  // const caxios = AxiosSecure();
-
-  // console.log(cartData);
-  // const {userData} = useContext(AuthContext);
-  // const {data:cartProduct, isLoading, error} = useQuery({
-  //   queryKey: ["cart"],
-  //   queryFn: async ()=>{
-  //     const res = await axios.get(`/cart?userid=${userData?._id}`);
-  //     return res.data as ecommerce[];
-  //   }
-  // })
-  // if(isLoading) return <div>Loading..</div>;
-  // if(error) return <div>Error: {error.message} </div>
-  // console.log(cartProduct);
-  // const data: DataType[] = [
-  //   {
-  //     key: "1",
-  //     firstName: "John",
-  //     lastName: "Brown",
-  //     age: 32,
-  //     address: "New York No. 1 Lake Park",
-  //     tags: ["nice", "developer"],
-  //   },
-  //   {
-  //     key: "2",
-  //     firstName: "Jim",
-  //     lastName: "Green",
-  //     age: 42,
-  //     address: "London No. 1 Lake Park",
-  //     tags: ["loser"],
-  //   },
-  //   {
-  //     key: "3",
-  //     firstName: "Joe",
-  //     lastName: "Black",
-  //     age: 32,
-  //     address: "Sydney No. 1 Lake Park",
-  //     tags: ["cool", "teacher"],
-  //   },
-  // ];
-
-  // const [cardData, setCardData] = useState<CartItem[]>(() => {
-  //   const storedData = localStorage.getItem("cartItem");
-  //   return storedData ? JSON.parse(storedData) : [];
-  // });
   const getLocalCartData = () => {
     const storedData = localStorage.getItem("cartItem");
     return storedData ? JSON.parse(storedData) : [];
@@ -110,6 +57,11 @@ const Cart = () => {
   // if (error) return <div>Error: {error.message} </div>;
 
   // console.log(cartProduct);
+
+  const handleBuyNow = (id: string) => {
+    setSoldStatus({ ...soldStatus, [id]: true });
+    showToast("success", "you successfully buy this product");
+ };
   return (
     <div>
        <Card
@@ -137,6 +89,7 @@ const Cart = () => {
         </thead>
         <tbody>
           {cartData?.map((data:any, index:any) => {
+              const isSold = soldStatus[data.id] || false;
             const isLast = index === cartData.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
  
@@ -172,12 +125,12 @@ const Cart = () => {
                   </Typography>
                 </td>
                 <td className={classes}>
-                  {/* <Typography
+                  <Typography
                     placeholder={undefined}
                     variant="small"
                     color="blue-gray"
                     className="font-normal"
-                  > */}
+                  >
                     
                    {/* {!buyItem ? <button onClick={handleBuyItem} className="bg-purple-500 px-2 py-1 text-white rounded-3xl">
                       Buy Now
@@ -185,11 +138,17 @@ const Cart = () => {
                     <button onClick={handleBuyItem} className="bg-red-500 px-2 py-1 text-white rounded-3xl">
                       Sold Out
                     </button> } */}
-                    {/* <button  onClick={handleBuyItem} className="bg-purple-500 px-2 py-1 text-white rounded-3xl">
-                      Buy Now
-                    </button> */}
+                      {isSold? (
+                        <button disabled className="bg-red-500 px-2 py-1 text-white rounded-3xl">
+                          Sold Out
+                        </button>
+                      ) : (
+                        <button onClick={() => handleBuyNow(data.id)} className="bg-purple-500 px-2 py-1 text-white rounded-3xl">
+                          Buy Now
+                        </button>
+                      )}
                     
-                  {/* </Typography> */}
+                  </Typography>
                 </td>
                 <td className={classes}>
                   <Typography
