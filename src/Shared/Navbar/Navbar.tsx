@@ -22,13 +22,13 @@ const Navbar: React.FC = () => {
   const links = (
     <>
       <li className="text-sm font-semibold hover:text-dt">
+        <NavLink to="/merch">Merchandise</NavLink>
+      </li>
+      <li className="text-sm font-semibold hover:text-dt">
         <NavLink to="/aboutUs">About Us</NavLink>
       </li>
       <li className="text-sm font-semibold hover:text-dt">
         <NavLink to="/contactUs">Contact Us</NavLink>
-      </li>
-      <li className="text-sm font-semibold hover:text-dt">
-        <NavLink to="/merch">Merchandise</NavLink>
       </li>
       {loading ? (
         <li className="text-sm font-semibold hover:text-dt">Loading...</li>
@@ -49,8 +49,8 @@ const Navbar: React.FC = () => {
     </>
   );
   return (
-    <section className="bg-white dark:bg-d1 tin">
-      <div className="max-w-[1920px] px-4 mx-auto sm:px-6">
+    <section className="bg-gray-50 dark:bg-d1 tin">
+      <div className="max-w-[1920px] px-4 mx-auto sm:px-6 md:py-2">
         <div className="flex items-center justify-between h-16">
           <Link to="/">
             <div className="flex flex-row items-center gap-2">
@@ -63,9 +63,9 @@ const Navbar: React.FC = () => {
           <div className="md:flex md:items-center md:gap-12">
             <nav className="hidden md:block">
               <ul className="flex items-center gap-4 text-sm">
-                {links} <DarkModeToggle />
+                {links}
+                <DarkModeToggle />
                 <ProfileMenu />
-                
               </ul>
             </nav>
 
@@ -94,7 +94,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-      <hr className="max-w-[1920px] mx-auto text-gray-600 transition-all duration-300 dark:hidden"></hr>
+      {/* <hr className="max-w-[1920px] mx-auto text-gray-600 transition-all duration-300 dark:hidden"></hr> */}
     </section>
   );
 };

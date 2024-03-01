@@ -49,7 +49,7 @@ const SingleEvent: React.FC<SingleEventProps> = ({
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.9 }}
     >
-      <div className={`w-[300px] max-h-[300px] select-none rounded-lg dark:bg-d shadow-md border-2 border-white dark:border-dw dark:border-[1px] p-4 hover:bg-[#f9f6ff] hover:border-[#7c3aed] hover:shadow-md hover:-hue-rotate-50`}>
+      <div className={`w-[300px] max-h-[300px] bg-gray-50 select-none rounded-lg dark:bg-d shadow-md border-2 border-gray-50 dark:border-dw dark:border-[1px] p-4 hover:bg-[#f9f6ff] hover:border-[#7c3aed] hover:shadow-md hover:-hue-rotate-50`}>
         <Link to={`/dashboard/eventDetails/${_id}`}>
           <div className="flex justify-between items-center gap-2">
             <h3 className="text-[#7c3aed] dark:text-dw text-lg font-bold my-2 truncate">

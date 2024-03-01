@@ -89,7 +89,7 @@ const EventDetails: React.FC = () => {
       </h1>
       <div className="lg:max-w-full mx-1 my-1 lg:px-2 lg:m-5 flex flex-col md:flex-row gap-2">
         {/* event information */}
-        <div className="relative w-full lg:w-1/3 min-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
+        <div className="flex flex-col justify-between w-full xl:w-2/5 min-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
           <div className="p-2">
             <h2 className="flex justify-between items-center text-2xl dark:text-dw w-full border border-[#d6d1ff] rounded-md px-3 py-2 text-[#7c3aed] font-bold mt-3">
               {eventDetails?.title}
@@ -136,7 +136,7 @@ const EventDetails: React.FC = () => {
               </div>
             </div>
 
-            <div className="text-gray-600 mt-5 border border-[#d6d1ff] lg:w-full min-h-40 rounded-md">
+            <div className="text-gray-600 mt-5 border border-[#d6d1ff] lg:w-full min-h-40 max-h-full rounded-md">
               <ReactQuill
                 theme="snow"
                 value={eventDetails?.desc}
@@ -210,7 +210,7 @@ const EventDetails: React.FC = () => {
             </div>
           </div> */}
 
-          <div className="md:absolute md:bottom-6 xl:w-[370px] flex flex-row items-end gap-2 mx-2 mt-3">
+          <div className="flex flex-row items-end gap-2 mx-2 mt-3">
             {/* author info */}
             <div className="w-full">
               <h4 className="font-bold text-sm text-gray-400 ml-1 my-1.5">Author Info</h4>
