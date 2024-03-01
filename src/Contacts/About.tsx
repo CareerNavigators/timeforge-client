@@ -4,7 +4,7 @@ const About = () => {
       <div className="flex flex-col font-poppins lg:flex-row items-center justify-between">
         <section className="lg:w-1/2  text-center lg:text-left">
           <h1 className="text-4xl lg:text-5xl text-white font-semibold pb-10">
-            About Us
+            About TimeForge
           </h1>
           <p className="text-lg font-medium text-white font-poppins">
           Welcome to TimeForge, where cutting-edge technology meets seamless scheduling. As the architects of a revolutionary Schedule Processing Application, we take pride in presenting TimeForge—a platform that transcends conventional event management. Offering versatility in creating online and offline events, TimeForge empowers users to customize meetings, manage participants, and integrate seamlessly with popular calendars. Our user-friendly interface, featuring Dark and Light modes, ensures a personalized experience, while innovative technologies such as TanStack Query, Mongoose, Typescript, and Three.JS elevate functionality. Designed for professionals and individuals alike, TimeForge is your go-to solution for efficient and tailored event scheduling. Step into the future with TimeForge—where every schedule is a masterpiece.
