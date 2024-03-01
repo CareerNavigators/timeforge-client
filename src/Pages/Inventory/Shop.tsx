@@ -110,11 +110,11 @@ const Shop = () => {
                 <SwiperSlide
                  id="swiper-slide-merch"
                 >
-                  <div className="flex justify-between items-center px-[200px] bg-gradient-to-r from-gray-300/80 to-gray-100 h-full  " key={data.id}>
-                    <div className="flex flex-col gap-4  z-10">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 lg:justify-between items-center px-0 lg:px-[200px] bg-gradient-to-r  from-gray-300/80 to-gray-100 h-full lg:gap-[100px]  " key={data.id}>
+                    <div className="flex flex-col gap-4  z-10 p-[50px] lg:p-0">
                       <h1 className="text-2xl text-black font-bold">{data.title} </h1>
-                      <h1 className="text-5xl text-black font-bold">{data.subtitle1} </h1>
-                      <h1 className="text-white text-[150px] uppercase ">
+                      <h1 className="lg:text-5xl text-black font-bold">{data.subtitle1} </h1>
+                      <h1 className="text-white lg:text-[150px] uppercase ">
                         {data.subtitle2}{" "}
                       </h1>
                       <button
@@ -125,7 +125,7 @@ const Shop = () => {
                       </button>
                     </div>
                     <img
-                      className="w-[800px]  object-contain  drop-shadow-[-8px_4px_6px_rgba(0,0,0,0.4)]"
+                      className="w-[400px] lg:w-[800px] pb-[50px] lg:pb-0 object-contain  drop-shadow-[-8px_4px_6px_rgba(0,0,0,0.4)]"
                       src={data.img}
                       alt=""
                     />

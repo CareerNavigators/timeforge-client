@@ -32,6 +32,7 @@ import Shop from "../Pages/Inventory/Shop";
 import Product from "../Pages/Inventory/Product";
 import Cart from "../Pages/Inventory/Cart";
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -83,7 +84,8 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart/>
-      }
+      },
+     
     ],
   },
   {
