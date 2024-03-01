@@ -1,0 +1,10 @@
+#link1 li a.active{
+    color: #7c3aed;
+    font-weight: bold;
+    font-size: 17px;
+}
+#link2 li a.active{
+    color: #7c3aed;
+    font-size: 20px;
+    font-weight: 900;
+}

@@ -31,6 +31,8 @@ import MyTimline from "../Dashboard/Admin/Timeline/MyTimline";
 import Shop from "../Pages/Inventory/Shop";
 import Product from "../Pages/Inventory/Product";
 import Cart from "../Pages/Inventory/Cart";
+import BoardMeeting from "../CreateEvents/BoardMeeting/BoardMeeting";
+import AllEcommerce from "../Dashboard/Admin/AllEcommerce/AllEcommerce";
 
 
 const router = createBrowserRouter([
@@ -159,6 +161,14 @@ const router = createBrowserRouter([
         path: "/dashboard/alltimeline",
         element: <MyTimline></MyTimline>,
       },
+      {
+        path: "dashboard/createEvent/boardMeeting",
+        element: <BoardMeeting></BoardMeeting>
+      },
+      {
+        path:"/dashboard/allecommerce",
+        element:<AllEcommerce />
+      }
     ],
   },
   {

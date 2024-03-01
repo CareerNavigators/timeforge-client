@@ -10,16 +10,13 @@ const AboutUs: React.FC = () => {
   return (
     <section className='max-w-screen-xl mx-auto'>
       <div className='space-y-4 mt-10 px-2'>
-        <h3 className='bg-gradient-to-r from-green-300 to-[#5038ED] bg-clip-text text-transparent text-2xl font-bold text-center sm:text-5xl'>
+        <h3 className='text-[#5038ED] text-2xl font-bold text-center sm:text-5xl'>
           Time Forge Team Members
         </h3>
         <p className='max-w-2xl mx-auto text-center text-gray-500'>
           Meet our dynamic team of six hardworking and enthusiastic web
           developers. We approach coding with meticulous precision, turning
-          complexity into seamless digital art. We are creating web solutions
-          that reflect the synergy of a well-coordinated effort. Together, we
-          form a powerhouse of talent, transforming challenges into triumphs in
-          the ever-evolving world of web development.
+          complexity into seamless digital art.
         </p>
       </div>
       <section className='text-gray-800'>

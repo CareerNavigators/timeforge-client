@@ -4,7 +4,7 @@ import showToast from "../../Hook/swalToast";
 import { EventType } from "../AllEvents/AllEvents";
 import dayjs from "dayjs";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { Spin } from "antd";
+import { Empty, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { FaUserGroup } from "react-icons/fa6";
@@ -22,8 +22,8 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
     const MAX_API_CALLS = 2;
 
     // fetching all participants
-    const { data: allParticipants = [], isLoading, refetch } = useQuery({
-        queryKey: ["AllParticipants"],
+    const { data: allParticipants = [], isLoading, isFetching, isPending, refetch } = useQuery({
+        queryKey: ["AllParticipants", id],
         queryFn: async () => {
             const res = await customAxios.get(`attendee?id=${id}`);
             return res.data;
@@ -56,7 +56,7 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
     };
 
     // show this loader if data is loading
-    if (isLoading) {
+    if (isLoading || isFetching || isPending) {
         return <div className="flex items-center justify-center my-[5%]">
             <Spin indicator={<LoadingOutlined></LoadingOutlined>} size="large"></Spin>
         </div>
@@ -127,7 +127,9 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
                                 );
                             })}
                         </tbody>
-                    </table> : <p className="text-center text-sm my-2 font-medium">No Participants Yet</p>
+                    </table> : 
+                        <Empty description="No Participants" className="flex flex-col items-center justify-center" />
+                    
                 }
             </div>
         </div>
