@@ -45,6 +45,7 @@ const Hero = () => {
       console.error(error);
     }
   };
+  
   return (
     <>
       <div className="timeIllustration flex flex-col-reverse mx-auto mt-0 lg:mb-40 lg:flex-col lg:min-h-screen">
