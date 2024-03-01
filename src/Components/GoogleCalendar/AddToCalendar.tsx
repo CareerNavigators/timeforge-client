@@ -81,13 +81,8 @@ const AddToCalendar = ({
     },
     attendees: [
       {
-        email: "attendee1@example.com",
-        displayName: "Attendee One",
+        email: "saadhuzaifa2497@gmail.com",
         responseStatus: "accepted",
-      },
-      {
-        email: "attendee2@example.com",
-        displayName: "Attendee Two",
       },
     ],
     reminders: {
