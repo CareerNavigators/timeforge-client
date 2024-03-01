@@ -86,7 +86,7 @@ const Shop = () => {
   ];
 
   return (
-    <div className="overflow-x-hidden   hide-scrollbar">
+    <div className="overflow-x-hidden   hide-scrollbar relative">
       {/* hero */}
       <div className="w-full ">
         <div>
@@ -140,10 +140,10 @@ const Shop = () => {
       <Banner />
       <Product />
       
-      <div className="flex">
+      <div className="flex ">
         <Banner1 />
         <div>
-          <FloatButton.Group shape="circle">
+          <FloatButton.Group shape="circle" className="fixed bottom-[180px]">
             <FloatButton
               onClick={handleCart}
               // badge={{ count: 12 }}
