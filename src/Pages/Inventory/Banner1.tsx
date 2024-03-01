@@ -15,26 +15,26 @@ const Banner1 = () => {
   };
   return (
     <div
-      className="min-h-[550px] flex justify-center items-center w-[1400px] mx-auto mt-[170px] mb-[50px] rounded-3xl"
+      className="min-h-auto lg:min-h-[550px] flex justify-center items-center lg:w-[1400px] mx-auto mt-[170px] mb-[50px] rounded-3xl"
       style={{ background: banner.bgColor }}
     >
-      <div className=" grid grid-cols-3 gap-6 items-center text-white rounded-3xl px-[30px]">
-        <div className="flex flex-col gap-[20px]" data-aos="fade-right">
+      <div className=" grid grid-cols-1 lg:grid-cols-3 gap-6 items-center text-white rounded-3xl px-[30px] py-[30px] lg:py-0">
+        <div className="flex flex-col gap-[20px]" >
           <p>{banner.discount}</p>
-          <h1 className="uppercase text-7xl font-bold ">{banner.title} </h1>
+          <h1 className="uppercase lg:text-7xl font-bold ">{banner.title} </h1>
           <h1>{banner.date} </h1>
         </div>
         <div className="h-full flex items-center " >
           <img
             data-aos="zoom-in"
-            className="h-[100%] scale-125 drop-shadow-2xl object-cover"
+            className=" h-[400px] lg:h-[100%] scale-125 drop-shadow-2xl object-cover"
             src={banner.image}
             alt="hoddie"
           />
         </div>
         <div className="flex flex-col gap-[20px]" data-aos="fade-right">
           <h1>{banner.title2} </h1>
-          <h1 className="uppercase text-7xl font-bold ">{banner.title3} </h1>
+          <h1 className="uppercase lg:text-7xl font-bold ">{banner.title3} </h1>
           <h1>{banner.des} </h1>
           <div>
             <button

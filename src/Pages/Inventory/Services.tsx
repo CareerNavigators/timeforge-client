@@ -33,7 +33,7 @@ const Services = () => {
         },
     ]
     return (
-        <div className="flex gap-[50px] justify-center mt-[50px] overflow-hidden">
+        <div className="flex flex-col lg:flex-row gap-[50px] justify-center mt-[50px] overflow-hidden items-center">
             {
               serviceData.map(data=>(
                  <div key={data.id} className="flex items-center gap-3">
