@@ -64,7 +64,7 @@ const UpdateEvent = () => {
 
     useEffect(() => {
         setEventDuration(eventDurationHour + eventDurationMinute)
-    }, [])
+    }, [eventDurationHour, eventDurationMinute])
     // const eventDuration = eventDurationHour + eventDurationMinute;
     // console.log("eventTime", eventTime);
 
