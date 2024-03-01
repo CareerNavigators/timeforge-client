@@ -5,15 +5,20 @@ import AxiosSecure from "../../Hook/useAxios";
 import { useMutation } from "@tanstack/react-query";
 import showToast from "../../Hook/swalToast";
 import { useLocation } from "react-router-dom";
-const Authorization = () => {
+type Props = {
+  access_type?: string;
+};
+const Authorization = ({ access_type = "online" }: Props) => {
   const location = useLocation();
   const { userData, loading } = useContext(AuthContext);
   const caxios = AxiosSecure();
   const mutationAuthorization = useMutation({
     mutationFn: async () => {
-      const res = await caxios.get(
-        `/authorization?id=${userData._id}&route=${location.pathname}`
-      );
+      let uri = `/authorization?route=${location.pathname}&access_type=${access_type}`;
+      if (access_type != "online") {
+        uri += `&id=${userData._id}`;
+      }
+      const res = await caxios.get(uri);
       return res.data;
     },
     onSuccess: (data) => {

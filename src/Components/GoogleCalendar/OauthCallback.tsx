@@ -10,7 +10,7 @@ const OauthCallback = () => {
   const queryParams = new URLSearchParams(location.search);
   const code = queryParams.get("code");
   const state = queryParams.get("state");
-  let paresedState: { id: string; route: string }|null = null;
+  let paresedState: { id: string; route: string,access_type:string }|null = null;
   if (state) {
     const decodedString = decodeURIComponent(state);
     paresedState = JSON.parse(decodedString);
@@ -24,37 +24,38 @@ const OauthCallback = () => {
       });
       return res.data;
     },
+    enabled:paresedState?.access_type=="offline",
     gcTime: 0,
     refetchOnMount: false,
     retry:2,
-    retryDelay:2000
+    retryDelay:2000,
   });
-  if (!queryInsertToken.isLoading && queryInsertToken.isSuccess) {
+  const queryStoreToken=useQuery({
+    queryKey:["token"],
+    queryFn:async()=>{
+      const res= await caxios.post(`/getToken`,{
+        code:code
+      })
+      sessionStorage.setItem("token",res.data.token)
+      sessionStorage.setItem("exptime",res.data.exptime)
+      return res.data
+    },
+    enabled:paresedState?.access_type=="online",
+    gcTime: 0,
+    refetchOnMount: false,
+    retry:2,
+    retryDelay:2000,
+  })
+  if ((!queryInsertToken.isLoading && queryInsertToken.isSuccess) || (!queryStoreToken.isLoading && queryStoreToken.isSuccess)) {
     if (paresedState) {
       navigate(paresedState.route);
     }
   } else if (queryInsertToken.isError) {
     showToast("error", queryInsertToken.error.message);
+  }else if (queryStoreToken.isError) {
+    showToast("error", queryStoreToken.error.message);
   }
-//   const mutationInsertToken = useMutation({
-//     mutationFn: async () => {
-//       const res = await caxios.post("/insertToken", {
-//         code: code,
-//         id: paresedState.id,
-//       });
-//       return res.data;
-//     },
-//     onSuccess: () => {
-//       navigate(paresedState.route);
-//     },
-//     onError: (err) => {
-//       showToast("error", err.message);
-//     },
-//     retry: 2,
-//   });
-  //   useEffect(() => {
-  //     mutationInsertToken.mutate();
-  //   }, []);
+
   return (
     <div className="w-full h-svh">
       <p className="text-center mb-7">Google Authentication done</p>
