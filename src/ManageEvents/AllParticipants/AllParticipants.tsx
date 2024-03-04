@@ -29,7 +29,8 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
             return res.data;
         },
         enabled: id != undefined ? true : false,
-        retry: MAX_API_CALLS - 1
+        retry: MAX_API_CALLS - 1,
+        refetchOnWindowFocus:false,
     });
 
     // deleting a participant
