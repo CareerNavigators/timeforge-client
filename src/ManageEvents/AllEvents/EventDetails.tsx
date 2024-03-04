@@ -111,6 +111,7 @@ const EventDetails: React.FC = () => {
 
   return (
     <div className="mb-5 select-none">
+      <Spin spinning={insertCalendar.isPending} fullscreen size="large"></Spin>
       <h1 className="flex pl-2 my-5 items-center gap-2 ">
         <img className="w-12" src={logo} alt="logo" />
         <br />{" "}
