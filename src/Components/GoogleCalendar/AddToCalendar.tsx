@@ -8,10 +8,10 @@ type Props = {
   type?: string;
   eventId?: string;
 };
-interface Event {
+export interface GoogleEvent {
   summary: string;
-  location?: string;
-  description?: string; // This field is optional
+  location?:string;
+  description?: string;
   start: {
     dateTime?: string;
     timeZone?: string;
@@ -20,11 +20,6 @@ interface Event {
     dateTime?: string;
     timeZone?: string;
   };
-  attendees?: Array<{
-    email: string;
-    displayName?: string;
-    responseStatus?: string;
-  }>;
   reminders?: {
     useDefault?: boolean;
     overrides?: Array<{
@@ -32,18 +27,10 @@ interface Event {
       minutes: number;
     }>;
   };
-  conferenceData?: {
-    createRequest?: {
-      requestId: string; // Replace with a unique identifier for the request
-      conferenceSolutionKey: {
-        type: "hangoutsMeet";
-      };
-    };
-  };
 }
 
 type SendData = {
-  event: Event;
+  event: GoogleEvent;
   userId?: string;
   eventId: string;
 };
@@ -51,9 +38,8 @@ const AddToCalendar = ({
   type = "owner",
   eventId = "65cb3109f856923078cd7bf7",
 }: Props) => {
-  const event: Event = {
+  const event: GoogleEvent = {
     summary: "Meeting with the team",
-    location: "Conference Room 1",
     description: `
         <p>Discuss project updates and next steps.</p>
         <ul>
@@ -71,20 +57,6 @@ const AddToCalendar = ({
       dateTime: dayjs().format(),
       timeZone: "Asia/Dhaka",
     },
-    conferenceData: {
-      createRequest: {
-        requestId: eventId, // Replace with a unique identifier for the request
-        conferenceSolutionKey: {
-          type: "hangoutsMeet",
-        },
-      },
-    },
-    attendees: [
-      {
-        email: "saadhuzaifa2497@gmail.com",
-        responseStatus: "accepted",
-      },
-    ],
     reminders: {
       useDefault: false,
       overrides: [
@@ -114,7 +86,7 @@ const AddToCalendar = ({
         type="primary"
         disabled={loading}
         onClick={() => {
-          mutationAddCalendar.mutate();
+          // mutationAddCalendar.mutate();
         }}
       >
         Add to Calendar

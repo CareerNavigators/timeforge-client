@@ -48,7 +48,7 @@ const OauthCallback = () => {
   })
   if ((!queryInsertToken.isLoading && queryInsertToken.isSuccess) || (!queryStoreToken.isLoading && queryStoreToken.isSuccess)) {
     if (paresedState) {
-      navigate(paresedState.route);
+      navigate("/dashboard");
     }
   } else if (queryInsertToken.isError) {
     showToast("error", queryInsertToken.error.message);

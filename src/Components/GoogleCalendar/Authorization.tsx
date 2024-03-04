@@ -5,6 +5,8 @@ import AxiosSecure from "../../Hook/useAxios";
 import { useMutation } from "@tanstack/react-query";
 import showToast from "../../Hook/swalToast";
 import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
+import useAuthorization from "./useAuthorization";
 type Props = {
   access_type?: string;
 };
@@ -29,7 +31,20 @@ const Authorization = ({ access_type = "offline" }: Props) => {
       showToast("error", "Something Error");
     },
   });
-  
+  const authorization =useAuthorization()
+  function googleCal() {
+    Swal.fire({
+      title:"Google Calendar Integration",
+      text:"Do you want to connect with google calendar?",
+      icon:"question",
+      confirmButtonText:"Yes",
+      showDenyButton:true,
+    }).then(result=>{
+      if (result.isConfirmed) {
+        authorization.mutate(userData._id)
+      }
+    })
+  }
   return (
     <div>
       {loading ? (
@@ -39,7 +54,7 @@ const Authorization = ({ access_type = "offline" }: Props) => {
       ) : (
         <Button
           type="primary"
-          onClick={() => mutationAuthorization.mutate()}
+          onClick={() => googleCal()}
           disabled={mutationAuthorization.isPending}
         >
           Authorize with Google
