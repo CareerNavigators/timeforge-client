@@ -91,7 +91,8 @@ const router = createBrowserRouter([
       {
         path:"/oauth2callback",
         element:<OauthCallback />
-      }
+      },
+     
     ],
   },
   {

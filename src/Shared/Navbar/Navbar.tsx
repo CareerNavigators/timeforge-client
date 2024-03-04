@@ -7,6 +7,9 @@ import { useContext, useState } from "react";
 import DarkModeToggle from "../../Components/DarkModeToggle/DarkModeToggle";
 import ProfileMenu from "../../Components/AvatarMenu/AvaterMenu";
 import { AuthContext } from "../../Provider/AuthContext";
+import "./Navbar.css"
+
+
 const Navbar: React.FC = () => {
   const { userData, loading } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
@@ -22,10 +25,16 @@ const Navbar: React.FC = () => {
   const links = (
     <>
       <li className="text-sm font-semibold hover:text-dt">
-        <NavLink to="/aboutUs">About Us</NavLink>
+        <NavLink to="/">Home</NavLink>
       </li>
       <li className="text-sm font-semibold hover:text-dt">
         <NavLink to="/merch">Merchandise</NavLink>
+      </li>
+      <li className="text-sm font-semibold hover:text-dt">
+        <NavLink to="/aboutUs">About Us</NavLink>
+      </li>
+      <li className="text-sm font-semibold hover:text-dt">
+        <NavLink to="/contactUs">Contact Us</NavLink>
       </li>
       {loading ? (
         <li className="text-sm font-semibold hover:text-dt">Loading...</li>
@@ -46,8 +55,8 @@ const Navbar: React.FC = () => {
     </>
   );
   return (
-    <section className="bg-white dark:bg-d1 tin">
-      <div className="max-w-[1920px] px-4 mx-auto sm:px-6">
+    <section className="bg-gray-50 dark:bg-d1 tin">
+      <div className="max-w-[1920px] px-4 mx-auto sm:px-6 md:py-2">
         <div className="flex items-center justify-between h-16">
           <Link to="/">
             <div className="flex flex-row items-center gap-2">
@@ -59,10 +68,10 @@ const Navbar: React.FC = () => {
           </Link>
           <div className="md:flex md:items-center md:gap-12">
             <nav className="hidden md:block">
-              <ul className="flex items-center gap-4 text-sm">
-                {links} <DarkModeToggle />
+              <ul id="link2" className="flex items-center gap-4 text-sm">
+                {links}
+                <DarkModeToggle />
                 <ProfileMenu />
-                
               </ul>
             </nav>
 
@@ -75,14 +84,14 @@ const Navbar: React.FC = () => {
                   <FaAlignJustify></FaAlignJustify>
                 </button>
                 <Drawer
-                  className="dark:bg-d1 dark:text-dw"
-                  height={135}
+                  className="dark:bg-d1 dark:text-dw flex items-center justify-center my-auto"
+                  height={125}
                   placement={placement}
                   closable={false}
                   onClose={onClose}
                   open={open}
                   key={placement}>
-                  <ul className="flex flex-wrap items-center justify-center gap-4 text-sm">
+                  <ul id="link1" className="flex flex-wrap items-center justify-center gap-4 my-auto text-sm">
                     {links} <DarkModeToggle />
                   </ul>
                 </Drawer>
@@ -91,7 +100,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-      <hr className="max-w-[1920px] mx-auto text-gray-600 transition-all duration-300 dark:hidden"></hr>
+      {/* <hr className="max-w-[1920px] mx-auto text-gray-600 transition-all duration-300 dark:hidden"></hr> */}
     </section>
   );
 };
