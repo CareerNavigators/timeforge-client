@@ -2,28 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import AxiosSecure from "../../Hook/useAxios";
 import showToast from "../../Hook/swalToast";
 import { AxiosError } from "axios";
-export interface GoogleEvent {
-  summary: string;
-  location?: string;
-  description?: string;
-  start: {
-    dateTime?: string;
-    timeZone?: string;
-  };
-  end: {
-    dateTime?: string;
-    timeZone?: string;
-  };
-  reminders?: {
-    useDefault?: boolean;
-    overrides?: Array<{
-      method: string;
-      minutes: number;
-    }>;
-  };
-}
 type SendData = {
-  event: GoogleEvent;
   userId: string;
   eventId: string;
 };

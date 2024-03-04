@@ -130,7 +130,9 @@ const SignUp = () => {
       };
       caxios.post("/user", userData).then((res) => {
         setUserData(res.data);
-        calAuthHandeler(res.data._id)
+        if(!res.data.isRefreshToken) {
+          calAuthHandeler(res.data._id)
+        }
       });
       navigate(from, { replace: true });
       showToast("success", "Secure Access, Unlimited Smiles!");
@@ -162,7 +164,11 @@ const SignUp = () => {
         };
         caxios.post("/user", userData).then((res) => {
           setUserData(res.data);
-          calAuthHandeler(res.data._id)
+          if(!res.data.isRefreshToken) {
+            if(!res.data.isRefreshToken) {
+              calAuthHandeler(res.data._id)
+            }
+          }
         });
       });
       showToast("success", "Secure Access, Unlimited Smiles!");

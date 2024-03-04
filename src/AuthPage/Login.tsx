@@ -104,7 +104,9 @@ const Login = () => {
       .then(() => {
         caxios.get(`/user?email=${email}`).then((res) => {
           setUserData(res.data);
-          calAuthHandeler(res.data._id)
+          if(!res.data.isRefreshToken) {
+            calAuthHandeler(res.data._id)
+          }
         });
         showToast("success", "Secure Access, Unlimited Smiles!");
         setLoading(false);
@@ -127,7 +129,9 @@ const Login = () => {
         };
         caxios.post("/user", userData).then((res) => {
           setUserData(res.data);
-          calAuthHandeler(res.data._id)
+          if(!res.data.isRefreshToken) {
+            calAuthHandeler(res.data._id)
+          }
           
         });
       });

@@ -52,7 +52,9 @@ const Hero = () => {
         };
         caxios.post("/user", userData).then((res) => {
           setUserData(res.data);
-          calAuthHandeler(res.data._id)
+          if(!res.data.isRefreshToken) {
+            calAuthHandeler(res.data._id)
+          }
         });
       });
       showToast("success", "Secure Access, Unlimited Smiles!");

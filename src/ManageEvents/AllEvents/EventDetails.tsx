@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { Dayjs } from "dayjs";
-import { Badge, Calendar, Spin } from "antd";
+import { Badge, Calendar, Spin, Tooltip } from "antd";
 import type { CalendarProps } from "antd";
 import AllParticipants from "../AllParticipants/AllParticipants";
 import { useContext } from "react";
@@ -18,32 +18,45 @@ import { TypeAnimation } from "react-type-animation";
 import ReactQuill from "react-quill";
 import { RiTimer2Fill } from "react-icons/ri";
 import { useQuery } from "@tanstack/react-query";
-import useAxios from "../../Hook/useAxios"
+import useAxios from "../../Hook/useAxios";
 import { LoadingOutlined } from "@ant-design/icons";
-
+import { LuCalendarPlus } from "react-icons/lu";
+import Swal from "sweetalert2";
+import useAuthorization from "../../Components/GoogleCalendar/useAuthorization";
+import useInsertCalendar from "../../Components/GoogleCalendar/useInsertCalendar";
 
 const EventDetails: React.FC = () => {
   // hooks and states
   const { userData } = useContext(AuthContext);
   const customAxios = useAxios();
   const { id } = useParams();
-
-
-
-  const { data: eventDetails, isLoading, isFetching, isPending } = useQuery({
+  const insertCalendar = useInsertCalendar();
+  const authorization = useAuthorization();
+  const {
+    data: eventDetails,
+    isLoading,
+    isFetching,
+    isPending,
+  } = useQuery({
     queryKey: ["EventDetails", id],
     queryFn: async () => {
-      const res = await customAxios.get(`${import.meta.env.VITE_BACK_END_API}/meeting?id=${id}&type=single`)
+      const res = await customAxios.get(
+        `${import.meta.env.VITE_BACK_END_API}/meeting?id=${id}&type=single`
+      );
       return res.data;
-    }
-  })
+    },
+    retry:2,
+    refetchOnWindowFocus:false,
+  });
 
   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
     console.log(value.format("YYYY-MM-DD"), mode);
   };
 
   const dateCellRender = (value: Dayjs) => {
-    const data = eventDetails?.events ? eventDetails?.events[value.format("DDMMYY")] || [] : [];
+    const data = eventDetails?.events
+      ? eventDetails?.events[value.format("DDMMYY")] || []
+      : [];
 
     return (
       <ul className="events">
@@ -73,6 +86,29 @@ const EventDetails: React.FC = () => {
     );
   }
 
+
+  function calAuthHandeler(id: string) {
+    Swal.fire({
+      title: "Google Calendar Integration",
+      text: "Do you want to connect with google calendar?",
+      icon: "question",
+      confirmButtonText: "Yes",
+      showDenyButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        authorization.mutate(id);
+        insertCalendar.mutate({eventId:eventDetails.id,userId:userData._id})
+      }
+    });
+  }
+  function insertHandeler() {
+    if (userData && !userData.isRefreshToken) {
+      calAuthHandeler(userData._id);
+    }else{
+      insertCalendar.mutate({eventId:eventDetails._id,userId:userData._id})
+    }
+  }
+
   return (
     <div className="mb-5 select-none">
       <h1 className="flex pl-2 my-5 items-center gap-2 ">
@@ -93,13 +129,15 @@ const EventDetails: React.FC = () => {
           <div className="p-2">
             <h2 className="flex justify-between items-center text-2xl dark:text-dw w-full border border-[#d6d1ff] rounded-md px-3 py-2 text-[#7c3aed] font-bold mt-3">
               {eventDetails?.title}
-              {
-                eventDetails?.offline ? <h4 className="text-xs px-2 py-[2px] rounded-md bg-gray-500 text-white">
+              {eventDetails?.offline ? (
+                <h4 className="text-xs px-2 py-[2px] rounded-md bg-gray-500 text-white">
                   Offline
-                </h4> : <h4 className="text-xs px-2 py-[2px] rounded-md bg-green-500 text-white">
+                </h4>
+              ) : (
+                <h4 className="text-xs px-2 py-[2px] rounded-md bg-green-500 text-white">
                   Online
                 </h4>
-              }
+              )}
             </h2>
 
             <div className="flex justify-between border border-[#d6d1ff] rounded-md mt-5 items-center px-3 py-1.5">
@@ -213,7 +251,9 @@ const EventDetails: React.FC = () => {
           <div className="md:absolute md:bottom-6 xl:w-[370px] flex flex-row items-end gap-2 mx-2 mt-3">
             {/* author info */}
             <div className="w-full">
-              <h4 className="font-bold text-sm text-gray-400 ml-1 my-1.5">Author Info</h4>
+              <h4 className="font-bold text-sm text-gray-400 ml-1 my-1.5">
+                Author Info
+              </h4>
               <div className="flex items-center gap-3 border border-[#d6d1ff] px-3 py-1.5 rounded-md">
                 <img
                   className="w-12 h-12 rounded-full object-cover"
@@ -236,6 +276,14 @@ const EventDetails: React.FC = () => {
                 <FaPencilAlt></FaPencilAlt>
               </button>
             </Link>
+            <Tooltip title="Add To google Calendar">
+              <button
+                onClick={insertHandeler}
+                className="px-5 py-5 border border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300"
+              >
+                <LuCalendarPlus />
+              </button>
+            </Tooltip>
           </div>
         </div>
 
