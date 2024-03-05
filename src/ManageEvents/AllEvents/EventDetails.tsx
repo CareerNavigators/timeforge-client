@@ -17,13 +17,16 @@ import logo from "/logo.png";
 import { TypeAnimation } from "react-type-animation";
 import ReactQuill from "react-quill";
 import { RiTimer2Fill } from "react-icons/ri";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxios from "../../Hook/useAxios";
 import { LoadingOutlined } from "@ant-design/icons";
-import { LuCalendarPlus } from "react-icons/lu";
+import { LuCalendarPlus, LuCalendarX } from "react-icons/lu";
 import Swal from "sweetalert2";
 import useAuthorization from "../../Components/GoogleCalendar/useAuthorization";
 import useInsertCalendar from "../../Components/GoogleCalendar/useInsertCalendar";
+import { AxiosError } from "axios";
+import { handleAxiosError } from "../../Components/ExtraFunc/handelAxiosError";
+import { handelAxiosSuccess } from "../../Components/ExtraFunc/handelAxiosSuccess";
 
 const EventDetails: React.FC = () => {
   // hooks and states
@@ -32,6 +35,31 @@ const EventDetails: React.FC = () => {
   const { id } = useParams();
   const insertCalendar = useInsertCalendar();
   const authorization = useAuthorization();
+  
+
+  const mutationDeleteCal=useMutation({
+    mutationFn:async (id)=>{
+      const result= await customAxios.delete(`/calevents/${id}?userId=${userData._id}`)
+      return result.data
+    },
+    onSuccess:async (data)=>{
+      handelAxiosSuccess(data)
+      await mutaionGoogleCal.mutateAsync()
+
+    },
+    onError:(err:AxiosError)=>{
+      handleAxiosError(err)
+    }
+  })
+  const mutaionGoogleCal = useMutation({
+    mutationFn: async () => {
+      const result = await customAxios.get(`/calevents?eventid=${id}`);
+      return result.data;
+    },
+    onError:(error:AxiosError)=>{
+      handleAxiosError(error)
+    }
+  });
   const {
     data: eventDetails,
     isLoading,
@@ -43,10 +71,11 @@ const EventDetails: React.FC = () => {
       const res = await customAxios.get(
         `${import.meta.env.VITE_BACK_END_API}/meeting?id=${id}&type=single`
       );
+      await mutaionGoogleCal.mutateAsync();
       return res.data;
     },
-    retry:2,
-    refetchOnWindowFocus:false,
+    retry: 2,
+    refetchOnWindowFocus: false,
   });
 
   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
@@ -85,8 +114,6 @@ const EventDetails: React.FC = () => {
       </div>
     );
   }
-
-
   function calAuthHandeler(id: string) {
     Swal.fire({
       title: "Google Calendar Integration",
@@ -94,24 +121,31 @@ const EventDetails: React.FC = () => {
       icon: "question",
       confirmButtonText: "Yes",
       showDenyButton: true,
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        authorization.mutate(id);
-        insertCalendar.mutate({eventId:eventDetails.id,userId:userData._id})
+        await authorization.mutateAsync(id);
+        await insertCalendar.mutateAsync({
+          eventId: eventDetails.id,
+          userId: userData._id,
+        });
+        await mutaionGoogleCal.mutateAsync()
       }
     });
   }
-  function insertHandeler() {
+  async function insertHandeler() {
     if (userData && !userData.isRefreshToken) {
       calAuthHandeler(userData._id);
-    }else{
-      insertCalendar.mutate({eventId:eventDetails._id,userId:userData._id})
+    } else {
+      await insertCalendar.mutateAsync({
+        eventId: eventDetails._id,
+        userId: userData._id,
+      });
+      await mutaionGoogleCal.mutateAsync()
     }
   }
 
   return (
     <div className="mb-5 select-none">
-      <Spin spinning={insertCalendar.isPending} fullscreen size="large"></Spin>
       <h1 className="flex pl-2 my-5 items-center gap-2 ">
         <img className="w-12" src={logo} alt="logo" />
         <br />{" "}
@@ -277,14 +311,27 @@ const EventDetails: React.FC = () => {
                 <FaPencilAlt></FaPencilAlt>
               </button>
             </Link>
-            <Tooltip title="Add To google Calendar">
-              <button
-                onClick={insertHandeler}
-                className="px-5 py-5 border border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300"
-              >
-                <LuCalendarPlus />
-              </button>
-            </Tooltip>
+            <Spin spinning={mutaionGoogleCal.isPending || insertCalendar.isPending || mutationDeleteCal.isPending}>
+              {mutaionGoogleCal.data ? (
+                <Tooltip title="Delete from google calendar">
+                  <button
+                    onClick={async ()=>{await mutationDeleteCal.mutateAsync(mutaionGoogleCal.data._id)}}
+                    className="px-5 py-5 border border-[#d6d1ff] hover:border-red-800 text-lg rounded-md text-gray-500 hover:text-red-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300"
+                  >
+                    <LuCalendarX />
+                  </button>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Add To google Calendar">
+                  <button
+                    onClick={insertHandeler}
+                    className="px-5 py-5 border border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300"
+                  >
+                    <LuCalendarPlus />
+                  </button>
+                </Tooltip>
+              )}
+            </Spin>
           </div>
         </div>
 

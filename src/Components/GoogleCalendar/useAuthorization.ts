@@ -1,7 +1,7 @@
 import AxiosSecure from "../../Hook/useAxios";
 import { useMutation } from "@tanstack/react-query";
-import showToast from "../../Hook/swalToast";
 import { AxiosError } from "axios";
+import { handleAxiosError } from "../ExtraFunc/handelAxiosError";
 const useAuthorization = () => {
  const caxios = AxiosSecure();
  const mutationAuthorization = useMutation({
@@ -17,12 +17,7 @@ const useAuthorization = () => {
       window.location=data
     },
     onError: (err:AxiosError) => {
-      if (err.response?.data) {
-        const data = err.response.data as {msg:string};
-        showToast("error",data.msg);
-      }else{
-        showToast("error",err.message);
-      }
+      handleAxiosError(err)
     },
     retry: 3,
  });
