@@ -39,10 +39,26 @@ const EventDetails: React.FC = () => {
   const insertCalendar = useInsertCalendar();
   const authorization = useAuthorization();
 
+  const mutationSingleDelete = useMutation({
+    mutationFn: async (id:string) => {
+      const res = await customAxios.delete(
+        `/calevents/${id}?userId=${userData._id}&type=single`
+      );
+      return res.data;
+    },
+    onSuccess: async (data) => {
+      handelAxiosSuccess(data);
+      await mutaionGoogleCal.mutateAsync();
+    },
+    onError: (err: AxiosError) => {
+      handleAxiosError(err);
+    },
+  });
+
   const mutationDeleteCal = useMutation({
     mutationFn: async (id: string) => {
       const result = await customAxios.delete(
-        `/calevents/${id}?userId=${userData._id}`
+        `/calevents/${id}?userId=${userData._id}&type=all`
       );
       return result.data;
     },
@@ -153,7 +169,19 @@ const EventDetails: React.FC = () => {
       await mutaionGoogleCal.mutateAsync();
     }
   }
-
+async function singleDeleteHandeler(id:string,schedule:string) {
+  Swal.fire({
+    title: "Are you sure?",
+    text: `Do you want to Delete google event at ${dayjs(schedule, "DDMMYY-h:mm A").format("DD/MM/YYYY hh:mm A")}?`,
+    icon: "question",
+    confirmButtonText: "Yes",
+    showDenyButton: true,
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      await mutationSingleDelete.mutateAsync(id)
+    }
+  })
+}
   return (
     <div className="mb-5 select-none">
       <h1 className="flex pl-2 my-5 items-center gap-2 ">
@@ -389,7 +417,7 @@ const EventDetails: React.FC = () => {
                         Time
                       </th>
                       <th className="text-left px-4 py-2 font-medium text-gray-900 hidden md:table-cell">
-                      Google Event Link
+                        Google Event Link
                       </th>
                       <th className="text-left px-4 py-2 font-medium text-gray-900">
                         Remove
@@ -414,11 +442,12 @@ const EventDetails: React.FC = () => {
                             )}
                           </td>
                           <td className="px-4 py-2 text-gray-700 hidden md:table-cell">
-                          <Button href={x.htmlLink}><FaCalendarDays className="text-center"/></Button>
-                            
+                            <Button href={x.htmlLink}>
+                              <FaCalendarDays className="text-center" />
+                            </Button>
                           </td>
                           <td className="px-4 py-2">
-                            <button className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300">
+                            <button className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300" onClick={async ()=> singleDeleteHandeler(x.id,x.schedule)}>
                               <FaRegTrashAlt></FaRegTrashAlt>
                             </button>
                           </td>
