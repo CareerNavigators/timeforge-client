@@ -112,7 +112,6 @@ const EventDetails: React.FC = () => {
       handleCancel();
       showToast("success", "Your Reservation is done.");
       if (selectedDate && slot) {
-        sendConfirmationEmail(data.email, title, selectedDate, slot, _id, desc);
         navigate(`/eventSlot/attendee/${_id}`);
       } else {
         console.error("Selected date & Slot is undefined");
@@ -120,26 +119,6 @@ const EventDetails: React.FC = () => {
     },
   });
 
-  const sendConfirmationEmail = (
-    eventId: string,
-    attendeeEmail: string,
-    eventName: string,
-    eventDesc: string,
-    eventDate: string,
-    eventTime: string
-  ) => {
-    const confirmationEmail = (
-      <ConfirmationEmail
-        eventId={eventId}
-        eventName={eventName}
-        eventDesc={eventDesc}
-        eventDate={eventDate}
-        eventTime={eventTime}
-        attendeeEmail={attendeeEmail}
-      />
-    );
-    const htmlContent = renderToStaticMarkup(confirmationEmail);
-  };
 
   async function UpdateEvent(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
