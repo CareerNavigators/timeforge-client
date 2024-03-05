@@ -108,7 +108,7 @@ const EventDetails: React.FC = () => {
 
       return res.data;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       handleCancel();
       showToast("success", "Your Reservation is done.");
       if (selectedDate && slot) {
