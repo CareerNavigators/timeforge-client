@@ -27,6 +27,7 @@ import useInsertCalendar from "../../Components/GoogleCalendar/useInsertCalendar
 import { AxiosError } from "axios";
 import { handleAxiosError } from "../../Components/ExtraFunc/handelAxiosError";
 import { handelAxiosSuccess } from "../../Components/ExtraFunc/handelAxiosSuccess";
+import SingleTimeline from "../../Components/SingleTimeline/SingleTimeline";
 
 const EventDetails: React.FC = () => {
   // hooks and states
@@ -35,19 +36,19 @@ const EventDetails: React.FC = () => {
   const { id } = useParams();
   const insertCalendar = useInsertCalendar();
   const authorization = useAuthorization();
-  
 
-  const mutationDeleteCal=useMutation({
-    mutationFn:async (id)=>{
-      const result= await customAxios.delete(`/calevents/${id}?userId=${userData._id}`)
+
+  const mutationDeleteCal = useMutation({
+    mutationFn: async (id) => {
+      const result = await customAxios.delete(`/calevents/${id}?userId=${userData._id}`)
       return result.data
     },
-    onSuccess:async (data)=>{
+    onSuccess: async (data) => {
       handelAxiosSuccess(data)
       await mutaionGoogleCal.mutateAsync()
 
     },
-    onError:(err:AxiosError)=>{
+    onError: (err: AxiosError) => {
       handleAxiosError(err)
     }
   })
@@ -56,7 +57,7 @@ const EventDetails: React.FC = () => {
       const result = await customAxios.get(`/calevents?eventid=${id}`);
       return result.data;
     },
-    onError:(error:AxiosError)=>{
+    onError: (error: AxiosError) => {
       handleAxiosError(error)
     }
   });
@@ -77,6 +78,8 @@ const EventDetails: React.FC = () => {
     retry: 2,
     refetchOnWindowFocus: false,
   });
+
+  const eventTypes = eventDetails?.eventType;
 
   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
     console.log(value.format("YYYY-MM-DD"), mode);
@@ -160,7 +163,7 @@ const EventDetails: React.FC = () => {
       </h1>
       <div className="lg:max-w-full mx-1 my-1 lg:px-2 lg:m-5 flex flex-col md:flex-row gap-2">
         {/* event information */}
-        <div className="flex flex-col justify-between w-full xl:w-2/5 min-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
+        <div className="flex flex-col justify-between w-full xl:w-3/5 min-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
           <div className="p-2">
             <h2 className="flex justify-between items-center text-2xl dark:text-dw w-full border border-[#d6d1ff] rounded-md px-3 py-2 text-[#7c3aed] font-bold mt-3">
               {eventDetails?.title}
@@ -219,70 +222,6 @@ const EventDetails: React.FC = () => {
             </div>
           </div>
 
-          {/* timeline */}
-          {/* <div className="dark:text-gray-100 border border-[#d6d1ff] rounded-md mx-2 mt-3">
-            <div className="container max-w-5xl lg:py-4 mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-cols-12 lg:gap-16 gap-3 mx-5">
-                <div className="col-span-12 w-[300px] sm:col-span-3">
-                  <div className="text-center sm:text-left lg:mb-14 before:block before:w-14 before:h-2 before:mb-3 before:rounded-md before:mx-auto sm:before:mx-0 before:dark:bg-[#7c3aed]">
-                    <h3 className="text-xl font-semibold">Event Timeline</h3>
-                  </div>
-                </div>
-                <div className="relative col-span-12 px-4 sm:col-span-9">
-                  <div className="col-span-12 space-y-3 relative px-4 sm:col-span-8 sm:space-y-4 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:dark:bg-dw">
-                    <div className="flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-3 sm:before:h-3 sm:before:rounded-full sm:before:left-[-33px] sm:before:z-[1] before:dark:bg-[#7c3aed]">
-                      <h3 className="text-lg font-semibold">
-                        Chairman will give speech
-                      </h3>
-                      <p className="text-sm text-gray-400">
-                        mdsakibchy071@gmail.com
-                      </p>
-                      <time className="text-xs uppercase text-[#7c3aed] dark:text-gray-400">
-                        10:00AM
-                      </time>
-                    </div>
-
-                    <div className="flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-3 sm:before:h-3 sm:before:rounded-full sm:before:left-[-33px] sm:before:z-[1] before:dark:bg-[#7c3aed]">
-                      <h3 className="text-lg font-semibold">
-                        Chairman will give speech
-                      </h3>
-                      <p className="text-sm text-gray-400">
-                        mdsakibchy071@gmail.com
-                      </p>
-                      <time className="text-xs uppercase text-[#7c3aed] dark:text-gray-400">
-                        10:00AM
-                      </time>
-                    </div>
-
-                    <div className="flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-3 sm:before:h-3 sm:before:rounded-full sm:before:left-[-33px] sm:before:z-[1] before:dark:bg-[#7c3aed]">
-                      <h3 className="text-lg font-semibold">
-                        Chairman will give speech
-                      </h3>
-                      <p className="text-sm text-gray-400">
-                        mdsakibchy071@gmail.com
-                      </p>
-                      <time className="text-xs uppercase text-[#7c3aed] dark:text-gray-400">
-                        10:00AM
-                      </time>
-                    </div>
-
-                    <div className="flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-3 sm:before:h-3 sm:before:rounded-full sm:before:left-[-33px] sm:before:z-[1] before:dark:bg-[#7c3aed]">
-                      <h3 className="text-lg font-semibold ">
-                        Chairman will give speech
-                      </h3>
-                      <p className="text-sm text-gray-400">
-                        mdsakibchy071@gmail.com
-                      </p>
-                      <time className="text-xs uppercase text-[#7c3aed] dark:text-gray-400">
-                        10:00AM
-                      </time>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
-
           <div className="flex flex-row items-end gap-2 mx-2 mt-3">
             {/* author info */}
             <div className="w-full">
@@ -315,7 +254,7 @@ const EventDetails: React.FC = () => {
               {mutaionGoogleCal.data ? (
                 <Tooltip title="Delete from google calendar">
                   <button
-                    onClick={async ()=>{await mutationDeleteCal.mutateAsync(mutaionGoogleCal.data._id)}}
+                    onClick={async () => { await mutationDeleteCal.mutateAsync(mutaionGoogleCal.data._id) }}
                     className="px-5 py-5 border border-[#d6d1ff] hover:border-red-800 text-lg rounded-md text-gray-500 hover:text-red-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300"
                   >
                     <LuCalendarX />
@@ -335,13 +274,18 @@ const EventDetails: React.FC = () => {
           </div>
         </div>
 
-        {/* calender area */}
+        {/* calender area or timeline area */}
         <div className="w-full p-2 mt-2 md:mt-0 overflow-hidden border border-[#d6d1ff] shadow-md rounded-md">
-          <Calendar
-            className="min-h-full min-w-full overflow-hidden"
-            cellRender={cellRender}
-            onPanelChange={onPanelChange}
-          />
+          {
+            eventTypes === "Group Meeting" || eventTypes === "Board Meeting" ?
+              <SingleTimeline eventId={id}></SingleTimeline>
+              :
+              <Calendar
+                className="min-h-full min-w-full overflow-hidden"
+                cellRender={cellRender}
+                onPanelChange={onPanelChange}
+              />
+          }
         </div>
       </div>
 
