@@ -33,6 +33,8 @@ import Product from "../Pages/Inventory/Product";
 import Cart from "../Pages/Inventory/Cart";
 import BoardMeeting from "../CreateEvents/BoardMeeting/BoardMeeting";
 import AllEcommerce from "../Dashboard/Admin/AllEcommerce/AllEcommerce";
+import { Success } from "../Pages/Inventory/Success";
+import Cancel from "../Pages/Inventory/Cancel";
 
 
 const router = createBrowserRouter([
@@ -87,6 +89,14 @@ const router = createBrowserRouter([
         path: "/cart",
         element: <Cart/>
       },
+      {
+        path: "/success",
+        element: <Success/>
+      },
+      {
+        path: "/cancel",
+        element: <Cancel/>
+      }
      
     ],
   },
