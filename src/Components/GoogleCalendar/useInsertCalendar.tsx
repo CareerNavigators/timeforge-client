@@ -14,7 +14,7 @@ const useInsertCalendar = () => {
       const res = await caxios.post("/insertcalendar", data);
       return res.data;
     },
-    retry: 3,
+    retry: 0,
     onSuccess: (data) => {
       showToast("success", data.msg);
     },

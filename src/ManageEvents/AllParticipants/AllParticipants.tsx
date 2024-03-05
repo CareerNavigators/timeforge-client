@@ -33,6 +33,7 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
         enabled: id != undefined ? true : false,
         retry: MAX_API_CALLS - 1,
         refetchOnWindowFocus:false,
+        gcTime:0
     });
 
     const handleParticipantDelete = (id: string) => {
