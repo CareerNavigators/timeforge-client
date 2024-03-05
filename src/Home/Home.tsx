@@ -6,7 +6,7 @@ import DemoEvent from "../Components/Demo/DemoEvent";
 import Footer from "./Footer";
 import { useEffect } from "react";
 
-const Home = () => {
+const Home = ({ isHome }: { isHome: boolean }) => {
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://cdn.botpress.cloud/webchat/v1/inject.js";
@@ -14,7 +14,8 @@ const Home = () => {
     script.onload = () => {
       (window as any).botpressWebChat.init({
         composerPlaceholder: "Ask about TimeForge",
-        botConversationDescription: "This chatbot was built by TimeForge Members",
+        botConversationDescription:
+          "This chatbot was built by TimeForge Members",
         botId: "b0f13280-761b-4f19-9364-a019729de58c",
         hostUrl: "https://cdn.botpress.cloud/webchat/v1",
         messagingUrl: "https://messaging.botpress.cloud",
@@ -29,21 +30,25 @@ const Home = () => {
         theme: "prism",
         themeColor: "#5038ED",
       });
-      hideButton();
+      // showButton();
     };
     document.body.appendChild(script);
 
     return () => {
       document.body.removeChild(script);
     };
-}, []);
+  }, []);
 
-function hideButton(): void {
-    const button: HTMLElement | null = document.querySelector("#app > div > button");
+  useEffect(() => {
+    showButton(isHome);
+  }, [isHome]);
+
+  function showButton(isHome: boolean): void {
+    const button = document.getElementById("bp-web-widget-container");
     if (button) {
-        button.style.display = "none";
-    } 
-}
+      button.style.display = isHome ? "block" : "none";
+    }
+  }
 
   return (
     <div id="take-a-look" className="max-w-full mx-auto">
@@ -53,7 +58,6 @@ function hideButton(): void {
       <Schedule />
       <MarqueeElement />
       <Footer />
-
     </div>
   );
 };
