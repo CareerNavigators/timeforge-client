@@ -83,7 +83,6 @@ const EventDetails: React.FC = () => {
   const addAttendee = useMutation({
     mutationFn: async (data: { [key: string]: any }) => {
       const res = await caxios.post("/attendee", data);
-
       const confirmationEmail = (
         <ConfirmationEmail
           eventId={_id}
@@ -92,10 +91,10 @@ const EventDetails: React.FC = () => {
           eventTime={slot}
           eventDesc={desc}
           attendeeEmail={data.email}
+          htmlLink={res.data?.htmlLink}
         />
       );
       const htmlContent = renderToStaticMarkup(confirmationEmail);
-
       const sendMailData = {
         attendeeEmail: data.email,
         subject: `${title} Event Reservation Confirmation`,
@@ -111,11 +110,10 @@ const EventDetails: React.FC = () => {
 
       return res.data;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       handleCancel();
       showToast("success", "Your Reservation is done.");
       if (selectedDate && slot) {
-        sendConfirmationEmail(data.email, title, selectedDate, slot, _id, desc);
         navigate(`/eventSlot/attendee/${_id}`);
       } else {
         console.error("Selected date & Slot is undefined");
@@ -123,37 +121,6 @@ const EventDetails: React.FC = () => {
     },
   });
 
-  const sendConfirmationEmail = (
-    eventId: string,
-    attendeeEmail: string,
-    eventName: string,
-    eventDesc: string,
-    eventDate: string,
-    eventTime: string
-  ) => {
-    console.log(
-      "Sending confirmation email:",
-      eventId,
-      attendeeEmail,
-      eventName,
-      eventDesc,
-      eventDate,
-      eventTime
-    );
-    const confirmationEmail = (
-      <ConfirmationEmail
-        eventId={eventId}
-        eventName={eventName}
-        eventDesc={eventDesc}
-        eventDate={eventDate}
-        eventTime={eventTime}
-        attendeeEmail={attendeeEmail}
-      />
-    );
-
-    const htmlContent = renderToStaticMarkup(confirmationEmail);
-    console.log(htmlContent);
-  };
 
   async function UpdateEvent(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
