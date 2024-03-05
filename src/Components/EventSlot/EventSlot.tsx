@@ -9,7 +9,7 @@ import {
 import { useLoaderData } from "react-router-dom";
 import { EventType } from "../../ManageEvents/AllEvents/AllEvents";
 import { Dayjs } from "dayjs";
-import { Badge, Button, Calendar, Modal, Select } from "antd";
+import { Badge, Button, Calendar, Modal, Select, Spin } from "antd";
 import type { CalendarProps } from "antd";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
@@ -350,12 +350,14 @@ const EventDetails: React.FC = () => {
         footer={null}
         open={isModalOpen}
       >
+        <Spin spinning={addAttendee.isPending}>
         <form onSubmit={UpdateEvent}>
           <div className="flex flex-col gap-1">
             <p className="font-semibold">Name</p>
             <Input name="name" className="border rounded"></Input>
             <p className="font-semibold">Email</p>
             <Input name="email" className="border rounded"></Input>
+            <p className="text-xs italic">Use Gmail to automatically added to Google Calendar.</p>
             <p className="font-semibold">Time</p>
             {selectedDate && (
               <Select
@@ -370,11 +372,12 @@ const EventDetails: React.FC = () => {
           </div>
           <div className="flex gap-4 mt-2 justify-center">
             <Button className="bg-light-blue-500 text-white" htmlType="submit">
-              Update
+              Add
             </Button>
             <Button onClick={handleCancel}>Close</Button>
           </div>
         </form>
+        </Spin>
       </Modal>
     </div>
   );
