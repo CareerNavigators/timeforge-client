@@ -40,9 +40,9 @@ const EventDetails: React.FC = () => {
   const authorization = useAuthorization();
 
   const mutationSingleDelete = useMutation({
-    mutationFn: async (id:string) => {
+    mutationFn: async (googleID:string) => {
       const res = await customAxios.delete(
-        `/calevents/${id}?userId=${userData._id}&type=single`
+        `/calevents/${googleID}?userId=${userData._id}&type=single&eventid=${id}`
       );
       return res.data;
     },
@@ -403,7 +403,7 @@ async function singleDeleteHandeler(id:string,schedule:string) {
           </div>
           <div className="overflow-x-auto sm:px-8 sm:py-4 pb-5">
             {mutaionGoogleCal.isSuccess ? (
-              mutaionGoogleCal.data.googleEvents.length != 0 ? (
+              mutaionGoogleCal.data && mutaionGoogleCal.data.googleEvents.length != 0 ? (
                 <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                   <thead>
                     <tr>
@@ -442,7 +442,7 @@ async function singleDeleteHandeler(id:string,schedule:string) {
                             )}
                           </td>
                           <td className="px-4 py-2 text-gray-700 hidden md:table-cell">
-                            <Button href={x.htmlLink}>
+                            <Button href={x.htmlLink} target="_blank">
                               <FaCalendarDays className="text-center" />
                             </Button>
                           </td>
