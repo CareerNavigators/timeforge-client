@@ -4,11 +4,12 @@ import {
   FaCheck,
   FaMicrophone,
   FaPencilAlt,
+  FaRegTrashAlt,
   FaTimes,
 } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
-import { Dayjs } from "dayjs";
-import { Badge, Calendar, Spin, Tooltip } from "antd";
+import dayjs, { Dayjs } from "dayjs";
+import { Badge, Button, Calendar, Empty, Spin, Tooltip } from "antd";
 import type { CalendarProps } from "antd";
 import AllParticipants from "../AllParticipants/AllParticipants";
 import { useContext } from "react";
@@ -27,7 +28,9 @@ import useInsertCalendar from "../../Components/GoogleCalendar/useInsertCalendar
 import { AxiosError } from "axios";
 import { handleAxiosError } from "../../Components/ExtraFunc/handelAxiosError";
 import { handelAxiosSuccess } from "../../Components/ExtraFunc/handelAxiosSuccess";
-
+import { FaCalendarDays } from "react-icons/fa6";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
 const EventDetails: React.FC = () => {
   // hooks and states
   const { userData } = useContext(AuthContext);
@@ -35,30 +38,37 @@ const EventDetails: React.FC = () => {
   const { id } = useParams();
   const insertCalendar = useInsertCalendar();
   const authorization = useAuthorization();
-  
 
-  const mutationDeleteCal=useMutation({
-    mutationFn:async (id)=>{
-      const result= await customAxios.delete(`/calevents/${id}?userId=${userData._id}`)
-      return result.data
+  const mutationDeleteCal = useMutation({
+    mutationFn: async (id: string) => {
+      const result = await customAxios.delete(
+        `/calevents/${id}?userId=${userData._id}`
+      );
+      return result.data;
     },
-    onSuccess:async (data)=>{
-      handelAxiosSuccess(data)
-      await mutaionGoogleCal.mutateAsync()
-
+    onSuccess: async (data) => {
+      handelAxiosSuccess(data);
+      await mutaionGoogleCal.mutateAsync();
     },
-    onError:(err:AxiosError)=>{
-      handleAxiosError(err)
-    }
-  })
+    onError: (err: AxiosError) => {
+      handleAxiosError(err);
+    },
+  });
+  type GoogleEvents = {
+    _id: string;
+    meetLink: string;
+    id: string;
+    htmlLink: string;
+    schedule: string;
+  };
   const mutaionGoogleCal = useMutation({
     mutationFn: async () => {
       const result = await customAxios.get(`/calevents?eventid=${id}`);
-      return result.data;
+      return result.data as { _id: string; googleEvents: GoogleEvents[] };
     },
-    onError:(error:AxiosError)=>{
-      handleAxiosError(error)
-    }
+    onError: (error: AxiosError) => {
+      handleAxiosError(error);
+    },
   });
   const {
     data: eventDetails,
@@ -128,7 +138,7 @@ const EventDetails: React.FC = () => {
           eventId: eventDetails.id,
           userId: userData._id,
         });
-        await mutaionGoogleCal.mutateAsync()
+        await mutaionGoogleCal.mutateAsync();
       }
     });
   }
@@ -140,7 +150,7 @@ const EventDetails: React.FC = () => {
         eventId: eventDetails._id,
         userId: userData._id,
       });
-      await mutaionGoogleCal.mutateAsync()
+      await mutaionGoogleCal.mutateAsync();
     }
   }
 
@@ -311,11 +321,21 @@ const EventDetails: React.FC = () => {
                 <FaPencilAlt></FaPencilAlt>
               </button>
             </Link>
-            <Spin spinning={mutaionGoogleCal.isPending || insertCalendar.isPending || mutationDeleteCal.isPending}>
+            <Spin
+              spinning={
+                mutaionGoogleCal.isPending ||
+                insertCalendar.isPending ||
+                mutationDeleteCal.isPending
+              }
+            >
               {mutaionGoogleCal.data ? (
                 <Tooltip title="Delete from google calendar">
                   <button
-                    onClick={async ()=>{await mutationDeleteCal.mutateAsync(mutaionGoogleCal.data._id)}}
+                    onClick={async () => {
+                      await mutationDeleteCal.mutateAsync(
+                        mutaionGoogleCal.data._id
+                      );
+                    }}
                     className="px-5 py-5 border border-[#d6d1ff] hover:border-red-800 text-lg rounded-md text-gray-500 hover:text-red-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300"
                   >
                     <LuCalendarX />
@@ -342,6 +362,84 @@ const EventDetails: React.FC = () => {
             cellRender={cellRender}
             onPanelChange={onPanelChange}
           />
+        </div>
+      </div>
+
+      <div className="w-dvw sm:w-full lg:mx-2 lg:pr-3 pb-16 lg:pb-2 bg-white">
+        <div className="max-w-full shadow-md rounded-md mx-1 sm:p-2 my-5 lg:m-5 overflow-hidden border border-[#d6d1ff]">
+          <div className="text-[#5038ED] text-xl font-extrabold">
+            <div className="flex flex-row items-center justify-center gap-2 mt-5">
+              <FaCalendarDays />
+              <h1> Google Events</h1>
+            </div>
+          </div>
+          <div className="overflow-x-auto sm:px-8 sm:py-4 pb-5">
+            {mutaionGoogleCal.isSuccess ? (
+              mutaionGoogleCal.data.googleEvents.length != 0 ? (
+                <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                  <thead>
+                    <tr>
+                      <th className="text-left px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
+                        Index
+                      </th>
+                      <th className="text-left px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
+                        Date
+                      </th>
+                      <th className="text-left px-4 py-2 font-medium text-gray-900">
+                        Time
+                      </th>
+                      <th className="text-left px-4 py-2 font-medium text-gray-900 hidden md:table-cell">
+                      Google Event Link
+                      </th>
+                      <th className="text-left px-4 py-2 font-medium text-gray-900">
+                        Remove
+                      </th>
+                    </tr>
+                  </thead>
+                  {mutaionGoogleCal.data.googleEvents.map((x, index) => {
+                    return (
+                      <tbody className="divide-y divide-gray-200">
+                        <tr key={x?._id}>
+                          <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
+                            {index + 1}
+                          </td>
+                          <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
+                            {dayjs(x.schedule, "DDMMYY-h:mm A").format(
+                              "DD/MM/YYYY"
+                            )}
+                          </td>
+                          <td className="px-4 py-2 text-gray-700">
+                            {dayjs(x.schedule, "DDMMYY-h:mm A").format(
+                              "hh:mm A"
+                            )}
+                          </td>
+                          <td className="px-4 py-2 text-gray-700 hidden md:table-cell">
+                          <Button href={x.htmlLink}><FaCalendarDays className="text-center"/></Button>
+                            
+                          </td>
+                          <td className="px-4 py-2">
+                            <button className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300">
+                              <FaRegTrashAlt></FaRegTrashAlt>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
+                </table>
+              ) : (
+                <Empty
+                  description="No Google Calendar Found"
+                  className="flex flex-col items-center justify-center"
+                />
+              )
+            ) : (
+              <Empty
+                description="Something Error"
+                className="flex flex-col items-center justify-center"
+              />
+            )}
+          </div>
         </div>
       </div>
 
