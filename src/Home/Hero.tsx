@@ -11,6 +11,8 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import showToast from "../Hook/swalToast";
 import { PlusCircleOutlined } from "@ant-design/icons";
+import Swal from "sweetalert2";
+import useAuthorization from "../Components/GoogleCalendar/useAuthorization";
 import "./style.css";
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -23,6 +25,20 @@ const Hero = () => {
   const from = location?.state?.from?.pathname || "/";
   const caxios = AxiosSecure();
   const [timezone, setTimezone] = useState("");
+  const authorization = useAuthorization();
+  function calAuthHandeler(id:string) {
+    Swal.fire({
+      title: "Google Calendar Integration",
+      text: "Do you want to connect with google calendar?",
+      icon: "question",
+      confirmButtonText: "Yes",
+      showDenyButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        authorization.mutate(id);
+      }
+    })
+  }
   useEffect(() => {
     setTimezone(dayjs.tz.guess());
   }, []);
@@ -37,6 +53,9 @@ const Hero = () => {
         };
         caxios.post("/user", userData).then((res) => {
           setUserData(res.data);
+          if(!res.data.isRefreshToken) {
+            calAuthHandeler(res.data._id)
+          }
         });
       });
       showToast("success", "Secure Access, Unlimited Smiles!");

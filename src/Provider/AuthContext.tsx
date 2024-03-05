@@ -14,7 +14,6 @@ import {
 } from "firebase/auth";
 import app from "../Firebase/firebase.config";
 import AxiosSecure from "../Hook/useAxios";
-
 type AuthContextType = {
   user: User | null;
   createUser: (email: string, password: string) => Promise<UserCredential>;
@@ -36,12 +35,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const caxios = AxiosSecure();
-
   const googleSignIn = () => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
-
+  
   const createUser = (
     email: string,
     password: string
