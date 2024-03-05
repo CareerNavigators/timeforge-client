@@ -25,7 +25,6 @@ import AxiosSecure from "../../Hook/useAxios";
 import { useNavigate } from "react-router-dom";
 import { renderToStaticMarkup } from "react-dom/server";
 import ConfirmationEmail from "./ConfirmationEmail";
-import SingleTimeline from "../SingleTimeline/SingleTimeline";
 import PreviewTimeline from "./PreviewTimeline";
 
 const EventDetails: React.FC = () => {
