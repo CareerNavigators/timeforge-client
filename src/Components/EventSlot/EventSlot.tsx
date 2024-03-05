@@ -81,7 +81,6 @@ const EventDetails: React.FC = () => {
   const addAttendee = useMutation({
     mutationFn: async (data: { [key: string]: any }) => {
       const res = await caxios.post("/attendee", data);
-
       const confirmationEmail = (
         <ConfirmationEmail
           eventId={_id}
@@ -90,10 +89,10 @@ const EventDetails: React.FC = () => {
           eventTime={slot}
           eventDesc={desc}
           attendeeEmail={data.email}
+          htmlLink={res.data?.htmlLink}
         />
       );
       const htmlContent = renderToStaticMarkup(confirmationEmail);
-
       const sendMailData = {
         attendeeEmail: data.email,
         subject: `${title} Event Reservation Confirmation`,
@@ -129,15 +128,6 @@ const EventDetails: React.FC = () => {
     eventDate: string,
     eventTime: string
   ) => {
-    console.log(
-      "Sending confirmation email:",
-      eventId,
-      attendeeEmail,
-      eventName,
-      eventDesc,
-      eventDate,
-      eventTime
-    );
     const confirmationEmail = (
       <ConfirmationEmail
         eventId={eventId}
@@ -148,9 +138,7 @@ const EventDetails: React.FC = () => {
         attendeeEmail={attendeeEmail}
       />
     );
-
     const htmlContent = renderToStaticMarkup(confirmationEmail);
-    console.log(htmlContent);
   };
 
   async function UpdateEvent(e: React.FormEvent<HTMLFormElement>) {

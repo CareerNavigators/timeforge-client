@@ -26,9 +26,8 @@ const OauthCallback = () => {
     },
     enabled:paresedState?.access_type=="offline",
     gcTime: 0,
-    refetchOnMount: false,
-    retry:2,
-    retryDelay:2000,
+    refetchOnWindowFocus: false,
+    retry:0,
   });
   const queryStoreToken=useQuery({
     queryKey:["token"],
@@ -42,9 +41,8 @@ const OauthCallback = () => {
     },
     enabled:paresedState?.access_type=="online",
     gcTime: 0,
-    refetchOnMount: false,
-    retry:2,
-    retryDelay:2000,
+    refetchOnWindowFocus: false,
+    retry:0,
   })
   if ((!queryInsertToken.isLoading && queryInsertToken.isSuccess) || (!queryStoreToken.isLoading && queryStoreToken.isSuccess)) {
     if (paresedState) {
@@ -52,8 +50,10 @@ const OauthCallback = () => {
     }
   } else if (queryInsertToken.isError) {
     showToast("error", queryInsertToken.error.message);
+    navigate("/");
   }else if (queryStoreToken.isError) {
     showToast("error", queryStoreToken.error.message);
+    navigate("/");
   }
 
   return (

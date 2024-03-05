@@ -20,6 +20,7 @@ interface ConfirmationEmailProps {
   eventDate?: string;
   eventTime?: string;
   attendeeEmail: string;
+  htmlLink?: string;
 }
 
 const ConfirmationEmail: React.FC<ConfirmationEmailProps> = ({
@@ -28,6 +29,7 @@ const ConfirmationEmail: React.FC<ConfirmationEmailProps> = ({
   eventDesc,
   eventDate,
   eventTime,
+  htmlLink,
 }) => {
   // Parse the event date and format it using dayjs
   const formattedEventDate = eventDate
@@ -59,9 +61,7 @@ const ConfirmationEmail: React.FC<ConfirmationEmailProps> = ({
               Title: {eventName} <br />
               Date & Time: {formattedEventDate} at {eventTime}.
             </Heading>
-            <Heading style={eventDetails}>
-              Event Details:
-            </Heading>
+            <Heading style={eventDetails}>Event Details:</Heading>
             <Text
               style={eventDetails}
               dangerouslySetInnerHTML={{ __html: eventDesc }}
@@ -72,6 +72,11 @@ const ConfirmationEmail: React.FC<ConfirmationEmailProps> = ({
             >
               Event Link
             </Button>
+            {htmlLink && (
+              <Button style={button} href={htmlLink}>
+                Google Link
+              </Button>
+            )}
             <Hr style={hr} />
             <Text style={footer}>
               TimeForge, Copyright &copy; 2024. All rights reserved
@@ -139,6 +144,7 @@ const button = {
   display: "block",
   width: "100%",
   padding: "10px",
+  marginBottom: "5px",
 };
 const footer = {
   color: "#8898aa",
