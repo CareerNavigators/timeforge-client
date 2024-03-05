@@ -66,11 +66,12 @@ const Product = () => {
     //       console.log(res.data);
     //       showToast("success", "you added a cart item")
     //     }); 
+    showToast("success", "you added a cart item");
   };
 
   useEffect(() => {
     localStorage.setItem("cartItem", JSON.stringify(cardData));
-    showToast("success", "you added a cart item");
+    
   }, [cardData]);
 
   // const getLocalStorageData = () => {
@@ -108,7 +109,7 @@ const Product = () => {
         <h1 className="text-[35px] font-bold">Our Products </h1>
         <h1 className="text-[18px] text-blue-gray-400">Explore Our Products</h1>
       </div>
-      <div className="grid grid-cols-4 gap-6 mt-[50px] ">
+      <div className="grid grid-cols-2 lg:grid-cols-4  gap-6 mt-[50px] px-6 lg:px-0 ">
         {product?.map((data) => (
           <div className=" group " key={data?._id}>
             <div className="relative">
@@ -142,7 +143,7 @@ const Product = () => {
                     handleCart(data?._id, data.title, data.img, data.price);
                     // setSold(!sold)
                   }}
-                  className="hidden group-hover:flex justify-center items-center w-[150px] py-1 bg-deep-purple-600 text-white rounded-full absolute top-1/2 right-1/4 group-hover:backdrop-blur-md duration-200  "
+                  className="hidden group-hover:flex justify-center items-center w-[100px] lg:w-[150px] py-1 bg-deep-purple-600 text-white rounded-full absolute top-1/2 right-1/4 group-hover:backdrop-blur-md duration-200  "
                 >
                   Add to Cart
                 </button>

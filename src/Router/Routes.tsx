@@ -33,6 +33,7 @@ import Product from "../Pages/Inventory/Product";
 import Cart from "../Pages/Inventory/Cart";
 import BoardMeeting from "../CreateEvents/BoardMeeting/BoardMeeting";
 import AllEcommerce from "../Dashboard/Admin/AllEcommerce/AllEcommerce";
+import OauthCallback from "../Components/GoogleCalendar/OauthCallback";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
     element: <Main></Main>,
     errorElement: <Error></Error>,
     children: [
+      
       {
         path: "/",
         element: <Home isHome={true}></Home>,
@@ -85,6 +87,11 @@ const router = createBrowserRouter([
         path: "/cart",
         element: <Cart />,
       },
+      {
+        path:"/oauth2callback",
+        element:<OauthCallback />
+      },
+
     ],
   },
   {
@@ -186,5 +193,6 @@ const router = createBrowserRouter([
     loader: ({ params }) =>
       fetch(`${import.meta.env.VITE_BACK_END_API}/attendee?id=${params.id}`),
   },
+
 ]);
 export default router;

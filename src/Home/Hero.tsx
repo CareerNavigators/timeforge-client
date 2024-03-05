@@ -11,6 +11,8 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import showToast from "../Hook/swalToast";
 import { PlusCircleOutlined } from "@ant-design/icons";
+import Swal from "sweetalert2";
+import useAuthorization from "../Components/GoogleCalendar/useAuthorization";
 import "./style.css";
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -23,6 +25,20 @@ const Hero = () => {
   const from = location?.state?.from?.pathname || "/";
   const caxios = AxiosSecure();
   const [timezone, setTimezone] = useState("");
+  const authorization = useAuthorization();
+  function calAuthHandeler(id:string) {
+    Swal.fire({
+      title: "Google Calendar Integration",
+      text: "Do you want to connect with google calendar?",
+      icon: "question",
+      confirmButtonText: "Yes",
+      showDenyButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        authorization.mutate(id);
+      }
+    })
+  }
   useEffect(() => {
     setTimezone(dayjs.tz.guess());
   }, []);
@@ -37,6 +53,9 @@ const Hero = () => {
         };
         caxios.post("/user", userData).then((res) => {
           setUserData(res.data);
+          if(!res.data.isRefreshToken) {
+            calAuthHandeler(res.data._id)
+          }
         });
       });
       showToast("success", "Secure Access, Unlimited Smiles!");
@@ -67,17 +86,17 @@ const Hero = () => {
               </span>
             </h3>
           </section>
-          <section className="pb-60 md:pb-60 lg:pb-0">
+          <section className="flex flex-col justify-center pb-60 md:pb-60 lg:pb-0">
             <p className="text-center dark:text-dg tracking-wide text-xs md:text-base lg:text-xl font-medium lg:font-semibold text-slate-800 w-[300px] md:w-[400px] lg:w-[500px] lg:mt-10 my-10">
               TimeForge is your scheduling automation platform for eliminating
               the back-and-forth emails to find the perfect time - and so much
               more.
             </p>
-            <div>
+            <div className="flex flex-col lg:flex-row items-center justify-center">
               {loading ? (
                 ""
               ) : userData === null ? (
-                <div className="flex flex-col items-center justify-center gap-4 text-xs lg:text-lg font-medium lg:pt-0 lg:flex-row">
+                <div className="flex flex-col lg:flex-row items-center justify-center gap-4 text-xs lg:text-lg font-medium lg:pt-0">
                   <button
                     onClick={handleGoogle}
                     className="md:p-2 rounded-lg border-[1px] border-[#7c3aed] dark:border-none flex items-center gap-1 md:gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out"
@@ -104,7 +123,7 @@ const Hero = () => {
               ) : (
                 <Link
                   to={"/dashboard/createEvent"}
-                  className="w-fit lg:mx-0 mx-auto md:p-2 mt-5 rounded-lg border-2 border-[#7c3aed] flex items-center gap-1 md:gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-[#5d47ef54] transition-all ease-in-out"
+                  className="flex items-center w-fit lg:mx-0 mx-auto md:p-2 rounded-lg border-2 border-[#7c3aed]  gap-1 md:gap-2 font-inter text-white bg-gradient-to-r from-violet-400 via-violet-600 to-indigo-600 hover:shadow-md hover:shadow-[#5d47ef54] transition-all ease-in-out"
                 >
                   <div className="p-[4px]">
                     <PlusCircleOutlined className="text-[#7c3aed]" />
