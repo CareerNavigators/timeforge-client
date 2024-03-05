@@ -13,9 +13,8 @@ const Home = ({ isHome }: { isHome: boolean }) => {
     script.async = true;
     script.onload = () => {
       (window as any).botpressWebChat.init({
-        composerPlaceholder: "Ask about TimeForge",
-        botConversationDescription:
-          "This chatbot was built by TimeForge Members",
+        composerPlaceholder: "Want to know about TimeForge?",
+        botConversationDescription: "This bot is developed by TimeForge.",
         botId: "b0f13280-761b-4f19-9364-a019729de58c",
         hostUrl: "https://cdn.botpress.cloud/webchat/v1",
         messagingUrl: "https://messaging.botpress.cloud",
@@ -23,12 +22,13 @@ const Home = ({ isHome }: { isHome: boolean }) => {
         webhookId: "b663d2b0-9992-4bdb-b2b2-c47a1f934bb1",
         lazySocket: true,
         themeName: "prism",
+        botName: "TimeForge",
+        avatarUrl: "https://res.cloudinary.com/ddcjzcoys/image/upload/v1709583226/ytsadbl7mazxhirvkqqg.png",
         frontendVersion: "v1",
         useSessionStorage: true,
         enableConversationDeletion: true,
-        showPoweredBy: false,
         theme: "prism",
-        themeColor: "#5038ED",
+        themeColor: "#2563eb"
       });
       // showButton();
     };

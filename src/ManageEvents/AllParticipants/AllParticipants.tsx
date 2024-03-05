@@ -18,10 +18,8 @@ interface AllParticipantsProps {
 
 const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
     const customAxios = useAxios();
-    const [deleteLoading,setDeleteLoading]=useState(false)
+    const [deleteLoading, setDeleteLoading] = useState(false)
     dayjs.extend(customParseFormat);
-
-    const MAX_API_CALLS = 2;
 
     // fetching all participants
     const { data: allParticipants = [], isLoading, isFetching, isPending, refetch } = useQuery({
@@ -31,13 +29,12 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
             return res.data;
         },
         enabled: id != undefined ? true : false,
-        retry: MAX_API_CALLS - 1,
-        refetchOnWindowFocus:false,
-        gcTime:0
+        retry: 2,
+        refetchOnWindowFocus: false,
     });
 
     const handleParticipantDelete = (id: string) => {
-        
+
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -73,70 +70,70 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
                     <h1> Participants</h1>
                 </div>
             </div>
-           
-            <div className="overflow-x-auto sm:px-8 sm:py-4 pb-5">
-            <Spin size="large" spinning={deleteLoading}>
-                {/* table area */}
-                {
-                    allParticipants?.length > 0 ? <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                        {/* table heading */}
-                        <thead>
-                            <tr>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
-                                    Index
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
-                                    Name
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900">
-                                    Email
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900 hidden md:table-cell">
-                                    Date
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900 hidden md:table-cell">
-                                    Time
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900">
-                                    Remove
-                                </th>
-                            </tr>
-                        </thead>
 
-                        {/* table body */}
-                        
-                        <tbody className="divide-y divide-gray-200">
-                            {allParticipants?.map((data: EventType, index: number) => {
-                                const dateStr = Object.keys(data.slot).toString();
-                                const date = dayjs(dateStr, "DDMMYY");
-                                const formattedDate = date.format("DD/MM/YYYY");
-                                return (
-                                    <tr key={data?._id}>
-                                        <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
-                                            {index + 1}
-                                        </td>
-                                        <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">{data?.name}</td>
-                                        <td className="px-4 py-2 text-gray-700">{data?.email}</td>
-                                        <td className="px-4 py-2 text-gray-700 hidden md:table-cell">{formattedDate}</td>
-                                        <td className="px-4 py-2 text-gray-700 hidden md:table-cell">
-                                            {data?.slot[dateStr][0]}
-                                        </td>
-                                        <td className="px-4 py-2">
-                                            <button
-                                                onClick={() => handleParticipantDelete(data?._id)}
-                                                className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300"
-                                            >
-                                                <FaRegTrashAlt></FaRegTrashAlt>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table> : 
-                        <Empty description="No Participants" className="flex flex-col items-center justify-center" />
-                    
-                }
+            <div className="overflow-x-auto sm:px-8 sm:py-4 pb-5">
+                <Spin size="large" spinning={deleteLoading}>
+                    {/* table area */}
+                    {
+                        allParticipants?.length > 0 ? <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                            {/* table heading */}
+                            <thead>
+                                <tr>
+                                    <th className="text-left px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
+                                        Index
+                                    </th>
+                                    <th className="text-left px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
+                                        Name
+                                    </th>
+                                    <th className="text-left px-4 py-2 font-medium text-gray-900">
+                                        Email
+                                    </th>
+                                    <th className="text-left px-4 py-2 font-medium text-gray-900 hidden md:table-cell">
+                                        Date
+                                    </th>
+                                    <th className="text-left px-4 py-2 font-medium text-gray-900 hidden md:table-cell">
+                                        Time
+                                    </th>
+                                    <th className="text-left px-4 py-2 font-medium text-gray-900">
+                                        Remove
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            {/* table body */}
+
+                            <tbody className="divide-y divide-gray-200">
+                                {allParticipants?.map((data: EventType, index: number) => {
+                                    const dateStr = Object.keys(data.slot).toString();
+                                    const date = dayjs(dateStr, "DDMMYY");
+                                    const formattedDate = date.format("DD/MM/YYYY");
+                                    return (
+                                        <tr key={data?._id}>
+                                            <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
+                                                {index + 1}
+                                            </td>
+                                            <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">{data?.name}</td>
+                                            <td className="px-4 py-2 text-gray-700">{data?.email}</td>
+                                            <td className="px-4 py-2 text-gray-700 hidden md:table-cell">{formattedDate}</td>
+                                            <td className="px-4 py-2 text-gray-700 hidden md:table-cell">
+                                                {data?.slot[dateStr][0]}
+                                            </td>
+                                            <td className="px-4 py-2">
+                                                <button
+                                                    onClick={() => handleParticipantDelete(data?._id)}
+                                                    className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300"
+                                                >
+                                                    <FaRegTrashAlt></FaRegTrashAlt>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table> :
+                            <Empty description="No Participants" className="flex flex-col items-center justify-center" />
+
+                    }
                 </Spin>
             </div>
         </div>
