@@ -9,6 +9,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { FaUserGroup } from "react-icons/fa6";
 import Swal from "sweetalert2";
+import { useState } from "react";
 
 
 interface AllParticipantsProps {
@@ -17,6 +18,7 @@ interface AllParticipantsProps {
 
 const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
     const customAxios = useAxios();
+    const [deleteLoading,setDeleteLoading]=useState(false)
     dayjs.extend(customParseFormat);
 
     const MAX_API_CALLS = 2;
@@ -33,9 +35,8 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
         refetchOnWindowFocus:false,
     });
 
-    // deleting a participant
     const handleParticipantDelete = (id: string) => {
-        console.log("id", id);
+        
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -46,11 +47,11 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                customAxios.delete(`/attendee/${id}`).then((res) => {
-                    const data = res.data;
+                setDeleteLoading(true)
+                customAxios.delete(`/attendee/${id}`).then(() => {
                     refetch();
-                    console.log("deleted", data);
                     showToast("success", "Attendee removed");
+                    setDeleteLoading(false)
                 });
             }
         });
@@ -71,7 +72,9 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
                     <h1> Participants</h1>
                 </div>
             </div>
+           
             <div className="overflow-x-auto sm:px-8 sm:py-4 pb-5">
+            <Spin size="large" spinning={deleteLoading}>
                 {/* table area */}
                 {
                     allParticipants?.length > 0 ? <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
@@ -100,6 +103,7 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
                         </thead>
 
                         {/* table body */}
+                        
                         <tbody className="divide-y divide-gray-200">
                             {allParticipants?.map((data: EventType, index: number) => {
                                 const dateStr = Object.keys(data.slot).toString();
@@ -132,6 +136,7 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
                         <Empty description="No Participants" className="flex flex-col items-center justify-center" />
                     
                 }
+                </Spin>
             </div>
         </div>
     );
