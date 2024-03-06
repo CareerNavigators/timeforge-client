@@ -38,9 +38,7 @@ const HighlightedEvents = () => {
         >
           <SwiperSlide>
             <Card
-              className="flex flex-col justify-center text-center items-center text-white bg-gradient-to-r from-[#9181F4] to-[#5038ED]"
-              hoverable
-              style={{ width: 300, height: 300 }}
+              className="flex flex-col justify-center text-center items-center text-white bg-gradient-to-r from-[#9181F4] to-[#5038ED]" 
             >
               <img
                 className="w-full border-white border-[4px] mb-1 shadow-xl rounded-lg"
@@ -67,8 +65,6 @@ const HighlightedEvents = () => {
           <SwiperSlide>
             <Card
               className="flex flex-col justify-center text-center items-center text-white bg-gradient-to-r from-[#9181F4] to-[#5038ED]"
-              hoverable
-              style={{ width: 300, height: 300 }}
             >
               <img
                 className="w-full border-white border-[4px] mb-1 shadow-xl rounded-lg"
@@ -95,8 +91,6 @@ const HighlightedEvents = () => {
           <SwiperSlide>
             <Card
               className="flex flex-col justify-center text-center items-center text-white bg-gradient-to-r from-[#9181F4] to-[#5038ED]"
-              hoverable
-              style={{ width: 300, height: 300 }}
             >
               <img
                 className="w-full border-white border-[4px] mb-1 shadow-xl rounded-lg"
