@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import dayjs, { Dayjs } from "dayjs";
-import { Badge, Button, Calendar, Empty, Spin } from "antd";
+import { Badge, Button, Calendar, Empty, Spin, Tooltip } from "antd";
 import type { CalendarProps } from "antd";
 import AllParticipants from "../AllParticipants/AllParticipants";
 import { useContext } from "react";
@@ -20,7 +20,6 @@ import ReactQuill from "react-quill";
 import { RiTimer2Fill } from "react-icons/ri";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxios from "../../Hook/useAxios";
-import { LoadingOutlined } from "@ant-design/icons";
 import { LuCalendarPlus, LuCalendarX } from "react-icons/lu";
 import Swal from "sweetalert2";
 import useAuthorization from "../../Components/GoogleCalendar/useAuthorization";
@@ -136,10 +135,7 @@ const EventDetails: React.FC = () => {
   if (isLoading || isFetching || isPending) {
     return (
       <div className="flex items-center justify-center fixed left-[45%] top-[50%]">
-        <Spin
-          indicator={<LoadingOutlined></LoadingOutlined>}
-          size="large"
-        ></Spin>
+        <Spin size="large"></Spin>
       </div>
     );
   }
@@ -323,9 +319,11 @@ const EventDetails: React.FC = () => {
             </div>
 
             <Link to={`/dashboard/updateEvent/${id}`}>
-              <button className="w-full px-5 py-5 border border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300">
-                <FaPencilAlt></FaPencilAlt>
-              </button>
+              <Tooltip title="Update Event">
+                <button className="w-full px-5 py-5 border border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300">
+                  <FaPencilAlt></FaPencilAlt>
+                </button>
+              </Tooltip>
             </Link>
           </div>
         </div>
