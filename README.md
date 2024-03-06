@@ -27,7 +27,7 @@ We aim to create a seamless interface for event management, empowering users to 
 - **Personalized Profile Customization:** Customize your profile to suit your preferences.
 - **Google Calendar Integration:** Seamless connection with Google Calendar
 
-- - ## Technology:
+- ## Technology:
 
     - **TypeScript:** TypeScript brings type safety to JavaScript, enhancing code quality and developer productivity.
     - **TanStack Query v5:** TanStack Query v5 is a powerful data fetching library that simplifies complex data fetching logic in React applications.
