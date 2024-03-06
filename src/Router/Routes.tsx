@@ -94,7 +94,7 @@ const router = createBrowserRouter([
         element:<OauthCallback />
       },
       {
-        path:"/meet/:name",
+        path:"/meet/:id",
         element:<Meet />
       }
 

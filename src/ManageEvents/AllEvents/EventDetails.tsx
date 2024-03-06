@@ -308,15 +308,15 @@ const EventDetails: React.FC = () => {
               <div className="flex items-center gap-3 border border-[#d6d1ff] px-3 py-1.5 rounded-md">
                 <img
                   className="w-12 h-12 rounded-full object-cover"
-                  src={userData?.img_profile}
+                  src={eventDetails.createdBy?.img_profile}
                   alt="author-image"
                 />
                 <div className="flex flex-col truncate">
                   <h2 className="font-semibold dark:text-dw text-gray-600">
-                    {userData?.name}
+                    {eventDetails.createdBy?.name}
                   </h2>
                   <h3 className="text-xs font-medium dark:text-dw text-[#713acf]">
-                    {userData?.email}
+                    {eventDetails.createdBy?.email}
                   </h3>
                 </div>
               </div>
