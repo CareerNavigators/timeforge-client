@@ -1,18 +1,14 @@
 import Daily from "@daily-co/daily-js";
-import { useEffect } from "react";
 
 const Meet = () => {
-    useEffect(()=>{
-        const callFrame = Daily.createFrame({
-            showLeaveButton: true,
-            iframeStyle: {
-              width: "100%",
-              height: "100vh",
-            },
-          });
-          callFrame.join({ url: `https://timeforge.daily.co/OrQkEyA5UXy3i1IS17KP` });
-    },[])
-
+    const callFrame = Daily.createFrame({
+      showLeaveButton: true,
+      iframeStyle: {
+        width: "100%",
+        height: "100vh",
+      },
+    });
+    callFrame.join({ url: `https://timeforge.daily.co/OrQkEyA5UXy3i1IS17KP` });
   return <>
   </>;
 };
