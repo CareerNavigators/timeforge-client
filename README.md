@@ -1,4 +1,9 @@
-# TimeForge
+<a href="https://timeforge.vercel.app/" target="_blank" rel="noopener" align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" alt="TimeForge" srcset="https://res.cloudinary.com/dv2wmpi4s/image/upload/v1709745106/ssimcufvedhry2knorma.png" align="center"/>
+    <img alt="TimeForge" src="https://res.cloudinary.com/dv2wmpi4s/image/upload/v1709745106/ssimcufvedhry2knorma.png" align="center"/>
+  </picture>
+</a>
 
 ## Introduction:
 
