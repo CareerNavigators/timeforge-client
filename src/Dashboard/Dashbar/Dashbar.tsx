@@ -15,7 +15,6 @@ import "./style.css";
 import { AuthContext } from "../../Provider/AuthContext";
 import { SlNote } from "react-icons/sl";
 import DarkModeToggle from "../../Components/DarkModeToggle/DarkModeToggle";
-import { FaTimeline } from "react-icons/fa6";
 
 const { Header, Sider } = Layout;
 const Dashbar = () => {
@@ -120,19 +119,14 @@ const Dashbar = () => {
                   All Events
                 </NavLink>
               </Menu.Item>
-              <Menu.Item icon={<HomeOutlined />}>
-                <NavLink to="/" end>
-                  Home
-                </NavLink>
-              </Menu.Item>
               <Menu.Item icon={<SlNote />}>
                 <NavLink className="mt-auto" to="/dashboard/textNote" end>
                   Note
                 </NavLink>
               </Menu.Item>
-              <Menu.Item icon={<FaTimeline />}>
-                <NavLink className="mt-auto" to="/dashboard/timeline" end>
-                  Timelines
+              <Menu.Item icon={<HomeOutlined />}>
+                <NavLink to="/" end>
+                  Home
                 </NavLink>
               </Menu.Item>
             </>
