@@ -11,7 +11,7 @@ import {  useNavigate } from "react-router-dom";
 const ErrorComponent = () => {
    const navigate = useNavigate();
     const handleHome = ()=>{
-      navigate("/");
+      navigate(-1);
     }
     return (
         <motion.div

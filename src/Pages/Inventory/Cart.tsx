@@ -4,9 +4,7 @@ import { useState } from "react";
 // import showToast from "../../Hook/swalToast";
 import { Button } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
-import { Tilt } from 'react-tilt'
-import { MdOutlinePriceChange, MdPayments } from "react-icons/md";
-
+import { MdOutlineAttachEmail, MdOutlinePriceChange, MdPayments } from "react-icons/md";
 import { Timeline } from 'antd';
 import { BsInfoCircleFill } from "react-icons/bs";
 import { RiSecurePaymentFill } from "react-icons/ri";
@@ -19,6 +17,9 @@ import {loadStripe} from '@stripe/stripe-js';
 //   price: number,
 //   img: string
 // }
+
+import { Input } from "@material-tailwind/react";
+
 
 interface CartItem {
   title: string;
@@ -47,6 +48,13 @@ const Cart = () => {
     navigate("/merch")
   }
 
+  const [email, setEmail] = useState("");
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+     setEmail(event.target.value);
+  };
+  
+
   //  const handleBuyNow = (id: string) => {
   //   setSoldStatus({ ...soldStatus, [id]: true });
   //   showToast("success", "you successfully buy this product");
@@ -54,22 +62,12 @@ const Cart = () => {
 
   // count total price of the product
   const totalPrice = cardData.reduce((acc, item) => acc + item.price, 0);
-  const defaultOptions = {
-    reverse:        false,  // reverse the tilt direction
-    max:            35,     // max tilt rotation (degrees)
-    perspective:    1000,   // Transform perspective, the lower the more extreme the tilt gets.
-    scale:          1.1,    // 2 = 200%, 1.5 = 150%, etc..
-    speed:          500,   // Speed of the enter/exit transition
-    transition:     true,   // Set a transition on enter/exit.
-    axis:          null,   // What axis should be disabled. Can be X or Y.
-    reset:          true,    // If the tilt effect has to be reset on exit.
-    easing:         "cubic-bezier(.03,.98,.52,.99)",    // Easing on enter/exit.
-  }
 
 
     const handleStripe = async () => {
       const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
       const body = {
+         email:email,
          products: cardData
       };
       const headers = {
@@ -84,7 +82,7 @@ const Cart = () => {
      
          const session = response.data;
          const result = stripe?.redirectToCheckout({
-           sessionId: session.id
+           sessionId: session.id,
          });
          console.log(result);
       } catch (error) {
@@ -94,10 +92,10 @@ const Cart = () => {
 
   return (
     <div className="w-full h-screen bg-gradient-to-br from-indigo-700 to-deep-purple-900">
-      <div className="flex gap-[50px]  mt-[0px]">
+      <div className="flex flex-col lg:flex-row gap-[50px] justify-center items-center mt-[0px]">
         <Card
           placeholder={undefined}
-          className="h-full w-[1000px] ml-[100px] mt-[35px] "
+          className="h-full lg:w-[1000px] lg:ml-[100px] mt-[35px] "
         >
           <table className="w-full min-w-max table-auto text-left">
             <thead>
@@ -180,7 +178,7 @@ const Cart = () => {
           </table>
         </Card>
 
-        <div className="w-[300px] h-[300px] border-[1px] mt-8 border-black rounded-xl shadow-2xl bg-white p-[20px]">
+        <div className="w-[300px] h-[340px] border-[1px] mt-8 border-black rounded-xl shadow-2xl bg-white p-[20px]">
 
          
           <Timeline
@@ -198,23 +196,52 @@ const Cart = () => {
         children: <h1 className="text-red-300 italic">Before you buy a item, you must have a stripe account or any global currency card to pay the required amount.</h1>,
       },
       {
+        dot: <MdOutlineAttachEmail className="text-[16px]" />,
+        color: 'purple',
+        children:  
+
+        <div className="relative flex w-full max-w-[24rem]">
+        <Input
+              placeholder="Email Address"
+              type="email"
+              name="email"
+              label="Email Address"
+              value={email}
+              onChange={onChange}
+              className="pr-20"
+              containerProps={{
+                className: "min-w-0",
+              }} crossOrigin={undefined}        />
+        <Button
+          placeholder={undefined}
+          size="sm"
+          color={email ? "gray" : "blue-gray"}
+          disabled={!email}
+          className="!absolute right-1 top-1 rounded"
+        >
+          Invite
+        </Button>
+      </div>
+      },
+      {
          dot: <RiSecurePaymentFill className="text-[20px]" />,
          color: "teal",
-        children: <Button onClick={handleStripe}
-         placeholder={undefined} color="light-green" className="flex items-center gap-2"><MdPayments  /> Click Here to Pay </Button>,
+         children: <Button onClick={handleStripe}
+         disabled={!email}
+         placeholder={undefined} color={email? "light-green":"brown"} className="flex items-center gap-2"><MdPayments  /> Click Here to Pay </Button>,
       },
     ]}
   />
         </div>
       </div>
-      <Tilt options={defaultOptions}>
+      
       <Button 
       onClick={handleBack}
-      className="ml-[150px] mt-8"
+      className="ml-[100px] lg:ml-[150px]  mt-8"
       size="lg"
       placeholder={undefined}
       color="teal">Back to Product Page</Button>
-      </Tilt>
+      
     </div>
   );
 };

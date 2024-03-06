@@ -175,7 +175,7 @@ const Dashbar = () => {
                   title={"Theme"}
                   arrow={true}
                 >
-                  <div className=" mt-[150px] text-[30px] mx-auto flex justify-center items-center text-white">
+                  <div className=" mt-[50px] text-[30px] mx-auto flex justify-center items-center text-white">
                     <DarkModeToggle />
                   </div>
                 </Tooltip>
@@ -189,7 +189,7 @@ const Dashbar = () => {
                     {userData ? (
                       <button
                         onClick={handleLogOut}
-                        className=" text-red-500 text-[30px] "
+                        className=" text-red-500 text-[20px] "
                       >
                         <LogoutOutlined />
                       </button>
@@ -213,7 +213,7 @@ const Dashbar = () => {
                 title={"Theme"}
                 arrow={true}
               >
-                <div className=" mt-[300px] text-[30px] mx-auto flex justify-center items-center text-white">
+                <div className=" mt-[280px] text-[30px] mx-auto flex justify-center items-center text-white">
                   <DarkModeToggle />
                 </div>
               </Tooltip>
@@ -227,7 +227,7 @@ const Dashbar = () => {
                   {userData ? (
                     <button
                       onClick={handleLogOut}
-                      className=" text-red-500 text-[30px] "
+                      className=" text-red-500 text-[20px] "
                     >
                       <LogoutOutlined />
                     </button>
