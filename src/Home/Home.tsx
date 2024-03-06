@@ -28,7 +28,7 @@ const Home = ({ isHome }: { isHome: boolean }) => {
         useSessionStorage: true,
         enableConversationDeletion: true,
         theme: "prism",
-        themeColor: "#2563eb"
+        themeColor: "#8B78E6",
       });
       // showButton();
     };

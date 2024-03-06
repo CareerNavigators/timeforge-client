@@ -5,7 +5,6 @@ import { EventType } from "../AllEvents/AllEvents";
 import dayjs from "dayjs";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { Empty, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { FaUserGroup } from "react-icons/fa6";
 import Swal from "sweetalert2";
@@ -58,7 +57,7 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
     // show this loader if data is loading
     if (isLoading || isFetching || isPending) {
         return <div className="flex items-center justify-center my-[5%]">
-            <Spin indicator={<LoadingOutlined></LoadingOutlined>} size="large"></Spin>
+            <Spin size="large"></Spin>
         </div>
     }
 

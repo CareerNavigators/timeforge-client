@@ -345,7 +345,7 @@ const OneEvent = () => {
               </Form.Item>
             </div>
 
-            <Form.Item className="mt-24 lg:mt-36">
+            <Form.Item className="mt-40">
               <Button
                 id="btn-continue"
                 htmlType="submit"
