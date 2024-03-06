@@ -1,4 +1,4 @@
-# TimeForge Frontend
+# TimeForge
 
 ## Introduction:
 
