@@ -9,7 +9,7 @@ import {
 import { useLoaderData } from "react-router-dom";
 import { EventType } from "../../ManageEvents/AllEvents/AllEvents";
 import { Dayjs } from "dayjs";
-import { Badge, Button, Calendar, Modal, Select, Spin } from "antd";
+import { Badge, Button, Calendar, Modal, Select, Spin, Tooltip } from "antd";
 import type { CalendarProps } from "antd";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import { renderToStaticMarkup } from "react-dom/server";
 import ConfirmationEmail from "./ConfirmationEmail";
 import PreviewTimeline from "./PreviewTimeline";
+import { PlusIcon } from "@heroicons/react/24/solid";
 
 const EventDetails: React.FC = () => {
   // hooks and states
@@ -60,24 +61,22 @@ const EventDetails: React.FC = () => {
     if (info.type === "date") return dateCellRender(current);
     return info.originNode;
   };
-  const onSelect = (value: Dayjs, selectInfo: SelectInfo) => {
+  const onSelect = (value: Dayjs, _selectInfo: SelectInfo) => {
     const data = events[value.format("DDMMYY")] || [];
     if (data.length != 0) {
       setSelectedDate(value.format("DDMMYY"));
-      console.log(value);
-      console.log(selectInfo);
-      console.log(
-        events[value.format("DDMMYY")].map((x: string) => ({
-          value: x,
-          label: x,
-        }))
-      );
-
       showModal();
     } else {
       showToast("error", "No Schedule Time Found");
     }
   };
+
+  const handleBook = () => {
+    const firstKey = Object.keys(events)[0]
+    setSelectedDate(firstKey);
+    setSlot(events[firstKey][0])
+    showModal();
+  }
 
   const addAttendee = useMutation({
     mutationFn: async (data: { [key: string]: any }) => {
@@ -123,20 +122,19 @@ const EventDetails: React.FC = () => {
 
   async function UpdateEvent(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const formObject: { [key: string]: any } = Object(
+      Object.fromEntries(formData)
+    );
+    const t: { [key: string]: any } = {};
     if (selectedDate) {
-      const formData = new FormData(e.currentTarget);
-      const formObject: { [key: string]: any } = Object(
-        Object.fromEntries(formData)
-      );
-      const t: { [key: string]: any } = {};
       t[selectedDate] = [slot];
-      formObject["slot"] = t;
-      formObject["event"] = _id;
-      addAttendee.mutateAsync(formObject);
     }
+    formObject["slot"] = t;
+    formObject["event"] = _id;
+    addAttendee.mutateAsync(formObject);
   }
   function handelSelect(value: string) {
-    console.log(value);
     setSlot(value);
   }
   return (
@@ -212,9 +210,9 @@ const EventDetails: React.FC = () => {
           </div>
 
 
-          <div className="flex flex-col md:flex-col lg:flex-row lg:items-end gap-3 lg:gap-5 mx-2 mt-3">
+          <div className="flex flex-row items-end gap-2 mx-2 mt-3">
             {/* author info */}
-            <div className="w-full">
+            <div className="w-full truncate">
               <h4 className="font-bold text-sm text-gray-400 ml-1 my-1.5">
                 Author Info
               </h4>
@@ -234,7 +232,23 @@ const EventDetails: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            {
+              eventType === "Group Meeting" || eventType === "Board Meeting" ?
+                <Tooltip title="Book Now">
+                  <button
+                    onClick={handleBook}
+                    className="w-fit px-5 py-5 border border-[#d6d1ff] hover:border-green-800 text-lg rounded-md text-gray-500 hover:text-green-800 hover:bg-green-800/10 hover:transition-all hover:duration-300">
+                    <PlusIcon
+                      className="w-5"
+                    ></PlusIcon>
+                  </button>
+                </Tooltip> : <></>
+            }
+
+
           </div>
+
         </div>
 
 
@@ -252,10 +266,8 @@ const EventDetails: React.FC = () => {
               />
           }
         </div>
-
-
-
       </div>
+
       <Modal
         width={500}
         title="Attendee Modal"
@@ -272,16 +284,18 @@ const EventDetails: React.FC = () => {
               <p className="font-semibold">Email</p>
               <Input name="email" className="border rounded"></Input>
               <p className="text-xs italic">Use Gmail to automatically added to Google Calendar.</p>
-              <p className="font-semibold">Time</p>
-              {selectedDate && (
-                <Select
-                  onChange={handelSelect}
-                  options={events[selectedDate].map((x: string) => ({
-                    value: x,
-                    label: x,
-                  }))}
-                  placeholder="Select time...."
-                ></Select>
+
+              {eventType !== "Group Meeting" && eventType !== "Board Meeting" && selectedDate && (
+                <>
+                  <p className="font-semibold">Time</p>
+                  <Select
+                    onChange={handelSelect}
+                    options={events[selectedDate].map((x: string) => ({
+                      value: x,
+                      label: x,
+                    }))}
+                    placeholder="Select time...."
+                  ></Select></>
               )}
             </div>
             <div className="flex gap-4 mt-2 justify-center">
