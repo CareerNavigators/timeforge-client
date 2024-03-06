@@ -26,6 +26,7 @@ const MeetLink = ({ eventid, meetlink,eventDetailsRefetch }: Props) => {
       const res = await caxios.post("/createmeet", {
         roomName: "OUR ROOM",
         eventid: eventid,
+        origin:window.origin
       });
       return res.data;
     },
@@ -64,14 +65,14 @@ const MeetLink = ({ eventid, meetlink,eventDetailsRefetch }: Props) => {
       }
    };
    const handelStartMeet=()=>{
-    navigate(`/meet/${meetlink.name}`)
+    navigate(`/meet/${eventid}`)
    }
     return (
       <div className="px-5 py-5 flex flex-col mt-1 border w-full gap-2 items-center border-[#d6d1ff]  rounded-md">
-        <p className="italic text-blue-300 text-xs text-center break-all">{`${window.origin}/meet/${meetlink.name}`}</p>
+        <p className="italic text-blue-300 text-xs text-center break-all">{`${window.origin}/meet/${eventid}`}</p>
         <div className="flex gap-2">
         <button className="px-2 py-2 border border-[#d6d1ff] hover:border-green-800 text-xs rounded-md text-gray-500 hover:text-green-800 hover:bg-green-800/10 hover:transition-all hover:duration-300"
-        onClick={()=>{handleCopy(`${window.origin}/meet/${meetlink.name}`)}}
+        onClick={()=>{handleCopy(`${window.origin}/meet/${eventid}`)}}
         ><FaRegCopy /></button>
         <button className="px-2 py-2 border border-[#d6d1ff] hover:border-green-800 text-xs rounded-md text-gray-500 hover:text-green-800 hover:bg-green-800/10 hover:transition-all hover:duration-300"
         onClick={handelStartMeet}
