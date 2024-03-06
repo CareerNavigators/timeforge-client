@@ -20,12 +20,13 @@ import { AuthContext } from "../../Provider/AuthContext";
 import showToast from "../../Hook/swalToast";
 import { useNavigate } from "react-router-dom";
 import "../Events/OneEvent.css";
-import { Dayjs } from "dayjs";
 import { NoUndefinedRangeValueType } from "rc-picker/lib/PickerInput/RangePicker";
+import dayjs, { Dayjs } from "dayjs";
+import duration from 'dayjs/plugin/duration';
+dayjs.extend(duration)
 
 const GroupMeeting = () => {
   const { userData } = useContext(AuthContext);
-
   const [isAudioSelected, setIsAudioSelected] = useState(true);
   const [isVideoSelected, setIsVideoSelected] = useState(true);
   const [isOffline, setIsOffline] = useState(true);
@@ -64,8 +65,6 @@ const GroupMeeting = () => {
       setEventDurationMinute(value);
     }
   };
-
-
   const handleStartEndTime = (
     value: NoUndefinedRangeValueType<Dayjs>,
     dateString: string[]

@@ -25,6 +25,7 @@ import AxiosSecure from "../../Hook/useAxios";
 import { useNavigate } from "react-router-dom";
 import { renderToStaticMarkup } from "react-dom/server";
 import ConfirmationEmail from "./ConfirmationEmail";
+import PreviewTimeline from "./PreviewTimeline";
 
 const EventDetails: React.FC = () => {
   // hooks and states
@@ -81,7 +82,6 @@ const EventDetails: React.FC = () => {
   const addAttendee = useMutation({
     mutationFn: async (data: { [key: string]: any }) => {
       const res = await caxios.post("/attendee", data);
-
       const confirmationEmail = (
         <ConfirmationEmail
           eventId={_id}
@@ -90,10 +90,10 @@ const EventDetails: React.FC = () => {
           eventTime={slot}
           eventDesc={desc}
           attendeeEmail={data.email}
+          htmlLink={res.data?.htmlLink}
         />
       );
       const htmlContent = renderToStaticMarkup(confirmationEmail);
-
       const sendMailData = {
         attendeeEmail: data.email,
         subject: `${title} Event Reservation Confirmation`,
@@ -109,11 +109,10 @@ const EventDetails: React.FC = () => {
 
       return res.data;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       handleCancel();
       showToast("success", "Your Reservation is done.");
       if (selectedDate && slot) {
-        sendConfirmationEmail(data.email, title, selectedDate, slot, _id, desc);
         navigate(`/eventSlot/attendee/${_id}`);
       } else {
         console.error("Selected date & Slot is undefined");
@@ -121,37 +120,6 @@ const EventDetails: React.FC = () => {
     },
   });
 
-  const sendConfirmationEmail = (
-    eventId: string,
-    attendeeEmail: string,
-    eventName: string,
-    eventDesc: string,
-    eventDate: string,
-    eventTime: string
-  ) => {
-    console.log(
-      "Sending confirmation email:",
-      eventId,
-      attendeeEmail,
-      eventName,
-      eventDesc,
-      eventDate,
-      eventTime
-    );
-    const confirmationEmail = (
-      <ConfirmationEmail
-        eventId={eventId}
-        eventName={eventName}
-        eventDesc={eventDesc}
-        eventDate={eventDate}
-        eventTime={eventTime}
-        attendeeEmail={attendeeEmail}
-      />
-    );
-
-    const htmlContent = renderToStaticMarkup(confirmationEmail);
-    console.log(htmlContent);
-  };
 
   async function UpdateEvent(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -187,7 +155,7 @@ const EventDetails: React.FC = () => {
       </h1>
       <div className="lg:max-w-full mx-1 my-1 lg:px-2 lg:m-5 flex flex-col md:flex-row gap-2">
         {/* event information */}
-        <div className="flex flex-col justify-between w-full xl:w-2/5 min-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
+        <div className="flex flex-col justify-between w-full xl:w-3/5 min-h-full p-2 lg:p-4 md:p-2 border border-[#d6d1ff] shadow-md rounded-md lg:relative">
           <div className="p-2">
             <h2 className="flex justify-between items-center text-2xl dark:text-dw w-full border border-[#d6d1ff] rounded-md px-3 py-2 text-[#7c3aed] font-bold mt-3">
               {title}
@@ -243,69 +211,6 @@ const EventDetails: React.FC = () => {
             </div>
           </div>
 
-          {/* timeline */}
-          {/* <div className="dark:text-gray-100 border border-[#d6d1ff] rounded-md mx-2 mt-3">
-            <div className="container max-w-5xl lg:py-4 mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-cols-12 lg:gap-16 gap-3 mx-5">
-                <div className="col-span-12 w-[300px] sm:col-span-3">
-                  <div className="text-center sm:text-left lg:mb-14 before:block before:w-14 before:h-2 before:mb-3 before:rounded-md before:mx-auto sm:before:mx-0 before:dark:bg-[#7c3aed]">
-                    <h3 className="text-xl font-semibold">Event Timeline</h3>
-                  </div>
-                </div>
-                <div className="relative col-span-12 px-4 sm:col-span-9">
-                  <div className="col-span-12 space-y-3 relative px-4 sm:col-span-8 sm:space-y-4 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:dark:bg-dw">
-                    <div className="flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-3 sm:before:h-3 sm:before:rounded-full sm:before:left-[-33px] sm:before:z-[1] before:dark:bg-[#7c3aed]">
-                      <h3 className="text-lg font-semibold">
-                        Chairman will give speech
-                      </h3>
-                      <p className="text-sm text-gray-400">
-                        mdsakibchy071@gmail.com
-                      </p>
-                      <time className="text-xs uppercase text-[#7c3aed] dark:text-gray-400">
-                        10:00AM
-                      </time>
-                    </div>
-
-                    <div className="flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-3 sm:before:h-3 sm:before:rounded-full sm:before:left-[-33px] sm:before:z-[1] before:dark:bg-[#7c3aed]">
-                      <h3 className="text-lg font-semibold">
-                        Chairman will give speech
-                      </h3>
-                      <p className="text-sm text-gray-400">
-                        mdsakibchy071@gmail.com
-                      </p>
-                      <time className="text-xs uppercase text-[#7c3aed] dark:text-gray-400">
-                        10:00AM
-                      </time>
-                    </div>
-
-                    <div className="flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-3 sm:before:h-3 sm:before:rounded-full sm:before:left-[-33px] sm:before:z-[1] before:dark:bg-[#7c3aed]">
-                      <h3 className="text-lg font-semibold">
-                        Chairman will give speech
-                      </h3>
-                      <p className="text-sm text-gray-400">
-                        mdsakibchy071@gmail.com
-                      </p>
-                      <time className="text-xs uppercase text-[#7c3aed] dark:text-gray-400">
-                        10:00AM
-                      </time>
-                    </div>
-
-                    <div className="flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-3 sm:before:h-3 sm:before:rounded-full sm:before:left-[-33px] sm:before:z-[1] before:dark:bg-[#7c3aed]">
-                      <h3 className="text-lg font-semibold ">
-                        Chairman will give speech
-                      </h3>
-                      <p className="text-sm text-gray-400">
-                        mdsakibchy071@gmail.com
-                      </p>
-                      <time className="text-xs uppercase text-[#7c3aed] dark:text-gray-400">
-                        10:00AM
-                      </time>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
 
           <div className="flex flex-col md:flex-col lg:flex-row lg:items-end gap-3 lg:gap-5 mx-2 mt-3">
             {/* author info */}
@@ -332,15 +237,24 @@ const EventDetails: React.FC = () => {
           </div>
         </div>
 
-        {/* calender area */}
+
+        {/* calender area or timeline area */}
         <div className="w-full p-2 mt-2 md:mt-0 overflow-hidden border border-[#d6d1ff] shadow-md rounded-md">
-          <Calendar
-            className="min-h-full min-w-full overflow-hidden"
-            cellRender={cellRender}
-            // @ts-expect-error noidea
-            onSelect={onSelect}
-          />
+          {
+            eventType === "Group Meeting" || eventType === "Board Meeting" ?
+              <PreviewTimeline eventId={_id}></PreviewTimeline>
+              :
+              <Calendar
+                className="min-h-full min-w-full overflow-hidden"
+                cellRender={cellRender}
+                // @ts-expect-error noidea
+                onSelect={onSelect}
+              />
+          }
         </div>
+
+
+
       </div>
       <Modal
         width={500}
@@ -351,32 +265,32 @@ const EventDetails: React.FC = () => {
         open={isModalOpen}
       >
         <Spin spinning={addAttendee.isPending}>
-        <form onSubmit={UpdateEvent}>
-          <div className="flex flex-col gap-1">
-            <p className="font-semibold">Name</p>
-            <Input name="name" className="border rounded"></Input>
-            <p className="font-semibold">Email</p>
-            <Input name="email" className="border rounded"></Input>
-            <p className="text-xs italic">Use Gmail to automatically added to Google Calendar.</p>
-            <p className="font-semibold">Time</p>
-            {selectedDate && (
-              <Select
-                onChange={handelSelect}
-                options={events[selectedDate].map((x: string) => ({
-                  value: x,
-                  label: x,
-                }))}
-                placeholder="Select time...."
-              ></Select>
-            )}
-          </div>
-          <div className="flex gap-4 mt-2 justify-center">
-            <Button className="bg-light-blue-500 text-white" htmlType="submit">
-              Add
-            </Button>
-            <Button onClick={handleCancel}>Close</Button>
-          </div>
-        </form>
+          <form onSubmit={UpdateEvent}>
+            <div className="flex flex-col gap-1">
+              <p className="font-semibold">Name</p>
+              <Input name="name" className="border rounded"></Input>
+              <p className="font-semibold">Email</p>
+              <Input name="email" className="border rounded"></Input>
+              <p className="text-xs italic">Use Gmail to automatically added to Google Calendar.</p>
+              <p className="font-semibold">Time</p>
+              {selectedDate && (
+                <Select
+                  onChange={handelSelect}
+                  options={events[selectedDate].map((x: string) => ({
+                    value: x,
+                    label: x,
+                  }))}
+                  placeholder="Select time...."
+                ></Select>
+              )}
+            </div>
+            <div className="flex gap-4 mt-2 justify-center">
+              <Button className="bg-light-blue-500 text-white" htmlType="submit">
+                Add
+              </Button>
+              <Button onClick={handleCancel}>Close</Button>
+            </div>
+          </form>
         </Spin>
       </Modal>
     </div>
