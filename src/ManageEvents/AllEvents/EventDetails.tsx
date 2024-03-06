@@ -4,11 +4,12 @@ import {
   FaCheck,
   FaMicrophone,
   FaPencilAlt,
+  FaRegTrashAlt,
   FaTimes,
 } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
-import { Dayjs } from "dayjs";
-import { Badge, Calendar, Spin, Tooltip } from "antd";
+import dayjs, { Dayjs } from "dayjs";
+import { Badge, Button, Calendar, Empty, Spin } from "antd";
 import type { CalendarProps } from "antd";
 import AllParticipants from "../AllParticipants/AllParticipants";
 import { useContext } from "react";
@@ -27,7 +28,10 @@ import useInsertCalendar from "../../Components/GoogleCalendar/useInsertCalendar
 import { AxiosError } from "axios";
 import { handleAxiosError } from "../../Components/ExtraFunc/handelAxiosError";
 import { handelAxiosSuccess } from "../../Components/ExtraFunc/handelAxiosSuccess";
-import SingleTimeline from "../../Components/SingleTimeline/SingleTimeline";
+import { FaCalendarDays } from "react-icons/fa6";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import MeetLink from "../Meet/MeetLink";
+dayjs.extend(customParseFormat);import SingleTimeline from "../../Components/SingleTimeline/SingleTimeline";
 
 const EventDetails: React.FC = () => {
   // hooks and states
@@ -37,41 +41,63 @@ const EventDetails: React.FC = () => {
   const insertCalendar = useInsertCalendar();
   const authorization = useAuthorization();
 
-
-  const mutationDeleteCal = useMutation({
-    mutationFn: async (id) => {
-      const result = await customAxios.delete(`/calevents/${id}?userId=${userData._id}`)
-      return result.data
+  const mutationSingleDelete = useMutation({
+    mutationFn: async (googleID: string) => {
+      const res = await customAxios.delete(
+        `/calevents/${googleID}?userId=${userData._id}&type=single&eventid=${id}`
+      );
+      return res.data;
     },
     onSuccess: async (data) => {
-      handelAxiosSuccess(data)
-      await mutaionGoogleCal.mutateAsync()
-
+      handelAxiosSuccess(data);
+      await mutaionGoogleCal.mutateAsync();
     },
     onError: (err: AxiosError) => {
-      handleAxiosError(err)
-    }
-  })
+      handleAxiosError(err);
+    },
+  });
+
+  const mutationDeleteCal = useMutation({
+    mutationFn: async (id: string) => {
+      const result = await customAxios.delete(
+        `/calevents/${id}?userId=${userData._id}&type=all`
+      );
+      return result.data;
+    },
+    onSuccess: async (data) => {
+      handelAxiosSuccess(data);
+      await mutaionGoogleCal.mutateAsync();
+    },
+    onError: (err: AxiosError) => {
+      handleAxiosError(err);
+    },
+  });
+  type GoogleEvents = {
+    _id: string;
+    meetLink: string;
+    id: string;
+    htmlLink: string;
+    schedule: string;
+  };
   const mutaionGoogleCal = useMutation({
     mutationFn: async () => {
       const result = await customAxios.get(`/calevents?eventid=${id}`);
-      return result.data;
+      return result.data as { _id: string; googleEvents: GoogleEvents[] };
     },
     onError: (error: AxiosError) => {
-      handleAxiosError(error)
-    }
+      handleAxiosError(error);
+    },
   });
   const {
     data: eventDetails,
     isLoading,
     isFetching,
     isPending,
+    refetch:eventDetailsRefetch
   } = useQuery({
     queryKey: ["EventDetails", id],
     queryFn: async () => {
-      const res = await customAxios.get(
-        `${import.meta.env.VITE_BACK_END_API}/meeting?id=${id}&type=single`
-      );
+      const res = await customAxios.get(`/meeting?id=${id}&type=single`);
       await mutaionGoogleCal.mutateAsync();
       return res.data;
     },
@@ -131,7 +157,7 @@ const EventDetails: React.FC = () => {
           eventId: eventDetails.id,
           userId: userData._id,
         });
-        await mutaionGoogleCal.mutateAsync()
+        await mutaionGoogleCal.mutateAsync();
       }
     });
   }
@@ -143,10 +169,25 @@ const EventDetails: React.FC = () => {
         eventId: eventDetails._id,
         userId: userData._id,
       });
-      await mutaionGoogleCal.mutateAsync()
+      await mutaionGoogleCal.mutateAsync();
     }
   }
-
+  async function singleDeleteHandeler(id: string, schedule: string) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `Do you want to Delete google event at ${dayjs(
+        schedule,
+        "DDMMYY-h:mm A"
+      ).format("DD/MM/YYYY hh:mm A")}?`,
+      icon: "question",
+      confirmButtonText: "Yes",
+      showDenyButton: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await mutationSingleDelete.mutateAsync(id);
+      }
+    });
+  }
   return (
     <div className="mb-5 select-none">
       <h1 className="flex pl-2 my-5 items-center gap-2 ">
@@ -220,6 +261,42 @@ const EventDetails: React.FC = () => {
                 readOnly
               />
             </div>
+            <div className="mt-1">
+              <Spin
+                spinning={
+                  mutaionGoogleCal.isPending ||
+                  insertCalendar.isPending ||
+                  mutationDeleteCal.isPending
+                }
+              >
+                {mutaionGoogleCal.data ? (
+                  <button
+                    onClick={async () => {
+                      await mutationDeleteCal.mutateAsync(
+                        mutaionGoogleCal.data._id
+                      );
+                    }}
+                    className="px-5 py-5 border flex justify-left gap-2 w-full border-[#d6d1ff] hover:border-red-800 text-lg rounded-md text-gray-500 hover:text-red-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300"
+                  >
+                    <LuCalendarX />{" "}
+                    <span className="text-sm">Delete from Google Calendar</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={insertHandeler}
+                    className="px-5 py-5 border flex justify-left gap-2 w-full border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300"
+                  >
+                    <LuCalendarPlus />
+                    <span className="text-sm">Add To Google Calendar </span>
+                  </button>
+                )}
+              </Spin>
+              {eventDetails.meetLink?.url ? (
+                id &&<MeetLink eventid={id} meetlink={eventDetails.meetLink} />
+              ) : (
+                id && <MeetLink eventid={id} eventDetailsRefetch={eventDetailsRefetch}/>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-row items-end gap-2 mx-2 mt-3">
@@ -250,27 +327,6 @@ const EventDetails: React.FC = () => {
                 <FaPencilAlt></FaPencilAlt>
               </button>
             </Link>
-            <Spin spinning={mutaionGoogleCal.isPending || insertCalendar.isPending || mutationDeleteCal.isPending}>
-              {mutaionGoogleCal.data ? (
-                <Tooltip title="Delete from google calendar">
-                  <button
-                    onClick={async () => { await mutationDeleteCal.mutateAsync(mutaionGoogleCal.data._id) }}
-                    className="px-5 py-5 border border-[#d6d1ff] hover:border-red-800 text-lg rounded-md text-gray-500 hover:text-red-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300"
-                  >
-                    <LuCalendarX />
-                  </button>
-                </Tooltip>
-              ) : (
-                <Tooltip title="Add To google Calendar">
-                  <button
-                    onClick={insertHandeler}
-                    className="px-5 py-5 border border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300"
-                  >
-                    <LuCalendarPlus />
-                  </button>
-                </Tooltip>
-              )}
-            </Spin>
           </div>
         </div>
 
@@ -286,6 +342,93 @@ const EventDetails: React.FC = () => {
                 onPanelChange={onPanelChange}
               />
           }
+        </div>
+      </div>
+
+      
+
+      <div className="w-dvw sm:w-full lg:mx-2 lg:pr-3 pb-16 lg:pb-2 bg-white">
+        <div className="max-w-full shadow-md rounded-md mx-1 sm:p-2 my-5 lg:m-5 overflow-hidden border border-[#d6d1ff]">
+          <div className="text-[#5038ED] text-xl font-extrabold">
+            <div className="flex flex-row items-center justify-center gap-2 mt-5">
+              <FaCalendarDays />
+              <h1> Google Events</h1>
+            </div>
+          </div>
+          <div className="overflow-x-auto sm:px-8 sm:py-4 pb-5">
+            {mutaionGoogleCal.isSuccess ? (
+              mutaionGoogleCal.data &&
+              mutaionGoogleCal.data.googleEvents.length != 0 ? (
+                <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                  <thead>
+                    <tr>
+                      <th className="text-left px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
+                        Index
+                      </th>
+                      <th className="text-left px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
+                        Date
+                      </th>
+                      <th className="text-left px-4 py-2 font-medium text-gray-900">
+                        Time
+                      </th>
+                      <th className="text-left px-4 py-2 font-medium text-gray-900 hidden md:table-cell">
+                        Google Event Link
+                      </th>
+                      <th className="text-left px-4 py-2 font-medium text-gray-900">
+                        Remove
+                      </th>
+                    </tr>
+                  </thead>
+                  {mutaionGoogleCal.data.googleEvents.map((x, index) => {
+                    return (
+                      <tbody className="divide-y divide-gray-200">
+                        <tr key={index}>
+                          <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
+                            {index + 1}
+                          </td>
+                          <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
+                            {dayjs(x.schedule, "DDMMYY-h:mm A").format(
+                              "DD/MM/YYYY"
+                            )}
+                          </td>
+                          <td className="px-4 py-2 text-gray-700">
+                            {dayjs(x.schedule, "DDMMYY-h:mm A").format(
+                              "hh:mm A"
+                            )}
+                          </td>
+                          <td className="px-4 py-2 text-gray-700 hidden md:table-cell">
+                            <Button href={x.htmlLink} target="_blank">
+                              <FaCalendarDays className="text-center" />
+                            </Button>
+                          </td>
+                          <td className="px-4 py-2">
+                            <button
+                              className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300"
+                              onClick={async () =>
+                                singleDeleteHandeler(x.id, x.schedule)
+                              }
+                            >
+                              <FaRegTrashAlt></FaRegTrashAlt>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
+                </table>
+              ) : (
+                <Empty
+                  description="No Google Calendar Found"
+                  className="flex flex-col items-center justify-center"
+                />
+              )
+            ) : (
+              <Empty
+                description="Something Error"
+                className="flex flex-col items-center justify-center"
+              />
+            )}
+          </div>
         </div>
       </div>
 
