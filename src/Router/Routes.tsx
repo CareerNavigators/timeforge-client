@@ -34,6 +34,7 @@ import Cart from "../Pages/Inventory/Cart";
 import BoardMeeting from "../CreateEvents/BoardMeeting/BoardMeeting";
 import AllEcommerce from "../Dashboard/Admin/AllEcommerce/AllEcommerce";
 import OauthCallback from "../Components/GoogleCalendar/OauthCallback";
+import Meet from "../ManageEvents/Meet/Meet";
 
 
 
@@ -43,7 +44,6 @@ const router = createBrowserRouter([
     element: <Main></Main>,
     errorElement: <Error></Error>,
     children: [
-      
       {
         path: "/",
         element: <Home isHome={true}></Home>,
@@ -93,6 +93,10 @@ const router = createBrowserRouter([
         path:"/oauth2callback",
         element:<OauthCallback />
       },
+      {
+        path:"/meet/:id",
+        element:<Meet />
+      }
 
     ],
   },
