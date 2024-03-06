@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { Toaster } from "react-hot-toast";
@@ -11,7 +10,6 @@ const qc = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <div className="dark:bg-d dark:text-dw tin">
-    <React.StrictMode>
       <AuthProvider>
         <QueryClientProvider client={qc}>
           <ThemeProvider>
@@ -20,6 +18,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           </ThemeProvider>
         </QueryClientProvider>
       </AuthProvider>
-    </React.StrictMode>
   </div>
 );

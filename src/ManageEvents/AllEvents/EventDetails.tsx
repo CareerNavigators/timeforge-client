@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import dayjs, { Dayjs } from "dayjs";
-import { Badge, Button, Calendar, Empty, Spin, Tooltip } from "antd";
+import { Badge, Button, Calendar, Empty, Spin } from "antd";
 import type { CalendarProps } from "antd";
 import AllParticipants from "../AllParticipants/AllParticipants";
 import { useContext } from "react";
@@ -30,6 +30,7 @@ import { handleAxiosError } from "../../Components/ExtraFunc/handelAxiosError";
 import { handelAxiosSuccess } from "../../Components/ExtraFunc/handelAxiosSuccess";
 import { FaCalendarDays } from "react-icons/fa6";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import MeetLink from "../Meet/MeetLink";
 dayjs.extend(customParseFormat);
 const EventDetails: React.FC = () => {
   // hooks and states
@@ -40,7 +41,7 @@ const EventDetails: React.FC = () => {
   const authorization = useAuthorization();
 
   const mutationSingleDelete = useMutation({
-    mutationFn: async (googleID:string) => {
+    mutationFn: async (googleID: string) => {
       const res = await customAxios.delete(
         `/calevents/${googleID}?userId=${userData._id}&type=single&eventid=${id}`
       );
@@ -91,12 +92,11 @@ const EventDetails: React.FC = () => {
     isLoading,
     isFetching,
     isPending,
+    refetch:eventDetailsRefetch
   } = useQuery({
     queryKey: ["EventDetails", id],
     queryFn: async () => {
-      const res = await customAxios.get(
-        `${import.meta.env.VITE_BACK_END_API}/meeting?id=${id}&type=single`
-      );
+      const res = await customAxios.get(`/meeting?id=${id}&type=single`);
       await mutaionGoogleCal.mutateAsync();
       return res.data;
     },
@@ -169,19 +169,22 @@ const EventDetails: React.FC = () => {
       await mutaionGoogleCal.mutateAsync();
     }
   }
-async function singleDeleteHandeler(id:string,schedule:string) {
-  Swal.fire({
-    title: "Are you sure?",
-    text: `Do you want to Delete google event at ${dayjs(schedule, "DDMMYY-h:mm A").format("DD/MM/YYYY hh:mm A")}?`,
-    icon: "question",
-    confirmButtonText: "Yes",
-    showDenyButton: true,
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      await mutationSingleDelete.mutateAsync(id)
-    }
-  })
-}
+  async function singleDeleteHandeler(id: string, schedule: string) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `Do you want to Delete google event at ${dayjs(
+        schedule,
+        "DDMMYY-h:mm A"
+      ).format("DD/MM/YYYY hh:mm A")}?`,
+      icon: "question",
+      confirmButtonText: "Yes",
+      showDenyButton: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await mutationSingleDelete.mutateAsync(id);
+      }
+    });
+  }
   return (
     <div className="mb-5 select-none">
       <h1 className="flex pl-2 my-5 items-center gap-2 ">
@@ -254,6 +257,42 @@ async function singleDeleteHandeler(id:string,schedule:string) {
                 modules={{ toolbar: false }}
                 readOnly
               />
+            </div>
+            <div className="mt-1">
+              <Spin
+                spinning={
+                  mutaionGoogleCal.isPending ||
+                  insertCalendar.isPending ||
+                  mutationDeleteCal.isPending
+                }
+              >
+                {mutaionGoogleCal.data ? (
+                  <button
+                    onClick={async () => {
+                      await mutationDeleteCal.mutateAsync(
+                        mutaionGoogleCal.data._id
+                      );
+                    }}
+                    className="px-5 py-5 border flex justify-left gap-2 w-full border-[#d6d1ff] hover:border-red-800 text-lg rounded-md text-gray-500 hover:text-red-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300"
+                  >
+                    <LuCalendarX />{" "}
+                    <span className="text-sm">Delete from Google Calendar</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={insertHandeler}
+                    className="px-5 py-5 border flex justify-left gap-2 w-full border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300"
+                  >
+                    <LuCalendarPlus />
+                    <span className="text-sm">Add To Google Calendar </span>
+                  </button>
+                )}
+              </Spin>
+              {eventDetails.meetLink?.url ? (
+                id &&<MeetLink eventid={id} meetlink={eventDetails.meetLink} />
+              ) : (
+                id && <MeetLink eventid={id} eventDetailsRefetch={eventDetailsRefetch}/>
+              )}
             </div>
           </div>
 
@@ -349,37 +388,6 @@ async function singleDeleteHandeler(id:string,schedule:string) {
                 <FaPencilAlt></FaPencilAlt>
               </button>
             </Link>
-            <Spin
-              spinning={
-                mutaionGoogleCal.isPending ||
-                insertCalendar.isPending ||
-                mutationDeleteCal.isPending
-              }
-            >
-              {mutaionGoogleCal.data ? (
-                <Tooltip title="Delete from google calendar">
-                  <button
-                    onClick={async () => {
-                      await mutationDeleteCal.mutateAsync(
-                        mutaionGoogleCal.data._id
-                      );
-                    }}
-                    className="px-5 py-5 border border-[#d6d1ff] hover:border-red-800 text-lg rounded-md text-gray-500 hover:text-red-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300"
-                  >
-                    <LuCalendarX />
-                  </button>
-                </Tooltip>
-              ) : (
-                <Tooltip title="Add To google Calendar">
-                  <button
-                    onClick={insertHandeler}
-                    className="px-5 py-5 border border-[#d6d1ff] hover:border-orange-800 text-lg rounded-md text-gray-500 hover:text-orange-800 hover:bg-orange-800/10 hover:transition-all hover:duration-300"
-                  >
-                    <LuCalendarPlus />
-                  </button>
-                </Tooltip>
-              )}
-            </Spin>
           </div>
         </div>
 
@@ -403,7 +411,8 @@ async function singleDeleteHandeler(id:string,schedule:string) {
           </div>
           <div className="overflow-x-auto sm:px-8 sm:py-4 pb-5">
             {mutaionGoogleCal.isSuccess ? (
-              mutaionGoogleCal.data && mutaionGoogleCal.data.googleEvents.length != 0 ? (
+              mutaionGoogleCal.data &&
+              mutaionGoogleCal.data.googleEvents.length != 0 ? (
                 <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                   <thead>
                     <tr>
@@ -427,7 +436,7 @@ async function singleDeleteHandeler(id:string,schedule:string) {
                   {mutaionGoogleCal.data.googleEvents.map((x, index) => {
                     return (
                       <tbody className="divide-y divide-gray-200">
-                        <tr key={x?._id}>
+                        <tr key={index}>
                           <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
                             {index + 1}
                           </td>
@@ -447,7 +456,12 @@ async function singleDeleteHandeler(id:string,schedule:string) {
                             </Button>
                           </td>
                           <td className="px-4 py-2">
-                            <button className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300" onClick={async ()=> singleDeleteHandeler(x.id,x.schedule)}>
+                            <button
+                              className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300"
+                              onClick={async () =>
+                                singleDeleteHandeler(x.id, x.schedule)
+                              }
+                            >
                               <FaRegTrashAlt></FaRegTrashAlt>
                             </button>
                           </td>
