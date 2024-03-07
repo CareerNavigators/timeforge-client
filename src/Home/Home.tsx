@@ -4,6 +4,7 @@ import MarqueeElement from "../Components/Marquee/MarqueeElement";
 import DemoEvent from "../Components/Demo/DemoEvent";
 import Footer from "./Footer";
 import { useEffect } from "react";
+import FaqSection from "../Components/Collapse/FaqSection";
 
 const Home = ({ isHome }: { isHome: boolean }) => {
   useEffect(() => {
@@ -54,6 +55,7 @@ const Home = ({ isHome }: { isHome: boolean }) => {
       <Hero />
       <DemoEvent />
       <Schedule />
+      <FaqSection />
       <MarqueeElement />
       <Footer />
     </div>
