@@ -8,13 +8,13 @@ import Confetti from "react-confetti";
 const AttendeeSuccess = () => {
   const { width, height } = useWindowSize();
   return (
-    <div className="max-w-7xl mx-auto p-5">
+    <div className="max-w-7xl overflow-hidden mx-auto p-5">
       <div className="flex flex-col py-20 lg:flex-row justify-between items-center">
-        <figure className="flex w-96 lg:w-[530px] py-5 justify-center ">
+        <figure className="flex w-96 lg:w-[550px] py-5 justify-center ">
           <img src={EmailConfirm} alt="" />
         </figure>
         <section>
-          <h1 className="flex justify-center pb-5 items-center gap-2 ">
+          <h1 className="flex justify-center md:pt-10 pb-5 items-center gap-2 ">
             <img className="w-12" src={logo} alt="logo" />
             <br />{" "}
             <span className="text-[#7c3aed] text-4xl font-bold">TimeForge</span>
@@ -39,8 +39,7 @@ const AttendeeSuccess = () => {
       <Confetti
         width={width}
         height={height}
-        numberOfPieces={50}
-        onConfettiComplete={undefined}
+        numberOfPieces={100}
       />
     </div>
   );
