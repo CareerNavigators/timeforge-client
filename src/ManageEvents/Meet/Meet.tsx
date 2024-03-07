@@ -2,13 +2,12 @@ import Daily from "@daily-co/daily-js";
 import { AxiosError } from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button, Card, Empty, Form, Input, Spin } from "antd";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import AxiosSecure from "../../Hook/useAxios";
 import { handelAxiosSuccess } from "../../Components/ExtraFunc/handelAxiosSuccess";
 import { handleAxiosError } from "../../Components/ExtraFunc/handelAxiosError";
 import ReactQuill from "react-quill";
 import dayjs from "dayjs";
-import { useEffect } from "react";
 
 const Meet = () => {
   const navigate = useNavigate();
@@ -25,13 +24,8 @@ const Meet = () => {
     gcTime: 0,
     retry: 0,
   });
-  useEffect(()=>{
-    const framediv= document.getElementById("framediv")
-    console.log("~ framediv", framediv)
-    if (framediv) {
-      framediv.firstChild?.remove()
-    }
-  },[])
+      
+
   const mutationCheckAttendee = useMutation({
     mutationFn: async (email: string) => {
       const res = await caxios.post(`/checkattendee`, {
@@ -40,35 +34,37 @@ const Meet = () => {
       });
       return res.data;
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       handelAxiosSuccess(data);
       const behide = document.getElementById("behide");
       if (behide) {
         behide.style.display = "none";
       }
-      const MY_IFRAME = document.createElement('iframe');
+
+      const MY_IFRAME = document.createElement("iframe");
       MY_IFRAME.setAttribute(
-        'allow',
-        'microphone; camera; autoplay; display-capture'
+        "allow",
+        "microphone; camera; autoplay; display-capture"
       );
-      MY_IFRAME.setAttribute(
-        'class',
-        'w-full h-screen'
-      )
+      MY_IFRAME.setAttribute("class", "w-full h-screen");
       const callProperties = {
         url: queryMeeting.data.meetLink.url,
         showLeaveButton: true,
-        
+        strictMode: true,
       };
-      const framediv=document.getElementById("framediv")
-      framediv?.appendChild(MY_IFRAME)
-      const call = Daily.wrap(MY_IFRAME, callProperties);
-      call.destroy();
-      call.join();
-      call.on("left-meeting", () => {
-        navigate("/");
-        call.destroy();
-      });
+      const framediv = document.getElementById("framediv");
+      framediv?.appendChild(MY_IFRAME);
+      try {
+        const call = Daily.wrap(MY_IFRAME, callProperties);
+        call.join();
+        call.on("left-meeting", async () => {
+          navigate("/");
+          call.destroy();
+        });
+      } catch {
+        window.location.reload()
+      }
+
       // const callFrame = Daily.createFrame({
       //   showLeaveButton: true,
       // iframeStyle: {
@@ -84,6 +80,7 @@ const Meet = () => {
       //  });
     },
     onError: (err: AxiosError) => {
+      console.log(err);
       handleAxiosError(err);
     },
   });
@@ -94,9 +91,7 @@ const Meet = () => {
   if (params.id) {
     return (
       <>
-      <div id="framediv">
-
-      </div>
+        <div id="framediv"></div>
         <div className="mx-auto mt-3 w-1/2 h-full">
           <Spin
             spinning={queryMeeting.isLoading || mutationCheckAttendee.isPending}

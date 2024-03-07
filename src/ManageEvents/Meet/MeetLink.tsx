@@ -8,6 +8,7 @@ import { Spin } from "antd";
 import { FaRegCopy } from "react-icons/fa";
 import showToast from "../../Hook/swalToast";
 import { useNavigate } from "react-router-dom";
+import { MdDeleteOutline } from "react-icons/md";
 type Props = {
   eventid: string;
   meetlink?: {
@@ -16,69 +17,100 @@ type Props = {
     id: string;
     name: string;
   };
-  eventDetailsRefetch?:any
+  eventDetailsRefetch?: any;
 };
-const MeetLink = ({ eventid, meetlink,eventDetailsRefetch }: Props) => {
+const MeetLink = ({ eventid, meetlink, eventDetailsRefetch }: Props) => {
   const caxios = AxiosSecure();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const mutationCreateMeet = useMutation({
     mutationFn: async () => {
       const res = await caxios.post("/createmeet", {
         roomName: "OUR ROOM",
         eventid: eventid,
-        origin:window.origin
+        origin: window.origin,
       });
       return res.data;
     },
-    onSuccess:(data)=>{
-      handelAxiosSuccess(data)
-      eventDetailsRefetch()
+    onSuccess: (data) => {
+      handelAxiosSuccess(data);
+      eventDetailsRefetch();
     },
-    onError:(err:AxiosError)=>{
-      handleAxiosError(err)
-    }
+    onError: (err: AxiosError) => {
+      handleAxiosError(err);
+    },
   });
-
+  const mutationDeleteMeeting = useMutation({
+    mutationFn: async (eventid: string) => {
+      const res = await caxios.delete(`/deletemeeting/${eventid}`);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      handelAxiosSuccess(data);
+      eventDetailsRefetch();
+    },
+    onError: (err: AxiosError) => {
+      handleAxiosError(err);
+    },
+  });
   if (!meetlink) {
     return (
       <div>
         <Spin spinning={mutationCreateMeet.isPending}>
-        <button
-          className="px-5 py-5 mt-1 border flex justify-left gap-2 w-full border-[#d6d1ff] hover:border-green-800 text-lg rounded-md text-gray-500 hover:text-green-800 hover:bg-green-800/10 hover:transition-all hover:duration-300"
-          onClick={async () => {
-            await mutationCreateMeet.mutateAsync();
-          }}
-        >
-          <GoCommentDiscussion />
-          <span className="text-sm">Generate Meeting Link</span>
-        </button>
+          <button
+            className="px-5 py-5 mt-1 border flex justify-left gap-2 w-full border-[#d6d1ff] hover:border-green-800 text-lg rounded-md text-gray-500 hover:text-green-800 hover:bg-green-800/10 hover:transition-all hover:duration-300"
+            onClick={async () => {
+              await mutationCreateMeet.mutateAsync();
+            }}
+          >
+            <GoCommentDiscussion />
+            <span className="text-sm">Generate Meeting Link</span>
+          </button>
         </Spin>
       </div>
     );
   } else {
-    const handleCopy = async (text:string) => {
+    const handleCopy = async (text: string) => {
       try {
         await navigator.clipboard.writeText(text);
-        showToast("success","Link Copied")
+        showToast("success", "Link Copied");
       } catch (err) {
-        showToast("error","Copy failed")
+        showToast("error", "Copy failed");
       }
-   };
-   const handelStartMeet=()=>{
-    navigate(`/meet/${eventid}`)
-   }
+    };
+    const handelStartMeet = () => {
+      navigate(`/meet/${eventid}`);
+    };
+    
     return (
+      <Spin spinning={mutationDeleteMeeting.isPending}>
       <div className="px-5 py-5 flex flex-col mt-1 border w-full gap-2 items-center border-[#d6d1ff]  rounded-md">
         <p className="italic text-blue-300 text-xs text-center break-all">{`${window.origin}/meet/${eventid}`}</p>
         <div className="flex gap-2">
-        <button className="px-2 py-2 border border-[#d6d1ff] hover:border-green-800 text-xs rounded-md text-gray-500 hover:text-green-800 hover:bg-green-800/10 hover:transition-all hover:duration-300"
-        onClick={()=>{handleCopy(`${window.origin}/meet/${eventid}`)}}
-        ><FaRegCopy /></button>
-        <button className="px-2 py-2 border border-[#d6d1ff] hover:border-green-800 text-xs rounded-md text-gray-500 hover:text-green-800 hover:bg-green-800/10 hover:transition-all hover:duration-300"
-        onClick={handelStartMeet}
-        >Start Meeting</button>
+          <button
+            className="px-2 py-2 border border-[#d6d1ff] hover:border-green-800 text-xs rounded-md text-gray-500 hover:text-green-800 hover:bg-green-800/10 hover:transition-all hover:duration-300"
+            onClick={() => {
+              handleCopy(`${window.origin}/meet/${eventid}`);
+            }}
+          >
+            <FaRegCopy />
+          </button>
+          <button
+            className="px-2 py-2 border border-[#d6d1ff] hover:border-green-800 text-xs rounded-md text-gray-500 hover:text-green-800 hover:bg-green-800/10 hover:transition-all hover:duration-300"
+            onClick={handelStartMeet}
+          >
+            Start Meeting
+          </button>
+          <button
+            onClick={async () => {
+              await mutationDeleteMeeting.mutateAsync(eventid);
+            }}
+            className="px-2 py-2 border border-[#d6d1ff] hover:border-green-800 text-xs rounded-md text-gray-500 hover:text-green-800 hover:bg-green-800/10 hover:transition-all hover:duration-300"
+          >
+            <MdDeleteOutline className="text-lg" />
+          </button>
         </div>
       </div>
+      </Spin>
     );
   }
 };
