@@ -1,14 +1,10 @@
 import "./style.css";
 const BackgroundMotion = () => {
-  const numOfCircles = 10;
-  const circles = Array.from({ length: numOfCircles }, (_, index) => (
-    <li key={index}></li>
+  const numOfspan = 6;
+  const circles = Array.from({ length: numOfspan }, (_, index) => (
+    <span key={index}></span>
   ));
-  return (
-    <div className="area">
-      <ul className="circles">{circles}</ul>
-    </div>
-  );
+  return <div className="background">{circles}</div>;
 };
 
 export default BackgroundMotion;

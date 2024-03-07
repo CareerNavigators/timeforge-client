@@ -9,7 +9,6 @@ import {
 } from "react-parallax-mouse";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import BackgroundMotion from "../Components/BackgroundMotion/BackgroundMotion";
-import { BiUserPlus } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthContext";
 import AxiosSecure from "../Hook/useAxios";
@@ -49,7 +48,7 @@ const Login = () => {
   useEffect(() => {
     setTimezone(dayjs.tz.guess());
   }, []);
-  function calAuthHandeler(id:string) {
+  function calAuthHandeler(id: string) {
     Swal.fire({
       title: "Google Calendar Integration",
       text: "Do you want to connect with google calendar?",
@@ -60,7 +59,7 @@ const Login = () => {
       if (result.isConfirmed) {
         authorization.mutate(id);
       }
-    })
+    });
   }
   const handleLogin = (e: FormEvent) => {
     e.preventDefault();
@@ -104,8 +103,8 @@ const Login = () => {
       .then(() => {
         caxios.get(`/user?email=${email}`).then((res) => {
           setUserData(res.data);
-          if(!res.data.isRefreshToken) {
-            calAuthHandeler(res.data._id)
+          if (!res.data.isRefreshToken) {
+            calAuthHandeler(res.data._id);
           }
         });
         showToast("success", "Secure Access, Unlimited Smiles!");
@@ -129,10 +128,9 @@ const Login = () => {
         };
         caxios.post("/user", userData).then((res) => {
           setUserData(res.data);
-          if(!res.data.isRefreshToken) {
-            calAuthHandeler(res.data._id)
+          if (!res.data.isRefreshToken) {
+            calAuthHandeler(res.data._id);
           }
-          
         });
       });
       showToast("success", "Secure Access, Unlimited Smiles!");
@@ -147,6 +145,9 @@ const Login = () => {
   width: 400px;
   margin-left: auto;
   margin-right: auto;
+}
+.dark .conti{
+  background: none;
 }
 `;
   const listVariants = {
@@ -170,9 +171,8 @@ const Login = () => {
         variants={listVariants}
         initial="initial"
         animate="animate"
-        className="flex flex-col items-center overflow-hidden lg:flex-row lg:h-screen"
-      >
-        <div className="p-4 lg:w-1/2 lg:p-8">
+        className="flex flex-col items-center overflow-hidden lg:flex-row lg:h-screen">
+        <div className="h-screen p-4 lg:w-1/2 lg:p-8">
           <Link to="/">
             <FiHome
               className="absolute left-4 top-4 text-[#1C1C1C] text-lg cursor-pointer z-10 dark:text-dw"
@@ -180,18 +180,11 @@ const Login = () => {
             />
           </Link>
           <style>{sty}</style>
-          <Link
-            to="/signup"
-            className="absolute right-4 top-4 text-[#1C1C1C] text-xl cursor-pointer z-10 dark:text-dw"
-          >
-            <BiUserPlus />
-          </Link>
           <MouseParallaxContainer
             className="smooth-parallax"
             globalFactorX={0.7}
             globalFactorY={0.7}
-            resetOnLeave
-          >
+            resetOnLeave>
             <div className="flex flex-col items-center justify-center mb-6 pt-[72px]">
               <MouseParallaxChild factorX={0.7} factorY={0.8}>
                 <img
@@ -209,12 +202,10 @@ const Login = () => {
           <motion.div
             initial={{ opacity: 0, y: "-100%" }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-          >
+            exit={{ opacity: 0, x: "100%" }}>
             <form
               className="flex flex-col items-center justify-center"
-              onSubmit={handleLogin}
-            >
+              onSubmit={handleLogin}>
               <div className="relative mb-4">
                 <FiUser className=" absolute left-3 top-[14px] text-[#1C1C1C] text-lg" />
                 <input
@@ -239,16 +230,14 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-4 text-[#1C1C1C]"
-                  >
+                    className="absolute right-4 top-4 text-[#1C1C1C]">
                     {showPassword ? <LuEyeOff /> : <LuEye />}
                   </button>
                 )}
               </div>
               <button
                 type="submit"
-                className="px-8 py-3 mt-8 font-bold text-white transition-transform transform rounded-md bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:scale-110"
-              >
+                className="px-8 py-3 mt-8 font-bold text-white transition-transform transform rounded-md bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:scale-110">
                 Login Now
               </button>
             </form>
@@ -258,28 +247,48 @@ const Login = () => {
             <p className="text-[#525252] dark:text-dg">or continue with</p>
             <hr className="w-24 h-[1px] bg-[#F0EDFF]" />
           </div>
-          <div className="flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center">
             <div
               onClick={handleGoogle}
-              className="flex items-center justify-center gap-2 p-4 transition duration-300 ease-in-out transform bg-white border cursor-pointer rounded-2xl md:w-96 hover:scale-105 hover:shadow-lg"
-            >
+              className="flex items-center justify-center gap-2 p-4 transition duration-300 ease-in-out transform bg-white border cursor-pointer rounded-2xl md:w-96 hover:scale-105 hover:shadow-lg">
               <FcGoogle className="w-8 h-8" />
               <p className="text-[#1C1C1C]">
                 Login with <span className="font-bold">Google</span>
               </p>
             </div>
+            <p className="z-10 mt-5 text-black dark:text-white">
+              Welcome! If you're new,
+              <Link to="/signup" className="p-0 px-1 underline">
+                sign up
+              </Link>
+              here.
+            </p>
           </div>
         </div>
-        <div className="relative flex items-center justify-center w-screen h-screen w- lg:w-1/2">
+        <div className="relative flex items-center justify-center w-screen lg:w-1/2 ">
           <div className="absolute inset-0 overflow-hidden">
             <BackgroundMotion />
           </div>
-          <div className="relative z-10 w-1/2 overflow-hidden">
-            <img
-              src="./Clock.png"
-              alt="Clock Image"
-              className="block mx-auto"
-            />
+          {/*  */}
+          <div className="hidden lg:block relative z-10 w-full overflow-hidden bg-gradient-to-br from-[#abc6f9] to-[#b5a6ce]">
+            <div className="w-full h-[calc(100vh)] flex items-center justify-center text-white bg-[url(https://www.material-tailwind.com/logos/pattern-lines.png)] rounded-lg shadow-md px-52">
+              <div className="shadow-lg w-[500px] h-[400px] rounded-xl flex p-12 items-start flex-col isolate aspect-video ring-1 ring-black/5 backdrop-blur-sm">
+                <h1 className="mb-1 text-5xl font-bold text-white">{`${"> Simple Events"}`}</h1>
+                <h1 className="text-3xl font-bold text-white">
+                  Scheduling Mastery
+                </h1>
+                <h1 className="mb-6 text-3xl font-bold text-white">
+                  Event Empowerment
+                </h1>
+                <h1 className="mb-6 text-3xl font-bold text-gray-800">
+                  Effortless Mastery
+                </h1>
+                <div className="text-lg text-white">
+                  <p className="mb-2">Effortlessly organize events</p>
+                  <p>with TimeForge</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </motion.div>
