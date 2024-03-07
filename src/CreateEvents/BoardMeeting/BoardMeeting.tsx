@@ -1,8 +1,9 @@
 import {
     Button,
+    DatePicker,
+    DatePickerProps,
     Form,
     Input,
-    InputNumber,
     Space,
     Switch,
     TimePicker,
@@ -20,26 +21,24 @@ import { AuthContext } from "../../Provider/AuthContext";
 import showToast from "../../Hook/swalToast";
 import { useNavigate } from "react-router-dom";
 import "../Events/OneEvent.css";
-import { Dayjs } from "dayjs";
 import { NoUndefinedRangeValueType } from "rc-picker/lib/PickerInput/RangePicker";
+import dayjs, { Dayjs } from "dayjs";
+import duration from 'dayjs/plugin/duration';
+dayjs.extend(duration)
 
 const BoardMeeting = () => {
     const { userData } = useContext(AuthContext);
-
     const [isAudioSelected, setIsAudioSelected] = useState(true);
     const [isVideoSelected, setIsVideoSelected] = useState(true);
     const [isOffline, setIsOffline] = useState(true);
     const [eventName, setEventName] = useState<string>("");
-    const [eventDurationHour, setEventDurationHour] = useState(0);
-    const [eventDurationMinute, setEventDurationMinute] = useState(0);
     const [eventDesc, setEventDesc] = useState<string>("");
-    const [eventTime, setEventTime] = useState<any>();
     const [startTime, setStartTime] = useState<string>();
     const [endTime, setEndTime] = useState<string>();
+    const [formattedDate, setFormattedDate] = useState<number>();
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const axiosSecure = AxiosSecure();
-    const eventDuration = eventDurationHour + eventDurationMinute;
 
 
     const handleAudioSelection = () => {
@@ -53,41 +52,27 @@ const BoardMeeting = () => {
         setEventName(e.target.value);
     };
 
-    const handleEventDurationHour = (value: number | null) => {
-        if (value !== null) {
-            const min = value * 60;
-            setEventDurationHour(min);
-        }
-    };
-    const handleEventDurationMinute = (value: number | null) => {
-        if (value !== null) {
-            setEventDurationMinute(value);
-        }
-    };
+
+    const handleDate = (_value: DatePickerProps, dateString: string | string[]) => {
+        const date = dayjs(dateString as string);
+
+        // Format the date as DDMMYY
+        const formattedDate = date.format('DDMMYY');
+
+        // Convert the formatted date string to a number
+        const formattedNumber = parseInt(formattedDate);
+        setFormattedDate(formattedNumber)
+    }
 
 
     const handleStartEndTime = (
-        value: NoUndefinedRangeValueType<Dayjs>,
+        _value: NoUndefinedRangeValueType<Dayjs>,
         dateString: string[]
     ) => {
         setStartTime(dateString[0]);
         setEndTime(dateString[1]);
-        const startHour = value[0]?.hour();
-        const startMin = value[0]?.minute();
-        const endHour = value[1]?.hour();
-        const endMin = value[1]?.minute();
-        const times = [
-            { $H: startHour, $m: startMin },
-            { $H: endHour, $m: endMin },
-        ];
-
-        const formattedTimes = times.map((time) => {
-            const paddedHours = String(time.$H).padStart(2, "0");
-            const paddedMinutes = String(time.$m).padStart(2, "0");
-            return `${paddedHours}:${paddedMinutes}`;
-        });
-        setEventTime(formattedTimes);
     };
+
 
     const handleEventDesc = (value: string) => {
         setEventDesc(value);
@@ -106,15 +91,25 @@ const BoardMeeting = () => {
 
     const handleSubmit = async () => {
         try {
+
+            // Calculate event duration in minutes
+            const start = dayjs(startTime, "HH:mm");
+            const end = dayjs(endTime, "HH:mm");
+            const eventDurationInMinutes = end.diff(start, 'minute');
+
+            const event = {
+                [formattedDate as number]: [startTime, endTime]
+            }
+
             const newEvent = {
                 createdBy: userData?._id,
                 title: eventName,
-                duration: eventDuration,
+                duration: eventDurationInMinutes,
                 mic: isAudioSelected,
                 camera: isVideoSelected,
                 eventType: "Board Meeting",
                 desc: eventDesc,
-                events: eventTime,
+                events: event,
                 offline: isOffline,
                 startTime: startTime,
                 endTime: endTime,
@@ -162,45 +157,15 @@ const BoardMeeting = () => {
                                 />
                             </Form.Item>
 
-                            <div className="flex gap-2">
-                                <Form.Item
-                                    className="w-full"
-                                    name="durationHour"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: "Please input duration hour!",
-                                        },
-                                    ]}
-                                >
-                                    <InputNumber
-                                        placeholder="Duration hour"
-                                        min={0}
-                                        max={60}
-                                        className="w-full"
-                                        onChange={handleEventDurationHour}
-                                    />
-                                </Form.Item>
 
-                                <Form.Item
+                            <Form.Item
+                                rules={[{ required: true, message: "Please select date!" }]}
+                            >
+                                <DatePicker
+                                    onChange={handleDate}
                                     className="w-full"
-                                    name="durationMinute"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: "Please input duration minute!",
-                                        },
-                                    ]}
-                                >
-                                    <InputNumber
-                                        placeholder="Duration minute"
-                                        min={0}
-                                        max={60}
-                                        className="w-full"
-                                        onChange={handleEventDurationMinute}
-                                    />
-                                </Form.Item>
-                            </div>
+                                />
+                            </Form.Item>
 
                             <Form.Item
                                 rules={[{ required: true, message: "Please select!" }]}

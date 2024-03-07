@@ -24,14 +24,6 @@ const PreviewTimeline = ({ eventId }: { eventId: string | undefined }) => {
         refetchOnWindowFocus: false,
     });
 
-    console.log("event timeline", eventTimeline);
-
-
-
-
-
-
-
 
 
     return (

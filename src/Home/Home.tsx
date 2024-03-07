@@ -1,7 +1,6 @@
 import Hero from "./Hero";
 import Schedule from "../Components/Schedule/Schedule";
 import MarqueeElement from "../Components/Marquee/MarqueeElement";
-import HighlightedEvents from "../Components/HighlightedEvents/HighlightedEvents";
 import DemoEvent from "../Components/Demo/DemoEvent";
 import Footer from "./Footer";
 import { useEffect } from "react";
@@ -28,7 +27,7 @@ const Home = ({ isHome }: { isHome: boolean }) => {
         useSessionStorage: true,
         enableConversationDeletion: true,
         theme: "prism",
-        themeColor: "#2563eb"
+        themeColor: "#8B78E6",
       });
       // showButton();
     };
@@ -53,7 +52,6 @@ const Home = ({ isHome }: { isHome: boolean }) => {
   return (
     <div id="take-a-look" className="max-w-full mx-auto">
       <Hero />
-      <HighlightedEvents />
       <DemoEvent />
       <Schedule />
       <MarqueeElement />
