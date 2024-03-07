@@ -11,6 +11,8 @@ import { RiSecurePaymentFill } from "react-icons/ri";
 import AxiosSecure from "../../Hook/useAxios";
 const TABLE_HEAD = ["title", "price", "Action", ""];
 import {loadStripe} from '@stripe/stripe-js';
+import { IoReturnDownBack } from "react-icons/io5";
+
 // interface ecommerce {
 //   id:string,
 //   title: string,
@@ -62,7 +64,6 @@ const Cart = () => {
 
   // count total price of the product
   const totalPrice = cardData.reduce((acc, item) => acc + item.price, 0);
-
 
     const handleStripe = async () => {
       const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
@@ -237,10 +238,11 @@ const Cart = () => {
       
       <Button 
       onClick={handleBack}
-      className="ml-[100px] lg:ml-[150px]  mt-8"
+      className="ml-[100px] lg:ml-[250px] flex justify-center items-center   mt-8"
       size="lg"
       placeholder={undefined}
-      color="teal">Back to Product Page</Button>
+      color="teal"><IoReturnDownBack className="text-[20px] font-bold"/>
+      Back to Product Page</Button>
       
     </div>
   );

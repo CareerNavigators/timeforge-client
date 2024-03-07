@@ -18,6 +18,8 @@ import { Link } from "react-router-dom";
 import { SlNote } from "react-icons/sl";
 import DarkModeToggle from "../../Components/DarkModeToggle/DarkModeToggle";
 import { FaUsers } from "react-icons/fa";
+import { FaTimeline } from "react-icons/fa6";
+import { BsCalendar2Event } from "react-icons/bs";
 const MobileDashboard: React.FC = () => {
   // const [click, setClick] = useState(true);
   // const handleClick=()=>{
@@ -102,7 +104,8 @@ const MobileDashboard: React.FC = () => {
             </NavLink>
           </li>
           <li className="p-1 font-medium">
-            { userData?.role === "User" &&(<FloatButton.Group
+            { userData?.role === "User" &&(
+            <FloatButton.Group
               trigger="click"
               type="primary"
               className=" "
@@ -169,7 +172,7 @@ const MobileDashboard: React.FC = () => {
               <FloatButton
                 type="primary"
                 icon={
-                  <div className="w-[100%] h-full flex justify-center items-center text-black">
+                  <div className="w-[100%] h-full flex justify-center items-center text-white">
                     <DarkModeToggle />
                   </div>
                 }
@@ -181,10 +184,10 @@ const MobileDashboard: React.FC = () => {
                 // onClick={handleClick}
               />
               <FloatButton
-                type="default"
+                type="primary"
                 onClick={handleLogOut}
                 icon={
-                  <div className="w-[100%] h-full flex justify-center items-center text-red-500">
+                  <div className="w-[100%] h-full flex justify-center items-center text-pink-700">
                     <LogoutOutlined />
                   </div>
                 }
@@ -201,7 +204,7 @@ const MobileDashboard: React.FC = () => {
                 <FloatButton
                   type="primary"
                   icon={
-                    <div className="w-[100%] h-full flex justify-center items-center text-black">
+                    <div className="w-[100%] h-full flex justify-center items-center text-white">
                       {" "}
                       <SlNote />
                     </div>
@@ -216,7 +219,7 @@ const MobileDashboard: React.FC = () => {
                    className="mt-3"
                    type="primary"
                   icon={
-                    <div className="w-[100%] h-full flex  justify-center items-center text-black">
+                    <div className="w-[100%] h-full flex  justify-center items-center text-white">
                       {" "}
                       <FaUsers/>
                     </div>
@@ -231,9 +234,10 @@ const MobileDashboard: React.FC = () => {
                    type="primary"
                    className="mt-3"
                   icon={
-                    <div className="w-[100%] h-full flex justify-center items-center text-black">
+                    <div className="w-[100%]  h-full flex justify-center items-center text-white">
                       {" "}
-                      <ScheduleOutlined />
+                      <BsCalendar2Event />
+
                     </div>
                   }
                 />
@@ -246,7 +250,7 @@ const MobileDashboard: React.FC = () => {
                    className="mt-3"
                    type="primary"
                   icon={
-                    <div className="w-[100%] h-full flex justify-center items-center text-black">
+                    <div className="w-[100%] h-full flex justify-center items-center text-white">
                       {" "}
                       <ScheduleOutlined />
                     </div>
@@ -261,9 +265,9 @@ const MobileDashboard: React.FC = () => {
                    className="mt-3"
                    type="primary"
                   icon={
-                    <div className="w-[100%] h-full flex justify-center items-center text-black">
+                    <div className="w-[100%] h-full flex justify-center items-center text-white">
                       {" "}
-                      <ScheduleOutlined />
+                      <FaTimeline />
                     </div>
                   }
                 />
@@ -276,7 +280,7 @@ const MobileDashboard: React.FC = () => {
                    className="mt-3 bg-brown-500 bg-blend-overlay"
                    type="primary"
                   icon={
-                    <div className="w-[100%] h-full flex justify-center items-center text-black">
+                    <div className="w-[100%] h-full flex justify-center items-center text-white">
                       {" "}
                       <ShopOutlined/>
                     </div>

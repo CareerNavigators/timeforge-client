@@ -6,14 +6,39 @@ import {
     Button,
   } from "@material-tailwind/react";
   import { FaMoneyCheckDollar } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import AxiosSecure from "../../Hook/useAxios";
+import { useEffect } from "react";
 
    
   export function Success() {
+    
+
     const navigate = useNavigate();
     const backToShopping=()=>{
       navigate("/merch");
     }
+
+    const location = useLocation();
+ const cAxios = AxiosSecure(); // Assuming AxiosSecure is a custom Axios instance
+
+ useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const orderId = params.get('id');
+
+    if (orderId) {
+      // Send a POST request to the backend with the order ID
+      cAxios.post('/paymentConfirm', { id: orderId })
+        .then(response => {
+          console.log('Payment confirmation successful:', response.data);
+          // Handle the response as needed
+        })
+        .catch(error => {
+          console.error('Error confirming payment:', error);
+          // Handle the error as needed
+        });
+    }
+ }, [location, cAxios]);
     return (
       <Card placeholder={undefined}
       className="mt-[200px] w-96 flex justify-center items-center mx-auto">

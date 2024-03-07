@@ -6,6 +6,7 @@ import {
   LogoutOutlined,
   PlusOutlined,
   ScheduleOutlined,
+  ShopOutlined,
 } from "@ant-design/icons";
 import { FaUsers } from "react-icons/fa";
 import { Layout, Menu, Button, theme, Tooltip } from "antd";
@@ -16,6 +17,7 @@ import { AuthContext } from "../../Provider/AuthContext";
 import { SlNote } from "react-icons/sl";
 import DarkModeToggle from "../../Components/DarkModeToggle/DarkModeToggle";
 import { FaTimeline } from "react-icons/fa6";
+import { BsCalendar2Event } from "react-icons/bs";
 
 const { Header, Sider } = Layout;
 const Dashbar = () => {
@@ -154,17 +156,17 @@ const Dashbar = () => {
                     All Events
                   </NavLink>
                 </Menu.Item>
-                <Menu.Item icon={<ScheduleOutlined />}>
+                <Menu.Item icon={<BsCalendar2Event />}>
                   <NavLink to="/dashboard/allattendee" end>
                     All Attendees
                   </NavLink>
                 </Menu.Item>
-                <Menu.Item icon={<ScheduleOutlined />}>
+                <Menu.Item icon={<FaTimeline />}>
                   <NavLink to="/dashboard/alltimeline" end>
                     All Timeline
                   </NavLink>
                 </Menu.Item>
-                <Menu.Item icon={<ScheduleOutlined />}>
+                <Menu.Item icon={ <ShopOutlined/>}>
                   <NavLink to="/dashboard/allecommerce" end>
                     All E-Commerce
                   </NavLink>
