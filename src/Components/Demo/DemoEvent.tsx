@@ -21,7 +21,7 @@ const DemoEvent = () => {
   }, [videoRef]);
 
   return (
-    <div className="py-20">
+    <div className="pb-20">
       <h1 className="font-extrabold text-[#7c3aed] pb-10 md:py-20 text-center text-4xl md:text-5xl">
         Easy Event Creation
       </h1>
