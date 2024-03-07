@@ -1,16 +1,23 @@
 import { Card, Rate } from "antd";
 import Avatar from "antd/es/avatar/avatar";
+import Aos from "aos";
+import 'aos/dist/aos.css'
+import { useEffect } from 'react';
 
 const ClientReview = () => {
+    
+    useEffect(() => {
+        Aos.init();
+    }, [])
 
   return (
-    <div className="max-w-7xl mx-5 my-20 lg:mx-auto">
+    <div className="max-w-7xl mx-5 my-20 overflow-hidden lg:mx-auto">
       <h1 className="font-extrabold text-[#7c3aed] pb-10 md:py-20 text-center text-4xl md:text-5xl">
         Client Testimonials
       </h1>
-      <section>
-          <div className="flex flex-col lg:flex-row gap-7 lg:gap-3 items-center justify-between">
-            <Card className="md:w-3/4 lg:w-1/3 lg:h-[300px] bg-gradient-to-b from-[#9181F4] to-[#5038ED] text-white  text-center  hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out">
+      <section >
+          <div data-aos="fade-left" data-aos-easing="ease-in" data-aos-duration="1000" className="flex flex-col lg:flex-row gap-7 lg:gap-3 items-center justify-between">
+            <Card  className="md:w-3/4 lg:w-1/3 lg:h-[300px] bg-gradient-to-b from-[#9181F4] to-[#5038ED] text-white  text-center  hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out">
             <p className="italic text-center font-medium text-sm pb-3">
                 "TimeForge has revolutionized the way I manage appointments and
                 meetings for my business. The user-friendly interface and
@@ -25,7 +32,7 @@ const ClientReview = () => {
               
              
             </Card>
-            <Card className="md:w-3/4 lg:w-1/3 lg:h-[300px] bg-gradient-to-b from-[#9181F4] to-[#5038ED] text-white text-center hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out">
+            <Card  className="md:w-3/4 lg:w-1/3 lg:h-[300px] bg-gradient-to-b from-[#9181F4] to-[#5038ED] text-white text-center hover:shadow-md hover:shadow-violet-400 transition-all ease-in-out">
               <p className="italic text-center font-medium text-sm pb-3">
               "TimeForge has simplified event planning for me. The option to
               categorize events and manage participants seamlessly is fantastic.
