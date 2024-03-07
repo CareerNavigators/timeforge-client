@@ -67,7 +67,7 @@ const Hero = () => {
   
   return (
     <>
-      <div className="timeIllustration flex flex-col-reverse mx-auto mt-0 lg:mb-40 lg:flex-col lg:min-h-screen">
+      <div className="timeIllustration flex flex-col-reverse mx-auto mt-0  lg:flex-col lg:min-h-screen">
         <div className="flex flex-col py-5 md:pt-10  lg:py-10 items-center lg:justify-center">
           <section className="font-inter text-center font-[600] ">
             <h1 className="tracking-wide md:font-bold lg:font-semibold py-4 lg:pb-10 text-3xl md:text-4xl lg:text-6xl">
