@@ -31,7 +31,8 @@ import { handelAxiosSuccess } from "../../Components/ExtraFunc/handelAxiosSucces
 import { FaCalendarDays } from "react-icons/fa6";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import MeetLink from "../Meet/MeetLink";
-dayjs.extend(customParseFormat);import SingleTimeline from "../../Components/SingleTimeline/SingleTimeline";
+dayjs.extend(customParseFormat);
+import SingleTimeline from "../../Components/SingleTimeline/SingleTimeline";
 
 const EventDetails: React.FC = () => {
   // hooks and states
@@ -93,7 +94,7 @@ const EventDetails: React.FC = () => {
     isLoading,
     isFetching,
     isPending,
-    refetch:eventDetailsRefetch
+    refetch: eventDetailsRefetch,
   } = useQuery({
     queryKey: ["EventDetails", id],
     queryFn: async () => {
@@ -188,6 +189,7 @@ const EventDetails: React.FC = () => {
       }
     });
   }
+  console.log(eventDetails.offline);
   return (
     <div className="mb-5 select-none">
       <h1 className="flex pl-2 my-5 items-center gap-2 ">
@@ -291,10 +293,15 @@ const EventDetails: React.FC = () => {
                   </button>
                 )}
               </Spin>
-              {eventDetails.meetLink?.url ? (
-                id &&<MeetLink eventid={id} meetlink={eventDetails.meetLink} />
+              {id && !eventDetails.offline && eventDetails.meetLink?.url ? (
+                <MeetLink eventid={id} meetlink={eventDetails.meetLink} eventDetailsRefetch={eventDetailsRefetch}/>
               ) : (
-                id && <MeetLink eventid={id} eventDetailsRefetch={eventDetailsRefetch}/>
+                !eventDetails.offline && id  && (
+                  <MeetLink
+                    eventid={id}
+                    eventDetailsRefetch={eventDetailsRefetch}
+                  />
+                )
               )}
             </div>
           </div>
@@ -332,20 +339,17 @@ const EventDetails: React.FC = () => {
 
         {/* calender area or timeline area */}
         <div className="w-full p-2 mt-2 md:mt-0 overflow-hidden border border-[#d6d1ff] shadow-md rounded-md">
-          {
-            eventTypes === "Group Meeting" || eventTypes === "Board Meeting" ?
-              <SingleTimeline eventId={id}></SingleTimeline>
-              :
-              <Calendar
-                className="min-h-full min-w-full overflow-hidden"
-                cellRender={cellRender}
-                onPanelChange={onPanelChange}
-              />
-          }
+          {eventTypes === "Group Meeting" || eventTypes === "Board Meeting" ? (
+            <SingleTimeline eventId={id}></SingleTimeline>
+          ) : (
+            <Calendar
+              className="min-h-full min-w-full overflow-hidden"
+              cellRender={cellRender}
+              onPanelChange={onPanelChange}
+            />
+          )}
         </div>
       </div>
-
-      
 
       <div className="w-dvw sm:w-full lg:mx-2 lg:pr-3 pb-16 lg:pb-2 bg-white">
         <div className="max-w-full shadow-md rounded-md mx-1 sm:p-2 my-5 lg:m-5 overflow-hidden border border-[#d6d1ff]">
