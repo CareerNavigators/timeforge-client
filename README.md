@@ -21,7 +21,6 @@ We aim to create a seamless interface for event management, empowering users to 
 - **Flexible Event Categorization:** Categorize events based on their nature, making organization simple.
 - **Video and Audio Integration:** Seamlessly integrate video and audio options for enhanced communication.
 - **Efficient Participant Management:** Manage event attendees efficiently.
-- **Calendar Integration:** Sync with popular calendars for added convenience.
 - **Enhanced Note-taking:** Take detailed notes related to meetings and events.
 - **User-friendly Interface:** Enjoy an intuitive interface with customizable dark and light modes.
 - **Personalized Profile Customization:** Customize your profile to suit your preferences.
