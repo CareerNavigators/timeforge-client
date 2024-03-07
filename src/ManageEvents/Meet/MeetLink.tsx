@@ -80,6 +80,7 @@ const MeetLink = ({ eventid, meetlink, eventDetailsRefetch }: Props) => {
     const handelStartMeet = () => {
       navigate(`/meet/${eventid}`);
     };
+    
     return (
       <Spin spinning={mutationDeleteMeeting.isPending}>
       <div className="px-5 py-5 flex flex-col mt-1 border w-full gap-2 items-center border-[#d6d1ff]  rounded-md">
