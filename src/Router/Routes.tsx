@@ -33,9 +33,10 @@ import Product from "../Pages/Inventory/Product";
 import Cart from "../Pages/Inventory/Cart";
 import BoardMeeting from "../CreateEvents/BoardMeeting/BoardMeeting";
 import AllEcommerce from "../Dashboard/Admin/AllEcommerce/AllEcommerce";
+import { Success } from "../Pages/Inventory/Success";
+import Cancel from "../Pages/Inventory/Cancel";
 import OauthCallback from "../Components/GoogleCalendar/OauthCallback";
 import Meet from "../ManageEvents/Meet/Meet";
-
 
 
 const router = createBrowserRouter([
@@ -79,7 +80,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/merch",
-        element: <Shop />,
+        element: <Shop/>,
       },
       {
         path: "/product",
@@ -90,8 +91,16 @@ const router = createBrowserRouter([
         element: <Cart />,
       },
       {
-        path:"/oauth2callback",
-        element:<OauthCallback />
+        path: "/success",
+        element: <Success/>
+      },
+      {
+        path: "/cancel",
+        element: <Cancel/>
+      },
+     
+       { path:"/oauth2callback",
+        element:<OauthCallback/>
       },
       {
         path:"/meet/:id",

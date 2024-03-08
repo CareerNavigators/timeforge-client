@@ -6,6 +6,7 @@ import {
   LogoutOutlined,
   PlusOutlined,
   ScheduleOutlined,
+  ShopOutlined,
 } from "@ant-design/icons";
 import { FaUsers } from "react-icons/fa";
 import { Layout, Menu, Button, theme, Tooltip } from "antd";
@@ -15,6 +16,8 @@ import "./style.css";
 import { AuthContext } from "../../Provider/AuthContext";
 import { SlNote } from "react-icons/sl";
 import DarkModeToggle from "../../Components/DarkModeToggle/DarkModeToggle";
+import { BsCalendar2Event } from "react-icons/bs";
+import { FaTimeline } from "react-icons/fa6";
 
 const { Header, Sider } = Layout;
 const Dashbar = () => {
@@ -148,17 +151,17 @@ const Dashbar = () => {
                     All Events
                   </NavLink>
                 </Menu.Item>
-                <Menu.Item icon={<ScheduleOutlined />}>
+                <Menu.Item icon={<BsCalendar2Event />}>
                   <NavLink to="/dashboard/allattendee" end>
                     All Attendees
                   </NavLink>
                 </Menu.Item>
-                <Menu.Item icon={<ScheduleOutlined />}>
+                <Menu.Item icon={<FaTimeline />}>
                   <NavLink to="/dashboard/alltimeline" end>
                     All Timeline
                   </NavLink>
                 </Menu.Item>
-                <Menu.Item icon={<ScheduleOutlined />}>
+                <Menu.Item icon={ <ShopOutlined/>}>
                   <NavLink to="/dashboard/allecommerce" end>
                     All E-Commerce
                   </NavLink>
@@ -169,7 +172,7 @@ const Dashbar = () => {
                   title={"Theme"}
                   arrow={true}
                 >
-                  <div className=" mt-[150px] text-[30px] mx-auto flex justify-center items-center text-white">
+                  <div className=" mt-[50px] text-[30px] mx-auto flex justify-center items-center text-white">
                     <DarkModeToggle />
                   </div>
                 </Tooltip>
@@ -183,7 +186,7 @@ const Dashbar = () => {
                     {userData ? (
                       <button
                         onClick={handleLogOut}
-                        className=" text-red-500 text-[30px] "
+                        className=" text-red-500 text-[20px] "
                       >
                         <LogoutOutlined />
                       </button>
@@ -207,7 +210,7 @@ const Dashbar = () => {
                 title={"Theme"}
                 arrow={true}
               >
-                <div className=" mt-[300px] text-[30px] mx-auto flex justify-center items-center text-white">
+                <div className=" mt-[280px] text-[30px] mx-auto flex justify-center items-center text-white">
                   <DarkModeToggle />
                 </div>
               </Tooltip>
@@ -221,7 +224,7 @@ const Dashbar = () => {
                   {userData ? (
                     <button
                       onClick={handleLogOut}
-                      className=" text-red-500 text-[30px] "
+                      className=" text-red-500 text-[20px] "
                     >
                       <LogoutOutlined />
                     </button>

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import AxiosSecure from "../../Hook/useAxios";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import { AuthContext } from "../../Provider/AuthContext";
 import showToast from "../../Hook/swalToast";
 // import Cart from "./Cart";
@@ -19,23 +19,7 @@ interface CartItem {
   id: string;
 }
 const Product = () => {
-  // const [sold, setSold] = useState(false);
-
-  // const { userData } = useContext(AuthContext);
-
   const Caxios = AxiosSecure();
-
-  // const addToCartMutation = useMutation({
-  //   mutationFn: async (productId: string) => {
-  //     const cartItem = {
-  //       productId,
-  //       userEmail: userData.email,
-  //     };
-
-  //     const res = await axios.post("/cart", cartItem);
-  //     return res.data; // Assuming the response contains the added cart item data
-  //   },
-  // });
 
   const {
     data: product,
@@ -49,57 +33,27 @@ const Product = () => {
     },
   });
 
-  const [cardData, setCardData] = useState<CartItem[]>([]);
+  // Initialize cartData state with data from localStorage
+  const [cardData, setCardData] = useState<CartItem[]>(() => {
+    const storedData = localStorage.getItem("cartItem");
+    return storedData ? JSON.parse(storedData) : [];
+  });
 
-  const  handleCart = async(
+  const handleCart = async (
     id: string,
     title: string,
     img: string,
-    price: number
+    price: number,
+    // quantity: number,
   ) => {
-    console.log(id);
-    setCardData((prevCardData) => [
-      ...prevCardData,
-      { title, img, price, id },
-    ]);
-    // await Caxios.post("/cart", cardData).then((res) => {
-    //       console.log(res.data);
-    //       showToast("success", "you added a cart item")
-    //     }); 
+    setCardData((prevCardData) => [...prevCardData, { title, img, price, id }]);
     showToast("success", "you added a cart item");
   };
 
   useEffect(() => {
+    // Synchronize state with localStorage
     localStorage.setItem("cartItem", JSON.stringify(cardData));
-    
   }, [cardData]);
-
-  // const getLocalStorageData = () => {
-  //   const storedData = localStorage.getItem("cartItem");
-  //   return storedData ? JSON.parse(storedData) : [];
-  // };
-  // // console.log(getLocalStorageData());
-  // const savedCartData = getLocalStorageData();
-  // console.log(savedCartData);
-  // // showToast("success", "product added successfully on the cart");
-
-  // const handleCart = async (
-  //   id: string,
-  //   title: string,
-  //   img: string,
-  //   price: number
-  // ) => {
-  //   const cartItem = {
-  //     productId: id,
-  //     title: title,
-  //     isSold: sold,
-  //     img: img,
-  //     price: price,
-  //   };
-  //   await Caxios.post("/cart", cartItem).then((res) => {
-  //     console.log(res.data);
-  //   });
-  // // };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message} </div>;
@@ -119,25 +73,6 @@ const Product = () => {
                 alt=""
               />
               <div>
-                {/* {sold ? (
-                  <button
-                  disabled
-                  className=" hidden group-hover:flex justify-center items-center w-[150px] py-1 bg-deep-purple-600 text-white rounded-full absolute top-1/2 right-1/4 group-hover:backdrop-blur-md duration-200  "
-                >
-                  Sold Out
-                </button>
-                  
-                ) : (
-                  <button
-                    onClick={() =>
-                     { handleCart(data?._id, data.title, data.img, data.price)
-                      setSold(!sold)}
-                    }
-                    className="hidden group-hover:flex justify-center items-center w-[150px] py-1 bg-deep-purple-600 text-white rounded-full absolute top-1/2 right-1/4 group-hover:backdrop-blur-md duration-200  "
-                  >
-                    Add to Cart
-                  </button>
-                )} */}
                 <button
                   onClick={() => {
                     handleCart(data?._id, data.title, data.img, data.price);
