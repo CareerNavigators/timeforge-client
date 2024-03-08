@@ -1,7 +1,8 @@
 
 import { useEffect } from "react";
 import AOS from "aos"
-import { Swiper, SwiperSlide } from "swiper/react";
+// import { Swiper, SwiperSlide } from "swiper/react";
+import { Carousel } from 'antd';
 import image1 from "../../assets/tshirt/white.png";
 import image2 from "../../assets/tshirt/2 piece.png";
 import image3 from "../../assets/tshirt/black.png";
@@ -10,7 +11,6 @@ import image4 from "../../assets/tshirt/beer.png";
 import "./swiper.css";
 
 // import required modules
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import Services from "./Services";
 import Banner from "./Banner";
 import Product from "./Product";
@@ -24,6 +24,16 @@ import Footer from "../../Home/Footer";
 // import Slider from "react-slick";
 
 const Shop = () => {
+
+
+  const contentStyle: React.CSSProperties = {
+    height: '160px',
+    color: '#fff',
+    lineHeight: '160px',
+    textAlign: 'center',
+    background: '#364d79',
+    
+  };
 
   useEffect(()=>{
     AOS.init()
@@ -72,24 +82,12 @@ const Shop = () => {
       {/* hero */}
       <div className="w-full ">
         <div>
-          <Swiper
-            spaceBetween={30}
-            centeredSlides={true}
-            autoplay={{
-              delay: 2500,
-              disableOnInteraction: false,
-            }}
-            navigation={true}
-            modules={[Autoplay, Pagination, Navigation]}
-            className="mySwiper"
-            id="swiper-merch"
-          >
-            <div className="">
+        <Carousel autoplay>
+            
               {slideData.map((data) => (
-                <SwiperSlide
-                 id="swiper-slide-merch"
-                >
-                  <div className="grid grid-cols-1 lg:grid-cols-2 lg:justify-between items-center px-0 lg:px-[200px] bg-gradient-to-r  from-gray-300/80 to-gray-100 h-full lg:gap-[100px]  " key={data.id}>
+               
+                  <div className="grid grid-cols-1 lg:grid-cols-2 lg:justify-between items-center px-0 lg:px-[200px] bg-gradient-to-r  from-gray-300/80 to-gray-100 h-full lg:gap-[100px]  " style={contentStyle} >
+                    <div className="grid grid-cols-1 lg:grid-cols-2 lg:justify-between items-center px-0 lg:px-[200px] bg-gradient-to-r  from-gray-300/80 to-gray-100 h-full lg:gap-[100px]  ">
                     <div className="flex flex-col gap-4  z-10 p-[50px] lg:p-0">
                       <h1 className="text-2xl text-black font-bold">{data.title} </h1>
                       <h1 className="lg:text-5xl text-black font-bold">{data.subtitle1} </h1>
@@ -98,7 +96,7 @@ const Shop = () => {
                       </h1>
                       <button
                         onClick={handleShopping}
-                        className="bg-pink-700 w-[150px]   text-white px-3 py-1 rounded-full hover:scale-105 duration-300 "
+                        className="bg-pink-700 w-[150px] mb-[20px]  text-white px-3 py-1 rounded-full hover:scale-105 duration-300 "
                       >
                         Shop Now
                       </button>
@@ -108,11 +106,12 @@ const Shop = () => {
                       src={data.img}
                       alt=""
                     />
+                    </div>
                   </div>
-                </SwiperSlide>
+                  
               ))}
-            </div>
-          </Swiper>
+            
+            </Carousel>
         </div>
       </div>
       <Services />
