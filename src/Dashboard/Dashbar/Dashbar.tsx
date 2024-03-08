@@ -16,6 +16,8 @@ import "./style.css";
 import { AuthContext } from "../../Provider/AuthContext";
 import { SlNote } from "react-icons/sl";
 import DarkModeToggle from "../../Components/DarkModeToggle/DarkModeToggle";
+import { BsCalendar2Event } from "react-icons/bs";
+import { FaTimeline } from "react-icons/fa6";
 
 const { Header, Sider } = Layout;
 const Dashbar = () => {
