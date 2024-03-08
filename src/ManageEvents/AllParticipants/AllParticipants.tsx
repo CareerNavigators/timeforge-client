@@ -5,10 +5,10 @@ import { EventType } from "../AllEvents/AllEvents";
 import dayjs from "dayjs";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { Empty, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { FaUserGroup } from "react-icons/fa6";
 import Swal from "sweetalert2";
+import { useState } from "react";
 
 
 interface AllParticipantsProps {
@@ -17,9 +17,8 @@ interface AllParticipantsProps {
 
 const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
     const customAxios = useAxios();
+    const [deleteLoading, setDeleteLoading] = useState(false)
     dayjs.extend(customParseFormat);
-
-    const MAX_API_CALLS = 2;
 
     // fetching all participants
     const { data: allParticipants = [], isLoading, isFetching, isPending, refetch } = useQuery({
@@ -29,12 +28,12 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
             return res.data;
         },
         enabled: id != undefined ? true : false,
-        retry: MAX_API_CALLS - 1
+        retry: 2,
+        refetchOnWindowFocus: false,
     });
 
-    // deleting a participant
     const handleParticipantDelete = (id: string) => {
-        console.log("id", id);
+
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -45,11 +44,11 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                customAxios.delete(`/attendee/${id}`).then((res) => {
-                    const data = res.data;
+                setDeleteLoading(true)
+                customAxios.delete(`/attendee/${id}`).then(() => {
                     refetch();
-                    console.log("deleted", data);
                     showToast("success", "Attendee removed");
+                    setDeleteLoading(false)
                 });
             }
         });
@@ -58,7 +57,7 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
     // show this loader if data is loading
     if (isLoading || isFetching || isPending) {
         return <div className="flex items-center justify-center my-[5%]">
-            <Spin indicator={<LoadingOutlined></LoadingOutlined>} size="large"></Spin>
+            <Spin size="large"></Spin>
         </div>
     }
 
@@ -70,67 +69,71 @@ const AllParticipants: React.FC<AllParticipantsProps> = ({ id }) => {
                     <h1> Participants</h1>
                 </div>
             </div>
-            <div className="overflow-x-auto sm:px-8 sm:py-4 pb-5">
-                {/* table area */}
-                {
-                    allParticipants?.length > 0 ? <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                        {/* table heading */}
-                        <thead>
-                            <tr>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
-                                    Index
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
-                                    Name
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900">
-                                    Email
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900 hidden md:table-cell">
-                                    Date
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900 hidden md:table-cell">
-                                    Time
-                                </th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-900">
-                                    Remove
-                                </th>
-                            </tr>
-                        </thead>
 
-                        {/* table body */}
-                        <tbody className="divide-y divide-gray-200">
-                            {allParticipants?.map((data: EventType, index: number) => {
-                                const dateStr = Object.keys(data.slot).toString();
-                                const date = dayjs(dateStr, "DDMMYY");
-                                const formattedDate = date.format("DD/MM/YYYY");
-                                return (
-                                    <tr key={data?._id}>
-                                        <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
-                                            {index + 1}
-                                        </td>
-                                        <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">{data?.name}</td>
-                                        <td className="px-4 py-2 text-gray-700">{data?.email}</td>
-                                        <td className="px-4 py-2 text-gray-700 hidden md:table-cell">{formattedDate}</td>
-                                        <td className="px-4 py-2 text-gray-700 hidden md:table-cell">
-                                            {data?.slot[dateStr][0]}
-                                        </td>
-                                        <td className="px-4 py-2">
-                                            <button
-                                                onClick={() => handleParticipantDelete(data?._id)}
-                                                className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300"
-                                            >
-                                                <FaRegTrashAlt></FaRegTrashAlt>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table> : 
-                        <Empty description="No Participants" className="flex flex-col items-center justify-center" />
-                    
-                }
+            <div className="overflow-x-auto sm:px-8 sm:py-4 pb-5">
+                <Spin size="large" spinning={deleteLoading}>
+                    {/* table area */}
+                    {
+                        allParticipants?.length > 0 ? <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                            {/* table heading */}
+                            <thead>
+                                <tr>
+                                    <th className="text-left px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
+                                        Index
+                                    </th>
+                                    <th className="text-left px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
+                                        Name
+                                    </th>
+                                    <th className="text-left px-4 py-2 font-medium text-gray-900">
+                                        Email
+                                    </th>
+                                    <th className="text-left px-4 py-2 font-medium text-gray-900 hidden md:table-cell">
+                                        Date
+                                    </th>
+                                    <th className="text-left px-4 py-2 font-medium text-gray-900 hidden md:table-cell">
+                                        Time
+                                    </th>
+                                    <th className="text-left px-4 py-2 font-medium text-gray-900">
+                                        Remove
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            {/* table body */}
+
+                            <tbody className="divide-y divide-gray-200">
+                                {allParticipants?.map((data: EventType, index: number) => {
+                                    const dateStr = Object.keys(data.slot).toString();
+                                    const date = dayjs(dateStr, "DDMMYY");
+                                    const formattedDate = date.format("DD/MM/YYYY");
+                                    return (
+                                        <tr key={data?._id}>
+                                            <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">
+                                                {index + 1}
+                                            </td>
+                                            <td className="px-4 py-2 font-medium text-gray-900 hidden lg:table-cell">{data?.name}</td>
+                                            <td className="px-4 py-2 text-gray-700">{data?.email}</td>
+                                            <td className="px-4 py-2 text-gray-700 hidden md:table-cell">{formattedDate}</td>
+                                            <td className="px-4 py-2 text-gray-700 hidden md:table-cell">
+                                                {data?.slot[dateStr][0]}
+                                            </td>
+                                            <td className="px-4 py-2">
+                                                <button
+                                                    onClick={() => handleParticipantDelete(data?._id)}
+                                                    className="p-2 text-lg rounded text-red-500 hover:bg-red-500/10 hover:transition-all hover:duration-300"
+                                                >
+                                                    <FaRegTrashAlt></FaRegTrashAlt>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table> :
+                            <Empty description="No Participants" className="flex flex-col items-center justify-center" />
+
+                    }
+                </Spin>
             </div>
         </div>
     );

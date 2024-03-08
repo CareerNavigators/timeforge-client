@@ -20,6 +20,8 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 import AxiosSecure from "../Hook/useAxios";
 import showToast from "../Hook/swalToast";
+import Swal from "sweetalert2";
+import useAuthorization from "../Components/GoogleCalendar/useAuthorization";
 
 const SignUp = () => {
   const {
@@ -35,6 +37,20 @@ const SignUp = () => {
   const pfp = usePfp();
   const [timezone, setTimezone] = useState("");
   const caxios = AxiosSecure();
+  const authorization = useAuthorization();
+  function calAuthHandeler(id:string) {
+    Swal.fire({
+      title: "Google Calendar Integration",
+      text: "Do you want to connect with google calendar?",
+      icon: "question",
+      confirmButtonText: "Yes",
+      showDenyButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        authorization.mutate(id);
+      }
+    })
+  }
   interface FormEvent extends React.FormEvent<HTMLFormElement> {
     target: HTMLFormElement & {
       email: {
@@ -114,6 +130,9 @@ const SignUp = () => {
       };
       caxios.post("/user", userData).then((res) => {
         setUserData(res.data);
+        if(!res.data.isRefreshToken) {
+          calAuthHandeler(res.data._id)
+        }
       });
       navigate(from, { replace: true });
       showToast("success", "Secure Access, Unlimited Smiles!");
@@ -145,6 +164,11 @@ const SignUp = () => {
         };
         caxios.post("/user", userData).then((res) => {
           setUserData(res.data);
+          if(!res.data.isRefreshToken) {
+            if(!res.data.isRefreshToken) {
+              calAuthHandeler(res.data._id)
+            }
+          }
         });
       });
       showToast("success", "Secure Access, Unlimited Smiles!");

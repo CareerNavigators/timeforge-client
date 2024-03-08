@@ -35,6 +35,8 @@ import BoardMeeting from "../CreateEvents/BoardMeeting/BoardMeeting";
 import AllEcommerce from "../Dashboard/Admin/AllEcommerce/AllEcommerce";
 import { Success } from "../Pages/Inventory/Success";
 import Cancel from "../Pages/Inventory/Cancel";
+import OauthCallback from "../Components/GoogleCalendar/OauthCallback";
+import Meet from "../ManageEvents/Meet/Meet";
 
 
 const router = createBrowserRouter([
@@ -45,7 +47,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home></Home>,
+        element: <Home isHome={true}></Home>,
       },
       {
         path: "/createEvent",
@@ -57,8 +59,7 @@ const router = createBrowserRouter([
         element: (
           <CalendarPage
             selectedTimes={{}}
-            onSelectTime={function (): void {}}
-          ></CalendarPage>
+            onSelectTime={function (): void {}}></CalendarPage>
         ),
       },
       {
@@ -79,15 +80,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/merch",
-        element:<Shop/>
+        element: <Shop />,
       },
       {
         path: "/product",
-        element: <Product/>
+        element: <Product />,
       },
       {
         path: "/cart",
-        element: <Cart/>
+        element: <Cart />,
       },
       {
         path: "/success",
@@ -96,8 +97,16 @@ const router = createBrowserRouter([
       {
         path: "/cancel",
         element: <Cancel/>
-      }
+      },
      
+       { path:"/oauth2callback",
+        element:<OauthCallback/>
+      },
+      {
+        path:"/meet/:id",
+        element:<Meet />
+      }
+
     ],
   },
   {
@@ -132,7 +141,9 @@ const router = createBrowserRouter([
         element: <UpdateEvent></UpdateEvent>,
         loader: ({ params }) =>
           fetch(
-            `${import.meta.env.VITE_BACK_END_API}/meeting?id=${params.id}&type=single`
+            `${import.meta.env.VITE_BACK_END_API}/meeting?id=${
+              params.id
+            }&type=single`
           ),
       },
       {
@@ -165,7 +176,7 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard/createEvent/groupMeeting",
-        element: <GroupMeeting></GroupMeeting>
+        element: <GroupMeeting></GroupMeeting>,
       },
       {
         path: "/dashboard/alltimeline",
@@ -173,12 +184,12 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard/createEvent/boardMeeting",
-        element: <BoardMeeting></BoardMeeting>
+        element: <BoardMeeting></BoardMeeting>,
       },
       {
-        path:"/dashboard/allecommerce",
-        element:<AllEcommerce />
-      }
+        path: "/dashboard/allecommerce",
+        element: <AllEcommerce />,
+      },
     ],
   },
   {
@@ -186,7 +197,9 @@ const router = createBrowserRouter([
     element: <EventSlot></EventSlot>,
     loader: ({ params }) =>
       fetch(
-        `${import.meta.env.VITE_BACK_END_API}/meeting?id=${params.id}&type=single`
+        `${import.meta.env.VITE_BACK_END_API}/meeting?id=${
+          params.id
+        }&type=single`
       ),
   },
   {
@@ -195,5 +208,6 @@ const router = createBrowserRouter([
     loader: ({ params }) =>
       fetch(`${import.meta.env.VITE_BACK_END_API}/attendee?id=${params.id}`),
   },
+
 ]);
 export default router;

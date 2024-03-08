@@ -1,9 +1,7 @@
-
 import emailjs from "@emailjs/browser";
 import { useRef } from "react";
 import showToast from "../Hook/swalToast";
 import { useNavigate } from "react-router-dom";
-
 
 const ContactUs = () => {
   const form = useRef<HTMLFormElement>(null);
@@ -28,48 +26,53 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-[#9181F4] to-[#5038ED] pt-24 p-5 lg:p-20 min-h-screen">
-      <div className="flex flex-col lg:flex-row items-center justify-between">
+    <div className="max-w-7xl lg:mx-auto pt-24 lg:p-0 mb-10">
+      <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-5 lg:gap-0">
         <section>
           <div id="contact">
-            <div className="flex flex-col max-w-5xl mx-auto items-center justify-center">
-              <h1 className="text-4xl lg:text-5xl text-white font-semibold pb-10">
+            <div className="flex flex-col space-y-4 max-w-5xl mx-auto justify-center rounded-2xl p-8 lg:p-12 lg:mt-10 shadow-md lg:shadow-xl">
+              <h1 className="text-2xl lg:text-3xl text-black font-semibold">
                 Contact Us
               </h1>
+              <p className="w-[300px] lg:w-[500px] font-light text-sm text-black text-justify">
+                We're all ears and excited to hear from you. Just fire away
+                using the contact form below, and we'll be quick to swing by you
+                inbox.
+              </p>
               <div className="w-full flex flex-col text-center items-center justify-center">
                 <form ref={form} onSubmit={sendEmail}>
-                  <div className="mb-5">
+                  <div className="mb-5 mt-3 text-left">
+                    <p className="text-sm mb-2">Name</p>
                     <input
                       type="text"
                       name="from_name"
-                      placeholder="Your Name"
-                      className="p-4 rounded-lg w-[350px] lg:w-[600px] shadow-lg bg-white border border-white  focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                      className="p-2 rounded-lg w-[300px] lg:w-[500px] bg-[#eadeff7e] border border-white focus:outline-none focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed]"
                       autoComplete="off"
                       required
                     />
                   </div>
-                  <div className="mb-5">
+                  <div className="mb-5 mt-3 text-left">
+                    <p className="text-sm mb-2">Email</p>
                     <input
                       type="email"
                       name="from_email"
-                      placeholder="Your email"
-                      className="p-4 rounded-lg  w-full  shadow-lg bg-white border border-white  focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                      className="p-2 rounded-lg  w-full bg-[#eadeff7e] border border-white focus:outline-none focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed]"
                       autoComplete="off"
                       required
                     />
                   </div>
-                  <div className="mb-5">
+                  <div className="mb-5 mt-3 text-left">
+                    <p className="text-sm mb-2">Message</p>
                     <textarea
                       name="message"
-                      placeholder="Your Message"
-                      className="p-4 rounded-lg w-full h-40 lg:h-60 shadow-lg bg-white border border-white  focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                      className="p-2 rounded-lg w-full h-40 lg:h-60 bg-[#eadeff7e] border border-white  focus:outline-none focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed]"
                       autoComplete="off"
                       required
                     />
                   </div>
                   <button
                     type="submit"
-                    className="px-8 py-3 shadow-lg font-bold text-white transition-transform transform rounded-md bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:scale-110"
+                    className="px-8 w-full py-2 font-bold text-white transition-transform transform rounded-md bg-gradient-to-r from-[#7c3aed] via-[#6b23e7] to-[#5b09e9] hover:scale-105"
                   >
                     Submit
                   </button>

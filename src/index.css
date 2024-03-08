@@ -32,6 +32,6 @@
   background: var(--d2);
   color: var(--dw);
 }
-#app > div > button {
-  display: none !important;
+#bp-web-widget-container {
+  display: none;
 }

@@ -3,7 +3,6 @@ import SingleEvent from "./SingleEvent";
 import useAxios from "../../Hook/useAxios";
 import { Empty, Spin } from "antd";
 import showToast from "../../Hook/swalToast";
-import { LoadingOutlined } from "@ant-design/icons";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
 import Swal from "sweetalert2";
@@ -83,12 +82,9 @@ const AllEvents: React.FC = () => {
   };
 
   // show this loader if data is loading
-  if (isLoading || isFetching ||isPending) {
+  if (isLoading || isFetching || isPending) {
     return <div className="flex items-center justify-center fixed left-[45%] top-[50%]">
-      <Spin
-        indicator={<LoadingOutlined></LoadingOutlined>}
-        size="large"
-      ></Spin>
+      <Spin size="large"></Spin>
     </div>
 
   }
