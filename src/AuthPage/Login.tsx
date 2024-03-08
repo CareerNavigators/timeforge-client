@@ -268,6 +268,7 @@ const Login = () => {
         <div className="relative flex items-center justify-center w-screen lg:w-1/2 ">
           <div className="absolute inset-0 overflow-hidden">
             <BackgroundMotion />
+            
           </div>
           {/*  */}
           <div className="hidden lg:block relative z-10 w-full overflow-hidden bg-gradient-to-br from-[#abc6f9] to-[#b5a6ce]">
