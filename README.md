@@ -48,18 +48,6 @@ We aim to create a seamless interface for event management, empowering users to 
 - **VITE_IMAGE_UPLOAD_API:** URL for the image upload API endpoint. (obtained from [Cloudinary](https://cloudinary.com/)
 - **VITE_IMAGE_UPLOAD_PRESET:** Preset for image uploads. (configure in Cloudinary settings)
 
-#### User Dashboard
-
-Email: user@gmail.com
-
-Pass: Usern@me434
-
-#### Admin Dashboard
-
-Email: admin@gmail.com
-
-Pass: @Dmin434
-
 ### Instructions:
 
 1. **Clone the repository:**
@@ -98,3 +86,10 @@ Pass: @Dmin434
 That's it! You've successfully set up and run the app locally.
 
 Server Repo: [TimeForge Server Repo](https://github.com/CareerNavigators/timeforge-server)
+
+# Contributions…
+
+<a href="https://github.com/CareerNavigators/timeforge-client/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=CareerNavigators/timeforge-client" />
+</a>
+
